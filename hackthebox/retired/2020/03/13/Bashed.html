@@ -13,12 +13,14 @@
 <link rel="canonical" href="http://localhost:4000/hackthebox/retired/2020/03/13/Bashed.html" />
 <meta property="og:url" content="http://localhost:4000/hackthebox/retired/2020/03/13/Bashed.html" />
 <meta property="og:site_name" content="C:\Users\DcodeZero" />
+<meta property="og:image" content="http://localhost:4000/assets/img/sample/bashed1.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-03-13T22:04:00+05:30" />
-<meta name="twitter:card" content="summary" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="http://localhost:4000/assets/img/sample/bashed1.png" />
 <meta property="twitter:title" content="HackTheBox Bashed" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dcodezero"},"dateModified":"2020-03-13T22:04:00+05:30","datePublished":"2020-03-13T22:04:00+05:30","description":"Bashed is a retired Windows machine that is rated as Easy on Hack the Box. It is a beginner-level machine which can be completed using publicly available exploits.","headline":"HackTheBox Bashed","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/hackthebox/retired/2020/03/13/Bashed.html"},"url":"http://localhost:4000/hackthebox/retired/2020/03/13/Bashed.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dcodezero"},"dateModified":"2020-03-13T22:04:00+05:30","datePublished":"2020-03-13T22:04:00+05:30","description":"Bashed is a retired Windows machine that is rated as Easy on Hack the Box. It is a beginner-level machine which can be completed using publicly available exploits.","headline":"HackTheBox Bashed","image":"http://localhost:4000/assets/img/sample/bashed1.png","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/hackthebox/retired/2020/03/13/Bashed.html"},"url":"http://localhost:4000/hackthebox/retired/2020/03/13/Bashed.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css">
   <link rel="icon" type="image/png" href="/assets/favicon.png" />
@@ -71,6 +73,7 @@
 <div class="post">
   <h1 class="post-title">HackTheBox Bashed</h1>
   
+  <img src="/assets/img/sample/bashed1.png" alt="" class="featured-image-post">
   <div class="post-tags">
       
       <a class="tag" href="/tag/linux/">linux</a>
@@ -91,11 +94,7 @@
   </noscript>
   <div id="animated-post-description" class="post-description" style="display: none;"></div>
   
-  <p><img src="/assets/img/sample/bashed1.png" alt="" /></p>
-<h2 id="lets-get-started">Let’s get started</h2>
-
-<h2 id="as-always-hacking-starts-with-nmap-scan">As always hacking starts with NMAP scan.</h2>
-
+  <h2 id="nmap">NMAP</h2>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    Starting Nmap 7.60 ( https://nmap.org ) at 2018-03-06 20:40 EST
     Nmap scan report for 10.10.10.68
     Host is up (0.098s latency).
@@ -286,7 +285,7 @@ Inside that directory, there are two files.</p>
 
   
   <h2>all tags</h2>
-  <div class="tag-cloud"><a href="/tag/oscp/" class="set-1">OSCP</a> <a href="/tag/tryharder/" class="set-1">TryHarder</a> <a href="/tag/activedirectory/" class="set-3">activedirectory</a> <a href="/tag/bloodhound/" class="set-1">bloodhound</a> <a href="/tag/bludit/" class="set-1">bludit</a> <a href="/tag/boot2root/" class="set-2">boot2root</a> <a href="/tag/crackmapexec/" class="set-1">crackmapexec</a> <a href="/tag/cve/" class="set-1">cve</a> <a href="/tag/dnspy/" class="set-1">dnspy</a> <a href="/tag/evilwinrm/" class="set-3">evilwinrm</a> <a href="/tag/gobuster/" class="set-4">gobuster</a> <a href="/tag/hashcat/" class="set-2">hashcat</a> <a href="/tag/impacket/" class="set-3">impacket</a> <a href="/tag/john/" class="set-1">john</a> <a href="/tag/ldapsearch/" class="set-1">ldapsearch</a> <a href="/tag/lfi/" class="set-1">lfi</a> <a href="/tag/linux/" class="set-5">linux</a> <a href="/tag/lsass/" class="set-1">lsass</a> <a href="/tag/lxd/" class="set-1">lxd</a> <a href="/tag/metasploit/" class="set-2">metasploit</a> <a href="/tag/mimikatz/" class="set-1">mimikatz</a> <a href="/tag/portforwarding/" class="set-1">portforwarding</a> <a href="/tag/rpcclient/" class="set-3">rpcclient</a> <a href="/tag/smb/" class="set-1">smb</a> <a href="/tag/tomcat/" class="set-1">tomcat</a> <a href="/tag/windows/" class="set-5">windows</a> <a href="/tag/wordpress/" class="set-1">wordpress</a></div>
+  <div class="tag-cloud"><a href="/tag/oscp/" class="set-1">OSCP</a> <a href="/tag/selftools/" class="set-1">Selftools</a> <a href="/tag/tools/" class="set-1">Tools</a> <a href="/tag/tryharder/" class="set-1">TryHarder</a> <a href="/tag/activedirectory/" class="set-3">activedirectory</a> <a href="/tag/bloodhound/" class="set-1">bloodhound</a> <a href="/tag/bludit/" class="set-1">bludit</a> <a href="/tag/boot2root/" class="set-2">boot2root</a> <a href="/tag/crackmapexec/" class="set-1">crackmapexec</a> <a href="/tag/cve/" class="set-1">cve</a> <a href="/tag/dnspy/" class="set-1">dnspy</a> <a href="/tag/evilwinrm/" class="set-3">evilwinrm</a> <a href="/tag/gobuster/" class="set-4">gobuster</a> <a href="/tag/hashcat/" class="set-2">hashcat</a> <a href="/tag/impacket/" class="set-3">impacket</a> <a href="/tag/john/" class="set-1">john</a> <a href="/tag/ldapsearch/" class="set-1">ldapsearch</a> <a href="/tag/lfi/" class="set-1">lfi</a> <a href="/tag/linux/" class="set-5">linux</a> <a href="/tag/lsass/" class="set-1">lsass</a> <a href="/tag/lxd/" class="set-1">lxd</a> <a href="/tag/metasploit/" class="set-2">metasploit</a> <a href="/tag/mimikatz/" class="set-1">mimikatz</a> <a href="/tag/portforwarding/" class="set-1">portforwarding</a> <a href="/tag/rpcclient/" class="set-3">rpcclient</a> <a href="/tag/smb/" class="set-1">smb</a> <a href="/tag/tomcat/" class="set-1">tomcat</a> <a href="/tag/windows/" class="set-5">windows</a> <a href="/tag/wordpress/" class="set-1">wordpress</a></div>
   
 
 
