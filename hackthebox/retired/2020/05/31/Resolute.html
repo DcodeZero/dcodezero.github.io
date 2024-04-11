@@ -6,7 +6,7 @@
 <title>HackTheBox Resolute | C:\Users\DcodeZero</title>
 <meta name="generator" content="Jekyll v4.3.3" />
 <meta property="og:title" content="HackTheBox Resolute" />
-<meta name="author" content="jeevan" />
+<meta name="author" content="dcodezero" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Running enum4linux against the box we got some usernames and a password for user marko . After some hit and try we got succeed to login as melanie using evil-winrm. After some manual enumeration i got a hidden file in a hidden directory. Which contains credentials of the user ryan. After Switching to ryan we came to know that ryan is in the group of dnsadmin. Crafting a malicious dll file and adding the entry of our dll as the server plugin and restarting the service we will able to execute our dll as admin." />
 <meta property="og:description" content="Running enum4linux against the box we got some usernames and a password for user marko . After some hit and try we got succeed to login as melanie using evil-winrm. After some manual enumeration i got a hidden file in a hidden directory. Which contains credentials of the user ryan. After Switching to ryan we came to know that ryan is in the group of dnsadmin. Crafting a malicious dll file and adding the entry of our dll as the server plugin and restarting the service we will able to execute our dll as admin." />
@@ -18,7 +18,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="HackTheBox Resolute" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jeevan"},"dateModified":"2020-05-31T18:25:00+05:30","datePublished":"2020-05-31T18:25:00+05:30","description":"Running enum4linux against the box we got some usernames and a password for user marko . After some hit and try we got succeed to login as melanie using evil-winrm. After some manual enumeration i got a hidden file in a hidden directory. Which contains credentials of the user ryan. After Switching to ryan we came to know that ryan is in the group of dnsadmin. Crafting a malicious dll file and adding the entry of our dll as the server plugin and restarting the service we will able to execute our dll as admin.","headline":"HackTheBox Resolute","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/hackthebox/retired/2020/05/31/Resolute.html"},"url":"http://localhost:4000/hackthebox/retired/2020/05/31/Resolute.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"dcodezero"},"dateModified":"2020-05-31T18:25:00+05:30","datePublished":"2020-05-31T18:25:00+05:30","description":"Running enum4linux against the box we got some usernames and a password for user marko . After some hit and try we got succeed to login as melanie using evil-winrm. After some manual enumeration i got a hidden file in a hidden directory. Which contains credentials of the user ryan. After Switching to ryan we came to know that ryan is in the group of dnsadmin. Crafting a malicious dll file and adding the entry of our dll as the server plugin and restarting the service we will able to execute our dll as admin.","headline":"HackTheBox Resolute","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/hackthebox/retired/2020/05/31/Resolute.html"},"url":"http://localhost:4000/hackthebox/retired/2020/05/31/Resolute.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css">
   <link rel="icon" type="image/png" href="/assets/favicon.png" />
@@ -43,7 +43,7 @@
         
         
         
-        <a class="color-blue-hover" href="codedzero@gmail.com"><i class="fab fa-envelope"></i></a>
+        <a class="color-blue-hover" href="dcodezero@proton.me"><i class="fab fa-envelope"></i></a>
         
         
         
@@ -60,9 +60,9 @@
 
 
 <img src="
-    /assets/avatar.png
+    /assets/avatar.gif
 " class="author-avatar" alt="Avatar" />
-<div class="description">Hacker || Red Team || PenTester|| CTF Player || Blogger 
+<div class="description">Hacker || Red Team || PenTester || CTF Player || Blogger || HackTheBox
 </div>
 
 </div>
@@ -88,7 +88,7 @@
   <div class="post-date">
     Published on 31 May 2020
     
-    by jeevan
+    by dcodezero
     
   </div>
   
@@ -97,7 +97,9 @@
   </noscript>
   <div id="animated-post-description" class="post-description" style="display: none;"></div>
   
-  <h2 id="lets-get-started">Let’s get started</h2>
+  <p><img src="/assets/img/sample/res.png" alt="" /></p>
+
+<h2 id="lets-get-started">Let’s get started</h2>
 
 <h3 id="as-always-hacking-starts-with-nmap-scan">As always hacking starts with NMAP scan.</h3>
 
