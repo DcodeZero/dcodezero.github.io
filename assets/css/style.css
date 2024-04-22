@@ -6281,7 +6281,7 @@ html.direction--rtl pre {
   font-family: "Courier New", Courier, monospace;
   font-size: 1.5em;
   font-weight: bolder;
-  color: #637AFE;
+  color: #2a5596;
   text-align: left;
   min-height: 72px;
   display: inline-flex;
@@ -6670,6 +6670,7 @@ ul.related-posts > li:before {
 }
 
 .blog-roll-image {
+  border-radius: 8px;
   width: 150px;
   height: 75px;
   padding: 5px;
