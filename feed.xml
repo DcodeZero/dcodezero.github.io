@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-11-03T11:17:12+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Dcodezero</title><subtitle>Hacker  RedTeam PenTester CTFPlayer Blogger HackTheBox</subtitle><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><entry><title type="html">SpoofCheck.py</title><link href="http://localhost:4000/tools/spoofcheck/" rel="alternate" type="text/html" title="SpoofCheck.py" /><published>2024-11-03T00:00:00+05:30</published><updated>2024-11-03T00:00:00+05:30</updated><id>http://localhost:4000/tools/spoofcheck</id><content type="html" xml:base="http://localhost:4000/tools/spoofcheck/"><![CDATA[<h1 id="spoofcheck-your-first-line-of-defense-against-email-domain-spoofing">Spoofcheck: Your First Line of Defense Against Email Domain Spoofing</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-11-03T21:36:01+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Dcodezero</title><subtitle> </subtitle><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><entry><title type="html">SpoofCheck.py</title><link href="http://localhost:4000/tools/spoofcheck/" rel="alternate" type="text/html" title="SpoofCheck.py" /><published>2024-11-03T00:00:00+05:30</published><updated>2024-11-03T00:00:00+05:30</updated><id>http://localhost:4000/tools/spoofcheck</id><content type="html" xml:base="http://localhost:4000/tools/spoofcheck/"><![CDATA[<h1 id="spoofcheck-your-first-line-of-defense-against-email-domain-spoofing">Spoofcheck: Your First Line of Defense Against Email Domain Spoofing</h1>
 
 <h2 id="introduction">Introduction</h2>
 <p>In today’s digital landscape, email security remains a critical concern for organizations of all sizes. Email spoofing attacks, where malicious actors impersonate legitimate domains to conduct phishing campaigns or business email compromise (BEC) attacks, continue to pose a significant threat. Enter Spoofcheck, a powerful open-source tool designed to help security professionals identify and prevent domain spoofing vulnerabilities.</p>
@@ -450,7 +450,290 @@ python html_obfuscator.py <span class="nt">-oD</span> <span class="nt">-P</span>
 
 <hr />
 
-<p><em>Note: Regular updates and community feedback help improve tool effectiveness and security.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="tools" /><category term="python" /><summary type="html"><![CDATA[Simple Python program to Obfuscate and Dobfuscate HTML files. The program also allows you to obfuscate and Dobfuscate multiple files in one go.]]></summary></entry><entry><title type="html">My journey towards “TRY HARDER!”</title><link href="http://localhost:4000/otherposts/OSCP/" rel="alternate" type="text/html" title="My journey towards “TRY HARDER!”" /><published>2020-10-17T00:00:00+05:30</published><updated>2020-10-17T00:00:00+05:30</updated><id>http://localhost:4000/otherposts/OSCP</id><content type="html" xml:base="http://localhost:4000/otherposts/OSCP/"><![CDATA[<hr />
+<p><em>Note: Regular updates and community feedback help improve tool effectiveness and security.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="tools" /><category term="python" /><summary type="html"><![CDATA[Simple Python program to Obfuscate and Dobfuscate HTML files. The program also allows you to obfuscate and Dobfuscate multiple files in one go.]]></summary></entry><entry><title type="html">GoAutoPhish</title><link href="http://localhost:4000/tools/GoAuto-Phish/" rel="alternate" type="text/html" title="GoAutoPhish" /><published>2024-09-20T00:00:00+05:30</published><updated>2024-09-20T00:00:00+05:30</updated><id>http://localhost:4000/tools/GoAuto-Phish</id><content type="html" xml:base="http://localhost:4000/tools/GoAuto-Phish/"><![CDATA[<h1 id="automating-phishing-campaigns-with-gophish-a-complete-guide">Automating Phishing Campaigns with GoPhish: A Complete Guide</h1>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>In the realm of cybersecurity assessment, phishing simulations play a crucial role in evaluating and improving an organization’s security awareness. Today, we’ll explore a powerful automation tool that streamlines the process of creating and managing phishing campaigns using GoPhish’s API. The <a href="https://github.com/DcodeZero/Gophish-Automation">GoPhish-Automation</a> project offers a robust solution for security professionals looking to enhance their phishing simulation capabilities.</p>
+
+<h2 id="understanding-gophish-automation">Understanding GoPhish Automation</h2>
+
+<p>GoPhish Automation is a Python-based project that simplifies the creation and management of phishing campaigns. By leveraging the GoPhish API, it automates template management, sending profiles, and campaign creation while incorporating advanced features like error handling, custom headers, and rate limiting.</p>
+
+<h2 id="project-structure">Project Structure</h2>
+
+<p>The project follows a clean, organized structure:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/GoPhish-Automation/
+│
+├── /templates/
+│   ├── template1.txt
+│   ├── template2.txt
+│   └── template3.txt
+│
+├── /logs/
+│   └── phishing_campaign.log
+│
+├── config.json
+│
+└── configauto.py
+</code></pre></div></div>
+
+<h3 id="key-components">Key Components</h3>
+
+<ol>
+  <li><strong>Templates Directory</strong>: Stores email templates in text format</li>
+  <li><strong>Logs Directory</strong>: Contains campaign execution logs</li>
+  <li><strong>Configuration File</strong>: Manages campaign settings and credentials</li>
+  <li><strong>Main Script</strong>: Handles the automation logic</li>
+</ol>
+
+<h2 id="setting-up-the-environment">Setting Up the Environment</h2>
+
+<h3 id="prerequisites">Prerequisites</h3>
+
+<p>Before diving in, ensure you have:</p>
+
+<ul>
+  <li>Python 3.x installed</li>
+  <li>A running GoPhish server</li>
+  <li>GoPhish API key</li>
+  <li>Basic understanding of phishing campaigns</li>
+</ul>
+
+<h3 id="installation-steps">Installation Steps</h3>
+
+<ol>
+  <li>Clone the repository:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/DcodeZero/Gophish-Automation.git
+<span class="nb">cd </span>Gophish-Automation
+</code></pre></div>    </div>
+  </li>
+  <li>Install required packages:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>gophish
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="configuration-deep-dive">Configuration Deep Dive</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">config.json</code> file is the heart of the configuration. Here’s a detailed breakdown:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"api_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"your_api_key_here"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://your_gophish_server_url"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"template"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"is_base64"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"send_all_types"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"smtp_profiles"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Profile1"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"smtp.example.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"from_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"phish@example.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user1"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"password1"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"ignore_cert_errors"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"X-Header"</span><span class="p">,</span><span class="w"> </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Foo Bar"</span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"group"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Phishing Group"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"targets"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"target1@example.com"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"landing_page"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Phishing Page"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"base64_encoded_html_here"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"is_base64"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"capture_credentials"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"capture_passwords"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="configuration-components">Configuration Components</h3>
+
+<ol>
+  <li><strong>API Configuration</strong>
+    <ul>
+      <li>API key authentication</li>
+      <li>GoPhish server host URL</li>
+    </ul>
+  </li>
+  <li><strong>Template Settings</strong>
+    <ul>
+      <li>Base64 encoding options</li>
+      <li>Multiple template type support</li>
+    </ul>
+  </li>
+  <li><strong>SMTP Profiles</strong>
+    <ul>
+      <li>Email server configurations</li>
+      <li>Custom header support</li>
+      <li>Certificate handling</li>
+    </ul>
+  </li>
+  <li><strong>Target Groups</strong>
+    <ul>
+      <li>Target recipient management</li>
+      <li>Personalization options</li>
+    </ul>
+  </li>
+  <li><strong>Landing Pages</strong>
+    <ul>
+      <li>HTML content configuration</li>
+      <li>Credential capture settings</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="creating-email-templates">Creating Email Templates</h2>
+
+<p>Templates are stored in <code class="language-plaintext highlighter-rouge">.txt</code> files with a specific format:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Subject: Your Compelling Subject Line
+HTML: &lt;html&gt;
+&lt;body&gt;
+&lt;p&gt;Dear {FIRST_NAME},&lt;/p&gt;
+&lt;p&gt;Your phishing content here...&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div></div>
+
+<h3 id="template-best-practices">Template Best Practices</h3>
+
+<ol>
+  <li>Use variables for personalization</li>
+  <li>Structure HTML properly</li>
+  <li>Include both plain text and HTML versions</li>
+  <li>Test templates before deployment</li>
+</ol>
+
+<h2 id="advanced-features">Advanced Features</h2>
+
+<h3 id="1-error-handling-and-logging">1. Error Handling and Logging</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">try</span><span class="p">:</span>
+    <span class="c1"># Campaign operation
+</span>    <span class="n">log</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">"Campaign created successfully"</span><span class="p">)</span>
+<span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"Campaign creation failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="2-rate-limiting">2. Rate Limiting</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">send_campaign</span><span class="p">(</span><span class="n">profile</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">60</span><span class="p">):</span>
+    <span class="n">time</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">delay</span><span class="p">)</span>
+    <span class="c1"># Campaign sending logic
+</span></code></pre></div></div>
+
+<h3 id="3-custom-headers">3. Custom Headers</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">headers</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s">"key"</span><span class="p">:</span> <span class="s">"X-Priority"</span><span class="p">,</span> <span class="s">"value"</span><span class="p">:</span> <span class="s">"1"</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"key"</span><span class="p">:</span> <span class="s">"X-Custom"</span><span class="p">,</span> <span class="s">"value"</span><span class="p">:</span> <span class="s">"Value"</span><span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div></div>
+
+<h2 id="campaign-execution">Campaign Execution</h2>
+
+<p>Running the automation is straightforward:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python AutoGoPhish.py
+</code></pre></div></div>
+
+<p>The script performs:</p>
+
+<ol>
+  <li>Template validation and processing</li>
+  <li>SMTP profile configuration</li>
+  <li>Group creation/update</li>
+  <li>Campaign launch with rate limiting</li>
+  <li>Comprehensive logging</li>
+</ol>
+
+<h2 id="monitoring-and-logging">Monitoring and Logging</h2>
+
+<p>The script maintains detailed logs in <code class="language-plaintext highlighter-rouge">/logs/phishing_campaign.log</code>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2024-03-11 10:15:23 INFO: Starting campaign setup
+2024-03-11 10:15:24 INFO: Template validated successfully
+2024-03-11 10:15:25 INFO: Campaign 'Security Training' launched
+2024-03-11 10:15:26 WARNING: Rate limit applied - waiting 60 seconds
+</code></pre></div></div>
+
+<h2 id="best-practices">Best Practices</h2>
+
+<ol>
+  <li><strong>Template Management</strong>
+    <ul>
+      <li>Regularly update templates</li>
+      <li>Test with small groups first</li>
+      <li>Monitor spam score</li>
+    </ul>
+  </li>
+  <li><strong>Rate Limiting</strong>
+    <ul>
+      <li>Adjust based on SMTP provider</li>
+      <li>Monitor delivery rates</li>
+      <li>Implement progressive delays</li>
+    </ul>
+  </li>
+  <li><strong>Error Handling</strong>
+    <ul>
+      <li>Monitor logs regularly</li>
+      <li>Set up alerts for failures</li>
+      <li>Maintain backup configurations</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="security-considerations">Security Considerations</h2>
+
+<ol>
+  <li><strong>API Key Protection</strong>
+    <ul>
+      <li>Store securely</li>
+      <li>Rotate regularly</li>
+      <li>Use environment variables</li>
+    </ul>
+  </li>
+  <li><strong>SMTP Security</strong>
+    <ul>
+      <li>Use encryption</li>
+      <li>Implement SPF/DKIM</li>
+      <li>Monitor for abuse</li>
+    </ul>
+  </li>
+  <li><strong>Data Protection</strong>
+    <ul>
+      <li>Encrypt sensitive data</li>
+      <li>Clean up after campaigns</li>
+      <li>Follow data retention policies</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The GoPhish-Automation project significantly streamlines the process of managing phishing campaigns. By automating routine tasks and implementing best practices, security teams can focus on analyzing results and improving security awareness programs.</p>
+
+<h2 id="resources">Resources</h2>
+
+<ul>
+  <li><a href="https://github.com/DcodeZero/Gophish-Automation">GitHub Repository</a></li>
+  <li><a href="https://docs.getgophish.com">GoPhish Documentation</a></li>
+  <li><a href="https://github.com/gophish/api-client-python">Python GoPhish Library</a></li>
+</ul>
+
+<hr />
+
+<p><em>Note: This tool should only be used for legitimate security testing with proper authorization.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="tools" /><category term="python," /><category term="GoPhish" /><summary type="html"><![CDATA[This project automates the creation and management of phishing campaigns using the GoPhish API. The script handles template management, sending profiles, and campaign creation with advanced features such as error handling, custom headers, and rate limiting.]]></summary></entry><entry><title type="html">My journey towards “TRY HARDER!”</title><link href="http://localhost:4000/otherposts/OSCP/" rel="alternate" type="text/html" title="My journey towards “TRY HARDER!”" /><published>2020-10-17T00:00:00+05:30</published><updated>2020-10-17T00:00:00+05:30</updated><id>http://localhost:4000/otherposts/OSCP</id><content type="html" xml:base="http://localhost:4000/otherposts/OSCP/"><![CDATA[<hr />
 
 <h1 id="overview">OverView</h1>
 <p>It was <code class="language-plaintext highlighter-rouge">one and half</code> years ago I completed my <code class="language-plaintext highlighter-rouge">C|EH</code> certification. Since then my only <code class="language-plaintext highlighter-rouge">aim</code> was to gain my <code class="language-plaintext highlighter-rouge">OSCP</code> no matter what it takes from me. I was ready to give my complete effort and dedication in order to gain my OSCP. This blog outlines <code class="language-plaintext highlighter-rouge">my journey towards OSCP</code> and I’ll be sharing some hints and guidelines at the end of the blog which can be helpful in gaining your OSCP as well.</p>
@@ -4400,11 +4683,4 @@ ObjectGUID        : f0cc344d-31e0-4866-bceb-a842791ca059
 </code></pre></div></div>
 
 <p>If you like my work, please do consider giving me +rep on HACKTHEBOX.<br />
-My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291968">https://www.hackthebox.eu/home/users/profile/291968</a></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="hackthebox" /><category term="windows," /><category term="activedirectory," /><category term="evilwinrm," /><category term="smb," /><category term="rpcclient," /><category term="ldapsearch," /><category term="dnspy" /><summary type="html"><![CDATA[Cascade is a windows machine on Hackthebox, made by VBSCRUB which I personally a big fan of him. This box is one hell of an awsome machine made by him.]]></summary></entry><entry><title type="html">VulnHub GANANA</title><link href="http://localhost:4000/otherposts/Ganana/" rel="alternate" type="text/html" title="VulnHub GANANA" /><published>2020-06-25T00:00:00+05:30</published><updated>2020-06-25T00:00:00+05:30</updated><id>http://localhost:4000/otherposts/Ganana</id><content type="html" xml:base="http://localhost:4000/otherposts/Ganana/"><![CDATA[<p><img src="https://www.vulnhub.com/entry/ganana-1,497/" alt="" />
-<a href="https://www.vulnhub.com/entry/ganana-1,497/"><img src="/assets/img/sample/index.png" alt="" /></a></p>
-
-<h3 id="ganana">GANANA</h3>
-
-<p>Ganana is the very first vulnerable machine created by me and now hosted on <code class="language-plaintext highlighter-rouge">VULNHUB</code>. You can download the machine and play with it. Works better with <code class="language-plaintext highlighter-rouge">Virtual-box</code>.</p>
-
-<p>This is a fairly simple machine rated easy to intermediate. There is only one flag to capture root.txt.</p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="otherposts" /><category term="linux" /><summary type="html"><![CDATA[Ganana is the very first vulnerable machine created by me and now hosted on `VULNHUB`. You can download the machine and play with it. Works better with `Virtual-box`.]]></summary></entry></feed>
+My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291968">https://www.hackthebox.eu/home/users/profile/291968</a></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="hackthebox" /><category term="windows," /><category term="activedirectory," /><category term="evilwinrm," /><category term="smb," /><category term="rpcclient," /><category term="ldapsearch," /><category term="dnspy" /><summary type="html"><![CDATA[Cascade is a windows machine on Hackthebox, made by VBSCRUB which I personally a big fan of him. This box is one hell of an awsome machine made by him.]]></summary></entry></feed>
