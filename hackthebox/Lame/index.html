@@ -9,7 +9,6 @@
 <html lang="en-US" class="no-js">
   <head>
     <meta charset="utf-8">
-
 <!-- begin _includes/seo.html --><title>HackTheBox Lame - Dcodezero</title>
 <meta name="description" content="Lame is a retired Windows machine that is rated as Easy on Hack the Box. It is a beginner-level machine which can be completed using publicly available exploits.">
 
@@ -64,21 +63,42 @@
 <!-- end _includes/seo.html -->
 
 
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
 
-  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
 <script>
-  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
-  window.enable_copy_code_button = true;
-</script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
 
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ window.enable_copy_code_button = true;
+</script>
 <!-- For all browsers -->
 <link rel="stylesheet" href="/assets/css/main.css">
 <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
-
-
 
     <!-- start custom head snippets -->
 
@@ -276,7 +296,7 @@
 
   
     <div class="author__avatar">
-      <a href="http://localhost:4000/">
+      <a href="/">
         <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
       </a>
     </div>
@@ -284,7 +304,7 @@
 
   <div class="author__content">
     <h3 class="author__name p-name" itemprop="name">
-      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">DcodeZer0</a>
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
     </h3>
     
       <div class="author__bio p-note" itemprop="description">
@@ -307,13 +327,15 @@
       
         
           
-        
-          
             <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
           
         
           
             <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
           
         
       
@@ -449,7 +471,7 @@
     |_smb2-time: Protocol negotiation failed (SMB2)
 </code></pre></div></div>
 
-<h2 id="finding-exploit-for-vsftpd-234">Finding exploit for <code>VSFTPD-2.3.4</code>.</h2>
+<h2 id="finding-exploit-for-vsftpd-234">Finding exploit for <code class="language-plaintext highlighter-rouge">VSFTPD-2.3.4</code>.</h2>
 
 <p>I searched for any exploits in the “metasploit” for ftp services, and found some inbuilt backdoor for FTP service “vsftpd 2.3.4”.</p>
 
@@ -470,7 +492,7 @@
     msf exploit(vsftpd_234_backdoor) &gt; exploit
 </code></pre></div></div>
 
-<p>After a Successful exploit we get the shell as <code>root@lame</code>.</p>
+<p>After a Successful exploit we get the shell as <code class="language-plaintext highlighter-rouge">root@lame</code>.</p>
 
 <h2 id="getting-usertxt">Getting User.txt</h2>
 
@@ -588,7 +610,58 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/goad/GOAD-p1/" rel="permalink">Game of Active Directory - Part 1
+        <a href="/goad/GOAD-p2/" rel="permalink">Game of Active Directory - Part 2 [Recon]
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-02T00:00:00+05:30">December 2, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          16 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to pract...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/GOAD/GOAD.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/goad/GOAD-p1/" rel="permalink">Game of Active Directory - Part 1 - [Basic]
 </a>
       
     </h2>
@@ -634,12 +707,12 @@
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
       <div class="archive__item-teaser">
-        <img src="/assets/images/sample/homelab/Homelab.jpg" alt="">
+        <img src="/assets/images/sample/GOAD/mindmap.jpg" alt="">
       </div>
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/it/Homelad/" rel="permalink">HomeLab Part-01
+        <a href="/goad/mindmap/" rel="permalink">Mind Map for Active Directory - Pentesting
 </a>
       
     </h2>
@@ -651,7 +724,58 @@
       <span class="page__meta-date">
         <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2024-11-15T00:00:00+05:30">November 15, 2024</time>
+        <time datetime="2024-11-13T00:00:00+05:30">November 13, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to pract...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/Homelab.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/it/Homelab/" rel="permalink">HomeLab Part-01 [The Server]
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-11-07T00:00:00+05:30">November 7, 2024</time>
       </span>
     
 
@@ -672,110 +796,6 @@
 
 
     <p class="archive__item-excerpt" itemprop="description">This the where you’ll see the hardware infrastructure of my home lab
-</p>
-  </article>
-</div>
-
-    
-      
-      
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/sample/spoof-check/spoofing.jpg" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/tools/spoofcheck/" rel="permalink">SpoofCheck.py
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2024-11-03T00:00:00+05:30">November 3, 2024</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          4 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">This tool checks if domain spoofing is possible or not.
-</p>
-  </article>
-</div>
-
-    
-      
-      
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/sample/html-obfs/html-obfs.jpg" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/tools/HTML-Obfuscator/" rel="permalink">HTML-Obfuscator
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2024-10-02T00:00:00+05:30">October 2, 2024</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          5 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">Simple Python program to Obfuscate and Dobfuscate HTML files. The program also allows you to obfuscate and Dobfuscate multiple files in one go.
 </p>
   </article>
 </div>

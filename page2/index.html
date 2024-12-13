@@ -9,7 +9,6 @@
 <html lang="en-US" class="no-js">
   <head>
     <meta charset="utf-8">
-
 <!-- begin _includes/seo.html --><title>Dcodezero - Page 2</title>
 <meta name="description" content="Hacker  RedTeam PenTester CTFPlayer Blogger HackTheBox">
 
@@ -29,7 +28,7 @@
 
 
 
-  <meta property="og:image" content="http://localhost:4000/assets/images/output.jpg">
+  <meta property="og:image" content="http://localhost:4000/assets/images/home-background.png">
 
 
 
@@ -64,21 +63,42 @@
 <!-- end _includes/seo.html -->
 
 
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
 
-  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
 <script>
-  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
-  window.enable_copy_code_button = true;
-</script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
 
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ window.enable_copy_code_button = true;
+</script>
 <!-- For all browsers -->
 <link rel="stylesheet" href="/assets/css/main.css">
 <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
-
-
 
     <!-- start custom head snippets -->
 
@@ -175,7 +195,7 @@
 
 
 <div class="page__hero--overlay"
-  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/images/output.jpg');"
+  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/images/home-background.png');"
 >
   
     <div class="wrapper">
@@ -214,7 +234,7 @@
 
   
     <div class="author__avatar">
-      <a href="http://localhost:4000/">
+      <a href="/">
         <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
       </a>
     </div>
@@ -222,7 +242,7 @@
 
   <div class="author__content">
     <h3 class="author__name p-name" itemprop="name">
-      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">DcodeZer0</a>
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
     </h3>
     
       <div class="author__bio p-note" itemprop="description">
@@ -245,13 +265,15 @@
       
         
           
-        
-          
             <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
           
         
           
             <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
           
         
       
@@ -334,8 +356,39 @@
 <div class="feature__wrapper">
 
   
+    <div class="feature__item">
+      <div class="archive__item">
+        
+          <div class="archive__item-teaser">
+            <img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAwIDIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InRlY2hHcmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojNGY0NmU1O3N0b3Atb3BhY2l0eToxIiAvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzM3MzBhMztzdG9wLW9wYWNpdHk6MSIgLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iY2lyY3VpdEdyYWQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojNjM2NmYxO3N0b3Atb3BhY2l0eToxIiAvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzRmNDZlNTtzdG9wLW9wYWNpdHk6MSIgLz48L2xpbmVhckdyYWRpZW50PjxmaWx0ZXIgaWQ9InNoYWRvdyIgeD0iLTIwJSIgeT0iLTIwJSIgd2lkdGg9IjE0MCUiIGhlaWdodD0iMTQwJSI+PGZlRHJvcFNoYWRvdyBkeD0iMSIgZHk9IjEiIHN0ZERldmlhdGlvbj0iMS41IiBmbG9vZC1vcGFjaXR5PSIwLjMiLz48L2ZpbHRlcj48L2RlZnM+PGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI5MCIgZmlsbD0iI2YwZjlmZiIgc3Ryb2tlPSJ1cmwoI3RlY2hHcmFkKSIgc3Ryb2tlLXdpZHRoPSI0IiBmaWx0ZXI9InVybCgjc2hhZG93KSIvPjxwYXRoIGQ9Ik0xMDAgNDAgTDUwIDkwIEw2NSA5MCBMNjUgMTUwIEwxMzUgMTUwIEwxMzUgOTAgTDE1MCA5MCBaIiBmaWxsPSJ1cmwoI3RlY2hHcmFkKSIgZmlsdGVyPSJ1cmwoI3NoYWRvdykiLz48ZyBzdHJva2U9InVybCgjY2lyY3VpdEdyYWQpIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiPjxwYXRoIGQ9Ik04MCAxMTAgSDkwIFYxMjAgSDExMCBWMTEwIEgxMjAiIC8+PHBhdGggZD0iTTgwIDEzMCBIMTIwIiAvPjxjaXJjbGUgY3g9Ijc1IiBjeT0iMTEwIiByPSIyLjUiIGZpbGw9IiM0ZjQ2ZTUiLz48Y2lyY2xlIGN4PSIxMjUiIGN5PSIxMTAiIHI9IjIuNSIgZmlsbD0iIzRmNDZlNSIvPjxjaXJjbGUgY3g9Ijc1IiBjeT0iMTMwIiByPSIyLjUiIGZpbGw9IiM0ZjQ2ZTUiLz48Y2lyY2xlIGN4PSIxMjUiIGN5PSIxMzAiIHI9IjIuNSIgZmlsbD0iIzRmNDZlNSIvPjwvZz48ZyBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIj48dGV4dCB4PSIxMDAiIHk9IjE3NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIyMCIgZmlsbD0iIzFlNDBhZiI+SG9tZUxhYjwvdGV4dD48L2c+PC9zdmc+"
+                 alt="">
+            
+          </div>
+        
+
+        <div class="archive__item-body">
+          
+            <h2 class="archive__item-title">HOME-LAB Proxmox-VE</h2>
+          
+
+          
+            <div class="archive__item-excerpt">
+              <p>This is where I show, how is my server configured to run <code class="language-plaintext highlighter-rouge">Proxmox-Environment</code></p>
+
+            </div>
+          
+
+          
+            <p><a href="/IT/Homelab" class="btn btn--inverse">Learn more</a></p>
+          
+        </div>
+      </div>
+    </div>
+  
 
 </div>
+
+
 
 
 <h3 class="archive__subtitle">Recent posts</h3>
@@ -348,6 +401,103 @@
 
 
 
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/img/sample/buff/buff.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/hackthebox/Buff/" rel="permalink">HackTheBox Buff
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-07-23T00:00:00+05:30">July 23, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Buff is a Hackthebox active machine, so you need the Admin hash to decrypt the walkthrough!
+</p>
+  </article>
+</div>
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/blackfield/blackfield.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/hackthebox/Blackfield/" rel="permalink">Hackthebox Blackfiled
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-07-11T21:50:00+05:30">July 11, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          37 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Blackfiled is a HTB active machine at present. This is completely based on enumeration which will lead our way in. This is one of the best windows machine I’...</p>
+  </article>
+</div>
 
 
 
@@ -638,102 +788,6 @@
 
 
     <p class="archive__item-excerpt" itemprop="description">Sauna is one of the machines currently a Active machine on the HackTheBox hacking platform and is of easy difficulty. In this case it is a machine based on t...</p>
-  </article>
-</div>
-
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/img/sample/mont.png" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/hackthebox/Monteverde/" rel="permalink">HackTheBox Monteverde
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2020-06-12T00:00:00+05:30">June 12, 2020</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          14 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">Giving a try with enum4linux I was able to get some information about the machine like the usernames, password policies, etc. Finding that right password the...</p>
-  </article>
-</div>
-
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/img/sample/res.png" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/hackthebox/Resolute/" rel="permalink">HackTheBox Resolute
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2020-05-31T00:00:00+05:30">May 31, 2020</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          8 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">Running enum4linux against the box we got some usernames and a password for user marko . After some hit and try we got succeed to login as melanie using evil...</p>
   </article>
 </div>
 

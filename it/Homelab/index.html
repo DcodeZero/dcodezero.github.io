@@ -9,8 +9,7 @@
 <html lang="en-US" class="no-js">
   <head>
     <meta charset="utf-8">
-
-<!-- begin _includes/seo.html --><title>HomeLab Part-01 - Dcodezero</title>
+<!-- begin _includes/seo.html --><title>HomeLab Part-01 [The Server] - Dcodezero</title>
 <meta name="description" content="This the where you’ll see the hardware infrastructure of my home lab">
 
 
@@ -23,8 +22,8 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Dcodezero">
-<meta property="og:title" content="HomeLab Part-01">
-<meta property="og:url" content="http://localhost:4000/it/Homelad/">
+<meta property="og:title" content="HomeLab Part-01 [The Server]">
+<meta property="og:url" content="http://localhost:4000/it/Homelab/">
 
 
   <meta property="og:description" content="This the where you’ll see the hardware infrastructure of my home lab">
@@ -37,7 +36,7 @@
 
 
 
-  <meta property="article:published_time" content="2024-11-15T00:00:00+05:30">
+  <meta property="article:published_time" content="2024-11-07T00:00:00+05:30">
 
 
 
@@ -48,7 +47,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/it/Homelad/">
+<link rel="canonical" href="http://localhost:4000/it/Homelab/">
 
 
 
@@ -64,21 +63,42 @@
 <!-- end _includes/seo.html -->
 
 
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
 
-  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
 <script>
-  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
-  window.enable_copy_code_button = true;
-</script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
 
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ window.enable_copy_code_button = true;
+</script>
 <!-- For all browsers -->
 <link rel="stylesheet" href="/assets/css/main.css">
 <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
-
-
 
     <!-- start custom head snippets -->
 
@@ -181,7 +201,7 @@
     <div class="wrapper">
       <h1 id="page-title" class="page__title" itemprop="headline">
         
-          HomeLab Part-01
+          HomeLab Part-01 [The Server]
 
         
       </h1>
@@ -197,7 +217,7 @@
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2024-11-15T00:00:00+05:30">November 15, 2024</time>
+        <time datetime="2024-11-07T00:00:00+05:30">November 7, 2024</time>
       </span>
     
 
@@ -257,7 +277,7 @@
     
       
       
-        <li class="current">HomeLab Part-01</li>
+        <li class="current">HomeLab Part-01 [The Server]</li>
       
     
   </ol>
@@ -276,7 +296,7 @@
 
   
     <div class="author__avatar">
-      <a href="http://localhost:4000/">
+      <a href="/">
         <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
       </a>
     </div>
@@ -284,7 +304,7 @@
 
   <div class="author__content">
     <h3 class="author__name p-name" itemprop="name">
-      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">DcodeZer0</a>
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
     </h3>
     
       <div class="author__bio p-note" itemprop="description">
@@ -307,13 +327,15 @@
       
         
           
-        
-          
             <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
           
         
           
             <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
           
         
       
@@ -390,9 +412,9 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="HomeLab Part-01">
+    <meta itemprop="headline" content="HomeLab Part-01 [The Server]">
     <meta itemprop="description" content="This the where you’ll see the hardware infrastructure of my home lab">
-    <meta itemprop="datePublished" content="2024-11-15T00:00:00+05:30">
+    <meta itemprop="datePublished" content="2024-11-07T00:00:00+05:30">
     
 
     <div class="page__inner-wrap">
@@ -403,7 +425,7 @@
           <aside class="sidebar__right ">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#why-i-chose-proxmox-ve-over-other-hypervisors">Why I chose Proxmox-VE over other Hypervisors</a><ul><li><a href="#the-hardware-side-of-things">The Hardware side of things</a></li><li><a href="#server-configuration">Server configuration</a></li><li><a href="#why-choose-proxmox-ve-over-others">Why choose Proxmox-VE over others?</a></li><li><a href="#the-storage">The Storage</a></li><li><a href="#well-thats-okay-so-what-about-the-backup-and-storage-part-of-the-story">Well thats okay! So what about the backup and storage part of the story?</a></li><li><a href="#how-many-virtual-machines-can-be-run-with-the-above-configuration">How many Virtual machines can be run with the above configuration?</a><ul><li><a href="#in-the-next-blog-ill-be-showing-how-to-setup-the-network-configurations-on-proxmox-ve-so-stay-tuned-for-it">In the next blog, I’ll be showing how to setup the network configurations on Proxmox-VE. So stay tuned for it.</a></li></ul></li></ul></li></ul></li></ul>
+              <ul class="toc__menu"><li><a href="#why-i-chose-proxmox-ve-over-other-hypervisors">Why I chose Proxmox-VE over other Hypervisors</a><ul><li><a href="#the-hardware-side-of-things">The Hardware side of things</a></li><li><a href="#server-configuration">Server configuration</a></li><li><a href="#why-choose-proxmox-ve-over-others">Why choose Proxmox-VE over others?</a></li><li><a href="#the-storage">The Storage</a></li><li><a href="#well-thats-okay-so-what-about-the-backup-and-storage-part-of-the-story">Well thats okay! So what about the backup and storage part of the story?</a></li><li><a href="#how-many-virtual-machines-can-be-run-with-the-above-configuration">How many Virtual machines can be run with the above configuration?</a></li></ul></li><li><a href="#in-the-next-blog-ill-be-showing-how-to-setup-the-network-configurations-on-proxmox-ve-so-stay-tuned-for-it">In the next blog, I’ll be showing how to setup the network configurations on Proxmox-VE. So stay tuned for it.</a></li></ul></li></ul>
             </nav>
           </aside>
         
@@ -411,7 +433,9 @@
 
 <h3 id="the-hardware-side-of-things">The Hardware side of things</h3>
 
-<p>It’s been quite some time I’ve been using a Enterprise level server for my home lab. I got the barebones hardware for about 350 dollars, which has only 32 gigs of ram initially. Later I’ve upgraded the RAM to 128 GB for an other  220 dollars, which sums up to 570 USD.</p>
+<p>It’s been quite some time I’ve been using a Enterprise level server <code class="language-plaintext highlighter-rouge">HP-Proliant</code>  <code class="language-plaintext highlighter-rouge">DL-380-G7</code> for my home lab. I got the barebones hardware for about 350 dollars, which has only 32 gigs of ram initially. Later I’ve upgraded the RAM to 128 GB for an other  220 dollars, which sums up to 570 USD.</p>
+
+<p><img src="/assets/images/sample/homelab/Hp-server.jpg" alt="" /></p>
 
 <p>This server has dual <code class="language-plaintext highlighter-rouge">Intel(R) Xeon(R) CPU X5650</code> which clocks <code class="language-plaintext highlighter-rouge">@ 2.67GHz</code>. These are pretty powerful and can easily satisfy my requirements to run my HomeLab infrastructure.</p>
 
@@ -444,10 +468,19 @@
 <p>I chose to have multiple disks for my <code class="language-plaintext highlighter-rouge">Proxmox-VE</code>.</p>
 
 <blockquote>
-  <p><code class="language-plaintext highlighter-rouge">1-TB-SSD</code> This is where all the faster and quicker VM are going to be. 
-<code class="language-plaintext highlighter-rouge">2x-500GB-SATA</code> in which
-	<code class="language-plaintext highlighter-rouge">1x-500GB-Sata</code> is going to be used for Slower Virtual machines
-	<code class="language-plaintext highlighter-rouge">1x-500GB-Sata</code> is used to store all the required ISO files.</p>
+  <p><code class="language-plaintext highlighter-rouge">1-TB-SSD</code> This is where all the faster and quicker VM are going to be.</p>
+</blockquote>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">2x-500GB-SATA</code> in which</p>
+</blockquote>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">1x-500GB-Sata</code> is going to be used for Slower Virtual machines</p>
+</blockquote>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">1x-500GB-Sata</code> is used to store all the required ISO files.</p>
 </blockquote>
 
 <h3 id="well-thats-okay-so-what-about-the-backup-and-storage-part-of-the-story">Well thats okay! So what about the backup and storage part of the story?</h3>
@@ -470,7 +503,7 @@
 
 <p><img src="/assets/images/sample/homelab/3.png" alt="" /></p>
 
-<h4 id="in-the-next-blog-ill-be-showing-how-to-setup-the-network-configurations-on-proxmox-ve-so-stay-tuned-for-it">In the next blog, I’ll be showing how to setup the network configurations on <code class="language-plaintext highlighter-rouge">Proxmox-VE</code>. So stay tuned for it.</h4>
+<h2 id="in-the-next-blog-ill-be-showing-how-to-setup-the-network-configurations-on-proxmox-ve-so-stay-tuned-for-it">In the next blog, I’ll be showing how to setup the network configurations on <code class="language-plaintext highlighter-rouge">Proxmox-VE</code>. So stay tuned for it.</h2>
 
         
       </section>
@@ -487,13 +520,13 @@
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/#boot2root" class="page__taxonomy-item p-category" rel="tag">boot2root</a><span class="sep">, </span>
+      <a href="/tags/#homelab" class="page__taxonomy-item p-category" rel="tag">HomeLab</a><span class="sep">, </span>
     
-      <a href="/tags/#gobuster" class="page__taxonomy-item p-category" rel="tag">gobuster,</a><span class="sep">, </span>
+      <a href="/tags/#infra" class="page__taxonomy-item p-category" rel="tag">Infra</a><span class="sep">, </span>
     
-      <a href="/tags/#linux" class="page__taxonomy-item p-category" rel="tag">linux,</a><span class="sep">, </span>
+      <a href="/tags/#infrastructure" class="page__taxonomy-item p-category" rel="tag">Infrastructure</a><span class="sep">, </span>
     
-      <a href="/tags/#wordpress" class="page__taxonomy-item p-category" rel="tag">wordpress,</a>
+      <a href="/tags/#it" class="page__taxonomy-item p-category" rel="tag">IT</a>
     
     </span>
   </p>
@@ -518,18 +551,18 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-11-15T00:00:00+05:30">November 15, 2024</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-11-07T00:00:00+05:30">November 7, 2024</time></p>
 
       </footer>
 
       <section class="page__share">
   <h4 class="page__share-title">Share on</h4>
 
-  <a href="https://twitter.com/intent/tweet?text=HomeLab+Part-01%20http%3A%2F%2Flocalhost%3A4000%2Fit%2FHomelad%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=HomeLab+Part-01+%5BThe+Server%5D%20http%3A%2F%2Flocalhost%3A4000%2Fit%2FHomelab%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fit%2FHomelad%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fit%2FHomelab%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/it/Homelad/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/it/Homelab/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
@@ -539,7 +572,7 @@
       <a href="/tools/spoofcheck/" class="pagination--pager" title="SpoofCheck.py">Previous</a>
     
     
-      <a href="/goad/GOAD-p1/" class="pagination--pager" title="Game of Active Directory - Part 1">Next</a>
+      <a href="/goad/mindmap/" class="pagination--pager" title="Mind Map for Active Directory - Pentesting">Next</a>
     
   </nav>
 
@@ -571,7 +604,58 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/goad/GOAD-p1/" rel="permalink">Game of Active Directory - Part 1
+        <a href="/goad/GOAD-p2/" rel="permalink">Game of Active Directory - Part 2 [Recon]
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-02T00:00:00+05:30">December 2, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          16 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to pract...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/GOAD/GOAD.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/goad/GOAD-p1/" rel="permalink">Game of Active Directory - Part 1 - [Basic]
 </a>
       
     </h2>
@@ -597,6 +681,57 @@
         <i class="far fa-fw fa-clock" aria-hidden="true"></i>
         
           3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to pract...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/GOAD/mindmap.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/goad/mindmap/" rel="permalink">Mind Map for Active Directory - Pentesting
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-11-13T00:00:00+05:30">November 13, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
         
       </span>
     
@@ -656,109 +791,6 @@
 
     <p class="archive__item-excerpt" itemprop="description">This tool checks if domain spoofing is possible or not.
 </p>
-  </article>
-</div>
-
-    
-      
-      
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/sample/html-obfs/html-obfs.jpg" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/tools/HTML-Obfuscator/" rel="permalink">HTML-Obfuscator
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2024-10-02T00:00:00+05:30">October 2, 2024</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          4 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">Simple Python program to Obfuscate and Dobfuscate HTML files. The program also allows you to obfuscate and Dobfuscate multiple files in one go.
-</p>
-  </article>
-</div>
-
-    
-      
-      
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/sample/gophish/go-phish.webp" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/tools/GoAuto-Phish/" rel="permalink">GoAutoPhish
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2024-09-20T00:00:00+05:30">September 20, 2024</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          4 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">This project automates the creation and management of phishing campaigns using the GoPhish API. The script handles template management, sending profiles, and...</p>
   </article>
 </div>
 
@@ -840,8 +872,8 @@
     
   <script>
     var disqus_config = function () {
-      this.page.url = "http://localhost:4000/it/Homelad/";  /* Replace PAGE_URL with your page's canonical URL variable */
-      this.page.identifier = "/it/Homelad"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+      this.page.url = "http://localhost:4000/it/Homelab/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/it/Homelab"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
     };
     (function() { /* DON'T EDIT BELOW THIS LINE */
       var d = document, s = d.createElement('script');

