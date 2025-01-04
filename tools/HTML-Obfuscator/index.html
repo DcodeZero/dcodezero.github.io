@@ -1,0 +1,1117 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<!-- begin _includes/seo.html --><title>HTML-Obfuscator - Dcodezero</title>
+<meta name="description" content="Simple Python program to Obfuscate and Dobfuscate HTML files. The program also allows you to obfuscate and Dobfuscate multiple files in one go.">
+
+
+  <meta name="author" content="DcodeZer0">
+  
+  <meta property="article:author" content="DcodeZer0">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Dcodezero">
+<meta property="og:title" content="HTML-Obfuscator">
+<meta property="og:url" content="http://localhost:4000/tools/HTML-Obfuscator/">
+
+
+  <meta property="og:description" content="Simple Python program to Obfuscate and Dobfuscate HTML files. The program also allows you to obfuscate and Dobfuscate multiple files in one go.">
+
+
+
+  <meta property="og:image" content="http://localhost:4000/assets/images/sample/html-obfs/html-obfs.jpg">
+
+
+
+
+
+  <meta property="article:published_time" content="2024-10-02T00:00:00+05:30">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/tools/HTML-Obfuscator/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
+
+
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
+
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ window.enable_copy_code_button = true;
+</script>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/brew.webp" alt="Dcodezero"></a>
+        
+        <a class="site-title" href="/">
+          Dcodezero
+          <span class="site-subtitle">Hack>>Sleep>>Repeat</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tags"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/it-posts/"
+                
+                
+              >I.T</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tools/"
+                
+                
+              >Tools</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/helpedyou/"
+                
+                
+              >Think I Helped You?</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/images/sample/html-obfs/html-obfs.jpg');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          HTML-Obfuscator
+
+        
+      </h1>
+      
+        <p class="page__lead">Simple Python program to Obfuscate and Dobfuscate HTML files. The program also allows you to obfuscate and Dobfuscate multiple files in one go.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-10-02T00:00:00+05:30">October 2, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#tools" itemprop="item"><span itemprop="name">Tools</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">HTML-Obfuscator</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>┌──[root@dcodezero]
+└──╼ # Hacker | RedTeam | PenTester | CTFPlayer | HackTheBox</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Somewhere</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:dcodezero@proton.me" rel="me" class="u-email">
+            <meta itemprop="email" content="dcodezero@proton.me" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="HTML-Obfuscator">
+    <meta itemprop="description" content="Simple Python program to Obfuscate and Dobfuscate HTML files. The program also allows you to obfuscate and Dobfuscate multiple files in one go.">
+    <meta itemprop="datePublished" content="2024-10-02T00:00:00+05:30">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#html_obfuscator-a-python-tool-for-html-code-protection">HTML_Obfuscator: A Python Tool for HTML Code Protection</a><ul><li><a href="#table-of-contents">Table of Contents</a></li><li><a href="#introduction">Introduction</a></li><li><a href="#understanding-html-obfuscation">Understanding HTML Obfuscation</a><ul><li><a href="#what-is-html-obfuscation">What is HTML Obfuscation?</a></li><li><a href="#why-use-html_obfuscator">Why Use HTML_Obfuscator?</a></li></ul></li><li><a href="#features-overview">Features Overview</a><ul><li><a href="#core-capabilities">Core Capabilities</a></li></ul></li><li><a href="#installation-guide">Installation Guide</a><ul><li><a href="#prerequisites">Prerequisites</a></li><li><a href="#setup-process">Setup Process</a></li></ul></li><li><a href="#usage-instructions">Usage Instructions</a><ul><li><a href="#basic-commands">Basic Commands</a></li><li><a href="#command-line-arguments">Command Line Arguments</a></li></ul></li><li><a href="#advanced-features">Advanced Features</a><ul><li><a href="#customization-options">Customization Options</a></li></ul></li><li><a href="#best-practices">Best Practices</a><ul><li><a href="#when-obfuscating">When Obfuscating</a></li></ul></li><li><a href="#use-cases">Use Cases</a><ul><li><a href="#development-scenarios">Development Scenarios</a></li></ul></li><li><a href="#technical-deep-dive">Technical Deep Dive</a><ul><li><a href="#obfuscation-process">Obfuscation Process</a></li><li><a href="#code-examples">Code Examples</a><ul><li><a href="#simple-obfuscation">Simple Obfuscation</a></li><li><a href="#batch-processing">Batch Processing</a></li></ul></li><li><a href="#performance-metrics">Performance Metrics</a></li></ul></li><li><a href="#security-considerations">Security Considerations</a><ul><li><a href="#protection-level">Protection Level</a></li><li><a href="#limitations">Limitations</a></li></ul></li><li><a href="#troubleshooting-guide">Troubleshooting Guide</a><ul><li><a href="#common-issues">Common Issues</a></li></ul></li><li><a href="#conclusion">Conclusion</a></li><li><a href="#resources">Resources</a><ul><li><a href="#documentation">Documentation</a></li><li><a href="#community">Community</a></li></ul></li></ul></li></ul>
+            </nav>
+          </aside>
+        
+        <h1 id="html_obfuscator-a-python-tool-for-html-code-protection">HTML_Obfuscator: A Python Tool for HTML Code Protection</h1>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#understanding-html-obfuscation">Understanding HTML Obfuscation</a></li>
+  <li><a href="#features-overview">Features Overview</a></li>
+  <li><a href="#installation-guide">Installation Guide</a></li>
+  <li><a href="#usage-instructions">Usage Instructions</a></li>
+  <li><a href="#advanced-features">Advanced Features</a></li>
+  <li><a href="#best-practices">Best Practices</a></li>
+  <li><a href="#use-cases">Use Cases</a></li>
+  <li><a href="#technical-deep-dive">Technical Deep Dive</a></li>
+  <li><a href="#conclusion">Conclusion</a></li>
+</ul>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>In the world of web development, protecting your HTML source code from unauthorized copying or reverse engineering is increasingly important. HTML_Obfuscator emerges as a powerful Python-based solution that enables developers to obfuscate and de-obfuscate HTML files efficiently, offering both single-file and batch processing capabilities.</p>
+
+<h2 id="understanding-html-obfuscation">Understanding HTML Obfuscation</h2>
+
+<h3 id="what-is-html-obfuscation">What is HTML Obfuscation?</h3>
+<p>HTML obfuscation is the process of transforming readable HTML code into a more complex, harder-to-understand format while maintaining its functionality. This technique helps:</p>
+
+<ul>
+  <li>Protect intellectual property</li>
+  <li>Prevent unauthorized code copying</li>
+  <li>Make reverse engineering more difficult</li>
+  <li>Reduce code readability for potential attackers</li>
+</ul>
+
+<h3 id="why-use-html_obfuscator">Why Use HTML_Obfuscator?</h3>
+<ul>
+  <li><strong>Simplicity</strong>: Easy-to-use Python interface</li>
+  <li><strong>Batch Processing</strong>: Handle multiple files simultaneously</li>
+  <li><strong>Reversible</strong>: Built-in de-obfuscation capability</li>
+  <li><strong>Flexibility</strong>: Various output options</li>
+  <li><strong>Performance</strong>: Minimal impact on page load times</li>
+</ul>
+
+<h2 id="features-overview">Features Overview</h2>
+
+<h3 id="core-capabilities">Core Capabilities</h3>
+<ol>
+  <li><strong>Single File Processing</strong>
+    <ul>
+      <li>Obfuscate individual HTML files</li>
+      <li>Generate protected output files</li>
+      <li>Maintain original functionality</li>
+    </ul>
+  </li>
+  <li><strong>Batch Processing</strong>
+    <ul>
+      <li>Process entire directories</li>
+      <li>Maintain folder structure</li>
+      <li>Bulk operation support</li>
+    </ul>
+  </li>
+  <li><strong>De-obfuscation Support</strong>
+    <ul>
+      <li>Reverse obfuscation process</li>
+      <li>Restore original code format</li>
+      <li>Debug obfuscated files</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="installation-guide">Installation Guide</h2>
+
+<h3 id="prerequisites">Prerequisites</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Required Python version</span>
+Python 3.x
+</code></pre></div></div>
+
+<h3 id="setup-process">Setup Process</h3>
+<ol>
+  <li>Clone the repository:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/DcodeZero/Html_Obfuscator
+</code></pre></div>    </div>
+  </li>
+  <li>Navigate to directory:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>Html_Obfuscator
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="usage-instructions">Usage Instructions</h2>
+
+<h3 id="basic-commands">Basic Commands</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Single file obfuscation</span>
+python html_obfuscator.py <span class="nt">-oF</span> input.html <span class="nt">-o</span> output.html
+
+<span class="c"># Directory processing</span>
+python html_obfuscator.py <span class="nt">-oD</span> <span class="nt">-P</span> /path/to/directory <span class="nt">-O</span> /output/directory
+
+<span class="c"># De-obfuscation</span>
+python html_obfuscator.py <span class="nt">-dF</span> input.html <span class="nt">-o</span> output.html
+</code></pre></div></div>
+
+<h3 id="command-line-arguments">Command Line Arguments</h3>
+<p>| Argument | Description | Example |
+|———-|————-|———|
+| -oF | Obfuscate single file | -oF input.html |
+| -oD | Obfuscate directory | -oD |
+| -dF | De-obfuscate file | -dF obfuscated.html |
+| -dD | De-obfuscate directory | -dD |
+| -p | Path to input file | -p /path/to/file |
+| -P | Path to input directory | -P /path/to/dir |
+| -o | Output file path | -o output.html |
+| -O | Output directory path | -O /output/dir |</p>
+
+<h2 id="advanced-features">Advanced Features</h2>
+
+<h3 id="customization-options">Customization Options</h3>
+<ol>
+  <li><strong>Obfuscation Levels</strong>
+    <ul>
+      <li>Basic encoding</li>
+      <li>Advanced scrambling</li>
+      <li>Custom patterns</li>
+    </ul>
+  </li>
+  <li><strong>Output Formatting</strong>
+    <ul>
+      <li>Minification options</li>
+      <li>Whitespace handling</li>
+      <li>Comment preservation</li>
+    </ul>
+  </li>
+  <li><strong>Batch Processing Controls</strong>
+    <ul>
+      <li>File filtering</li>
+      <li>Directory recursion</li>
+      <li>Error handling</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="best-practices">Best Practices</h2>
+
+<h3 id="when-obfuscating">When Obfuscating</h3>
+<ol>
+  <li><strong>Backup Original Files</strong>
+    <ul>
+      <li>Keep original versions safe</li>
+      <li>Document obfuscation parameters</li>
+      <li>Maintain version control</li>
+    </ul>
+  </li>
+  <li><strong>Testing</strong>
+    <ul>
+      <li>Verify functionality post-obfuscation</li>
+      <li>Check browser compatibility</li>
+      <li>Validate user experience</li>
+    </ul>
+  </li>
+  <li><strong>Performance Considerations</strong>
+    <ul>
+      <li>Monitor file size changes</li>
+      <li>Check load time impact</li>
+      <li>Optimize when necessary</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="use-cases">Use Cases</h2>
+
+<h3 id="development-scenarios">Development Scenarios</h3>
+<ol>
+  <li><strong>Commercial Projects</strong>
+    <ul>
+      <li>Protect proprietary code</li>
+      <li>Secure client deliverables</li>
+      <li>Maintain competitive advantage</li>
+    </ul>
+  </li>
+  <li><strong>Educational Platforms</strong>
+    <ul>
+      <li>Protect assessment content</li>
+      <li>Secure learning materials</li>
+      <li>Prevent solution sharing</li>
+    </ul>
+  </li>
+  <li><strong>Enterprise Applications</strong>
+    <ul>
+      <li>Secure internal tools</li>
+      <li>Protect company assets</li>
+      <li>Maintain code confidentiality</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="technical-deep-dive">Technical Deep Dive</h2>
+
+<h3 id="obfuscation-process">Obfuscation Process</h3>
+<pre><code class="language-mermaid">graph LR
+    A[Input HTML] --&gt; B[Parser]
+    B --&gt; C[Transformer]
+    C --&gt; D[Encoder]
+    D --&gt; E[Output HTML]
+</code></pre>
+
+<h3 id="code-examples">Code Examples</h3>
+
+<h4 id="simple-obfuscation">Simple Obfuscation</h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Basic file obfuscation</span>
+python html_obfuscator.py <span class="nt">-oF</span> <span class="nt">-p</span> index.html <span class="nt">-o</span> protected.html
+</code></pre></div></div>
+
+<h4 id="batch-processing">Batch Processing</h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Process entire website</span>
+python html_obfuscator.py <span class="nt">-oD</span> <span class="nt">-P</span> ./website <span class="nt">-O</span> ./protected-site
+</code></pre></div></div>
+
+<h3 id="performance-metrics">Performance Metrics</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Operation</th>
+      <th>Average Time</th>
+      <th>File Size Impact</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Single File</td>
+      <td>&lt; 1 second</td>
+      <td>+5-15%</td>
+    </tr>
+    <tr>
+      <td>Directory (10 files)</td>
+      <td>2-3 seconds</td>
+      <td>+10-20%</td>
+    </tr>
+    <tr>
+      <td>De-obfuscation</td>
+      <td>&lt; 1 second</td>
+      <td>Original size</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="security-considerations">Security Considerations</h2>
+
+<h3 id="protection-level">Protection Level</h3>
+<ul>
+  <li>Basic obfuscation suitable for most use cases</li>
+  <li>Additional security layers recommended for sensitive applications</li>
+  <li>Regular updates to obfuscation patterns advised</li>
+</ul>
+
+<h3 id="limitations">Limitations</h3>
+<ul>
+  <li>Not a replacement for server-side security</li>
+  <li>May impact page load performance</li>
+  <li>Debug capabilities might be affected</li>
+</ul>
+
+<h2 id="troubleshooting-guide">Troubleshooting Guide</h2>
+
+<h3 id="common-issues">Common Issues</h3>
+<ol>
+  <li><strong>File Processing Errors</strong>
+    <ul>
+      <li>Check file permissions</li>
+      <li>Verify file paths</li>
+      <li>Ensure valid HTML input</li>
+    </ul>
+  </li>
+  <li><strong>Output Problems</strong>
+    <ul>
+      <li>Verify output directory exists</li>
+      <li>Check disk space</li>
+      <li>Validate file access rights</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>HTML_Obfuscator provides a robust solution for protecting HTML source code through obfuscation. Its combination of ease of use, batch processing capabilities, and reversible operations makes it an invaluable tool for developers looking to secure their web assets while maintaining functionality.</p>
+
+<h2 id="resources">Resources</h2>
+
+<h3 id="documentation">Documentation</h3>
+<ul>
+  <li><a href="https://github.com/DcodeZero/Html_Obfuscator">Official Repository</a></li>
+  <li><a href="https://github.com/DcodeZero/Html_Obfuscator/issues">Issue Tracker</a></li>
+</ul>
+
+<h3 id="community">Community</h3>
+<ul>
+  <li>Report bugs through GitHub Issues</li>
+  <li>Contribute improvements via Pull Requests</li>
+  <li>Share experiences in Discussions</li>
+</ul>
+
+<hr />
+
+<p><em>Note: Regular updates and community feedback help improve tool effectiveness and security.</em></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">python</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#tools" class="page__taxonomy-item p-category" rel="tag">tools</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-10-02T00:00:00+05:30">October 2, 2024</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  <h4 class="page__share-title">Share on</h4>
+
+  <a href="https://twitter.com/intent/tweet?text=HTML-Obfuscator%20http%3A%2F%2Flocalhost%3A4000%2Ftools%2FHTML-Obfuscator%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Ftools%2FHTML-Obfuscator%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/tools/HTML-Obfuscator/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/tools/GoAuto-Phish/" class="pagination--pager" title="GoAutoPhish">Previous</a>
+    
+    
+      <a href="/tools/spoofcheck/" class="pagination--pager" title="SpoofCheck.py">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You may also enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/malleablec2.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/Malleable-c2-pro/" rel="permalink">Cobalt Strike Malleable C2 Profiles
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-25T00:00:00+05:30">December 25, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Hide from blue team like a pro by using malleable c2 profiles.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/cs.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/redirectors/" rel="permalink">Cobalt Strike Redirectors using Apache-SSL
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-19T00:00:00+05:30">December 19, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This is how you setup single or multiple redirectors for Cobalt-Strike using malleable-c2 profiles and Apache SSL
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/RTIL.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/RED-TEAM-Infra/" rel="permalink">RED-TEAM Home-Lab Infra
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-14T00:00:00+05:30">December 14, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">How to Setup a Red-Teams infrastructure at Home
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/GOAD/goad-part3.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/goad/GOAD-p3/" rel="permalink">Game of Active Directory - Part 3 [Recon]
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-14T00:00:00+05:30">December 14, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to pract...</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 <a href="https://dcodezero.github.io/">https://dcodezero.github.io/</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/tools/HTML-Obfuscator/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/tools/HTML-Obfuscator"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://dcode_zero.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+  </body>
+</html>

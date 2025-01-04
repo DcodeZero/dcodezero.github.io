@@ -1,0 +1,896 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<!-- begin _includes/seo.html --><title>HomeLab Part-01 [The Server] - Dcodezero</title>
+<meta name="description" content="This the where you’ll see the hardware infrastructure of my home lab">
+
+
+  <meta name="author" content="DcodeZer0">
+  
+  <meta property="article:author" content="DcodeZer0">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Dcodezero">
+<meta property="og:title" content="HomeLab Part-01 [The Server]">
+<meta property="og:url" content="http://localhost:4000/it/Homelab/">
+
+
+  <meta property="og:description" content="This the where you’ll see the hardware infrastructure of my home lab">
+
+
+
+  <meta property="og:image" content="http://localhost:4000/assets/images/sample/homelab/Homelab.jpg">
+
+
+
+
+
+  <meta property="article:published_time" content="2024-11-07T00:00:00+05:30">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/it/Homelab/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
+
+
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
+
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ window.enable_copy_code_button = true;
+</script>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/brew.webp" alt="Dcodezero"></a>
+        
+        <a class="site-title" href="/">
+          Dcodezero
+          <span class="site-subtitle">Hack>>Sleep>>Repeat</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tags"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/it-posts/"
+                
+                
+              >I.T</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tools/"
+                
+                
+              >Tools</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/helpedyou/"
+                
+                
+              >Think I Helped You?</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/images/sample/homelab/Homelab.jpg');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          HomeLab Part-01 [The Server]
+
+        
+      </h1>
+      
+        <p class="page__lead">This the where you’ll see the hardware infrastructure of my home lab
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-11-07T00:00:00+05:30">November 7, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#it" itemprop="item"><span itemprop="name">It</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">HomeLab Part-01 [The Server]</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>┌──[root@dcodezero]
+└──╼ # Hacker | RedTeam | PenTester | CTFPlayer | HackTheBox</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Somewhere</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:dcodezero@proton.me" rel="me" class="u-email">
+            <meta itemprop="email" content="dcodezero@proton.me" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="HomeLab Part-01 [The Server]">
+    <meta itemprop="description" content="This the where you’ll see the hardware infrastructure of my home lab">
+    <meta itemprop="datePublished" content="2024-11-07T00:00:00+05:30">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#why-i-chose-proxmox-ve-over-other-hypervisors">Why I chose Proxmox-VE over other Hypervisors</a><ul><li><a href="#the-hardware-side-of-things">The Hardware side of things</a></li><li><a href="#server-configuration">Server configuration</a></li><li><a href="#why-choose-proxmox-ve-over-others">Why choose Proxmox-VE over others?</a></li><li><a href="#the-storage">The Storage</a></li><li><a href="#well-thats-okay-so-what-about-the-backup-and-storage-part-of-the-story">Well thats okay! So what about the backup and storage part of the story?</a></li><li><a href="#how-many-virtual-machines-can-be-run-with-the-above-configuration">How many Virtual machines can be run with the above configuration?</a></li></ul></li><li><a href="#in-the-next-blog-ill-be-showing-how-to-setup-the-network-configurations-on-proxmox-ve-so-stay-tuned-for-it">In the next blog, I’ll be showing how to setup the network configurations on Proxmox-VE. So stay tuned for it.</a></li></ul></li></ul>
+            </nav>
+          </aside>
+        
+        <h1 id="why-i-chose-proxmox-ve-over-other-hypervisors">Why I chose <code class="language-plaintext highlighter-rouge">Proxmox-VE</code> over other <code class="language-plaintext highlighter-rouge">Hypervisors</code></h1>
+
+<h3 id="the-hardware-side-of-things">The Hardware side of things</h3>
+
+<p>It’s been quite some time I’ve been using a Enterprise level server <code class="language-plaintext highlighter-rouge">HP-Proliant</code>  <code class="language-plaintext highlighter-rouge">DL-380-G7</code> for my home lab. I got the barebones hardware for about 350 dollars, which has only 32 gigs of ram initially. Later I’ve upgraded the RAM to 128 GB for an other  220 dollars, which sums up to 570 USD.</p>
+
+<p><img src="/assets/images/sample/homelab/Hp-server.jpg" alt="" /></p>
+
+<p>This server has dual <code class="language-plaintext highlighter-rouge">Intel(R) Xeon(R) CPU X5650</code> which clocks <code class="language-plaintext highlighter-rouge">@ 2.67GHz</code>. These are pretty powerful and can easily satisfy my requirements to run my HomeLab infrastructure.</p>
+
+<h3 id="server-configuration">Server configuration</h3>
+
+<p><img src="/assets/images/sample/homelab/1.png" alt="" /></p>
+
+<p>Coming to the hypervisor, I tried between multiple like <code class="language-plaintext highlighter-rouge">VMware EXSI</code>, <code class="language-plaintext highlighter-rouge">Microsoft Hyper-V</code>, <code class="language-plaintext highlighter-rouge">Linux Server</code>, <code class="language-plaintext highlighter-rouge">Vmware</code>, <code class="language-plaintext highlighter-rouge">Virtaul Box</code> and finally settled with <code class="language-plaintext highlighter-rouge">Proxmox-VE</code>. However Setting up <code class="language-plaintext highlighter-rouge">Proxmox-VE</code> is straight forwarded stuff. So I’m not going to show how to install steps or setup process. There are a ton of videos and blogs that show the same thing.</p>
+
+<h3 id="why-choose-proxmox-ve-over-others">Why choose <code class="language-plaintext highlighter-rouge">Proxmox-VE</code> over others?</h3>
+
+<p>These are some advantages that I personally feel that are best for my use case. Remember your use case can be different.</p>
+
+<ol>
+  <li><strong>Free and Open Source</strong>: Proxmox VE is free with no licensing fees, and has strong community support.</li>
+  <li><strong>All-in-One Solution</strong>: Supports both <strong>virtual machines (KVM)</strong> and <strong>containers (LXC)</strong>, giving you flexibility for different workloads.</li>
+  <li><strong>User-Friendly Web Interface</strong>: Easy-to-use web-based management console for managing VMs, containers, storage, and networking.</li>
+  <li><strong>Powerful Storage Options</strong>: Supports local storage, NFS, iSCSI, Ceph, and ZFS for flexible and robust storage configurations.</li>
+  <li><strong>High Availability (HA) and Clustering</strong>: Easily create clusters of multiple nodes for scalability and automatic failover in case of hardware failure.</li>
+  <li><strong>Built-in Backup and Restore</strong>: Simple backup and restore tools, with support for live backups of VMs and containers.</li>
+  <li><strong>Advanced Networking Features</strong>: Includes support for VLANs, bridges, and virtual switches for complex networking setups.</li>
+  <li><strong>Security</strong>: Features like role-based access control (RBAC), firewalls, and VPN support to secure your virtual environment.</li>
+  <li><strong>Scalable and Flexible</strong>: Add more nodes to your cluster as needed, with efficient resource management.</li>
+  <li><strong>Cross-Platform Support</strong>: Run both Linux and Windows VMs with full hardware virtualization (KVM).</li>
+  <li><strong>Cost-Effective</strong>: Proxmox VE is low-cost compared to other enterprise solutions like VMware and Hyper-V, with no hidden fees.</li>
+</ol>
+
+<h3 id="the-storage">The Storage</h3>
+
+<p>I chose to have multiple disks for my <code class="language-plaintext highlighter-rouge">Proxmox-VE</code>.</p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">1-TB-SSD</code> This is where all the faster and quicker VM are going to be.</p>
+</blockquote>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">2x-500GB-SATA</code> in which</p>
+</blockquote>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">1x-500GB-Sata</code> is going to be used for Slower Virtual machines</p>
+</blockquote>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">1x-500GB-Sata</code> is used to store all the required ISO files.</p>
+</blockquote>
+
+<h3 id="well-thats-okay-so-what-about-the-backup-and-storage-part-of-the-story">Well thats okay! So what about the backup and storage part of the story?</h3>
+
+<p>Well to answer this, I’ve a built a dedicated <code class="language-plaintext highlighter-rouge">NAS-Storage</code> which has <code class="language-plaintext highlighter-rouge">2x-2-TB</code> Drives in it and runs on <code class="language-plaintext highlighter-rouge">OpenMediaVault</code>. This build completely serves my purpose from storing my personal and Virtual machines.</p>
+
+<p>I’ve automated the backup process from my <code class="language-plaintext highlighter-rouge">Proxmox</code> to <code class="language-plaintext highlighter-rouge">NAS-Storage</code> with the help of <code class="language-plaintext highlighter-rouge">Raspberry-Pi-3B</code> (runs 24/7).</p>
+
+<h3 id="how-many-virtual-machines-can-be-run-with-the-above-configuration">How many Virtual machines can be run with the above configuration?</h3>
+
+<p>Well the answer is how much of <code class="language-plaintext highlighter-rouge">RAM</code> and <code class="language-plaintext highlighter-rouge">Procressors</code> are allocated to each machine or VM. So assume you are allocating 4-Gigs of ram for each VM you are using. you can divide it with the total amount of ram you have.</p>
+
+<p>In my case I’ve 128-Gigs. So, if I allocate 4-gigs of ram to each <code class="language-plaintext highlighter-rouge">VM</code>, then I can run 20-25 <code class="language-plaintext highlighter-rouge">VMs</code> with out any compromise or stressing the hardware.</p>
+
+<p>Below is a snip of the number of VM’s that run on the <code class="language-plaintext highlighter-rouge">Proxmox-VE</code> host.</p>
+
+<p><img src="/assets/images/sample/homelab/2.png" alt="" /></p>
+
+<p>This is the summary of my <code class="language-plaintext highlighter-rouge">Proxmox-VE</code>, which shows the consumption of both <code class="language-plaintext highlighter-rouge">CPUs</code> and <code class="language-plaintext highlighter-rouge">RAM</code> utilisation.</p>
+
+<p><img src="/assets/images/sample/homelab/3.png" alt="" /></p>
+
+<h2 id="in-the-next-blog-ill-be-showing-how-to-setup-the-network-configurations-on-proxmox-ve-so-stay-tuned-for-it">In the next blog, I’ll be showing how to setup the network configurations on <code class="language-plaintext highlighter-rouge">Proxmox-VE</code>. So stay tuned for it.</h2>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#homelab" class="page__taxonomy-item p-category" rel="tag">HomeLab</a><span class="sep">, </span>
+    
+      <a href="/tags/#infra" class="page__taxonomy-item p-category" rel="tag">Infra</a><span class="sep">, </span>
+    
+      <a href="/tags/#infrastructure" class="page__taxonomy-item p-category" rel="tag">Infrastructure</a><span class="sep">, </span>
+    
+      <a href="/tags/#it" class="page__taxonomy-item p-category" rel="tag">IT</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#it" class="page__taxonomy-item p-category" rel="tag">IT</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-11-07T00:00:00+05:30">November 7, 2024</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  <h4 class="page__share-title">Share on</h4>
+
+  <a href="https://twitter.com/intent/tweet?text=HomeLab+Part-01+%5BThe+Server%5D%20http%3A%2F%2Flocalhost%3A4000%2Fit%2FHomelab%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fit%2FHomelab%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/it/Homelab/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/tools/spoofcheck/" class="pagination--pager" title="SpoofCheck.py">Previous</a>
+    
+    
+      <a href="/goad/mindmap/" class="pagination--pager" title="Mind Map for Active Directory - Pentesting">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You may also enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/malleablec2.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/Malleable-c2-pro/" rel="permalink">Cobalt Strike Malleable C2 Profiles
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-25T00:00:00+05:30">December 25, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Hide from blue team like a pro by using malleable c2 profiles.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/cs.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/redirectors/" rel="permalink">Cobalt Strike Redirectors using Apache-SSL
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-19T00:00:00+05:30">December 19, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This is how you setup single or multiple redirectors for Cobalt-Strike using malleable-c2 profiles and Apache SSL
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/RTIL.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/RED-TEAM-Infra/" rel="permalink">RED-TEAM Home-Lab Infra
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-14T00:00:00+05:30">December 14, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">How to Setup a Red-Teams infrastructure at Home
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/GOAD/goad-part3.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/goad/GOAD-p3/" rel="permalink">Game of Active Directory - Part 3 [Recon]
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-14T00:00:00+05:30">December 14, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to pract...</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 <a href="https://dcodezero.github.io/">https://dcodezero.github.io/</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/it/Homelab/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/it/Homelab"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://dcode_zero.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+  </body>
+</html>

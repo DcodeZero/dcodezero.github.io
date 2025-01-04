@@ -1,0 +1,1101 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<!-- begin _includes/seo.html --><title>GoAutoPhish - Dcodezero</title>
+<meta name="description" content="This project automates the creation and management of phishing campaigns using the GoPhish API. The script handles template management, sending profiles, and campaign creation with advanced features such as error handling, custom headers, and rate limiting.">
+
+
+  <meta name="author" content="DcodeZer0">
+  
+  <meta property="article:author" content="DcodeZer0">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Dcodezero">
+<meta property="og:title" content="GoAutoPhish">
+<meta property="og:url" content="http://localhost:4000/tools/GoAuto-Phish/">
+
+
+  <meta property="og:description" content="This project automates the creation and management of phishing campaigns using the GoPhish API. The script handles template management, sending profiles, and campaign creation with advanced features such as error handling, custom headers, and rate limiting.">
+
+
+
+  <meta property="og:image" content="http://localhost:4000/assets/images/sample/gophish/go-phish.webp">
+
+
+
+
+
+  <meta property="article:published_time" content="2024-09-20T00:00:00+05:30">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/tools/GoAuto-Phish/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
+
+
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
+
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ window.enable_copy_code_button = true;
+</script>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/brew.webp" alt="Dcodezero"></a>
+        
+        <a class="site-title" href="/">
+          Dcodezero
+          <span class="site-subtitle">Hack>>Sleep>>Repeat</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tags"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/it-posts/"
+                
+                
+              >I.T</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tools/"
+                
+                
+              >Tools</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/helpedyou/"
+                
+                
+              >Think I Helped You?</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/images/sample/gophish/go-phish.webp');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          GoAutoPhish
+
+        
+      </h1>
+      
+        <p class="page__lead">This project automates the creation and management of phishing campaigns using the GoPhish API. The script handles template management, sending profiles, and campaign creation with advanced features such as error handling, custom headers, and rate limiting.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-09-20T00:00:00+05:30">September 20, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#tools" itemprop="item"><span itemprop="name">Tools</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">GoAutoPhish</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>┌──[root@dcodezero]
+└──╼ # Hacker | RedTeam | PenTester | CTFPlayer | HackTheBox</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Somewhere</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:dcodezero@proton.me" rel="me" class="u-email">
+            <meta itemprop="email" content="dcodezero@proton.me" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="GoAutoPhish">
+    <meta itemprop="description" content="This project automates the creation and management of phishing campaigns using the GoPhish API. The script handles template management, sending profiles, and campaign creation with advanced features such as error handling, custom headers, and rate limiting.">
+    <meta itemprop="datePublished" content="2024-09-20T00:00:00+05:30">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#automating-phishing-campaigns-with-gophish-a-complete-guide">Automating Phishing Campaigns with GoPhish: A Complete Guide</a><ul><li><a href="#introduction">Introduction</a></li><li><a href="#understanding-gophish-automation">Understanding GoPhish Automation</a></li><li><a href="#project-structure">Project Structure</a><ul><li><a href="#key-components">Key Components</a></li></ul></li><li><a href="#setting-up-the-environment">Setting Up the Environment</a><ul><li><a href="#prerequisites">Prerequisites</a></li><li><a href="#installation-steps">Installation Steps</a></li></ul></li><li><a href="#configuration-deep-dive">Configuration Deep Dive</a><ul><li><a href="#configuration-components">Configuration Components</a></li></ul></li><li><a href="#creating-email-templates">Creating Email Templates</a><ul><li><a href="#template-best-practices">Template Best Practices</a></li></ul></li><li><a href="#advanced-features">Advanced Features</a><ul><li><a href="#1-error-handling-and-logging">1. Error Handling and Logging</a></li><li><a href="#2-rate-limiting">2. Rate Limiting</a></li><li><a href="#3-custom-headers">3. Custom Headers</a></li></ul></li><li><a href="#campaign-execution">Campaign Execution</a></li><li><a href="#monitoring-and-logging">Monitoring and Logging</a></li><li><a href="#best-practices">Best Practices</a></li><li><a href="#security-considerations">Security Considerations</a></li><li><a href="#conclusion">Conclusion</a></li><li><a href="#resources">Resources</a></li></ul></li></ul>
+            </nav>
+          </aside>
+        
+        <h1 id="automating-phishing-campaigns-with-gophish-a-complete-guide">Automating Phishing Campaigns with GoPhish: A Complete Guide</h1>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>In the realm of cybersecurity assessment, phishing simulations play a crucial role in evaluating and improving an organization’s security awareness. Today, we’ll explore a powerful automation tool that streamlines the process of creating and managing phishing campaigns using GoPhish’s API. The <a href="https://github.com/DcodeZero/Gophish-Automation">GoPhish-Automation</a> project offers a robust solution for security professionals looking to enhance their phishing simulation capabilities.</p>
+
+<h2 id="understanding-gophish-automation">Understanding GoPhish Automation</h2>
+
+<p>GoPhish Automation is a Python-based project that simplifies the creation and management of phishing campaigns. By leveraging the GoPhish API, it automates template management, sending profiles, and campaign creation while incorporating advanced features like error handling, custom headers, and rate limiting.</p>
+
+<h2 id="project-structure">Project Structure</h2>
+
+<p>The project follows a clean, organized structure:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/GoPhish-Automation/
+│
+├── /templates/
+│   ├── template1.txt
+│   ├── template2.txt
+│   └── template3.txt
+│
+├── /logs/
+│   └── phishing_campaign.log
+│
+├── config.json
+│
+└── configauto.py
+</code></pre></div></div>
+
+<h3 id="key-components">Key Components</h3>
+
+<ol>
+  <li><strong>Templates Directory</strong>: Stores email templates in text format</li>
+  <li><strong>Logs Directory</strong>: Contains campaign execution logs</li>
+  <li><strong>Configuration File</strong>: Manages campaign settings and credentials</li>
+  <li><strong>Main Script</strong>: Handles the automation logic</li>
+</ol>
+
+<h2 id="setting-up-the-environment">Setting Up the Environment</h2>
+
+<h3 id="prerequisites">Prerequisites</h3>
+
+<p>Before diving in, ensure you have:</p>
+
+<ul>
+  <li>Python 3.x installed</li>
+  <li>A running GoPhish server</li>
+  <li>GoPhish API key</li>
+  <li>Basic understanding of phishing campaigns</li>
+</ul>
+
+<h3 id="installation-steps">Installation Steps</h3>
+
+<ol>
+  <li>Clone the repository:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/DcodeZero/Gophish-Automation.git
+<span class="nb">cd </span>Gophish-Automation
+</code></pre></div>    </div>
+  </li>
+  <li>Install required packages:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>gophish
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="configuration-deep-dive">Configuration Deep Dive</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">config.json</code> file is the heart of the configuration. Here’s a detailed breakdown:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"api_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"your_api_key_here"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://your_gophish_server_url"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"template"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"is_base64"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"send_all_types"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"smtp_profiles"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Profile1"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"smtp.example.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"from_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"phish@example.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user1"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"password1"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"ignore_cert_errors"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"X-Header"</span><span class="p">,</span><span class="w"> </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Foo Bar"</span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"group"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Phishing Group"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"targets"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"target1@example.com"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"landing_page"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Phishing Page"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"base64_encoded_html_here"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"is_base64"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"capture_credentials"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"capture_passwords"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="configuration-components">Configuration Components</h3>
+
+<ol>
+  <li><strong>API Configuration</strong>
+    <ul>
+      <li>API key authentication</li>
+      <li>GoPhish server host URL</li>
+    </ul>
+  </li>
+  <li><strong>Template Settings</strong>
+    <ul>
+      <li>Base64 encoding options</li>
+      <li>Multiple template type support</li>
+    </ul>
+  </li>
+  <li><strong>SMTP Profiles</strong>
+    <ul>
+      <li>Email server configurations</li>
+      <li>Custom header support</li>
+      <li>Certificate handling</li>
+    </ul>
+  </li>
+  <li><strong>Target Groups</strong>
+    <ul>
+      <li>Target recipient management</li>
+      <li>Personalization options</li>
+    </ul>
+  </li>
+  <li><strong>Landing Pages</strong>
+    <ul>
+      <li>HTML content configuration</li>
+      <li>Credential capture settings</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="creating-email-templates">Creating Email Templates</h2>
+
+<p>Templates are stored in <code class="language-plaintext highlighter-rouge">.txt</code> files with a specific format:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Subject: Your Compelling Subject Line
+HTML: &lt;html&gt;
+&lt;body&gt;
+&lt;p&gt;Dear {FIRST_NAME},&lt;/p&gt;
+&lt;p&gt;Your phishing content here...&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div></div>
+
+<h3 id="template-best-practices">Template Best Practices</h3>
+
+<ol>
+  <li>Use variables for personalization</li>
+  <li>Structure HTML properly</li>
+  <li>Include both plain text and HTML versions</li>
+  <li>Test templates before deployment</li>
+</ol>
+
+<h2 id="advanced-features">Advanced Features</h2>
+
+<h3 id="1-error-handling-and-logging">1. Error Handling and Logging</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">try</span><span class="p">:</span>
+    <span class="c1"># Campaign operation
+</span>    <span class="n">log</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">"Campaign created successfully"</span><span class="p">)</span>
+<span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">log</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"Campaign creation failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="2-rate-limiting">2. Rate Limiting</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">send_campaign</span><span class="p">(</span><span class="n">profile</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">60</span><span class="p">):</span>
+    <span class="n">time</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">delay</span><span class="p">)</span>
+    <span class="c1"># Campaign sending logic
+</span></code></pre></div></div>
+
+<h3 id="3-custom-headers">3. Custom Headers</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">headers</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s">"key"</span><span class="p">:</span> <span class="s">"X-Priority"</span><span class="p">,</span> <span class="s">"value"</span><span class="p">:</span> <span class="s">"1"</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"key"</span><span class="p">:</span> <span class="s">"X-Custom"</span><span class="p">,</span> <span class="s">"value"</span><span class="p">:</span> <span class="s">"Value"</span><span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div></div>
+
+<h2 id="campaign-execution">Campaign Execution</h2>
+
+<p>Running the automation is straightforward:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python AutoGoPhish.py
+</code></pre></div></div>
+
+<p>The script performs:</p>
+
+<ol>
+  <li>Template validation and processing</li>
+  <li>SMTP profile configuration</li>
+  <li>Group creation/update</li>
+  <li>Campaign launch with rate limiting</li>
+  <li>Comprehensive logging</li>
+</ol>
+
+<h2 id="monitoring-and-logging">Monitoring and Logging</h2>
+
+<p>The script maintains detailed logs in <code class="language-plaintext highlighter-rouge">/logs/phishing_campaign.log</code>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2024-03-11 10:15:23 INFO: Starting campaign setup
+2024-03-11 10:15:24 INFO: Template validated successfully
+2024-03-11 10:15:25 INFO: Campaign 'Security Training' launched
+2024-03-11 10:15:26 WARNING: Rate limit applied - waiting 60 seconds
+</code></pre></div></div>
+
+<h2 id="best-practices">Best Practices</h2>
+
+<ol>
+  <li><strong>Template Management</strong>
+    <ul>
+      <li>Regularly update templates</li>
+      <li>Test with small groups first</li>
+      <li>Monitor spam score</li>
+    </ul>
+  </li>
+  <li><strong>Rate Limiting</strong>
+    <ul>
+      <li>Adjust based on SMTP provider</li>
+      <li>Monitor delivery rates</li>
+      <li>Implement progressive delays</li>
+    </ul>
+  </li>
+  <li><strong>Error Handling</strong>
+    <ul>
+      <li>Monitor logs regularly</li>
+      <li>Set up alerts for failures</li>
+      <li>Maintain backup configurations</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="security-considerations">Security Considerations</h2>
+
+<ol>
+  <li><strong>API Key Protection</strong>
+    <ul>
+      <li>Store securely</li>
+      <li>Rotate regularly</li>
+      <li>Use environment variables</li>
+    </ul>
+  </li>
+  <li><strong>SMTP Security</strong>
+    <ul>
+      <li>Use encryption</li>
+      <li>Implement SPF/DKIM</li>
+      <li>Monitor for abuse</li>
+    </ul>
+  </li>
+  <li><strong>Data Protection</strong>
+    <ul>
+      <li>Encrypt sensitive data</li>
+      <li>Clean up after campaigns</li>
+      <li>Follow data retention policies</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The GoPhish-Automation project significantly streamlines the process of managing phishing campaigns. By automating routine tasks and implementing best practices, security teams can focus on analyzing results and improving security awareness programs.</p>
+
+<h2 id="resources">Resources</h2>
+
+<ul>
+  <li><a href="https://github.com/DcodeZero/Gophish-Automation">GitHub Repository</a></li>
+  <li><a href="https://docs.getgophish.com">GoPhish Documentation</a></li>
+  <li><a href="https://github.com/gophish/api-client-python">Python GoPhish Library</a></li>
+</ul>
+
+<hr />
+
+<p><em>Note: This tool should only be used for legitimate security testing with proper authorization.</em></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#gophish" class="page__taxonomy-item p-category" rel="tag">GoPhish</a><span class="sep">, </span>
+    
+      <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">python,</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#tools" class="page__taxonomy-item p-category" rel="tag">tools</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-09-20T00:00:00+05:30">September 20, 2024</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  <h4 class="page__share-title">Share on</h4>
+
+  <a href="https://twitter.com/intent/tweet?text=GoAutoPhish%20http%3A%2F%2Flocalhost%3A4000%2Ftools%2FGoAuto-Phish%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Ftools%2FGoAuto-Phish%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/tools/GoAuto-Phish/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/otherposts/OSCP/" class="pagination--pager" title="My  journey  towards  “TRY  HARDER!”">Previous</a>
+    
+    
+      <a href="/tools/HTML-Obfuscator/" class="pagination--pager" title="HTML-Obfuscator">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You may also enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/malleablec2.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/Malleable-c2-pro/" rel="permalink">Cobalt Strike Malleable C2 Profiles
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-25T00:00:00+05:30">December 25, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Hide from blue team like a pro by using malleable c2 profiles.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/cs.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/redirectors/" rel="permalink">Cobalt Strike Redirectors using Apache-SSL
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-19T00:00:00+05:30">December 19, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This is how you setup single or multiple redirectors for Cobalt-Strike using malleable-c2 profiles and Apache SSL
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/RTIL.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/RED-TEAM-Infra/" rel="permalink">RED-TEAM Home-Lab Infra
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-14T00:00:00+05:30">December 14, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">How to Setup a Red-Teams infrastructure at Home
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/GOAD/goad-part3.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/goad/GOAD-p3/" rel="permalink">Game of Active Directory - Part 3 [Recon]
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-14T00:00:00+05:30">December 14, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to pract...</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 <a href="https://dcodezero.github.io/">https://dcodezero.github.io/</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/tools/GoAuto-Phish/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/tools/GoAuto-Phish"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://dcode_zero.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+  </body>
+</html>

