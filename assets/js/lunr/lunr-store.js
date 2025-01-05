@@ -204,7 +204,7 @@ var store = [{
     "excerpt":" ","url": "http://localhost:4000/categories/"
   },{
     "title": "You really think I've helped you",
-    "excerpt":"Like the work ??   Thank you for visiting my blog and taking the time to explore my work! 💖   If you’ve enjoyed my posts or found them helpful, here’s how you can show your support by subscribing to the blogs.   Why Support Matters   Running this blog takes time and effort, and every bit of support helps me continue doing what I love—sharing insights, stories, and tips with you!   Thank you for being part of this journey. 💫                               Join the Hack&gt;&gt;Sleep&gt;&gt;Repeat Community           * indicates required                   Email Address *                                                                                                                                              ","url": "http://localhost:4000/helpedyou/"
+    "excerpt":"                            Initialize Connection           $ sudo required-fields                   Email_Address *                                                                                                                                       Like the work ??   Thank you for visiting my blog and taking the time to explore my work! 💖   If you’ve enjoyed my posts or found them helpful, here’s how you can show your support by subscribing to the blogs.   Why Support Matters   Running this blog takes time and effort, and every bit of support helps me continue doing what I love—sharing insights, stories, and tips with you!   Thank you for being part of this journey. 💫  ","url": "http://localhost:4000/helpedyou/"
   },{
     "title": "IT Posts",
     "excerpt":" ","url": "http://localhost:4000/it-posts/"
