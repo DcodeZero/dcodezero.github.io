@@ -6,6 +6,7 @@
 <html lang="{{ site.locale | replace: "_", "-" | default: "en" }}" class="no-js">
   <head>
     {% include head.html %}
+    <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/a236ffe3231543dfa1a53e2a4/b8e03e16b2df243b196811790.js");</script>
     {% include head/custom.html %}
   </head>
 
@@ -23,7 +24,8 @@
         {% include_cached search/search_form.html %}
       </div>
     {% endif %}
-
+ 
+  
     <div id="footer" class="page__footer">
       <footer>
         {% include footer/custom.html %}
@@ -32,5 +34,6 @@
     </div>
 
     {% include scripts.html %}
+    
   </body>
 </html>
