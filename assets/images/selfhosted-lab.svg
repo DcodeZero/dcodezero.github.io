@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+  <defs>
+    <linearGradient id="bgLab" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0f"/>
+      <stop offset="100%" style="stop-color:#1a1a2e"/>
+    </linearGradient>
+    <linearGradient id="orange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff8800"/>
+      <stop offset="100%" style="stop-color:#ffaa00"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00ff00"/>
+      <stop offset="100%" style="stop-color:#00cc00"/>
+    </linearGradient>
+    <linearGradient id="red2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff0040"/>
+      <stop offset="100%" style="stop-color:#ff4444"/>
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="600" height="400" fill="url(#bgLab)"/>
+
+  <!-- Server Rack -->
+  <g transform="translate(200, 60)">
+    <!-- Rack frame -->
+    <rect x="0" y="0" width="200" height="260" rx="5" fill="#111" stroke="#333" stroke-width="2"/>
+
+    <!-- Server 1 -->
+    <rect x="10" y="15" width="180" height="40" rx="3" fill="#1a1a1a" stroke="#444" stroke-width="1"/>
+    <circle cx="30" cy="35" r="4" fill="url(#green)">
+      <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <rect x="45" y="30" width="60" height="10" fill="#222"/>
+    <g fill="#333">
+      <rect x="120" y="25" width="20" height="5"/>
+      <rect x="120" y="35" width="20" height="5"/>
+      <rect x="145" y="25" width="20" height="5"/>
+      <rect x="145" y="35" width="20" height="5"/>
+    </g>
+
+    <!-- Server 2 -->
+    <rect x="10" y="65" width="180" height="40" rx="3" fill="#1a1a1a" stroke="#444" stroke-width="1"/>
+    <circle cx="30" cy="85" r="4" fill="url(#orange)">
+      <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/>
+    </circle>
+    <rect x="45" y="80" width="60" height="10" fill="#222"/>
+    <g fill="#333">
+      <rect x="120" y="75" width="20" height="5"/>
+      <rect x="120" y="85" width="20" height="5"/>
+      <rect x="145" y="75" width="20" height="5"/>
+      <rect x="145" y="85" width="20" height="5"/>
+    </g>
+
+    <!-- Server 3 - Attack target -->
+    <rect x="10" y="115" width="180" height="40" rx="3" fill="#1a1a1a" stroke="url(#red2)" stroke-width="2"/>
+    <circle cx="30" cy="135" r="4" fill="url(#red2)">
+      <animate attributeName="opacity" values="1;0;1" dur="0.5s" repeatCount="indefinite"/>
+    </circle>
+    <rect x="45" y="130" width="60" height="10" fill="#222"/>
+    <text x="120" y="140" fill="#ff0040" font-family="monospace" font-size="10">PWNED</text>
+
+    <!-- Server 4 -->
+    <rect x="10" y="165" width="180" height="40" rx="3" fill="#1a1a1a" stroke="#444" stroke-width="1"/>
+    <circle cx="30" cy="185" r="4" fill="url(#green)">
+      <animate attributeName="opacity" values="1;0.5;1" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+    <rect x="45" y="180" width="60" height="10" fill="#222"/>
+    <g fill="#333">
+      <rect x="120" y="175" width="20" height="5"/>
+      <rect x="120" y="185" width="20" height="5"/>
+      <rect x="145" y="175" width="20" height="5"/>
+      <rect x="145" y="185" width="20" height="5"/>
+    </g>
+
+    <!-- Server 5 -->
+    <rect x="10" y="215" width="180" height="35" rx="3" fill="#1a1a1a" stroke="#444" stroke-width="1"/>
+    <circle cx="30" cy="232" r="4" fill="url(#green)"/>
+    <rect x="45" y="227" width="60" height="10" fill="#222"/>
+  </g>
+
+  <!-- Network connections -->
+  <g stroke="url(#orange)" stroke-width="1" stroke-dasharray="4,4" filter="url(#glow2)">
+    <line x1="100" y1="150" x2="200" y2="150">
+      <animate attributeName="stroke-dashoffset" from="8" to="0" dur="1s" repeatCount="indefinite"/>
+    </line>
+    <line x1="400" y1="150" x2="500" y2="100">
+      <animate attributeName="stroke-dashoffset" from="8" to="0" dur="1s" repeatCount="indefinite"/>
+    </line>
+    <line x1="400" y1="200" x2="500" y2="250">
+      <animate attributeName="stroke-dashoffset" from="8" to="0" dur="1s" repeatCount="indefinite"/>
+    </line>
+  </g>
+
+  <!-- Attacker terminal -->
+  <g transform="translate(30, 100)">
+    <rect x="0" y="0" width="70" height="100" rx="3" fill="#0d0d0d" stroke="#ff0040" stroke-width="1"/>
+    <text x="10" y="20" fill="#00ff00" font-family="monospace" font-size="8">root@kali</text>
+    <text x="10" y="35" fill="#ff0040" font-family="monospace" font-size="7">nmap -sV</text>
+    <text x="10" y="50" fill="#666" font-family="monospace" font-size="6">scanning..</text>
+    <text x="10" y="70" fill="#ff8800" font-family="monospace" font-size="7">exploit/</text>
+    <text x="10" y="85" fill="#ff8800" font-family="monospace" font-size="7">multi/</text>
+  </g>
+
+  <!-- Target machines -->
+  <g transform="translate(480, 70)">
+    <rect x="0" y="0" width="80" height="60" rx="3" fill="#111" stroke="#444" stroke-width="1"/>
+    <text x="10" y="20" fill="#666" font-family="monospace" font-size="9">DC01</text>
+    <text x="10" y="35" fill="#444" font-family="monospace" font-size="7">10.0.0.1</text>
+    <circle cx="65" cy="45" r="5" fill="url(#green)"/>
+  </g>
+  <g transform="translate(480, 220)">
+    <rect x="0" y="0" width="80" height="60" rx="3" fill="#111" stroke="url(#red2)" stroke-width="1"/>
+    <text x="10" y="20" fill="#ff0040" font-family="monospace" font-size="9">WEB01</text>
+    <text x="10" y="35" fill="#444" font-family="monospace" font-size="7">10.0.0.5</text>
+    <circle cx="65" cy="45" r="5" fill="url(#red2)">
+      <animate attributeName="opacity" values="1;0.3;1" dur="0.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Title -->
+  <text x="300" y="360" fill="url(#orange)" font-family="monospace" font-size="22" font-weight="bold" text-anchor="middle" filter="url(#glow2)">SELF-HOSTED RED TEAM LAB</text>
+
+  <!-- Accent -->
+  <rect x="0" y="390" width="600" height="10" fill="url(#orange)" opacity="0.7"/>
+</svg>

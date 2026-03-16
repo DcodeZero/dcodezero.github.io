@@ -1,0 +1,901 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<!-- begin _includes/seo.html --><title>SpoofCheck.py - Dcodezero</title>
+<meta name="description" content="This tool checks if domain spoofing is possible or not.">
+
+
+  <meta name="author" content="Dcodezero">
+  
+  <meta property="article:author" content="Dcodezero">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Dcodezero">
+<meta property="og:title" content="SpoofCheck.py">
+<meta property="og:url" content="https://dcodezero.github.io//https://dcodezero.github.io/tools/spoofcheck/">
+
+
+  <meta property="og:description" content="This tool checks if domain spoofing is possible or not.">
+
+
+
+  <meta property="og:image" content="https://dcodezero.github.io//https://dcodezero.github.io/assets/images/sample/spoof-check/spoofing.jpg">
+
+
+
+  <meta name="twitter:site" content="@Dcodezero">
+  <meta name="twitter:title" content="SpoofCheck.py">
+  <meta name="twitter:description" content="This tool checks if domain spoofing is possible or not.">
+  <meta name="twitter:url" content="https://dcodezero.github.io//https://dcodezero.github.io/tools/spoofcheck/">
+
+  
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://dcodezero.github.io//https://dcodezero.github.io/assets/images/sample/spoof-check/spoofing.jpg">
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2024-11-03T00:00:00+00:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://dcodezero.github.io//https://dcodezero.github.io/tools/spoofcheck/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/https://dcodezero.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
+
+
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
+
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ 
+</script>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/https://dcodezero.github.io/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+    <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/a236ffe3231543dfa1a53e2a4/b8e03e16b2df243b196811790.js");</script>
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/https://dcodezero.github.io/">
+          Dcodezero
+          <span class="site-subtitle">Dcodezero</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/about/"
+                
+                
+              >About</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/tags"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/it-posts/"
+                
+                
+              >I.T</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/tools/"
+                
+                
+              >Tools</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/https://dcodezero.github.io/assets/images/sample/spoof-check/spoofing.jpg');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          SpoofCheck.py
+
+        
+      </h1>
+      
+        <p class="page__lead">This tool checks if domain spoofing is possible or not.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/https://dcodezero.github.io/" itemprop="url">Dcodezero</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>I am an <strong>amazing</strong> person.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Somewhere</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="SpoofCheck.py">
+    <meta itemprop="description" content="This tool checks if domain spoofing is possible or not.">
+    <meta itemprop="datePublished" content="2024-11-03T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#spoofcheck-your-first-line-of-defense-against-email-domain-spoofing">Spoofcheck: Your First Line of Defense Against Email Domain Spoofing</a><ul><li><a href="#introduction">Introduction</a></li><li><a href="#link">link</a></li><li><a href="#what-is-spoofcheck">What is Spoofcheck?</a></li><li><a href="#why-domain-spoofing-matters">Why Domain Spoofing Matters</a><ul><li><a href="#the-real-world-impact">The Real-World Impact</a></li></ul></li><li><a href="#key-features">Key Features</a></li><li><a href="#understanding-email-authentication">Understanding Email Authentication</a><ul><li><a href="#spf-sender-policy-framework">SPF (Sender Policy Framework)</a></li><li><a href="#dkim-domainkeys-identified-mail">DKIM (DomainKeys Identified Mail)</a></li><li><a href="#dmarc-domain-based-message-authentication-reporting-and-conformance">DMARC (Domain-based Message Authentication, Reporting, and Conformance)</a></li></ul></li><li><a href="#best-practices-for-using-spoofcheck">Best Practices for Using Spoofcheck</a><ul><li><a href="#1-regular-testing">1. Regular Testing</a></li><li><a href="#2-response-planning">2. Response Planning</a></li><li><a href="#3-integration-with-security-workflows">3. Integration with Security Workflows</a></li></ul></li><li><a href="#implementation-guide">Implementation Guide</a><ul><li><a href="#getting-started">Getting Started</a></li><li><a href="#common-issues-and-solutions">Common Issues and Solutions</a></li></ul></li><li><a href="#advanced-usage-tips">Advanced Usage Tips</a></li><li><a href="#security-considerations">Security Considerations</a></li><li><a href="#conclusion">Conclusion</a></li><li><a href="#resources-for-further-reading">Resources for Further Reading</a></li></ul></li></ul>
+            </nav>
+          </aside>
+        
+        <h1 id="spoofcheck-your-first-line-of-defense-against-email-domain-spoofing">Spoofcheck: Your First Line of Defense Against Email Domain Spoofing</h1>
+
+<h2 id="introduction">Introduction</h2>
+<p>In today’s digital landscape, email security remains a critical concern for organizations of all sizes. Email spoofing attacks, where malicious actors impersonate legitimate domains to conduct phishing campaigns or business email compromise (BEC) attacks, continue to pose a significant threat. Enter Spoofcheck, a powerful open-source tool designed to help security professionals identify and prevent domain spoofing vulnerabilities.</p>
+
+<h2 id="link">link</h2>
+<p><a href="https://github.com/DcodeZero/Spoofcheck">SpoofCheck.py</a></p>
+
+<h2 id="what-is-spoofcheck">What is Spoofcheck?</h2>
+<p>Spoofcheck is a security assessment tool that analyzes domain configurations to determine their vulnerability to email spoofing attempts. By examining various email authentication protocols and security measures, it provides valuable insights into potential security gaps that could be exploited by attackers.</p>
+
+<h2 id="why-domain-spoofing-matters">Why Domain Spoofing Matters</h2>
+<h3 id="the-real-world-impact">The Real-World Impact</h3>
+<p>Email spoofing can lead to several serious consequences:</p>
+<ul>
+  <li>Financial losses through BEC attacks</li>
+  <li>Damage to brand reputation</li>
+  <li>Loss of customer trust</li>
+  <li>Data breaches through successful phishing attempts</li>
+  <li>Regulatory compliance issues</li>
+</ul>
+
+<h2 id="key-features">Key Features</h2>
+<p>Spoofcheck helps organizations by:</p>
+<ul>
+  <li>Identifying missing or misconfigured email authentication records</li>
+  <li>Detecting vulnerabilities in domain configurations</li>
+  <li>Providing actionable insights for security improvements</li>
+  <li>Offering a simple way to verify email security posture</li>
+</ul>
+
+<h2 id="understanding-email-authentication">Understanding Email Authentication</h2>
+<p>To appreciate Spoofcheck’s importance, it’s crucial to understand the key email authentication protocols it examines:</p>
+
+<h3 id="spf-sender-policy-framework">SPF (Sender Policy Framework)</h3>
+<p>SPF records specify which mail servers are authorized to send emails on behalf of your domain. Proper SPF configuration is essential for:</p>
+<ul>
+  <li>Preventing unauthorized email sending</li>
+  <li>Reducing spam from your domain</li>
+  <li>Improving email deliverability</li>
+</ul>
+
+<h3 id="dkim-domainkeys-identified-mail">DKIM (DomainKeys Identified Mail)</h3>
+<p>DKIM adds a digital signature to emails, ensuring:</p>
+<ul>
+  <li>Message integrity</li>
+  <li>Sender authentication</li>
+  <li>Protection against tampering</li>
+</ul>
+
+<h3 id="dmarc-domain-based-message-authentication-reporting-and-conformance">DMARC (Domain-based Message Authentication, Reporting, and Conformance)</h3>
+<p>DMARC builds upon SPF and DKIM by:</p>
+<ul>
+  <li>Providing clear policies for handling authentication failures</li>
+  <li>Offering reporting capabilities</li>
+  <li>Enabling domain-wide email protection</li>
+</ul>
+
+<h2 id="best-practices-for-using-spoofcheck">Best Practices for Using Spoofcheck</h2>
+
+<h3 id="1-regular-testing">1. Regular Testing</h3>
+<ul>
+  <li>Conduct monthly security assessments</li>
+  <li>Test after any DNS changes</li>
+  <li>Verify configurations across all subdomains</li>
+</ul>
+
+<h3 id="2-response-planning">2. Response Planning</h3>
+<ul>
+  <li>Document findings and vulnerabilities</li>
+  <li>Develop remediation plans</li>
+  <li>Implement security improvements promptly</li>
+</ul>
+
+<h3 id="3-integration-with-security-workflows">3. Integration with Security Workflows</h3>
+<ul>
+  <li>Include in security audits</li>
+  <li>Add to penetration testing procedures</li>
+  <li>Incorporate into compliance checks</li>
+</ul>
+
+<h2 id="implementation-guide">Implementation Guide</h2>
+
+<h3 id="getting-started">Getting Started</h3>
+<ol>
+  <li>Install the tool</li>
+  <li>Configure your testing environment</li>
+  <li>Run initial domain checks</li>
+  <li>Review and analyze results</li>
+  <li>Implement necessary changes</li>
+</ol>
+
+<h3 id="common-issues-and-solutions">Common Issues and Solutions</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Issue</th>
+      <th>Impact</th>
+      <th>Solution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Missing SPF Record</td>
+      <td>High</td>
+      <td>Create and implement SPF record</td>
+    </tr>
+    <tr>
+      <td>Weak DMARC Policy</td>
+      <td>Medium</td>
+      <td>Strengthen DMARC policy settings</td>
+    </tr>
+    <tr>
+      <td>Incomplete DKIM</td>
+      <td>High</td>
+      <td>Configure DKIM signing for all mail streams</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="advanced-usage-tips">Advanced Usage Tips</h2>
+<ul>
+  <li>Automate regular checks</li>
+  <li>Monitor for configuration changes</li>
+  <li>Integrate with existing security tools</li>
+  <li>Track improvements over time</li>
+</ul>
+
+<h2 id="security-considerations">Security Considerations</h2>
+<p>When using Spoofcheck, remember to:</p>
+<ul>
+  <li>Keep the tool updated</li>
+  <li>Use in conjunction with other security measures</li>
+  <li>Follow security best practices</li>
+  <li>Document all findings and changes</li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>In an era where email-based attacks are becoming increasingly sophisticated, tools like Spoofcheck play a crucial role in maintaining robust email security. By regularly assessing your domain’s vulnerability to spoofing attempts, you can protect your organization from potentially devastating attacks and maintain the trust of your stakeholders.</p>
+
+<h2 id="resources-for-further-reading">Resources for Further Reading</h2>
+<ul>
+  <li>Email Authentication Standards Documentation</li>
+  <li>Anti-Phishing Working Group Guidelines</li>
+  <li>NIST Email Security Recommendations</li>
+  <li>Industry Best Practices for Email Security</li>
+</ul>
+
+<hr />
+
+<p><em>Remember: Email security is not a one-time task but an ongoing process. Regular assessment and updates are key to maintaining strong protection against spoofing attempts.</em></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/https://dcodezero.github.io/tags/#go-lang" class="page__taxonomy-item p-category" rel="tag">Go-lang</a><span class="sep">, </span>
+    
+      <a href="/https://dcodezero.github.io/tags/#python" class="page__taxonomy-item p-category" rel="tag">python,</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/https://dcodezero.github.io/categories/#tools" class="page__taxonomy-item p-category" rel="tag">tools</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-11-03T00:00:00+00:00">November 3, 2024</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  <h4 class="page__share-title">Share on</h4>
+
+  <a href="https://twitter.com/intent/tweet?via=Dcodezero&text=SpoofCheck.py%20%2Fhttps%3A%2F%2Fdcodezero.github.io%2Ftools%2Fspoofcheck%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdcodezero.github.io%2F%2Fhttps%3A%2F%2Fdcodezero.github.io%2Ftools%2Fspoofcheck%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://dcodezero.github.io//https://dcodezero.github.io/tools/spoofcheck/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/https://dcodezero.github.io/tools/HTML-Obfuscator/" class="pagination--pager" title="HTML-Obfuscator">Previous</a>
+    
+    
+      <a href="/https://dcodezero.github.io/it/Homelab/" class="pagination--pager" title="HomeLab Part-01 [The Server]">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You may also enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/https://dcodezero.github.io/assets/images/ai-red-team-practical.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/https://dcodezero.github.io/ai-security/practical-ai-red-teaming-techniques/" rel="permalink">Practical AI Red Teaming: Hands-On Attack Techniques and Tooling
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          18 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This is where abstract vulnerabilities become concrete exploits.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/https://dcodezero.github.io/assets/images/tools-scripts.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/https://dcodezero.github.io/tools/red-team/ad-enumeration-toolkit/" rel="permalink">AD Enumeration Toolkit: Scripts I Actually Use
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PowerShell and Python scripts for Active Directory enumeration. LDAP queries, BloodHound collection, and quick-win one-liners.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/https://dcodezero.github.io/assets/images/tools-scripts.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/https://dcodezero.github.io/tools/red-team/recon-automation-scripts/" rel="permalink">External Recon Automation: Scripts That Save Hours
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Automated recon workflow - subdomain enumeration, port scanning, screenshots, tech fingerprinting, and cloud asset discovery.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/https://dcodezero.github.io/assets/images/tools-scripts.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/https://dcodezero.github.io/tools/red-team/post-exploitation-scripts/" rel="permalink">Post-Exploitation Scripts: Persistence, Pivoting &amp; Data Collection
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Scripts for maintaining access - credential harvesting, persistence mechanisms, lateral movement, and data exfiltration techniques.
+</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+ 
+  
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+           <!-- Add this CSS to your custom stylesheet (_sass or assets/css/main.scss) -->
+   <style>
+    .subscribe-button {
+      display: inline-block;
+      padding: 12px 24px;
+      background: transparent;
+      border: 2px solid #39ff14;
+      color: #39ff14;
+      text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: bold;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .subscribe-button:hover {
+      background: #39ff14;
+      color: #000;
+      box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
+    }
+    
+    .subscribe-button::before {
+      content: '>';
+      margin-right: 8px;
+      display: inline-block;
+    }
+    
+    /* Optional: Add animation */
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(57, 255, 20, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
+    }
+    
+    .subscribe-button {
+      animation: pulse 2s infinite;
+    }
+    </style>
+    
+    <!-- Add this HTML where you want the button to appear -->
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="/helpedyou/" class="subscribe-button">Join The Network</a>
+    </div>
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/https://dcodezero.github.io/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+
+<div class="page__footer-copyright">&copy; 2026 <a href="https://dcodezero.github.io/">Dcodezero</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div> 
+
+      </footer>
+    </div>
+
+    
+  <script src="/https://dcodezero.github.io/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+</html>

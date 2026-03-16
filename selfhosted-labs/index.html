@@ -1,0 +1,568 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<!-- begin _includes/seo.html --><title>Budget Hacking Labs - Dcodezero</title>
+<meta name="description" content="An amazing website.">
+
+
+  <meta name="author" content="Dcodezero">
+  
+
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Dcodezero">
+<meta property="og:title" content="Budget Hacking Labs">
+<meta property="og:url" content="https://dcodezero.github.io//https://dcodezero.github.io/selfhosted-labs/">
+
+
+  <meta property="og:description" content="An amazing website.">
+
+
+
+  <meta property="og:image" content="https://dcodezero.github.io//https://dcodezero.github.io/assets/images/selfhosted-lab.svg">
+
+
+
+  <meta name="twitter:site" content="@Dcodezero">
+  <meta name="twitter:title" content="Budget Hacking Labs">
+  <meta name="twitter:description" content="An amazing website.">
+  <meta name="twitter:url" content="https://dcodezero.github.io//https://dcodezero.github.io/selfhosted-labs/">
+
+  
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://dcodezero.github.io//https://dcodezero.github.io/assets/images/selfhosted-lab.svg">
+  
+
+  
+
+
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://dcodezero.github.io//https://dcodezero.github.io/selfhosted-labs/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/https://dcodezero.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
+
+
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
+
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ 
+</script>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/https://dcodezero.github.io/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+    <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/a236ffe3231543dfa1a53e2a4/b8e03e16b2df243b196811790.js");</script>
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--splash" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/https://dcodezero.github.io/">
+          Dcodezero
+          <span class="site-subtitle">Dcodezero</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/about/"
+                
+                
+              >About</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/tags"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/it-posts/"
+                
+                
+              >I.T</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/tools/"
+                
+                
+              >Tools</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/https://dcodezero.github.io/assets/images/selfhosted-lab.svg');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Budget Hacking Labs
+
+        
+      </h1>
+      
+      
+
+
+      
+        <p>
+        
+          <a href="mailto:dcodezero@proton.me?subject=Budget Hacking Labs - Early Access" class="btn btn--light-outline btn--large">Get Early Access</a>
+        
+        </p>
+      
+    </div>
+  
+  
+</div>
+
+
+
+<div id="main" role="main">
+  <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Budget Hacking Labs">
+    
+    
+    
+
+    <section class="page__content" itemprop="text">
+      <style>
+.pricing-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  margin: 40px 0;
+}
+.price-card {
+  background: linear-gradient(145deg, #12121a 0%, #1a1a2e 100%);
+  border: 2px solid #2a2a3e;
+  border-radius: 16px;
+  padding: 35px 30px;
+  width: 280px;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.price-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #ff0040, #ff4444);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.price-card:hover {
+  transform: translateY(-10px);
+  border-color: #ff0040;
+  box-shadow: 0 20px 40px rgba(255, 0, 64, 0.2);
+}
+.price-card:hover::before {
+  opacity: 1;
+}
+.price-card.featured {
+  border-color: #ff0040;
+  transform: scale(1.05);
+}
+.price-card.featured::before {
+  opacity: 1;
+}
+.price-card.featured:hover {
+  transform: scale(1.05) translateY(-10px);
+}
+.price-card.coming-soon {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.price-card.coming-soon:hover {
+  transform: none;
+  border-color: #2a2a3e;
+  box-shadow: none;
+}
+.badge {
+  position: absolute;
+  top: 15px;
+  right: -35px;
+  padding: 5px 40px;
+  font-size: 0.7em;
+  font-weight: bold;
+  transform: rotate(45deg);
+  letter-spacing: 1px;
+}
+.badge-available {
+  background: #00cc66;
+  color: white;
+}
+.badge-soon {
+  background: #666;
+  color: #ccc;
+}
+.plan-name {
+  font-size: 1.3em;
+  font-weight: 600;
+  color: #888;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.plan-subtitle {
+  font-size: 0.85em;
+  color: #666;
+  margin-bottom: 15px;
+}
+.price-amount {
+  font-size: 4em;
+  font-weight: 800;
+  color: #ff0040;
+  line-height: 1;
+  margin: 15px 0;
+  text-shadow: 0 0 30px rgba(255, 0, 64, 0.3);
+}
+.price-amount .currency {
+  font-size: 0.4em;
+  vertical-align: super;
+  color: #ff4444;
+}
+.price-amount .period {
+  font-size: 0.25em;
+  color: #666;
+  font-weight: 400;
+}
+.plan-features {
+  list-style: none;
+  padding: 0;
+  margin: 25px 0;
+  text-align: left;
+}
+.plan-features li {
+  padding: 10px 0;
+  color: #aaa;
+  border-bottom: 1px solid #2a2a3e;
+  font-size: 0.9em;
+}
+.plan-features li:last-child {
+  border-bottom: none;
+}
+.plan-features li::before {
+  content: "→ ";
+  color: #ff0040;
+  font-weight: bold;
+}
+.roadmap-note {
+  background: #12121a;
+  border-left: 4px solid #ff8800;
+  padding: 15px 20px;
+  margin: 30px 0;
+  border-radius: 0 8px 8px 0;
+}
+</style>
+
+<h2 id="affordable-ad-lab-access">Affordable AD Lab Access</h2>
+
+<p>Realistic Active Directory environments for hands-on practice. Built on <a href="https://github.com/Orange-Cyberdefense/GOAD">GOAD</a> - the same lab framework used by red teamers worldwide.</p>
+
+<p>No writeups. No hand-holding. Just lab access at a price that doesn’t hurt.</p>
+
+<hr />
+
+<h2 id="what-you-get">What You Get</h2>
+
+<ul>
+  <li><strong>Multi-VM Active Directory environment</strong></li>
+  <li><strong>Pre-configured attack box</strong> (Kali/Parrot)</li>
+  <li><strong>WireGuard VPN access</strong></li>
+  <li><strong>Self-service lab reset</strong></li>
+</ul>
+
+<hr />
+
+<h2 id="lab-tiers--pricing">Lab Tiers &amp; Pricing</h2>
+
+<div class="pricing-container">
+  <div class="price-card featured">
+    <div class="badge badge-available">AVAILABLE</div>
+    <div class="plan-name">Mini</div>
+    <div class="plan-subtitle">2 VMs • 1 Domain</div>
+    <div class="price-amount">
+      <span class="currency">$</span>5<span class="period">/mo</span>
+    </div>
+    <ul class="plan-features">
+      <li>Domain Controller + Workstation</li>
+      <li>Basic AD attacks</li>
+      <li>Attack box included</li>
+      <li>20 hours/month</li>
+    </ul>
+  </div>
+
+  <div class="price-card coming-soon">
+    <div class="badge badge-soon">COMING SOON</div>
+    <div class="plan-name">Standard</div>
+    <div class="plan-subtitle">3 VMs • 2 Domains</div>
+    <div class="price-amount">
+      <span class="currency">$</span>10<span class="period">/mo</span>
+    </div>
+    <ul class="plan-features">
+      <li>Multi-domain environment</li>
+      <li>Trust relationships</li>
+      <li>Attack box included</li>
+      <li>30 hours/month</li>
+    </ul>
+  </div>
+
+  <div class="price-card coming-soon">
+    <div class="badge badge-soon">COMING SOON</div>
+    <div class="plan-name">Full</div>
+    <div class="plan-subtitle">5 VMs • 2 Forests</div>
+    <div class="price-amount">
+      <span class="currency">$</span>20<span class="period">/mo</span>
+    </div>
+    <ul class="plan-features">
+      <li>Multi-forest environment</li>
+      <li>Complex attack paths</li>
+      <li>Attack box included</li>
+      <li>50 hours/month</li>
+    </ul>
+  </div>
+</div>
+
+<div class="roadmap-note">
+  <strong>Scaling up:</strong> Starting with Mini labs. Standard and Full tiers will be added as infrastructure grows. Join now and get priority access to larger labs when they launch.
+</div>
+
+<hr />
+
+<h2 id="current-status">Current Status</h2>
+
+<p><span style="background: #ff8800; color: #000; padding: 8px 20px; border-radius: 20px; font-weight: bold; font-size: 0.9em;">BETA - Mini Labs Available</span></p>
+
+<p>Limited slots. Testing infrastructure and onboarding before expanding.</p>
+
+<hr />
+
+<h2 id="interested">Interested?</h2>
+
+<p><a href="mailto:dcodezero@proton.me?subject=Budget Hacking Labs - Early Access" class="btn btn--danger btn--large">Request Access</a></p>
+
+<p>Questions? Same email.</p>
+
+<hr />
+
+<h2 id="related-posts">Related Posts</h2>
+
+
+    </section>
+  </article>
+</div>
+
+      
+    </div>
+
+    
+ 
+  
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+           <!-- Add this CSS to your custom stylesheet (_sass or assets/css/main.scss) -->
+   <style>
+    .subscribe-button {
+      display: inline-block;
+      padding: 12px 24px;
+      background: transparent;
+      border: 2px solid #39ff14;
+      color: #39ff14;
+      text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: bold;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .subscribe-button:hover {
+      background: #39ff14;
+      color: #000;
+      box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
+    }
+    
+    .subscribe-button::before {
+      content: '>';
+      margin-right: 8px;
+      display: inline-block;
+    }
+    
+    /* Optional: Add animation */
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(57, 255, 20, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
+    }
+    
+    .subscribe-button {
+      animation: pulse 2s infinite;
+    }
+    </style>
+    
+    <!-- Add this HTML where you want the button to appear -->
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="/helpedyou/" class="subscribe-button">Join The Network</a>
+    </div>
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/https://dcodezero.github.io/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+
+<div class="page__footer-copyright">&copy; 2026 <a href="https://dcodezero.github.io/">Dcodezero</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div> 
+
+      </footer>
+    </div>
+
+    
+  <script src="/https://dcodezero.github.io/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+</html>

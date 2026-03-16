@@ -1,0 +1,1399 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<!-- begin _includes/seo.html --><title>External Recon Automation: Scripts That Save Hours - Dcodezero</title>
+<meta name="description" content="Automated recon workflow - subdomain enumeration, port scanning, screenshots, tech fingerprinting, and cloud asset discovery.">
+
+
+  <meta name="author" content="Dcodezero">
+  
+  <meta property="article:author" content="Dcodezero">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Dcodezero">
+<meta property="og:title" content="External Recon Automation: Scripts That Save Hours">
+<meta property="og:url" content="https://dcodezero.github.io//https://dcodezero.github.io/tools/red-team/recon-automation-scripts/">
+
+
+  <meta property="og:description" content="Automated recon workflow - subdomain enumeration, port scanning, screenshots, tech fingerprinting, and cloud asset discovery.">
+
+
+
+  <meta property="og:image" content="https://dcodezero.github.io//https://dcodezero.github.io/assets/images/tools-scripts.svg">
+
+
+
+  <meta name="twitter:site" content="@Dcodezero">
+  <meta name="twitter:title" content="External Recon Automation: Scripts That Save Hours">
+  <meta name="twitter:description" content="Automated recon workflow - subdomain enumeration, port scanning, screenshots, tech fingerprinting, and cloud asset discovery.">
+  <meta name="twitter:url" content="https://dcodezero.github.io//https://dcodezero.github.io/tools/red-team/recon-automation-scripts/">
+
+  
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://dcodezero.github.io//https://dcodezero.github.io/assets/images/tools-scripts.svg">
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2026-01-05T00:00:00+00:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://dcodezero.github.io//https://dcodezero.github.io/tools/red-team/recon-automation-scripts/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/https://dcodezero.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
+
+
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
+
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ 
+</script>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/https://dcodezero.github.io/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+    <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/a236ffe3231543dfa1a53e2a4/b8e03e16b2df243b196811790.js");</script>
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/https://dcodezero.github.io/">
+          Dcodezero
+          <span class="site-subtitle">Dcodezero</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/about/"
+                
+                
+              >About</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/tags"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/it-posts/"
+                
+                
+              >I.T</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/tools/"
+                
+                
+              >Tools</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style=" background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/https://dcodezero.github.io/assets/images/tools-scripts.svg');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          External Recon Automation: Scripts That Save Hours
+
+        
+      </h1>
+      
+        <p class="page__lead">Automated recon workflow - subdomain enumeration, port scanning, screenshots, tech fingerprinting, and cloud asset discovery.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/https://dcodezero.github.io/" itemprop="url">Dcodezero</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>I am an <strong>amazing</strong> person.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Somewhere</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="External Recon Automation: Scripts That Save Hours">
+    <meta itemprop="description" content="Automated recon workflow - subdomain enumeration, port scanning, screenshots, tech fingerprinting, and cloud asset discovery.">
+    <meta itemprop="datePublished" content="2026-01-05T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#the-recon-wrapper">The Recon Wrapper</a></li><li><a href="#subdomain-takeover-checker">Subdomain Takeover Checker</a></li><li><a href="#tech-stack-fingerprinting">Tech Stack Fingerprinting</a></li><li><a href="#cloud-asset-discovery">Cloud Asset Discovery</a></li><li><a href="#js-file-analysis">JS File Analysis</a></li><li><a href="#putting-it-together">Putting It Together</a></li></ul>
+            </nav>
+          </aside>
+        
+        <p>Reconnaissance is where engagements are won or lost. Miss a subdomain, overlook an exposed service, skip a forgotten dev environment - and you miss your way in. Manual recon doesn’t scale. These scripts automate the boring parts so you can focus on what matters.</p>
+
+<h2 id="the-recon-wrapper">The Recon Wrapper</h2>
+
+<p>This is my main script. It chains subdomain enumeration, port scanning, screenshot capture, and content discovery into one workflow.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#</span>
+<span class="c"># recon.sh - Automated external reconnaissance</span>
+<span class="c"># Usage: ./recon.sh target.com</span>
+<span class="c">#</span>
+
+<span class="nb">set</span> <span class="nt">-e</span>
+
+<span class="c"># Colors</span>
+<span class="nv">RED</span><span class="o">=</span><span class="s1">'\033[0;31m'</span>
+<span class="nv">GREEN</span><span class="o">=</span><span class="s1">'\033[0;32m'</span>
+<span class="nv">YELLOW</span><span class="o">=</span><span class="s1">'\033[0;33m'</span>
+<span class="nv">CYAN</span><span class="o">=</span><span class="s1">'\033[0;36m'</span>
+<span class="nv">NC</span><span class="o">=</span><span class="s1">'\033[0m'</span>
+
+<span class="nv">TARGET</span><span class="o">=</span><span class="nv">$1</span>
+<span class="nv">DATE</span><span class="o">=</span><span class="si">$(</span><span class="nb">date</span> +%Y%m%d<span class="si">)</span>
+<span class="nv">OUTDIR</span><span class="o">=</span><span class="s2">"./recon_</span><span class="k">${</span><span class="nv">TARGET</span><span class="k">}</span><span class="s2">_</span><span class="k">${</span><span class="nv">DATE</span><span class="k">}</span><span class="s2">"</span>
+<span class="nv">THREADS</span><span class="o">=</span>50
+
+banner<span class="o">()</span> <span class="o">{</span>
+    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">CYAN</span><span class="k">}</span><span class="s2">"</span>
+    <span class="nb">echo</span> <span class="s2">"================================================"</span>
+    <span class="nb">echo</span> <span class="s2">"  RECON AUTOMATION"</span>
+    <span class="nb">echo</span> <span class="s2">"  Target: </span><span class="nv">$TARGET</span><span class="s2">"</span>
+    <span class="nb">echo</span> <span class="s2">"  Output: </span><span class="nv">$OUTDIR</span><span class="s2">"</span>
+    <span class="nb">echo</span> <span class="s2">"================================================"</span>
+    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
+<span class="o">}</span>
+
+check_tools<span class="o">()</span> <span class="o">{</span>
+    <span class="nb">local </span><span class="nv">tools</span><span class="o">=(</span><span class="s2">"subfinder"</span> <span class="s2">"amass"</span> <span class="s2">"httpx"</span> <span class="s2">"nmap"</span> <span class="s2">"gowitness"</span> <span class="s2">"feroxbuster"</span> <span class="s2">"nuclei"</span><span class="o">)</span>
+    <span class="k">for </span>tool <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="nv">tools</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span><span class="p">;</span> <span class="k">do
+        if</span> <span class="o">!</span> <span class="nb">command</span> <span class="nt">-v</span> <span class="nv">$tool</span> &amp;&gt; /dev/null<span class="p">;</span> <span class="k">then
+            </span><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">RED</span><span class="k">}</span><span class="s2">[-] Missing: </span><span class="nv">$tool</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
+            <span class="nb">exit </span>1
+        <span class="k">fi
+    done
+    </span><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">[+] All tools present</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
+<span class="o">}</span>
+
+subdomain_enum<span class="o">()</span> <span class="o">{</span>
+    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n</span><span class="k">${</span><span class="nv">YELLOW</span><span class="k">}</span><span class="s2">[*] Phase 1: Subdomain Enumeration</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
+
+    <span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/subdomains"</span>
+
+    <span class="c"># Passive sources with subfinder</span>
+    <span class="nb">echo</span> <span class="s2">"[*] Running subfinder..."</span>
+    subfinder <span class="nt">-d</span> <span class="nv">$TARGET</span> <span class="nt">-silent</span> <span class="nt">-o</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/subdomains/subfinder.txt"</span>
+
+    <span class="c"># Amass passive</span>
+    <span class="nb">echo</span> <span class="s2">"[*] Running amass passive..."</span>
+    <span class="nb">timeout </span>600 amass enum <span class="nt">-passive</span> <span class="nt">-d</span> <span class="nv">$TARGET</span> <span class="nt">-o</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/subdomains/amass.txt"</span> 2&gt;/dev/null <span class="o">||</span> <span class="nb">true</span>
+
+    <span class="c"># Combine and dedupe</span>
+    <span class="nb">cat</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/subdomains/"</span><span class="k">*</span>.txt 2&gt;/dev/null | <span class="nb">sort</span> <span class="nt">-u</span> <span class="o">&gt;</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/subdomains/all_subs.txt"</span>
+
+    <span class="nb">local </span><span class="nv">count</span><span class="o">=</span><span class="si">$(</span><span class="nb">wc</span> <span class="nt">-l</span> &lt; <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/subdomains/all_subs.txt"</span><span class="si">)</span>
+    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">[+] Found </span><span class="nv">$count</span><span class="s2"> unique subdomains</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
+<span class="o">}</span>
+
+resolve_alive<span class="o">()</span> <span class="o">{</span>
+    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n</span><span class="k">${</span><span class="nv">YELLOW</span><span class="k">}</span><span class="s2">[*] Phase 2: Resolving &amp; Finding Live Hosts</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
+
+    <span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/alive"</span>
+
+    <span class="c"># Resolve and probe HTTP/HTTPS</span>
+    <span class="nb">echo</span> <span class="s2">"[*] Probing for live hosts..."</span>
+    <span class="nb">cat</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/subdomains/all_subs.txt"</span> | <span class="se">\</span>
+        httpx <span class="nt">-silent</span> <span class="nt">-threads</span> <span class="nv">$THREADS</span> <span class="se">\</span>
+        <span class="nt">-status-code</span> <span class="nt">-content-length</span> <span class="nt">-title</span> <span class="se">\</span>
+        <span class="nt">-o</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/alive/httpx_full.txt"</span>
+
+    <span class="c"># Extract just URLs</span>
+    <span class="nb">cat</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/alive/httpx_full.txt"</span> | <span class="nb">awk</span> <span class="s1">'{print $1}'</span> <span class="o">&gt;</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/alive/live_urls.txt"</span>
+
+    <span class="nb">local </span><span class="nv">count</span><span class="o">=</span><span class="si">$(</span><span class="nb">wc</span> <span class="nt">-l</span> &lt; <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/alive/live_urls.txt"</span><span class="si">)</span>
+    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">[+] Found </span><span class="nv">$count</span><span class="s2"> live URLs</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
+<span class="o">}</span>
+
+port_scan<span class="o">()</span> <span class="o">{</span>
+    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n</span><span class="k">${</span><span class="nv">YELLOW</span><span class="k">}</span><span class="s2">[*] Phase 3: Port Scanning</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
+
+    <span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/ports"</span>
+
+    <span class="c"># Extract unique IPs</span>
+    <span class="nb">cat</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/subdomains/all_subs.txt"</span> | <span class="se">\</span>
+        <span class="k">while </span><span class="nb">read </span>sub<span class="p">;</span> <span class="k">do
+            </span>dig +short <span class="nv">$sub</span> | <span class="nb">grep</span> <span class="nt">-E</span> <span class="s1">'^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$'</span>
+        <span class="k">done</span> | <span class="nb">sort</span> <span class="nt">-u</span> <span class="o">&gt;</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/ports/ips.txt"</span>
+
+    <span class="nb">local </span><span class="nv">ip_count</span><span class="o">=</span><span class="si">$(</span><span class="nb">wc</span> <span class="nt">-l</span> &lt; <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/ports/ips.txt"</span><span class="si">)</span>
+    <span class="nb">echo</span> <span class="s2">"[*] Scanning </span><span class="nv">$ip_count</span><span class="s2"> unique IPs..."</span>
+
+    <span class="c"># Fast scan top ports</span>
+    nmap <span class="nt">-iL</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/ports/ips.txt"</span> <span class="se">\</span>
+        <span class="nt">--top-ports</span> 1000 <span class="se">\</span>
+        <span class="nt">-T4</span> <span class="se">\</span>
+        <span class="nt">--open</span> <span class="se">\</span>
+        <span class="nt">-oA</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/ports/nmap_top1000"</span> <span class="se">\</span>
+        2&gt;/dev/null
+
+    <span class="c"># Extract open ports summary</span>
+    <span class="nb">grep</span> <span class="s2">"open"</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/ports/nmap_top1000.nmap"</span> | <span class="se">\</span>
+        <span class="nb">grep</span> <span class="nt">-v</span> <span class="s2">"filtered"</span> <span class="o">&gt;</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/ports/open_ports.txt"</span> 2&gt;/dev/null <span class="o">||</span> <span class="nb">true
+
+    echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">[+] Port scan complete</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
+<span class="o">}</span>
+
+screenshot<span class="o">()</span> <span class="o">{</span>
+    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n</span><span class="k">${</span><span class="nv">YELLOW</span><span class="k">}</span><span class="s2">[*] Phase 4: Screenshots</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
+
+    <span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/screenshots"</span>
+
+    <span class="nb">echo</span> <span class="s2">"[*] Taking screenshots..."</span>
+    gowitness file <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/alive/live_urls.txt"</span> <span class="se">\</span>
+        <span class="nt">--screenshot-path</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/screenshots"</span> <span class="se">\</span>
+        <span class="nt">--threads</span> 10 <span class="se">\</span>
+        2&gt;/dev/null
+
+    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">[+] Screenshots saved</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
+<span class="o">}</span>
+
+content_discovery<span class="o">()</span> <span class="o">{</span>
+    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n</span><span class="k">${</span><span class="nv">YELLOW</span><span class="k">}</span><span class="s2">[*] Phase 5: Content Discovery (Top 10 targets)</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
+
+    <span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/content"</span>
+
+    <span class="c"># Only hit top 10 to avoid noise</span>
+    <span class="nb">head</span> <span class="nt">-10</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/alive/live_urls.txt"</span> | <span class="k">while </span><span class="nb">read </span>url<span class="p">;</span> <span class="k">do
+        </span><span class="nv">domain</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="nv">$url</span> | <span class="nb">sed</span> <span class="s1">'s|https\?://||'</span> | <span class="nb">cut</span> <span class="nt">-d</span><span class="s1">'/'</span> <span class="nt">-f1</span><span class="si">)</span>
+        <span class="nb">echo</span> <span class="s2">"[*] Fuzzing: </span><span class="nv">$url</span><span class="s2">"</span>
+
+        feroxbuster <span class="nt">-u</span> <span class="s2">"</span><span class="nv">$url</span><span class="s2">"</span> <span class="se">\</span>
+            <span class="nt">-w</span> /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt <span class="se">\</span>
+            <span class="nt">-t</span> 20 <span class="se">\</span>
+            <span class="nt">-k</span> <span class="se">\</span>
+            <span class="nt">--silent</span> <span class="se">\</span>
+            <span class="nt">-o</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/content/</span><span class="k">${</span><span class="nv">domain</span><span class="k">}</span><span class="s2">_dirs.txt"</span> <span class="se">\</span>
+            2&gt;/dev/null <span class="o">||</span> <span class="nb">true
+    </span><span class="k">done
+
+    </span><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">[+] Content discovery complete</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
+<span class="o">}</span>
+
+vuln_scan<span class="o">()</span> <span class="o">{</span>
+    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n</span><span class="k">${</span><span class="nv">YELLOW</span><span class="k">}</span><span class="s2">[*] Phase 6: Nuclei Vulnerability Scan</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
+
+    <span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/vulns"</span>
+
+    <span class="nb">echo</span> <span class="s2">"[*] Running nuclei..."</span>
+    nuclei <span class="nt">-l</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/alive/live_urls.txt"</span> <span class="se">\</span>
+        <span class="nt">-severity</span> low,medium,high,critical <span class="se">\</span>
+        <span class="nt">-o</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/vulns/nuclei_results.txt"</span> <span class="se">\</span>
+        <span class="nt">-silent</span> <span class="se">\</span>
+        2&gt;/dev/null
+
+    <span class="k">if</span> <span class="o">[</span> <span class="nt">-s</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/vulns/nuclei_results.txt"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+        </span><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">RED</span><span class="k">}</span><span class="s2">[!] Vulnerabilities found! Check </span><span class="nv">$OUTDIR</span><span class="s2">/vulns/nuclei_results.txt</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
+    <span class="k">else
+        </span><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">[+] No vulnerabilities detected</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
+    <span class="k">fi</span>
+<span class="o">}</span>
+
+generate_report<span class="o">()</span> <span class="o">{</span>
+    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n</span><span class="k">${</span><span class="nv">YELLOW</span><span class="k">}</span><span class="s2">[*] Generating Summary Report</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
+
+    <span class="nb">cat</span> <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh"> &gt; "</span><span class="nv">$OUTDIR</span><span class="sh">/REPORT.md"
+# Recon Report: </span><span class="nv">$TARGET</span><span class="sh">
+Generated: </span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span><span class="sh">
+
+## Summary
+- Subdomains found: </span><span class="si">$(</span><span class="nb">wc</span> <span class="nt">-l</span> &lt; <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/subdomains/all_subs.txt"</span><span class="si">)</span><span class="sh">
+- Live URLs: </span><span class="si">$(</span><span class="nb">wc</span> <span class="nt">-l</span> &lt; <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/alive/live_urls.txt"</span><span class="si">)</span><span class="sh">
+- Unique IPs: </span><span class="si">$(</span><span class="nb">wc</span> <span class="nt">-l</span> &lt; <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/ports/ips.txt"</span><span class="si">)</span><span class="sh">
+
+## Live Hosts
+</span><span class="se">\`\`\`</span><span class="sh">
+</span><span class="si">$(</span><span class="nb">cat</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/alive/httpx_full.txt"</span><span class="si">)</span><span class="sh">
+</span><span class="se">\`\`\`</span><span class="sh">
+
+## Open Ports
+</span><span class="se">\`\`\`</span><span class="sh">
+</span><span class="si">$(</span><span class="nb">cat</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/ports/open_ports.txt"</span> 2&gt;/dev/null <span class="o">||</span> <span class="nb">echo</span> <span class="s2">"See nmap output"</span><span class="si">)</span><span class="sh">
+</span><span class="se">\`\`\`</span><span class="sh">
+
+## Vulnerabilities
+</span><span class="se">\`\`\`</span><span class="sh">
+</span><span class="si">$(</span><span class="nb">cat</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/vulns/nuclei_results.txt"</span> 2&gt;/dev/null <span class="o">||</span> <span class="nb">echo</span> <span class="s2">"None detected"</span><span class="si">)</span><span class="sh">
+</span><span class="se">\`\`\`</span><span class="sh">
+
+## Files
+- Subdomains: subdomains/all_subs.txt
+- Live URLs: alive/live_urls.txt
+- Screenshots: screenshots/
+- Port Scans: ports/
+- Content Discovery: content/
+- Vulnerabilities: vulns/
+</span><span class="no">EOF
+
+</span>    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">[+] Report saved: </span><span class="nv">$OUTDIR</span><span class="s2">/REPORT.md</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
+<span class="o">}</span>
+
+<span class="c"># Main</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$TARGET</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">echo</span> <span class="s2">"Usage: </span><span class="nv">$0</span><span class="s2"> &lt;target.com&gt;"</span>
+    <span class="nb">exit </span>1
+<span class="k">fi
+
+</span>banner
+check_tools
+
+<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span>
+
+subdomain_enum
+resolve_alive
+port_scan
+screenshot
+content_discovery
+vuln_scan
+generate_report
+
+<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">================================================</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
+<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">  RECON COMPLETE</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
+<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">  Results: </span><span class="nv">$OUTDIR</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
+<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">================================================</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<h2 id="subdomain-takeover-checker">Subdomain Takeover Checker</h2>
+
+<p>Quick script to check for potential subdomain takeovers.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c"># takeover_check.sh - Check subdomains for takeover potential</span>
+
+<span class="nv">SUBS_FILE</span><span class="o">=</span><span class="nv">$1</span>
+
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$SUBS_FILE</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">echo</span> <span class="s2">"Usage: </span><span class="nv">$0</span><span class="s2"> &lt;subdomains.txt&gt;"</span>
+    <span class="nb">exit </span>1
+<span class="k">fi
+
+</span><span class="nb">echo</span> <span class="s2">"[*] Checking for potential takeovers..."</span>
+
+<span class="c"># Known fingerprints</span>
+<span class="nb">declare</span> <span class="nt">-A</span> <span class="nv">FINGERPRINTS</span><span class="o">=(</span>
+    <span class="o">[</span><span class="s2">"There isn't a GitHub Pages site here"</span><span class="o">]=</span><span class="s2">"GitHub Pages"</span>
+    <span class="o">[</span><span class="s2">"NoSuchBucket"</span><span class="o">]=</span><span class="s2">"AWS S3"</span>
+    <span class="o">[</span><span class="s2">"The specified bucket does not exist"</span><span class="o">]=</span><span class="s2">"AWS S3"</span>
+    <span class="o">[</span><span class="s2">"Fastly error: unknown domain"</span><span class="o">]=</span><span class="s2">"Fastly"</span>
+    <span class="o">[</span><span class="s2">"The request could not be satisfied"</span><span class="o">]=</span><span class="s2">"CloudFront"</span>
+    <span class="o">[</span><span class="s2">"Sorry, this shop is currently unavailable"</span><span class="o">]=</span><span class="s2">"Shopify"</span>
+    <span class="o">[</span><span class="s2">"There's nothing here"</span><span class="o">]=</span><span class="s2">"Tumblr"</span>
+    <span class="o">[</span><span class="s2">"Do you want to register"</span><span class="o">]=</span><span class="s2">"WordPress"</span>
+    <span class="o">[</span><span class="s2">"Help Center Closed"</span><span class="o">]=</span><span class="s2">"Zendesk"</span>
+    <span class="o">[</span><span class="s2">"This UserVoice subdomain is currently available"</span><span class="o">]=</span><span class="s2">"UserVoice"</span>
+<span class="o">)</span>
+
+<span class="k">while </span><span class="nb">read </span>subdomain<span class="p">;</span> <span class="k">do</span>
+    <span class="c"># Get CNAME</span>
+    <span class="nv">cname</span><span class="o">=</span><span class="si">$(</span>dig +short CNAME <span class="s2">"</span><span class="nv">$subdomain</span><span class="s2">"</span> | <span class="nb">head</span> <span class="nt">-1</span><span class="si">)</span>
+
+    <span class="k">if</span> <span class="o">[</span> <span class="nt">-n</span> <span class="s2">"</span><span class="nv">$cname</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        <span class="c"># Check if CNAME points to known vulnerable services</span>
+        <span class="nv">response</span><span class="o">=</span><span class="si">$(</span>curl <span class="nt">-s</span> <span class="nt">-L</span> <span class="nt">-m</span> 10 <span class="s2">"http://</span><span class="nv">$subdomain</span><span class="s2">"</span> 2&gt;/dev/null<span class="si">)</span>
+
+        <span class="k">for </span>fingerprint <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="p">!FINGERPRINTS[@]</span><span class="k">}</span><span class="s2">"</span><span class="p">;</span> <span class="k">do
+            if </span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$response</span><span class="s2">"</span> | <span class="nb">grep</span> <span class="nt">-q</span> <span class="s2">"</span><span class="nv">$fingerprint</span><span class="s2">"</span><span class="p">;</span> <span class="k">then
+                </span><span class="nb">echo</span> <span class="s2">"[!] POTENTIAL TAKEOVER: </span><span class="nv">$subdomain</span><span class="s2">"</span>
+                <span class="nb">echo</span> <span class="s2">"    CNAME: </span><span class="nv">$cname</span><span class="s2">"</span>
+                <span class="nb">echo</span> <span class="s2">"    Service: </span><span class="k">${</span><span class="nv">FINGERPRINTS</span><span class="p">[</span><span class="nv">$fingerprint</span><span class="p">]</span><span class="k">}</span><span class="s2">"</span>
+                <span class="nb">echo</span> <span class="s2">""</span>
+            <span class="k">fi
+        done
+    fi
+done</span> &lt; <span class="s2">"</span><span class="nv">$SUBS_FILE</span><span class="s2">"</span>
+
+<span class="nb">echo</span> <span class="s2">"[*] Check complete"</span>
+</code></pre></div></div>
+
+<h2 id="tech-stack-fingerprinting">Tech Stack Fingerprinting</h2>
+
+<p>Identify technologies in use across discovered hosts.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
+</span><span class="s">"""
+tech_fingerprint.py - Identify web technologies
+"""</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span><span class="p">,</span> <span class="n">as_completed</span>
+
+<span class="c1"># Technology signatures
+</span><span class="n">SIGNATURES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'WordPress'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="sa">r</span><span class="s">'/wp-content/'</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s">'/wp-includes/'</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s">'&lt;meta name="generator" content="WordPress'</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">'Drupal'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="sa">r</span><span class="s">'Drupal.settings'</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s">'/sites/default/files'</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s">'&lt;meta name="Generator" content="Drupal'</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">'Joomla'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="sa">r</span><span class="s">'/media/jui/'</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s">'&lt;meta name="generator" content="Joomla'</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">'Laravel'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="sa">r</span><span class="s">'laravel_session'</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s">'XSRF-TOKEN'</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">'ASP.NET'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="sa">r</span><span class="s">'__VIEWSTATE'</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s">'__EVENTVALIDATION'</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s">'X-AspNet-Version'</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">'React'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="sa">r</span><span class="s">'_reactRootContainer'</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s">'data-reactroot'</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">'Vue.js'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="sa">r</span><span class="s">'__vue__'</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s">'v-cloak'</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">'Angular'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="sa">r</span><span class="s">'ng-version'</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s">'ng-app'</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">'jQuery'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="sa">r</span><span class="s">'jquery[-.]?\d*\.?(min\.)?js'</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">'Bootstrap'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="sa">r</span><span class="s">'bootstrap[-.]?\d*\.?(min\.)?css'</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">'Nginx'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="sa">r</span><span class="s">'nginx'</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">'Apache'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="sa">r</span><span class="s">'Apache'</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">'IIS'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="sa">r</span><span class="s">'Microsoft-IIS'</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">'Cloudflare'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="sa">r</span><span class="s">'cloudflare'</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s">'cf-ray'</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">fingerprint_url</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="s">"""Check URL against known signatures"""</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">allow_redirects</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">resp</span><span class="p">.</span><span class="n">headers</span><span class="p">).</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="n">resp</span><span class="p">.</span><span class="n">text</span>
+
+        <span class="n">found</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">tech</span><span class="p">,</span> <span class="n">patterns</span> <span class="ow">in</span> <span class="n">SIGNATURES</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">patterns</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">re</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">re</span><span class="p">.</span><span class="n">IGNORECASE</span><span class="p">)</span> <span class="ow">or</span> \
+                   <span class="n">re</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">re</span><span class="p">.</span><span class="n">IGNORECASE</span><span class="p">):</span>
+                    <span class="n">found</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">tech</span><span class="p">)</span>
+                    <span class="k">break</span>
+
+        <span class="k">return</span> <span class="n">url</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">found</span><span class="p">))</span>
+
+    <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">url</span><span class="p">,</span> <span class="p">[]</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"Usage: python3 tech_fingerprint.py &lt;urls.txt&gt;"</span><span class="p">)</span>
+        <span class="n">sys</span><span class="p">.</span><span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="p">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span> <span class="k">if</span> <span class="n">line</span><span class="p">.</span><span class="n">strip</span><span class="p">()]</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"[*] Fingerprinting </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">urls</span><span class="p">)</span><span class="si">}</span><span class="s"> URLs...</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+
+    <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+        <span class="n">futures</span> <span class="o">=</span> <span class="p">{</span><span class="n">executor</span><span class="p">.</span><span class="n">submit</span><span class="p">(</span><span class="n">fingerprint_url</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span> <span class="n">url</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">urls</span><span class="p">}</span>
+
+        <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">as_completed</span><span class="p">(</span><span class="n">futures</span><span class="p">):</span>
+            <span class="n">url</span><span class="p">,</span> <span class="n">techs</span> <span class="o">=</span> <span class="n">future</span><span class="p">.</span><span class="n">result</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">techs</span><span class="p">:</span>
+                <span class="n">results</span><span class="p">[</span><span class="n">url</span><span class="p">]</span> <span class="o">=</span> <span class="n">techs</span>
+                <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"  -&gt; </span><span class="si">{</span><span class="s">', '</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">techs</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+
+    <span class="c1"># Summary
+</span>    <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="s">"="</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"TECHNOLOGY SUMMARY"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"="</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
+
+    <span class="n">tech_count</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">url</span><span class="p">,</span> <span class="n">techs</span> <span class="ow">in</span> <span class="n">results</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">tech</span> <span class="ow">in</span> <span class="n">techs</span><span class="p">:</span>
+            <span class="n">tech_count</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span> <span class="o">=</span> <span class="n">tech_count</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">tech</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="k">for</span> <span class="n">tech</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">tech_count</span><span class="p">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">tech</span><span class="si">}</span><span class="s">: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">urllib3</span>
+    <span class="n">urllib3</span><span class="p">.</span><span class="n">disable_warnings</span><span class="p">()</span>
+    <span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h2 id="cloud-asset-discovery">Cloud Asset Discovery</h2>
+
+<p>Find cloud resources associated with a target.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c"># cloud_enum.sh - Discover cloud assets</span>
+
+<span class="nv">TARGET</span><span class="o">=</span><span class="nv">$1</span>
+<span class="nv">OUTDIR</span><span class="o">=</span><span class="s2">"./cloud_</span><span class="nv">$TARGET</span><span class="s2">"</span>
+
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$TARGET</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">echo</span> <span class="s2">"Usage: </span><span class="nv">$0</span><span class="s2"> &lt;company-name&gt;"</span>
+    <span class="nb">exit </span>1
+<span class="k">fi
+
+</span><span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span>
+
+<span class="nb">echo</span> <span class="s2">"[*] Cloud enumeration for: </span><span class="nv">$TARGET</span><span class="s2">"</span>
+
+<span class="c"># S3 bucket permutations</span>
+<span class="nb">echo</span> <span class="s2">"[*] Checking S3 buckets..."</span>
+<span class="nv">PERMS</span><span class="o">=(</span><span class="s2">"</span><span class="nv">$TARGET</span><span class="s2">"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET</span><span class="k">}</span><span class="s2">-dev"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET</span><span class="k">}</span><span class="s2">-prod"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET</span><span class="k">}</span><span class="s2">-staging"</span> <span class="se">\</span>
+       <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET</span><span class="k">}</span><span class="s2">-backup"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET</span><span class="k">}</span><span class="s2">-assets"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET</span><span class="k">}</span><span class="s2">-static"</span> <span class="se">\</span>
+       <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET</span><span class="k">}</span><span class="s2">-media"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET</span><span class="k">}</span><span class="s2">-data"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET</span><span class="k">}</span><span class="s2">-logs"</span><span class="o">)</span>
+
+<span class="k">for </span>bucket <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="nv">PERMS</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span><span class="p">;</span> <span class="k">do
+    </span><span class="nv">status</span><span class="o">=</span><span class="si">$(</span>curl <span class="nt">-s</span> <span class="nt">-o</span> /dev/null <span class="nt">-w</span> <span class="s2">"%{http_code}"</span> <span class="s2">"https://</span><span class="k">${</span><span class="nv">bucket</span><span class="k">}</span><span class="s2">.s3.amazonaws.com"</span><span class="si">)</span>
+    <span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$status</span><span class="s2">"</span> <span class="o">!=</span> <span class="s2">"404"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+        </span><span class="nb">echo</span> <span class="s2">"[+] S3: </span><span class="nv">$bucket</span><span class="s2"> (Status: </span><span class="nv">$status</span><span class="s2">)"</span> | <span class="nb">tee</span> <span class="nt">-a</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/s3_buckets.txt"</span>
+    <span class="k">fi
+done</span>
+
+<span class="c"># Azure blob storage</span>
+<span class="nb">echo</span> <span class="s2">"[*] Checking Azure blobs..."</span>
+<span class="k">for </span>name <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="nv">PERMS</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span><span class="p">;</span> <span class="k">do
+    </span><span class="nv">status</span><span class="o">=</span><span class="si">$(</span>curl <span class="nt">-s</span> <span class="nt">-o</span> /dev/null <span class="nt">-w</span> <span class="s2">"%{http_code}"</span> <span class="s2">"https://</span><span class="k">${</span><span class="nv">name</span><span class="k">}</span><span class="s2">.blob.core.windows.net"</span><span class="si">)</span>
+    <span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$status</span><span class="s2">"</span> <span class="o">!=</span> <span class="s2">"400"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$status</span><span class="s2">"</span> <span class="o">!=</span> <span class="s2">"000"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+        </span><span class="nb">echo</span> <span class="s2">"[+] Azure: </span><span class="nv">$name</span><span class="s2"> (Status: </span><span class="nv">$status</span><span class="s2">)"</span> | <span class="nb">tee</span> <span class="nt">-a</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/azure_blobs.txt"</span>
+    <span class="k">fi
+done</span>
+
+<span class="c"># GCP storage</span>
+<span class="nb">echo</span> <span class="s2">"[*] Checking GCP buckets..."</span>
+<span class="k">for </span>name <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="nv">PERMS</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span><span class="p">;</span> <span class="k">do
+    </span><span class="nv">status</span><span class="o">=</span><span class="si">$(</span>curl <span class="nt">-s</span> <span class="nt">-o</span> /dev/null <span class="nt">-w</span> <span class="s2">"%{http_code}"</span> <span class="s2">"https://storage.googleapis.com/</span><span class="k">${</span><span class="nv">name</span><span class="k">}</span><span class="s2">"</span><span class="si">)</span>
+    <span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$status</span><span class="s2">"</span> <span class="o">!=</span> <span class="s2">"404"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+        </span><span class="nb">echo</span> <span class="s2">"[+] GCP: </span><span class="nv">$name</span><span class="s2"> (Status: </span><span class="nv">$status</span><span class="s2">)"</span> | <span class="nb">tee</span> <span class="nt">-a</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/gcp_buckets.txt"</span>
+    <span class="k">fi
+done
+
+</span><span class="nb">echo</span> <span class="s2">"[*] Results saved in </span><span class="nv">$OUTDIR</span><span class="s2">/"</span>
+</code></pre></div></div>
+
+<h2 id="js-file-analysis">JS File Analysis</h2>
+
+<p>Extract endpoints and secrets from JavaScript files.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
+</span><span class="s">"""
+js_analyzer.py - Extract juicy info from JS files
+"""</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urljoin</span>
+
+<span class="c1"># Patterns to find
+</span><span class="n">PATTERNS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'api_endpoints'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="sa">r</span><span class="s">'["\']/(api|v\d)/[^"\']+["\']'</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s">'["\']https?://[^"\']*api[^"\']*["\']'</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">'aws_keys'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="sa">r</span><span class="s">'AKIA[0-9A-Z]{16}'</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s">'["\']aws[_-]?(access|secret)[_-]?key["\']:\s*["\'][^"\']+["\']'</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">'api_keys'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="sa">r</span><span class="s">'api[_-]?key["\']?\s*[:=]\s*["\'][a-zA-Z0-9_\-]{20,}["\']'</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s">'authorization["\']?\s*[:=]\s*["\']Bearer\s+[^"\']+["\']'</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">'tokens'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="sa">r</span><span class="s">'token["\']?\s*[:=]\s*["\'][a-zA-Z0-9_\-\.]{20,}["\']'</span><span class="p">,</span>
+        <span class="sa">r</span><span class="s">'jwt["\']?\s*[:=]\s*["\'][a-zA-Z0-9_\-\.]+["\']'</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">'private_keys'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="sa">r</span><span class="s">'-----BEGIN (RSA |EC )?PRIVATE KEY-----'</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">'internal_urls'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="sa">r</span><span class="s">'https?://(?:localhost|127\.0\.0\.1|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+)[^\s"\']*'</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s">'emails'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="sa">r</span><span class="s">'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">analyze_js</span><span class="p">(</span><span class="n">url_or_content</span><span class="p">):</span>
+    <span class="s">"""Analyze JavaScript for sensitive data"""</span>
+
+    <span class="k">if</span> <span class="n">url_or_content</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">'http'</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url_or_content</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="n">resp</span><span class="p">.</span><span class="n">text</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="n">url_or_content</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">url_or_content</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="s">"inline"</span>
+
+    <span class="n">findings</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">category</span><span class="p">,</span> <span class="n">patterns</span> <span class="ow">in</span> <span class="n">PATTERNS</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">patterns</span><span class="p">:</span>
+            <span class="n">found</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="n">findall</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">re</span><span class="p">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+            <span class="n">matches</span><span class="p">.</span><span class="n">extend</span><span class="p">(</span><span class="n">found</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">matches</span><span class="p">:</span>
+            <span class="n">findings</span><span class="p">[</span><span class="n">category</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">matches</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">source</span><span class="p">,</span> <span class="n">findings</span>
+
+
+<span class="k">def</span> <span class="nf">extract_js_urls</span><span class="p">(</span><span class="n">html_content</span><span class="p">,</span> <span class="n">base_url</span><span class="p">):</span>
+    <span class="s">"""Extract JS file URLs from HTML"""</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s">'&lt;script[^&gt;]+src=["\']([^"\']+\.js[^"\']*)["\']'</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="n">findall</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">html_content</span><span class="p">,</span> <span class="n">re</span><span class="p">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+
+    <span class="n">urls</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">match</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">'//'</span><span class="p">):</span>
+            <span class="n">urls</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">'https:'</span> <span class="o">+</span> <span class="n">match</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">match</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">'/'</span><span class="p">):</span>
+            <span class="n">urls</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">urljoin</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">match</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">match</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">'http'</span><span class="p">):</span>
+            <span class="n">urls</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">match</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">urls</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">urljoin</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">match</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">urls</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"Usage: python3 js_analyzer.py &lt;url|urls.txt&gt;"</span><span class="p">)</span>
+        <span class="n">sys</span><span class="p">.</span><span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">target</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">target</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">'http'</span><span class="p">):</span>
+        <span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="n">target</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="p">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span> <span class="k">if</span> <span class="n">line</span><span class="p">.</span><span class="n">strip</span><span class="p">()]</span>
+
+    <span class="n">all_findings</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">urls</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="se">\n</span><span class="s">[*] Analyzing: </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+        <span class="c1"># Get main page and extract JS
+</span>        <span class="k">try</span><span class="p">:</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+            <span class="n">js_urls</span> <span class="o">=</span> <span class="n">extract_js_urls</span><span class="p">(</span><span class="n">resp</span><span class="p">.</span><span class="n">text</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"    Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">js_urls</span><span class="p">)</span><span class="si">}</span><span class="s"> JS files"</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">js_url</span> <span class="ow">in</span> <span class="n">js_urls</span><span class="p">:</span>
+                <span class="n">source</span><span class="p">,</span> <span class="n">findings</span> <span class="o">=</span> <span class="n">analyze_js</span><span class="p">(</span><span class="n">js_url</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">findings</span><span class="p">:</span>
+                    <span class="n">all_findings</span><span class="p">[</span><span class="n">source</span><span class="p">]</span> <span class="o">=</span> <span class="n">findings</span>
+                    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="se">\n</span><span class="s">    [!] </span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">cat</span><span class="p">,</span> <span class="n">items</span> <span class="ow">in</span> <span class="n">findings</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+                        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"        </span><span class="si">{</span><span class="n">cat</span><span class="si">}</span><span class="s">:"</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>  <span class="c1"># First 5
+</span>                            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"          - </span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="si">:</span><span class="mi">80</span><span class="p">]</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"    Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+    <span class="c1"># Summary
+</span>    <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="s">"="</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"FINDINGS SUMMARY"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"="</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
+
+    <span class="n">categories</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">source</span><span class="p">,</span> <span class="n">findings</span> <span class="ow">in</span> <span class="n">all_findings</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">findings</span><span class="p">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">categories</span><span class="p">[</span><span class="n">cat</span><span class="p">]</span> <span class="o">=</span> <span class="n">categories</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">findings</span><span class="p">[</span><span class="n">cat</span><span class="p">])</span>
+
+    <span class="k">for</span> <span class="n">cat</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">categories</span><span class="p">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">cat</span><span class="si">}</span><span class="s">: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s"> findings"</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="putting-it-together">Putting It Together</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Full recon workflow</span>
+./recon.sh target.com
+
+<span class="c"># Check for takeovers</span>
+./takeover_check.sh ./recon_target.com_<span class="k">*</span>/subdomains/all_subs.txt
+
+<span class="c"># Tech stack</span>
+python3 tech_fingerprint.py ./recon_target.com_<span class="k">*</span>/alive/live_urls.txt
+
+<span class="c"># Cloud assets</span>
+./cloud_enum.sh targetcompany
+
+<span class="c"># JS analysis</span>
+python3 js_analyzer.py ./recon_target.com_<span class="k">*</span>/alive/live_urls.txt
+</code></pre></div></div>
+
+<p>These scripts have found me countless bugs and entry points. Customize the wordlists, adjust the thread counts for your setup, and add your own signature patterns as you discover new technologies.</p>
+
+<p>Recon isn’t glamorous, but it’s where engagements are won.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/https://dcodezero.github.io/tags/#automation" class="page__taxonomy-item p-category" rel="tag">automation</a><span class="sep">, </span>
+    
+      <a href="/https://dcodezero.github.io/tags/#bash" class="page__taxonomy-item p-category" rel="tag">bash</a><span class="sep">, </span>
+    
+      <a href="/https://dcodezero.github.io/tags/#bug-bounty" class="page__taxonomy-item p-category" rel="tag">bug-bounty</a><span class="sep">, </span>
+    
+      <a href="/https://dcodezero.github.io/tags/#osint" class="page__taxonomy-item p-category" rel="tag">osint</a><span class="sep">, </span>
+    
+      <a href="/https://dcodezero.github.io/tags/#reconnaissance" class="page__taxonomy-item p-category" rel="tag">reconnaissance</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/https://dcodezero.github.io/categories/#red-team" class="page__taxonomy-item p-category" rel="tag">Red-team</a><span class="sep">, </span>
+    
+      <a href="/https://dcodezero.github.io/categories/#tools" class="page__taxonomy-item p-category" rel="tag">Tools</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2026-01-05T00:00:00+00:00">January 5, 2026</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  <h4 class="page__share-title">Share on</h4>
+
+  <a href="https://twitter.com/intent/tweet?via=Dcodezero&text=External+Recon+Automation%3A+Scripts+That+Save+Hours%20%2Fhttps%3A%2F%2Fdcodezero.github.io%2Ftools%2Fred-team%2Frecon-automation-scripts%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdcodezero.github.io%2F%2Fhttps%3A%2F%2Fdcodezero.github.io%2Ftools%2Fred-team%2Frecon-automation-scripts%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://dcodezero.github.io//https://dcodezero.github.io/tools/red-team/recon-automation-scripts/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/https://dcodezero.github.io/tools/red-team/post-exploitation-scripts/" class="pagination--pager" title="Post-Exploitation Scripts: Persistence, Pivoting &amp; Data Collection">Previous</a>
+    
+    
+      <a href="/https://dcodezero.github.io/tools/red-team/ad-enumeration-toolkit/" class="pagination--pager" title="AD Enumeration Toolkit: Scripts I Actually Use">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You may also enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/https://dcodezero.github.io/assets/images/ai-red-team-practical.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/https://dcodezero.github.io/ai-security/practical-ai-red-teaming-techniques/" rel="permalink">Practical AI Red Teaming: Hands-On Attack Techniques and Tooling
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          18 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This is where abstract vulnerabilities become concrete exploits.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/https://dcodezero.github.io/assets/images/tools-scripts.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/https://dcodezero.github.io/tools/red-team/ad-enumeration-toolkit/" rel="permalink">AD Enumeration Toolkit: Scripts I Actually Use
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PowerShell and Python scripts for Active Directory enumeration. LDAP queries, BloodHound collection, and quick-win one-liners.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/https://dcodezero.github.io/assets/images/tools-scripts.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/https://dcodezero.github.io/tools/red-team/post-exploitation-scripts/" rel="permalink">Post-Exploitation Scripts: Persistence, Pivoting &amp; Data Collection
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Scripts for maintaining access - credential harvesting, persistence mechanisms, lateral movement, and data exfiltration techniques.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/https://dcodezero.github.io/assets/images/ai-red-team-intro.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/https://dcodezero.github.io/ai-security/red-team/introduction-to-ai-red-teaming/" rel="permalink">Introduction to AI Red Teaming: Breaking Machine Learning Systems
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This post establishes the foundational concepts of AI red teaming, dissects the threat landscape, and provides a technical framework for understanding how mo...</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+ 
+  
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+           <!-- Add this CSS to your custom stylesheet (_sass or assets/css/main.scss) -->
+   <style>
+    .subscribe-button {
+      display: inline-block;
+      padding: 12px 24px;
+      background: transparent;
+      border: 2px solid #39ff14;
+      color: #39ff14;
+      text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: bold;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .subscribe-button:hover {
+      background: #39ff14;
+      color: #000;
+      box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
+    }
+    
+    .subscribe-button::before {
+      content: '>';
+      margin-right: 8px;
+      display: inline-block;
+    }
+    
+    /* Optional: Add animation */
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(57, 255, 20, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
+    }
+    
+    .subscribe-button {
+      animation: pulse 2s infinite;
+    }
+    </style>
+    
+    <!-- Add this HTML where you want the button to appear -->
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="/helpedyou/" class="subscribe-button">Join The Network</a>
+    </div>
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/https://dcodezero.github.io/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+
+<div class="page__footer-copyright">&copy; 2026 <a href="https://dcodezero.github.io/">Dcodezero</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div> 
+
+      </footer>
+    </div>
+
+    
+  <script src="/https://dcodezero.github.io/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+</html>

@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300">
+  <defs>
+    <linearGradient id="serverBody" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a2a2a"/>
+      <stop offset="100%" style="stop-color:#1a1a1a"/>
+    </linearGradient>
+    <linearGradient id="metallic" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4a4a4a"/>
+      <stop offset="50%" style="stop-color:#3a3a3a"/>
+      <stop offset="100%" style="stop-color:#2a2a2a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="300" fill="#0a0a0f"/>
+
+  <!-- Server chassis -->
+  <rect x="50" y="80" width="700" height="140" rx="3" fill="url(#serverBody)" stroke="#444" stroke-width="2"/>
+
+  <!-- Front bezel -->
+  <rect x="55" y="85" width="690" height="130" rx="2" fill="url(#metallic)"/>
+
+  <!-- Drive bays (26 x 2.5") -->
+  <g fill="#1a1a1a" stroke="#333" stroke-width="1">
+    <!-- Row of drives -->
+    <rect x="70" y="95" width="22" height="50" rx="1"/>
+    <rect x="95" y="95" width="22" height="50" rx="1"/>
+    <rect x="120" y="95" width="22" height="50" rx="1"/>
+    <rect x="145" y="95" width="22" height="50" rx="1"/>
+    <rect x="170" y="95" width="22" height="50" rx="1"/>
+    <rect x="195" y="95" width="22" height="50" rx="1"/>
+    <rect x="220" y="95" width="22" height="50" rx="1"/>
+    <rect x="245" y="95" width="22" height="50" rx="1"/>
+    <rect x="270" y="95" width="22" height="50" rx="1"/>
+    <rect x="295" y="95" width="22" height="50" rx="1"/>
+    <rect x="320" y="95" width="22" height="50" rx="1"/>
+    <rect x="345" y="95" width="22" height="50" rx="1"/>
+    <rect x="370" y="95" width="22" height="50" rx="1"/>
+
+    <!-- Second row -->
+    <rect x="70" y="150" width="22" height="50" rx="1"/>
+    <rect x="95" y="150" width="22" height="50" rx="1"/>
+    <rect x="120" y="150" width="22" height="50" rx="1"/>
+    <rect x="145" y="150" width="22" height="50" rx="1"/>
+    <rect x="170" y="150" width="22" height="50" rx="1"/>
+    <rect x="195" y="150" width="22" height="50" rx="1"/>
+    <rect x="220" y="150" width="22" height="50" rx="1"/>
+    <rect x="245" y="150" width="22" height="50" rx="1"/>
+    <rect x="270" y="150" width="22" height="50" rx="1"/>
+    <rect x="295" y="150" width="22" height="50" rx="1"/>
+    <rect x="320" y="150" width="22" height="50" rx="1"/>
+    <rect x="345" y="150" width="22" height="50" rx="1"/>
+    <rect x="370" y="150" width="22" height="50" rx="1"/>
+  </g>
+
+  <!-- Drive activity LEDs -->
+  <g fill="#00ff00" opacity="0.8">
+    <circle cx="78" cy="100" r="2"><animate attributeName="opacity" values="0.8;0.2;0.8" dur="0.5s" repeatCount="indefinite"/></circle>
+    <circle cx="103" cy="100" r="2"><animate attributeName="opacity" values="0.8;0.3;0.8" dur="0.7s" repeatCount="indefinite"/></circle>
+    <circle cx="128" cy="100" r="2"/>
+    <circle cx="153" cy="100" r="2"><animate attributeName="opacity" values="0.8;0.1;0.8" dur="0.3s" repeatCount="indefinite"/></circle>
+    <circle cx="178" cy="100" r="2"/>
+    <circle cx="203" cy="100" r="2"><animate attributeName="opacity" values="0.8;0.4;0.8" dur="0.6s" repeatCount="indefinite"/></circle>
+  </g>
+
+  <!-- Control panel area -->
+  <rect x="420" y="95" width="310" height="105" rx="2" fill="#222" stroke="#444"/>
+
+  <!-- LCD display -->
+  <rect x="430" y="105" width="150" height="40" rx="2" fill="#001a00" stroke="#333"/>
+  <text x="440" y="125" fill="#00ff00" font-family="monospace" font-size="10">DELL R730xd</text>
+  <text x="440" y="138" fill="#00aa00" font-family="monospace" font-size="8">E5-2680v4 | 128GB</text>
+
+  <!-- Power button -->
+  <circle cx="620" cy="125" r="12" fill="#222" stroke="#444" stroke-width="2"/>
+  <circle cx="620" cy="125" r="6" fill="#00ff00">
+    <animate attributeName="opacity" values="1;0.7;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Status LEDs -->
+  <g>
+    <circle cx="660" cy="110" r="4" fill="#00ff00"/>
+    <circle cx="660" cy="125" r="4" fill="#00ff00"/>
+    <circle cx="660" cy="140" r="4" fill="#0066ff"/>
+    <circle cx="690" cy="110" r="4" fill="#00ff00"/>
+    <circle cx="690" cy="125" r="4" fill="#ffaa00"><animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite"/></circle>
+    <circle cx="690" cy="140" r="4" fill="#00ff00"/>
+  </g>
+
+  <!-- USB ports -->
+  <rect x="430" y="160" width="30" height="12" rx="1" fill="#111" stroke="#333"/>
+  <rect x="465" y="160" width="30" height="12" rx="1" fill="#111" stroke="#333"/>
+
+  <!-- iDRAC port -->
+  <rect x="430" y="180" width="40" height="15" rx="1" fill="#111" stroke="#0066ff"/>
+  <text x="435" y="191" fill="#0066ff" font-family="monospace" font-size="7">iDRAC</text>
+
+  <!-- Dell logo -->
+  <text x="650" y="185" fill="#0066ff" font-family="Arial" font-size="18" font-weight="bold">DELL</text>
+
+  <!-- Rack ears -->
+  <rect x="30" y="80" width="20" height="140" fill="#333" stroke="#444"/>
+  <rect x="750" y="80" width="20" height="140" fill="#333" stroke="#444"/>
+  <circle cx="40" cy="100" r="4" fill="#222" stroke="#444"/>
+  <circle cx="40" cy="200" r="4" fill="#222" stroke="#444"/>
+  <circle cx="760" cy="100" r="4" fill="#222" stroke="#444"/>
+  <circle cx="760" cy="200" r="4" fill="#222" stroke="#444"/>
+
+  <!-- Label -->
+  <text x="400" y="260" fill="#666" font-family="monospace" font-size="14" text-anchor="middle">Dell PowerEdge R730xd - 2U Rack Server</text>
+</svg>

