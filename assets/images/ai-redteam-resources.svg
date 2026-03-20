@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0f;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a0a1a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="redGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff0040;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff4444;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="orangeGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff6600;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffaa00;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="cyanGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00ffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0088ff;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="strongGlow">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="400" fill="url(#bgGrad)"/>
+
+  <!-- Grid pattern -->
+  <g stroke="#ffffff" stroke-opacity="0.03" stroke-width="1">
+    <line x1="0" y1="50" x2="800" y2="50"/>
+    <line x1="0" y1="100" x2="800" y2="100"/>
+    <line x1="0" y1="150" x2="800" y2="150"/>
+    <line x1="0" y1="200" x2="800" y2="200"/>
+    <line x1="0" y1="250" x2="800" y2="250"/>
+    <line x1="0" y1="300" x2="800" y2="300"/>
+    <line x1="0" y1="350" x2="800" y2="350"/>
+    <line x1="100" y1="0" x2="100" y2="400"/>
+    <line x1="200" y1="0" x2="200" y2="400"/>
+    <line x1="300" y1="0" x2="300" y2="400"/>
+    <line x1="400" y1="0" x2="400" y2="400"/>
+    <line x1="500" y1="0" x2="500" y2="400"/>
+    <line x1="600" y1="0" x2="600" y2="400"/>
+    <line x1="700" y1="0" x2="700" y2="400"/>
+  </g>
+
+  <!-- Left side: GitHub icon outline -->
+  <g transform="translate(90, 160)" filter="url(#glow)" opacity="0.25">
+    <path d="M60 0 C26.86 0 0 26.86 0 60 C0 86.52 17.16 108.96 40.98 116.64 C43.98 117.18 45.06 115.32 45.06 113.76 C45.06 112.38 45 108.06 45 103.5 C30 106.26 26.1 99.54 24.9 96.06 C24.24 94.26 21.3 88.8 18.75 87.42 C16.65 86.28 13.65 83.52 18.69 83.46 C23.4 83.4 26.79 87.78 27.9 89.64 C33.3 98.82 42.12 96.3 45.3 94.8 C45.84 90.9 47.4 88.32 49.14 86.82 C35.94 85.32 22.14 80.1 22.14 57.06 C22.14 50.46 24.24 44.94 28.14 40.68 C27.54 39.18 25.68 32.94 28.74 24.54 C28.74 24.54 33.69 22.98 45.06 30.84 C49.86 29.52 54.96 28.86 60 28.86 C65.04 28.86 70.14 29.52 74.94 30.84 C86.31 22.92 91.26 24.54 91.26 24.54 C94.32 32.94 92.46 39.18 91.86 40.68 C95.76 44.94 97.86 50.4 97.86 57.06 C97.86 80.16 84 85.32 70.8 86.82 C72.96 88.68 74.82 92.28 74.82 97.86 C74.82 105.84 74.76 112.26 74.76 113.76 C74.76 115.32 75.84 117.24 78.84 116.64 C102.84 108.96 120 86.46 120 60 C120 26.86 93.14 0 60 0Z" fill="#58a6ff"/>
+  </g>
+
+  <!-- Floating repo cards - left cluster -->
+  <g filter="url(#softGlow)">
+    <!-- Card 1 -->
+    <rect x="30" y="40" width="160" height="36" rx="5" fill="#161b22" stroke="#ff004044" stroke-width="1"/>
+    <text x="42" y="58" font-family="monospace" font-size="9" fill="#ff6b6b">⬤</text>
+    <text x="55" y="58" font-family="monospace" font-size="9" fill="#8b949e">llm-attacks/llm-attacks</text>
+    <text x="42" y="70" font-family="monospace" font-size="8" fill="#484f58">Universal adversarial suffix</text>
+
+    <!-- Card 2 -->
+    <rect x="30" y="85" width="160" height="36" rx="5" fill="#161b22" stroke="#ff660044" stroke-width="1"/>
+    <text x="42" y="103" font-family="monospace" font-size="9" fill="#ffa657">⬤</text>
+    <text x="55" y="103" font-family="monospace" font-size="9" fill="#8b949e">verazuo/jailbreak_llms</text>
+    <text x="42" y="115" font-family="monospace" font-size="8" fill="#484f58">15,140 jailbreak prompts</text>
+
+    <!-- Card 3 -->
+    <rect x="30" y="130" width="160" height="36" rx="5" fill="#161b22" stroke="#e3b34144" stroke-width="1"/>
+    <text x="42" y="148" font-family="monospace" font-size="9" fill="#e3b341">⬤</text>
+    <text x="55" y="148" font-family="monospace" font-size="9" fill="#8b949e">Azure/PyRIT</text>
+    <text x="42" y="160" font-family="monospace" font-size="8" fill="#484f58">Microsoft red team framework</text>
+
+    <!-- Card 4 -->
+    <rect x="30" y="175" width="160" height="36" rx="5" fill="#161b22" stroke="#58a6ff44" stroke-width="1"/>
+    <text x="42" y="193" font-family="monospace" font-size="9" fill="#58a6ff">⬤</text>
+    <text x="55" y="193" font-family="monospace" font-size="9" fill="#8b949e">leondz/garak</text>
+    <text x="42" y="205" font-family="monospace" font-size="8" fill="#484f58">LLM vulnerability scanner</text>
+
+    <!-- Card 5 -->
+    <rect x="30" y="220" width="160" height="36" rx="5" fill="#161b22" stroke="#ff004044" stroke-width="1"/>
+    <text x="42" y="238" font-family="monospace" font-size="9" fill="#ff6b6b">⬤</text>
+    <text x="55" y="238" font-family="monospace" font-size="9" fill="#8b949e">cyber-research/APTMalware</text>
+    <text x="42" y="250" font-family="monospace" font-size="8" fill="#484f58">3,500+ real APT samples</text>
+
+    <!-- Card 6 -->
+    <rect x="30" y="265" width="160" height="36" rx="5" fill="#161b22" stroke="#58a6ff44" stroke-width="1"/>
+    <text x="42" y="283" font-family="monospace" font-size="9" fill="#58a6ff">⬤</text>
+    <text x="55" y="283" font-family="monospace" font-size="9" fill="#8b949e">JailbreakBench</text>
+    <text x="42" y="295" font-family="monospace" font-size="8" fill="#484f58">NeurIPS 2024 benchmark</text>
+  </g>
+
+  <!-- Center glow orb -->
+  <circle cx="400" cy="200" r="80" fill="#ff0040" fill-opacity="0.04" filter="url(#strongGlow)"/>
+  <circle cx="400" cy="200" r="50" fill="#ff6600" fill-opacity="0.06" filter="url(#strongGlow)"/>
+
+  <!-- Center title -->
+  <text x="400" y="168" font-family="monospace" font-size="11" fill="#ff004088" text-anchor="middle" letter-spacing="4">SECURITY RESEARCH</text>
+  <text x="400" y="195" font-family="'Segoe UI', Arial, sans-serif" font-size="26" font-weight="bold" fill="#f0f6fc" text-anchor="middle" filter="url(#glow)">AI Red Teaming</text>
+  <text x="400" y="222" font-family="'Segoe UI', Arial, sans-serif" font-size="26" font-weight="bold" fill="#ff4444" text-anchor="middle" filter="url(#glow)">&amp; Malware ML</text>
+  <text x="400" y="252" font-family="monospace" font-size="10" fill="#8b949e" text-anchor="middle">GitHub Resources · 2024–2025</text>
+
+  <!-- Connecting lines from center to cards -->
+  <g stroke="#ff004022" stroke-width="1">
+    <line x1="220" y1="58" x2="340" y2="185"/>
+    <line x1="220" y1="103" x2="340" y2="195"/>
+    <line x1="220" y1="148" x2="340" y2="200"/>
+    <line x1="220" y1="193" x2="340" y2="205"/>
+    <line x1="220" y1="238" x2="340" y2="210"/>
+    <line x1="220" y1="283" x2="340" y2="215"/>
+  </g>
+  <g stroke="#58a6ff22" stroke-width="1">
+    <line x1="460" y1="185" x2="580" y2="58"/>
+    <line x1="460" y1="195" x2="580" y2="103"/>
+    <line x1="460" y1="200" x2="580" y2="148"/>
+    <line x1="460" y1="205" x2="580" y2="193"/>
+    <line x1="460" y1="210" x2="580" y2="238"/>
+    <line x1="460" y1="215" x2="580" y2="283"/>
+  </g>
+
+  <!-- Right side cards -->
+  <g filter="url(#softGlow)">
+    <rect x="580" y="40" width="160" height="36" rx="5" fill="#161b22" stroke="#ff660044" stroke-width="1"/>
+    <text x="592" y="58" font-family="monospace" font-size="9" fill="#ffa657">⬤</text>
+    <text x="605" y="58" font-family="monospace" font-size="9" fill="#8b949e">sherdencooper/GPTFuzz</text>
+    <text x="592" y="70" font-family="monospace" font-size="8" fill="#484f58">Auto jailbreak fuzzer</text>
+
+    <rect x="580" y="85" width="160" height="36" rx="5" fill="#161b22" stroke="#ff004044" stroke-width="1"/>
+    <text x="592" y="103" font-family="monospace" font-size="9" fill="#ff6b6b">⬤</text>
+    <text x="605" y="103" font-family="monospace" font-size="9" fill="#8b949e">jiep/offensive-ai</text>
+    <text x="592" y="115" font-family="monospace" font-size="8" fill="#484f58">Offensive ML compilation</text>
+
+    <rect x="580" y="130" width="160" height="36" rx="5" fill="#161b22" stroke="#58a6ff44" stroke-width="1"/>
+    <text x="592" y="148" font-family="monospace" font-size="9" fill="#58a6ff">⬤</text>
+    <text x="605" y="148" font-family="monospace" font-size="9" fill="#8b949e">Awesome-LLM-Red-Teaming</text>
+    <text x="592" y="160" font-family="monospace" font-size="8" fill="#484f58">Curated mega-list</text>
+
+    <rect x="580" y="175" width="160" height="36" rx="5" fill="#161b22" stroke="#e3b34144" stroke-width="1"/>
+    <text x="592" y="193" font-family="monospace" font-size="9" fill="#e3b341">⬤</text>
+    <text x="605" y="193" font-family="monospace" font-size="9" fill="#8b949e">confident-ai/deepteam</text>
+    <text x="592" y="205" font-family="monospace" font-size="8" fill="#484f58">Nov 2025 framework</text>
+
+    <rect x="580" y="220" width="160" height="36" rx="5" fill="#161b22" stroke="#ff660044" stroke-width="1"/>
+    <text x="592" y="238" font-family="monospace" font-size="9" fill="#ffa657">⬤</text>
+    <text x="605" y="238" font-family="monospace" font-size="9" fill="#8b949e">allenai/wildjailbreak</text>
+    <text x="592" y="250" font-family="monospace" font-size="8" fill="#484f58">262K adversarial pairs</text>
+
+    <rect x="580" y="265" width="160" height="36" rx="5" fill="#161b22" stroke="#58a6ff44" stroke-width="1"/>
+    <text x="592" y="283" font-family="monospace" font-size="9" fill="#58a6ff">⬤</text>
+    <text x="605" y="283" font-family="monospace" font-size="9" fill="#8b949e">promptfoo/promptfoo</text>
+    <text x="592" y="295" font-family="monospace" font-size="8" fill="#484f58">LLM red team + CI/CD</text>
+  </g>
+
+  <!-- Bottom legend -->
+  <g transform="translate(240, 340)">
+    <circle cx="0" cy="0" r="5" fill="#ff4444" filter="url(#softGlow)"/>
+    <text x="10" y="4" font-family="monospace" font-size="9" fill="#8b949e">High Risk</text>
+    <circle cx="80" cy="0" r="5" fill="#ffa657" filter="url(#softGlow)"/>
+    <text x="90" y="4" font-family="monospace" font-size="9" fill="#8b949e">Research</text>
+    <circle cx="160" cy="0" r="5" fill="#e3b341" filter="url(#softGlow)"/>
+    <text x="170" y="4" font-family="monospace" font-size="9" fill="#8b949e">Tools</text>
+    <circle cx="220" cy="0" r="5" fill="#58a6ff" filter="url(#softGlow)"/>
+    <text x="230" y="4" font-family="monospace" font-size="9" fill="#8b949e">Curated Lists</text>
+  </g>
+
+  <!-- Scan line decoration -->
+  <line x1="0" y1="370" x2="800" y2="370" stroke="#ff004015" stroke-width="1"/>
+  <text x="400" y="388" font-family="monospace" font-size="8" fill="#30363d" text-anchor="middle">dcodezero.github.io · security research · march 2026</text>
+</svg>
