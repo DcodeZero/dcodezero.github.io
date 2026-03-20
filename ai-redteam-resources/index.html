@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Red Teaming &amp; Malware ML Resources | DcodeZero</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Segoe UI", system-ui, sans-serif; background: #0d1117; color: #c9d1d9; line-height: 1.7; }
+    header { background: #161b22; border-bottom: 1px solid #30363d; padding: 2rem; text-align: center; }
+    header h1 { font-size: 2rem; color: #f0f6fc; }
+    header p { color: #8b949e; margin-top: 0.5rem; }
+    .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; margin-right: 6px; }
+    .red { background: #3d1a1a; color: #ff6b6b; border: 1px solid #ff6b6b44; }
+    .orange { background: #2d1f0e; color: #ffa657; border: 1px solid #ffa65744; }
+    .yellow { background: #2d2a0e; color: #e3b341; border: 1px solid #e3b34144; }
+    .blue { background: #0e1f2d; color: #58a6ff; border: 1px solid #58a6ff44; }
+    main { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
+    .intro { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; color: #8b949e; }
+    .intro strong { color: #c9d1d9; }
+    section { margin-bottom: 3rem; }
+    section h2 { font-size: 1.3rem; color: #f0f6fc; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #30363d; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 1.2rem 1.5rem; margin-bottom: 1rem; transition: border-color 0.2s; }
+    .card:hover { border-color: #58a6ff; }
+    .card h3 { font-size: 1rem; margin-bottom: 0.4rem; }
+    .card h3 a { color: #58a6ff; text-decoration: none; }
+    .card h3 a:hover { text-decoration: underline; }
+    .card p { color: #8b949e; font-size: 0.9rem; }
+    .card .meta { margin-top: 0.6rem; }
+    .warning { background: #2d1a0e; border: 1px solid #ffa65744; border-radius: 8px; padding: 1rem 1.5rem; margin-bottom: 2rem; color: #ffa657; font-size: 0.9rem; }
+    footer { text-align: center; color: #484f58; padding: 2rem; border-top: 1px solid #21262d; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>🔴 AI Red Teaming &amp; Malware ML Resources</h1>
+  <p>Curated GitHub repositories for AI/LLM security research, red teaming datasets, and offensive ML</p>
+</header>
+<main>
+
+  <div class="intro">
+    <strong>About this page:</strong> A curated list of GitHub repositories relevant to AI/ML security research — including jailbreak datasets, red teaming frameworks, malware ML datasets, and adversarial tooling. Intended for security researchers and red teamers. Handle with care.
+  </div>
+
+  <div class="warning">
+    ⚠️ <strong>Warning:</strong> Some repositories below contain actual malware samples or tools capable of bypassing AI safety systems. Use only in isolated, controlled environments. Never execute unknown binaries outside a sandboxed VM.
+  </div>
+
+  <section>
+    <h2><span class="badge red">🔴 HIGH RISK</span> Potential Malware / Offensive Tools</h2>
+
+    <div class="card">
+      <h3><a href="https://github.com/llm-attacks/llm-attacks" target="_blank">llm-attacks/llm-attacks</a></h3>
+      <p>Universal adversarial suffixes that bypass safety filters on virtually any LLM. Implements the GCG (Greedy Coordinate Gradient) attack method.</p>
+      <div class="meta"><span class="badge red">Adversarial Prompts</span><span class="badge red">Safety Bypass</span></div>
+    </div>
+
+    <div class="card">
+      <h3><a href="https://github.com/tml-epfl/llm-adaptive-attacks" target="_blank">tml-epfl/llm-adaptive-attacks</a></h3>
+      <p>ICLR 2025 — "Jailbreaking Leading Safety-Aligned LLMs with Simple Adaptive Attacks." Contains jailbreak artifacts for GPT-4, Claude, Gemini and others.</p>
+      <div class="meta"><span class="badge red">Jailbreak Artifacts</span><span class="badge yellow">ICLR 2025</span></div>
+    </div>
+
+    <div class="card">
+      <h3><a href="https://github.com/jiep/offensive-ai-compilation" target="_blank">jiep/offensive-ai-compilation</a></h3>
+      <p>Compilation of offensive AI/ML techniques: model stealing, hyperparameter theft, web-scale data poisoning, and adversarial example generation.</p>
+      <div class="meta"><span class="badge red">Offensive ML</span><span class="badge red">Data Poisoning</span></div>
+    </div>
+
+    <div class="card">
+      <h3><a href="https://github.com/cyber-research/APTMalware" target="_blank">cyber-research/APTMalware</a></h3>
+      <p>3,500+ real malware samples linked to 12 APT groups. Used for benchmarking ML approaches in malware authorship attribution. Contains actual executables — sandbox only.</p>
+      <div class="meta"><span class="badge red">⚠️ Real Malware</span><span class="badge red">APT Samples</span></div>
+    </div>
+
+    <div class="card">
+      <h3><a href="https://github.com/iosifache/DikeDataset" target="_blank">iosifache/DikeDataset</a></h3>
+      <p>Labeled collection of benign and malicious PE and OLE files for training AI/ML malware classifiers. Contains actual malicious binaries.</p>
+      <div class="meta"><span class="badge red">⚠️ Real Malware</span><span class="badge orange">ML Dataset</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="badge orange">🟠 RESEARCH</span> AI Red Teaming Datasets</h2>
+
+    <div class="card">
+      <h3><a href="https://github.com/navirocker/llm-red-teaming-dataset" target="_blank">navirocker/llm-red-teaming-dataset</a></h3>
+      <p>Comprehensive dataset of red teaming prompts across 8 AI safety risk categories: jailbreaking, system prompt injection, roleplay exploitation, hypothetical scenarios, and more. Cited 2025.</p>
+      <div class="meta"><span class="badge orange">Dataset</span><span class="badge yellow">2025</span></div>
+    </div>
+
+    <div class="card">
+      <h3><a href="https://github.com/verazuo/jailbreak_llms" target="_blank">verazuo/jailbreak_llms</a></h3>
+      <p>ACM CCS 2024. 15,140 real ChatGPT prompts (Dec 2022 to Dec 2023) with 1,405 confirmed jailbreaks — the largest in-the-wild jailbreak dataset publicly available.</p>
+      <div class="meta"><span class="badge orange">15K+ Prompts</span><span class="badge yellow">ACM CCS 2024</span></div>
+    </div>
+
+    <div class="card">
+      <h3><a href="https://github.com/JailbreakBench/jailbreakbench" target="_blank">JailbreakBench/jailbreakbench</a></h3>
+      <p>NeurIPS 2024 Datasets and Benchmarks Track. JBB-Behaviors dataset with 200 distinct benign and misuse behaviors for tracking progress in jailbreak generation and defense.</p>
+      <div class="meta"><span class="badge orange">Benchmark</span><span class="badge yellow">NeurIPS 2024</span></div>
+    </div>
+
+    <div class="card">
+      <h3><a href="https://github.com/DAMO-NLP-SG/multilingual-safety-for-LLMs" target="_blank">DAMO-NLP-SG/multilingual-safety-for-LLMs</a></h3>
+      <p>ICLR 2024 — MultiJail dataset. Studies multilingual jailbreak challenges across multiple languages in large language models.</p>
+      <div class="meta"><span class="badge orange">Multilingual</span><span class="badge yellow">ICLR 2024</span></div>
+    </div>
+
+    <div class="card">
+      <h3><a href="https://huggingface.co/datasets/allenai/wildjailbreak" target="_blank">allenai/wildjailbreak (HuggingFace)</a></h3>
+      <p>262,000 vanilla and adversarial prompt-response pairs from WildTeaming framework. Mines human-devised jailbreak tactics to generate diverse adversarial inputs for safety training.</p>
+      <div class="meta"><span class="badge orange">262K Pairs</span><span class="badge blue">Allen AI</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="badge yellow">🟡 TOOLS</span> Red Teaming Frameworks &amp; Tools</h2>
+
+    <div class="card">
+      <h3><a href="https://github.com/Azure/PyRIT" target="_blank">Azure/PyRIT</a></h3>
+      <p>Microsoft Python Risk Identification Tool for generative AI. Systematic and repeatable red teaming framework for LLMs, widely used in enterprise AI security assessments.</p>
+      <div class="meta"><span class="badge yellow">Microsoft</span><span class="badge blue">Framework</span></div>
+    </div>
+
+    <div class="card">
+      <h3><a href="https://github.com/leondz/garak" target="_blank">leondz/garak</a></h3>
+      <p>LLM vulnerability scanner and security probing tool. Tests for hallucination, data leakage, prompt injection, jailbreaks, and more. Like nmap but for language models.</p>
+      <div class="meta"><span class="badge yellow">Scanner</span><span class="badge blue">Active Dev</span></div>
+    </div>
+
+    <div class="card">
+      <h3><a href="https://github.com/sherdencooper/GPTFuzz" target="_blank">sherdencooper/GPTFuzz</a></h3>
+      <p>Auto-generates jailbreak prompts for red teaming LLMs using fuzzing techniques. Mutates seed prompts to produce novel jailbreaks automatically at scale.</p>
+      <div class="meta"><span class="badge yellow">Fuzzer</span><span class="badge red">Jailbreak Gen</span></div>
+    </div>
+
+    <div class="card">
+      <h3><a href="https://github.com/confident-ai/deepteam" target="_blank">confident-ai/deepteam</a></h3>
+      <p>Open-source LLM red teaming framework (Nov 2025). Implements vulnerability classes including prompt injection, PII leakage, hallucinations, encoding obfuscation, and multi-turn jailbreaks.</p>
+      <div class="meta"><span class="badge yellow">Nov 2025</span><span class="badge blue">Framework</span></div>
+    </div>
+
+    <div class="card">
+      <h3><a href="https://github.com/promptfoo/promptfoo" target="_blank">promptfoo/promptfoo</a></h3>
+      <p>Open-source LLM testing and red teaming tool. Supports vulnerability scanning, automated red teaming, and regression testing for LLM applications in CI/CD.</p>
+      <div class="meta"><span class="badge yellow">Testing</span><span class="badge blue">Open Source</span></div>
+    </div>
+
+    <div class="card">
+      <h3><a href="https://github.com/kurogai/100-redteam-projects" target="_blank">kurogai/100-redteam-projects</a></h3>
+      <p>100 red team project ideas for pentesters and security researchers, ranging from basic to advanced. Good for skill-building and building out lab environments.</p>
+      <div class="meta"><span class="badge yellow">Projects</span><span class="badge blue">Learning</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="badge blue">🔵 LISTS</span> Curated Awesome Lists</h2>
+
+    <div class="card">
+      <h3><a href="https://github.com/user1342/Awesome-LLM-Red-Teaming" target="_blank">user1342/Awesome-LLM-Red-Teaming</a></h3>
+      <p>Best overall curated list covering LLM red teaming training, frameworks (PyRIT, Rigging), playgrounds (Folly, DamnVulnerableMathLLM), and attack toolkits (BrokenHill, llm-attacks).</p>
+      <div class="meta"><span class="badge blue">Comprehensive</span></div>
+    </div>
+
+    <div class="card">
+      <h3><a href="https://github.com/corca-ai/awesome-llm-security" target="_blank">corca-ai/awesome-llm-security</a></h3>
+      <p>Actively maintained list of LLM security tools, papers, and benchmarks. References JailbreakBench (2024) and multilingual jailbreak research (2025).</p>
+      <div class="meta"><span class="badge blue">Actively Updated</span></div>
+    </div>
+
+    <div class="card">
+      <h3><a href="https://github.com/yueliu1999/Awesome-Jailbreak-on-LLMs" target="_blank">yueliu1999/Awesome-Jailbreak-on-LLMs</a></h3>
+      <p>State-of-the-art jailbreak methods on LLMs — papers, code, datasets, evaluations. Covers 2024-2025 research on attacks and defenses comprehensively.</p>
+      <div class="meta"><span class="badge blue">SOTA Methods</span></div>
+    </div>
+
+    <div class="card">
+      <h3><a href="https://github.com/wearetyomsmnv/Awesome-LLMSecOps" target="_blank">wearetyomsmnv/Awesome-LLMSecOps</a></h3>
+      <p>LLM Security Operations resources including jailbreak databases, benchmarks, automated attack tools, and educational platforms like Gandalf. Updated December 2025.</p>
+      <div class="meta"><span class="badge blue">Dec 2025</span></div>
+    </div>
+
+    <div class="card">
+      <h3><a href="https://github.com/cybersecurity-dev/awesome-malware-datasets" target="_blank">cybersecurity-dev/awesome-malware-datasets</a></h3>
+      <p>Curated collection of malware datasets for ML research — PE files, ELF binaries, Android malware, memory dumps, APT samples and more.</p>
+      <div class="meta"><span class="badge blue">Malware ML</span></div>
+    </div>
+
+    <div class="card">
+      <h3><a href="https://github.com/shramos/Awesome-Cybersecurity-Datasets" target="_blank">shramos/Awesome-Cybersecurity-Datasets</a></h3>
+      <p>Broad collection of cybersecurity datasets for ML/AI research spanning network traffic, malware, intrusion detection, and offensive security.</p>
+      <div class="meta"><span class="badge blue">Broad Coverage</span></div>
+    </div>
+
+    <div class="card">
+      <h3><a href="https://github.com/jivoi/awesome-ml-for-cybersecurity" target="_blank">jivoi/awesome-ml-for-cybersecurity</a></h3>
+      <p>Machine learning applied to cybersecurity — tools, papers, and datasets for threat detection, malware analysis, and offensive security research.</p>
+      <div class="meta"><span class="badge blue">ML + Security</span></div>
+    </div>
+  </section>
+
+</main>
+<footer>
+  <p>Compiled by <a href="https://dcodezero.github.io" style="color:#58a6ff;">DcodeZero</a> &middot; For security research purposes only &middot; Last updated March 2026</p>
+</footer>
+</body>
+</html>
