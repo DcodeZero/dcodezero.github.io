@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0f"/>
+      <stop offset="100%" style="stop-color:#1a0f0a"/>
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff6600"/>
+      <stop offset="100%" style="stop-color:#ffaa00"/>
+    </linearGradient>
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff0040"/>
+      <stop offset="100%" style="stop-color:#ff4444"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="bigglow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="400" fill="url(#bg)"/>
+
+  <!-- Grid -->
+  <g stroke="#ffffff" stroke-opacity="0.03" stroke-width="1">
+    <line x1="0" y1="50" x2="800" y2="50"/><line x1="0" y1="100" x2="800" y2="100"/>
+    <line x1="0" y1="150" x2="800" y2="150"/><line x1="0" y1="200" x2="800" y2="200"/>
+    <line x1="0" y1="250" x2="800" y2="250"/><line x1="0" y1="300" x2="800" y2="300"/>
+    <line x1="0" y1="350" x2="800" y2="350"/>
+    <line x1="100" y1="0" x2="100" y2="400"/><line x1="200" y1="0" x2="200" y2="400"/>
+    <line x1="300" y1="0" x2="300" y2="400"/><line x1="400" y1="0" x2="400" y2="400"/>
+    <line x1="500" y1="0" x2="500" y2="400"/><line x1="600" y1="0" x2="600" y2="400"/>
+    <line x1="700" y1="0" x2="700" y2="400"/>
+  </g>
+
+  <!-- Ambient glow center -->
+  <ellipse cx="400" cy="200" rx="200" ry="120" fill="#ff6600" fill-opacity="0.05" filter="url(#bigglow)"/>
+
+  <!-- Left: AI brain/circuit node -->
+  <g transform="translate(140,200)" filter="url(#softglow)">
+    <circle cx="0" cy="0" r="45" fill="none" stroke="#ff6600" stroke-width="1.5" stroke-opacity="0.6"/>
+    <circle cx="0" cy="0" r="30" fill="none" stroke="#ff660044" stroke-width="1"/>
+    <circle cx="0" cy="0" r="8" fill="#ff6600" fill-opacity="0.8"/>
+    <!-- Circuit lines -->
+    <line x1="0" y1="-45" x2="0" y2="-65" stroke="#ff6600" stroke-width="1" stroke-opacity="0.5"/>
+    <line x1="45" y1="0" x2="65" y2="0" stroke="#ff6600" stroke-width="1" stroke-opacity="0.5"/>
+    <line x1="0" y1="45" x2="0" y2="65" stroke="#ff6600" stroke-width="1" stroke-opacity="0.5"/>
+    <line x1="-45" y1="0" x2="-65" y2="0" stroke="#ff6600" stroke-width="1" stroke-opacity="0.5"/>
+    <circle cx="0" cy="-65" r="4" fill="#ffaa00" fill-opacity="0.7"/>
+    <circle cx="65" cy="0" r="4" fill="#ffaa00" fill-opacity="0.7"/>
+    <circle cx="0" cy="65" r="4" fill="#ffaa00" fill-opacity="0.7"/>
+    <circle cx="-65" cy="0" r="4" fill="#ffaa00" fill-opacity="0.7"/>
+    <!-- AI label -->
+    <text x="0" y="4" font-family="monospace" font-size="10" fill="#ffaa00" text-anchor="middle">AI</text>
+  </g>
+
+  <!-- Right: Target/SOC shield -->
+  <g transform="translate(660,200)" filter="url(#softglow)">
+    <polygon points="0,-50 40,-25 40,20 0,45 -40,20 -40,-25" fill="none" stroke="#ff004488" stroke-width="1.5"/>
+    <polygon points="0,-35 27,-17 27,14 0,30 -27,14 -27,-17" fill="none" stroke="#ff004433" stroke-width="1"/>
+    <!-- X mark inside -->
+    <line x1="-12" y1="-12" x2="12" y2="12" stroke="#ff4444" stroke-width="2" stroke-opacity="0.8"/>
+    <line x1="12" y1="-12" x2="-12" y2="12" stroke="#ff4444" stroke-width="2" stroke-opacity="0.8"/>
+    <text x="0" y="60" font-family="monospace" font-size="9" fill="#ff444488" text-anchor="middle">SOC</text>
+  </g>
+
+  <!-- Connecting attack lines -->
+  <g filter="url(#softglow)">
+    <line x1="210" y1="200" x2="310" y2="200" stroke="#ff6600" stroke-width="1" stroke-opacity="0.4" stroke-dasharray="5,4"/>
+    <line x1="490" y1="200" x2="618" y2="200" stroke="#ff4444" stroke-width="1" stroke-opacity="0.4" stroke-dasharray="5,4"/>
+    <!-- Arrow heads -->
+    <polygon points="310,196 310,204 320,200" fill="#ff6600" fill-opacity="0.6"/>
+    <polygon points="618,196 618,204 628,200" fill="#ff4444" fill-opacity="0.6"/>
+  </g>
+
+  <!-- Floating threat nodes -->
+  <g filter="url(#softglow)" opacity="0.7">
+    <circle cx="320" cy="130" r="5" fill="#ffaa00"/>
+    <circle cx="370" cy="95" r="3" fill="#ff6600"/>
+    <circle cx="430" cy="110" r="4" fill="#ffaa00"/>
+    <circle cx="480" cy="140" r="3" fill="#ff4444"/>
+    <line x1="320" y1="130" x2="370" y2="95" stroke="#ff660033" stroke-width="1"/>
+    <line x1="370" y1="95" x2="430" y2="110" stroke="#ff660033" stroke-width="1"/>
+    <line x1="430" y1="110" x2="480" y2="140" stroke="#ff440033" stroke-width="1"/>
+    <circle cx="320" cy="270" r="4" fill="#ff6600"/>
+    <circle cx="380" cy="300" r="3" fill="#ffaa00"/>
+    <circle cx="440" cy="280" r="5" fill="#ff4444"/>
+    <circle cx="490" cy="260" r="3" fill="#ff6600"/>
+    <line x1="320" y1="270" x2="380" y2="300" stroke="#ff660033" stroke-width="1"/>
+    <line x1="380" y1="300" x2="440" y2="280" stroke="#ff660033" stroke-width="1"/>
+    <line x1="440" y1="280" x2="490" y2="260" stroke="#ff440033" stroke-width="1"/>
+  </g>
+
+  <!-- Category label -->
+  <text x="400" y="155" font-family="monospace" font-size="10" fill="#ff660066" text-anchor="middle" letter-spacing="4">OFFENSIVE SECURITY</text>
+
+  <!-- Main title -->
+  <text x="400" y="190" font-family="'Segoe UI', Arial, sans-serif" font-size="24" font-weight="bold" fill="#f0f6fc" text-anchor="middle" filter="url(#glow)">Autonomous AI Red Teamers</text>
+  <text x="400" y="222" font-family="'Segoe UI', Arial, sans-serif" font-size="22" font-weight="bold" fill="#ff6600" text-anchor="middle" filter="url(#glow)">Are Here — And Your SOC</text>
+  <text x="400" y="252" font-family="'Segoe UI', Arial, sans-serif" font-size="22" font-weight="bold" fill="#ff4444" text-anchor="middle" filter="url(#glow)">Isn't Ready</text>
+
+  <!-- Bottom bar -->
+  <line x1="0" y1="370" x2="800" y2="370" stroke="#ff660015" stroke-width="1"/>
+  <text x="400" y="388" font-family="monospace" font-size="8" fill="#30363d" text-anchor="middle">dcodezero.github.io · offensive security · march 2026</text>
+</svg>

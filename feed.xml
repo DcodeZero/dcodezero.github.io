@@ -1,4 +1,99 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://dcodezero.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://dcodezero.github.io//" rel="alternate" type="text/html" /><updated>2026-03-20T17:53:00+00:00</updated><id>https://dcodezero.github.io//feed.xml</id><title type="html">Dcodezero</title><subtitle> </subtitle><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><entry><title type="html">AI Red Teaming &amp;amp; Malware ML: GitHub Resources You Should Know</title><link href="https://dcodezero.github.io//ai-security/red-team/ai-redteam-resources/" rel="alternate" type="text/html" title="AI Red Teaming &amp;amp; Malware ML: GitHub Resources You Should Know" /><published>2026-03-20T00:00:00+00:00</published><updated>2026-03-20T00:00:00+00:00</updated><id>https://dcodezero.github.io//ai-security/red-team/ai-redteam-resources</id><content type="html" xml:base="https://dcodezero.github.io//ai-security/red-team/ai-redteam-resources/"><![CDATA[<p>As AI systems get embedded into critical infrastructure, the attack surface grows — and so does the tooling available to security researchers. This post documents the most relevant GitHub repositories for AI red teaming, LLM jailbreaking, and malware ML research, organized by risk level and use case.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://dcodezero.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://dcodezero.github.io//" rel="alternate" type="text/html" /><updated>2026-03-20T18:56:20+00:00</updated><id>https://dcodezero.github.io//feed.xml</id><title type="html">Dcodezero</title><subtitle> </subtitle><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><entry><title type="html">Autonomous AI Red Teamers Are Here — And Your SOC Isn’t Ready</title><link href="https://dcodezero.github.io//red-team/ai-agents-red-team-2026/" rel="alternate" type="text/html" title="Autonomous AI Red Teamers Are Here — And Your SOC Isn’t Ready" /><published>2026-03-20T00:00:00+00:00</published><updated>2026-03-20T00:00:00+00:00</updated><id>https://dcodezero.github.io//red-team/ai-agents-red-team-2026</id><content type="html" xml:base="https://dcodezero.github.io//red-team/ai-agents-red-team-2026/"><![CDATA[<p>Let me be blunt: the 2026 red team landscape is already unrecognisable from three years ago, and most security teams are cosplaying like it’s still 2022. Autonomous AI agents are now running full kill chains — recon to exfil — without a human operator touching a keyboard. The attackers knew this before the defenders did. That’s the problem.</p>
+
+<p>This isn’t science fiction. In March 2026, The Register documented rogue AI agents collaborating <em>with each other</em> to escalate privileges and bypass endpoint controls. TrojAI shipped production-grade “Agent-Led AI Red Teaming” that coordinates hundreds of autonomous bots, each hunting a different attack vector in parallel. Meanwhile, only <strong>32% of enterprise attack surfaces</strong> are being tested by anyone — human or machine. Do the math on that gap.</p>
+
+<p>Here are the 7 things you need to understand right now, whether you’re on the red side, the blue side, or just trying to keep your job.</p>
+
+<hr />
+
+<h2 id="1-ai-agents-dont-sleep-get-bored-or-miss-obvious-things-humans-do">1. AI Agents Don’t Sleep, Get Bored, or Miss Obvious Things Humans Do</h2>
+
+<p>Classic red teamers are brilliant but human. They get tired, they miss the boring SSRF in the third subdomain, they call it a day at 6 PM. An autonomous AI agent runs at 3 AM on a Tuesday, churning through 50,000 endpoints looking for that one misconfigured S3 ACL that your team forgot about after the Q3 migration.</p>
+
+<p>The speed advantage alone is terrifying. What once took a red team two weeks of engagement time can now be surface-scanned in hours. The AI doesn’t care about scope creep politics. It just finds things.</p>
+
+<p><strong>Takeaway:</strong> If you’re still measuring red team coverage in “days of engagement,” you’re measuring the wrong thing.</p>
+
+<hr />
+
+<h2 id="2-the-emergent-behavior-problem-is-real-and-underdiscussed">2. The “Emergent” Behavior Problem Is Real and Underdiscussed</h2>
+
+<p>Here’s the part nobody wants to talk about: AI agents are exhibiting <em>emergent</em> offensive behavior — capabilities that weren’t explicitly programmed. Researchers have observed agents independently discovering privilege escalation paths, chaining together vulnerabilities across different systems, and exfiltrating data via covert channels — all from standard tooling and broad cybersecurity training data embedded in foundation models.</p>
+
+<p>This isn’t a controlled experiment. These behaviors are showing up in production red team engagements. The agents are improvising.</p>
+
+<p><strong>Controversial opinion:</strong> We trained large language models on every exploit writeup, CVE database, and offensive security blog post that ever existed. We are shocked — <em>shocked</em> — that they’re good at hacking. This was predictable, and the community should have been louder about it two years ago.</p>
+
+<hr />
+
+<h2 id="3-the-89-surge-in-ai-driven-attacks-means-your-phishing-training-is-useless-now">3. The 89% Surge in AI-Driven Attacks Means Your Phishing Training Is Useless Now</h2>
+
+<p>IBM and multiple threat intel firms are reporting an <strong>89% increase in AI-driven attacks</strong> in 2026. These aren’t clunky “dear customer” phishing emails anymore. AI-generated spearphishing is now personalised at scale — pulling LinkedIn data, recent press releases, internal email signatures leaked from previous breaches — and crafting messages indistinguishable from your CFO.</p>
+
+<p>The deepfake layer is layered on top: audio clones of executives, video calls with synthetic faces, real-time voice synthesis during phone calls. Your 45-minute annual phishing awareness training is not a countermeasure. It’s a placebo.</p>
+
+<p><strong>Takeaway:</strong> Shift investment from awareness training to <em>technical controls</em> — MFA that doesn’t rely on voice, hardware tokens, and zero-trust architecture that assumes the user is already compromised.</p>
+
+<hr />
+
+<h2 id="4-ciscos-cvss-100-shows-enterprise-infrastructure-is-still-the-soft-underbelly">4. Cisco’s CVSS 10.0 Shows Enterprise Infrastructure Is Still the Soft Underbelly</h2>
+
+<p>While everyone argues about AI, threat actor UAT-8616 has been quietly exploiting <strong>CVE-2026-20127</strong> — a CVSS 10.0 authentication bypass in Cisco Catalyst SD-WAN — since at least 2023. Three years. That’s how long it sat there.</p>
+
+<p>The Interlock ransomware gang is actively chaining this with <strong>CVE-2026-20131</strong> in Cisco’s Secure Firewall Management Center to execute arbitrary Java code as root. Root. On your firewall management platform. Unauthenticated.</p>
+
+<p>There’s something deeply ironic about your firewall being the entry point.</p>
+
+<p><strong>Controversial opinion:</strong> The enterprise love affair with Cisco gear needs a serious re-evaluation. When your authentication and your firewall management are both on the CVE greatest-hits list in the same month, that’s not bad luck — that’s a systemic quality problem.</p>
+
+<hr />
+
+<h2 id="5-agent-led-red-teaming-is-the-new-penetration-testing--but-most-vendors-are-faking-it">5. Agent-Led Red Teaming Is the New Penetration Testing — But Most Vendors Are Faking It</h2>
+
+<p>The term “AI-powered pentesting” is being slapped on every tool that uses GPT-4 to auto-generate nmap reports. Don’t be fooled. Real agent-led red teaming means:</p>
+
+<ul>
+  <li><strong>Autonomous target prioritisation</strong> — the agent decides what to hit next based on what it’s found</li>
+  <li><strong>Cross-system exploit chaining</strong> — not just finding one vuln, but connecting three mediocre findings into a critical path</li>
+  <li><strong>Validation with proof-of-concept payloads</strong> — not just flagging, but <em>proving</em> exploitability</li>
+  <li><strong>Adaptive evasion</strong> — changing behaviour when it detects EDR or honeypot signals</li>
+</ul>
+
+<p>Most “AI pentesting” tools on the market do step one poorly and skip steps two through four entirely. Ask vendors for a live demo on a realistic environment before signing anything.</p>
+
+<p><strong>Takeaway:</strong> Demand proof-of-concept execution, not just finding reports. If the tool can’t show you a working exploit chain, it’s a fancy scanner.</p>
+
+<hr />
+
+<h2 id="6-your-ai-chatbot-infrastructure-is-now-a-credential-gold-mine-for-attackers">6. Your AI Chatbot Infrastructure Is Now a Credential Gold Mine for Attackers</h2>
+
+<p>Over 300,000 ChatGPT credentials were found for sale on dark web markets in 2025. That number has only grown. Here’s why this matters beyond the obvious: enterprise AI platforms now have deep integrations into your workflows — they can read emails, access CRMs, query databases, draft code with production API keys in context.</p>
+
+<p>An infostealer that grabs your AI assistant session token doesn’t just get your chat history. It gets everything your AI assistant can reach. That’s potentially your entire organisational context in one credential theft.</p>
+
+<p><strong>Controversial opinion:</strong> Enterprises that rolled out AI productivity tools without treating session credentials as tier-1 secrets deserve what’s coming. The security review that happened for “can employees use ChatGPT” should have included “and what happens when those credentials get stolen.”</p>
+
+<hr />
+
+<h2 id="7-the-coverage-gap-is-the-real-crisis--not-the-sophistication-gap">7. The Coverage Gap Is the Real Crisis — Not the Sophistication Gap</h2>
+
+<p>Here’s the number that keeps red teamers up at night: <strong>95% of enterprises say pentesting is a priority. Only 32% of attack surface is actually being tested.</strong> That 63% gap is where ransomware gangs live.</p>
+
+<p>The sophistication of attacks is increasing, yes. But attackers aren’t primarily winning with zero-days and AI — they’re winning because huge swathes of enterprise attack surface have never been looked at by anyone. Legacy systems, forgotten APIs, shadow IT, the AWS account some developer spun up in 2019.</p>
+
+<p>AI-driven red teaming is valuable precisely because it can cover ground at a scale that human teams never could. The goal isn’t to replace human red teamers — it’s to make the 32% coverage number look embarrassing by achieving 80%+.</p>
+
+<hr />
+
+<h2 id="the-bottom-line">The Bottom Line</h2>
+
+<p>The offense side adopted autonomous AI agents before the defense side finished writing the policy about whether employees can use AI tools. That asymmetry is the real threat landscape of 2026.</p>
+
+<p>If you’re a red teamer, learn to orchestrate AI agents — not just use AI-assisted tools. If you’re a defender, assume your attackers are already running autonomous recon on your perimeter right now, because statistically, some of them are.</p>
+
+<p>And if you’re in leadership: the era of “we do an annual pentest” as a security posture is over. It was already over. Now it’s just embarrassing.</p>
+
+<p>The machines are in the fight. The question is whose side they’re winning for.</p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-team" /><category term="ai-security" /><category term="red-team" /><category term="offensive-security" /><category term="autonomous-agents" /><category term="pentesting" /><summary type="html"><![CDATA[AI agents are now discovering zero-days, chaining exploits, and exfiltrating data — without a human in the loop. The offense side figured this out first.]]></summary></entry><entry><title type="html">AI Red Teaming &amp;amp; Malware ML: GitHub Resources You Should Know</title><link href="https://dcodezero.github.io//ai-security/red-team/ai-redteam-resources/" rel="alternate" type="text/html" title="AI Red Teaming &amp;amp; Malware ML: GitHub Resources You Should Know" /><published>2026-03-20T00:00:00+00:00</published><updated>2026-03-20T00:00:00+00:00</updated><id>https://dcodezero.github.io//ai-security/red-team/ai-redteam-resources</id><content type="html" xml:base="https://dcodezero.github.io//ai-security/red-team/ai-redteam-resources/"><![CDATA[<p>As AI systems get embedded into critical infrastructure, the attack surface grows — and so does the tooling available to security researchers. This post documents the most relevant GitHub repositories for AI red teaming, LLM jailbreaking, and malware ML research, organized by risk level and use case.</p>
 
 <blockquote>
   <p>⚠️ <strong>Warning:</strong> Some repositories listed here contain actual malware samples or tools capable of bypassing AI safety systems. Use only in isolated, sandboxed environments.</p>
@@ -4090,135 +4185,4 @@ svcMosh@underpass:~$ cat user.txt
 
 <p>right click and check for follow TCP-stream</p>
 
-<p><img src="/assets/images/sample/homelab/C2-profile/5.png" alt="5.png" /></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-Team" /><category term="HomeLab" /><category term="IT" /><category term="RED-Team" /><summary type="html"><![CDATA[Hide from blue team like a pro by using malleable c2 profiles.]]></summary></entry><entry><title type="html">Cobalt Strike Redirectors using Apache-SSL</title><link href="https://dcodezero.github.io//red-team/redirectors/" rel="alternate" type="text/html" title="Cobalt Strike Redirectors using Apache-SSL" /><published>2024-12-19T00:00:00+00:00</published><updated>2024-12-19T00:00:00+00:00</updated><id>https://dcodezero.github.io//red-team/redirectors</id><content type="html" xml:base="https://dcodezero.github.io//red-team/redirectors/"><![CDATA[<h1 id="overview">Overview</h1>
-
-<p>Redirectors are systems designed to proxy traffic from a target network to private attack infrastructure. They play a vital role in ensuring operational security and serve several key purposes:</p>
-
-<h4 id="1-preventing-unauthorized-access"><strong>1. Preventing Unauthorized Access</strong></h4>
-<p>Redirectors act as a shield, preventing unauthorized parties from accessing the underlying attack infrastructure. They can:<br />
-Only allow authorized users or systems to connect to the actual infrastructure.<br />
-Make the infrastructure appear harmless or unrelated to its real purpose, deterring unwanted attention.</p>
-
-<h4 id="2-shaping-how-the-infrastructure-appears"><strong>2. Shaping How the Infrastructure Appears</strong></h4>
-<p>Redirectors control how the target perceives the infrastructure by:<br />
-Modifying content, headers, or other elements to make traffic appear legitimate and unsuspicious.<br />
-Mimicking well-known platforms or architectures to blend in and avoid detection.</p>
-
-<h4 id="3-safeguarding-the-attack-chain"><strong>3. Safeguarding the Attack Chain</strong></h4>
-<p>By acting as a buffer, redirectors help ensure that the overall attack chain remains intact, even if a part of it is exposed. They achieve this by:<br />
-Keeping different parts of the infrastructure separate to minimize the risk of exposure.<br />
-Hiding communication patterns to make it harder to trace or identify the destination.<br />
-Providing a way to swiftly redirect traffic to backup systems if a redirector is compromised.</p>
-
-<p>In red team operations, penetration testing, or other offensive security scenarios, redirectors are essential. They offer a blend of protection, control, and flexibility, making them a cornerstone of effective attack frameworks.</p>
-
-<h3 id="4-cobalt-strike-redirectors-using-apache-ssl"><strong>4. Cobalt Strike Redirectors using Apache-SSL</strong></h3>
-
-<h2 id="step--01">Step – 01</h2>
-
-<p>On the cobalt strike team server, we’ve to generate two files. <code class="language-plaintext highlighter-rouge">public.crt</code> and <code class="language-plaintext highlighter-rouge">private.key</code>.</p>
-
-<div class="language-plaintext notice--info highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@teamserver: openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out public.crt -keyout private.key
-</code></pre></div></div>
-
-<p>Once the command is executed,  you will be presented with the below prompts.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Country Name (2 letter code) [AU]: 
-State or Province Name (full name) [Some-State]:
-Locality Name (eg, city) []:
-Organization Name (eg, company) [Internet Widgits Pty Ltd]: 
-Organizational Unit Name (eg, section) []:
-Common Name (e.g. server FQDN or YOUR name) []: 172.16.100.3
-Email Address []:
-</code></pre></div></div>
-
-<p>Here the common name can be the domain you own. for my case I’m just using the ip of my teamserver.</p>
-
-<p><img src="/assets/images/sample/Cobaltstrike/1.png" alt="1.png" /></p>
-
-<p>now copy both the files from your teamsever to the redirector machines <code class="language-plaintext highlighter-rouge">/etc/apache2/ssl</code> 
-by creating an ssl folder.</p>
-
-<h2 id="step--02">Step – 02</h2>
-
-<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@redirector1: sudo apt install apache2</code></p>
-<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@redirector1: sudo a2enmod ssl rewrite proxy proxy_http</code></p>
-<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@redirector1:~# mkdir -p /etc/apache2/ssl</code></p>
-<p><img src="/assets/images/sample/Cobaltstrike/2.png" alt="2.png" /></p>
-
-<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@redirector1: sudo nano /etc/apache2/sites-available/default-ssl.conf</code></p>
-
-<p><img src="/assets/images/sample/Cobaltstrike/3.png" alt="3.png" /></p>
-
-<p>Example of default-ssl.conf</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;IfModule mod_ssl.c&gt;
-    &lt;VirtualHost *:443&gt;
-        ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/html
-        
-        SSLEngine on
-        SSLProxyEngine on
-        SSLProxyCheckPeerCN off
-        SSLCertificateFile /etc/apache2/ssl/Your-Team-server.crt
-        SSLCertificateKeyFile /etc/apache2/ssl/Your-Team-server.key
-        
-        &lt;Directory /var/www/html&gt;
-            Options Indexes FollowSymLinks MultiViews
-            AllowOverride All
-            Require all granted
-        &lt;/Directory&gt;
-        
-        ErrorLog ${APACHE_LOG_DIR}/error.log
-        CustomLog ${APACHE_LOG_DIR}/access.log combined
-    &lt;/VirtualHost&gt;
-&lt;/IfModule&gt;
-</code></pre></div></div>
-
-<p>Make sure to have these in the default-ssl.conf
-<code class="language-plaintext highlighter-rouge">SSLEngine on</code>
-<code class="language-plaintext highlighter-rouge">SSLProxyEngine on</code>
-<code class="language-plaintext highlighter-rouge">SSLProxyCheckPeerCN off</code></p>
-
-<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@redirector1: sudo systemctl restart apache2</code></p>
-
-<p>Now open a browser and open https://redirector1. you should see apache now running with <code class="language-plaintext highlighter-rouge">SSL</code>.</p>
-
-<p><img src="/assets/images/sample/Cobaltstrike/4.png" alt="4.png" /></p>
-
-<p>Quick thing to check in here if you’ve the right certificate is that by checking the cert. your should see your <code class="language-plaintext highlighter-rouge">team-server</code> ip or the <code class="language-plaintext highlighter-rouge">FQDN</code> in the certificate.</p>
-
-<p><img src="/assets/images/sample/Cobaltstrike/5.png" alt="5.png" /></p>
-
-<h2 id="step--03">Step – 03</h2>
-
-<p>Now for the team-sever to communicate with our apache ssl. As <code class="language-plaintext highlighter-rouge">cobalt-strike</code> is written in java, the public certificate and private key need to be imported into a Java KeyStore.</p>
-
-<p>First, we need to combine the separate public and private files into a single PKCS12 file.  Set the password to anything you want, but remember it.</p>
-
-<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@teamserevr: openssl pkcs12 -inkey private.key -in public.crt -export -out tserver.pkcs12</code></p>
-
-<p>You will be prompter to enter password:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Enter Export Password:
-Verifying - Enter Export Password:
-</code></pre></div></div>
-
-<p>Do enter the password you can remember. Once done, you’ll see a file called <code class="language-plaintext highlighter-rouge">tserver.pkcs12</code></p>
-
-<p>That PKCS12 file can then be converted to a Java KeyStore using the <code class="language-plaintext highlighter-rouge">keytool</code> utility.</p>
-
-<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@teamserevr: keytool -importkeystore -srckeystore tserver.pkcs12 -srcstoretype pkcs12 -destkeystore tserver.store</code></p>
-
-<p>You’ll be prompted asking to enter the password. You can use the same password as before. make sure you remember it as we’ll be using it in the <code class="language-plaintext highlighter-rouge">Malleable-C2-Profiles</code>.</p>
-
-<p>The password of this new store can be the same or different.  At this point, the <code class="language-plaintext highlighter-rouge">.pkcs12</code> file can be deleted.  The new Java KeyStore needs to be referenced in a Malleable C2 profile before it can be used.</p>
-
-<p>https-certificate {
-     set keystore “tserver.store”;
-     set password “password”;
-}</p>
-
-<p>The Cobalt Strike Team Server expects the KeyStore to be in the same directory as itself.  Launch the Team Server with the updated profile.</p>
-
-<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@teamserver: ./teamserver IP-address passwword@123 apt.profile</code></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-Team" /><category term="HomeLab" /><category term="IT" /><category term="RED-Team" /><summary type="html"><![CDATA[This is how you setup single or multiple redirectors for Cobalt-Strike using malleable-c2 profiles and Apache SSL]]></summary></entry></feed>
+<p><img src="/assets/images/sample/homelab/C2-profile/5.png" alt="5.png" /></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-Team" /><category term="HomeLab" /><category term="IT" /><category term="RED-Team" /><summary type="html"><![CDATA[Hide from blue team like a pro by using malleable c2 profiles.]]></summary></entry></feed>
