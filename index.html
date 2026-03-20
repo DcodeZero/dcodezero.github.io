@@ -13,7 +13,7 @@
 <meta name="description" content="Hacker - RedTeam - PenTester - CTFPlayer - Blogger - HackTheBox">
 
 
-  <meta name="author" content="Your Name">
+  <meta name="author" content="DcodeZer0">
   
 
 
@@ -21,16 +21,28 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Dcodezero">
 <meta property="og:title" content="Dcodezero">
-<meta property="og:url" content="https://dcodezero.github.io//">
+<meta property="og:url" content="http://0.0.0.0:4000/">
 
 
   <meta property="og:description" content="Hacker - RedTeam - PenTester - CTFPlayer - Blogger - HackTheBox">
 
 
 
-  <meta property="og:image" content="https://dcodezero.github.io//assets/images/home-background.png">
+  <meta property="og:image" content="http://0.0.0.0:4000/assets/images/home-background.png">
 
 
+
+  <meta name="twitter:site" content="@Dcodezer0">
+  <meta name="twitter:title" content="Dcodezero">
+  <meta name="twitter:description" content="Hacker - RedTeam - PenTester - CTFPlayer - Blogger - HackTheBox">
+  <meta name="twitter:url" content="http://0.0.0.0:4000/">
+
+  
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="http://0.0.0.0:4000/assets/images/home-background.png">
+  
+
+  
 
 
 
@@ -43,11 +55,11 @@
   
 
 
-<link rel="canonical" href="https://dcodezero.github.io//">
+<link rel="canonical" href="http://0.0.0.0:4000/">
 
 
 
-  <link rel="next" href="https://dcodezero.github.io//page2/">
+  <link rel="next" href="http://0.0.0.0:4000/page2/">
 
 
 
@@ -56,7 +68,7 @@
   "@context": "https://schema.org",
   "@type": "Person",
     "name": "Dcodezero",
-    "url": "https://dcodezero.github.io//"
+    "url": "http://0.0.0.0:4000/"
 }
 </script>
 
@@ -101,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </script><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>
 document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
- 
+ window.enable_copy_code_button = true;
 </script>
 <!-- For all browsers -->
 <link rel="stylesheet" href="/assets/css/main.css">
@@ -132,6 +144,8 @@ document.documentElement.className = document.documentElement.className.replace(
   <div class="masthead__inner-wrap">
     <div class="masthead__menu">
       <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/brew.webp" alt="Dcodezero"></a>
         
         <a class="site-title" href="/">
           Dcodezero
@@ -168,6 +182,11 @@ document.documentElement.className = document.documentElement.className.replace(
                 
               >Tools</a>
             </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
         
         <button class="greedy-nav__toggle hidden" type="button">
           <span class="visually-hidden">Toggle menu</span>
@@ -218,7 +237,7 @@ document.documentElement.className = document.documentElement.className.replace(
 
 
 
-<div id=main role=main>
+<div id="main" role="main">
   
   <div class="sidebar sticky">
   
@@ -227,14 +246,21 @@ document.documentElement.className = document.documentElement.className.replace(
 <div itemscope itemtype="https://schema.org/Person" class="h-card">
 
   
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
 
   <div class="author__content">
     <h3 class="author__name p-name" itemprop="name">
-      <a class="u-url" rel="me" href="/" itemprop="url">Your Name</a>
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
     </h3>
     
       <div class="author__bio p-note" itemprop="description">
-        <p>I am an <strong>amazing</strong> person.</p>
+        <p>┌──[root@dcodezero]
+└──╼ # Hacker | RedTeam | PenTester | CTFPlayer | HackTheBox</p>
 
       </div>
     
@@ -252,21 +278,28 @@ document.documentElement.className = document.documentElement.className.replace(
       
         
           
-        
+            <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
           
         
           
-        
+            <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
           
         
           
-        
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
           
         
       
 
       
 
+      
+        <li>
+          <a href="mailto:dcodezero@proton.me" rel="me" class="u-email">
+            <meta itemprop="email" content="dcodezero@proton.me" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
       
 
       
@@ -328,9 +361,8 @@ document.documentElement.className = document.documentElement.className.replace(
   </div>
 
 
-  
-  <div class=archive>
-    
+
+  <div class="archive">
     
     
 
@@ -383,7 +415,7 @@ document.documentElement.className = document.documentElement.className.replace(
 
           
             <div class="archive__item-excerpt">
-              <p>This is the archive where you can see all the posts related to Game of Active Directory.</p>
+              <p>This is the archive where you can see all the posts related to Game of Active Direcory.</p>
 
             </div>
           
@@ -457,160 +489,413 @@ document.documentElement.className = document.documentElement.className.replace(
 </div>
 
 
-    
-    
 
-<div class="feature__wrapper">
 
-  
-    <div class="feature__item">
-      <div class="archive__item">
-        
-          <div class="archive__item-teaser">
-            <img src="/assets/images/sample/homelab/hl1.png"
-                 alt="">
-            
-          </div>
-        
+<h3 class="archive__subtitle">Recent posts</h3>
 
-        <div class="archive__item-body">
-          
-            <h2 class="archive__item-title">HOME-LAB Proxmox-VE</h2>
-          
 
-          
-            <div class="archive__item-excerpt">
-              <p>This is where I show, how is my server configured to run Proxmox-Environment</p>
 
-            </div>
-          
 
-          
-            <p><a href="/it/Homelab" class="btn btn--inverse">Learn more</a></p>
-          
-        </div>
-      </div>
-    </div>
-  
-    <div class="feature__item">
-      <div class="archive__item">
-        
-          <div class="archive__item-teaser">
-            <img src="/assets/images/sample/GOAD/goad-act.png"
-                 alt="">
-            
-          </div>
-        
-
-        <div class="archive__item-body">
-          
-            <h2 class="archive__item-title">Game of Active Directory</h2>
-          
-
-          
-            <div class="archive__item-excerpt">
-              <p>This is the archive where you can see all the posts related to Game of Active Directory.</p>
-
-            </div>
-          
-
-          
-            <p><a href="/GOAD-Archive/" class="btn btn--inverse">Learn more</a></p>
-          
-        </div>
-      </div>
-    </div>
-  
-    <div class="feature__item">
-      <div class="archive__item">
-        
-          <div class="archive__item-teaser">
-            <img src="/assets/images/red-team.png"
-                 alt="">
-            
-          </div>
-        
-
-        <div class="archive__item-body">
-          
-            <h2 class="archive__item-title">Red-Team</h2>
-          
-
-          
-            <div class="archive__item-excerpt">
-              <p>A complete archive of my posts related to offensive side of things.</p>
-
-            </div>
-          
-
-          
-            <p><a href="/red-team/" class="btn btn--inverse">Learn more</a></p>
-          
-        </div>
-      </div>
-    </div>
-  
-    <div class="feature__item">
-      <div class="archive__item">
-        
-          <div class="archive__item-teaser">
-            <img src="/assets/images/sample/htb-index.png"
-                 alt="">
-            
-          </div>
-        
-
-        <div class="archive__item-body">
-          
-            <h2 class="archive__item-title">HackTheBox</h2>
-          
-
-          
-            <div class="archive__item-excerpt">
-              <p>Archive of all Hack the Box Machines completed.</p>
-
-            </div>
-          
-
-          
-            <p><a href="/hackthebox/" class="btn btn--inverse">Learn more</a></p>
-          
-        </div>
-      </div>
-    </div>
+<div class="entries-grid">
   
 
-</div>
-
-    
-    <h3 class=archive__subtitle>Recent posts</h3>
-    
-    
-    
-    
-    <div class=entries-grid>
-      
 
 
 
-<div class="list__item">
+
+
+
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/ai-red-team-practical.svg" alt="">
+      </div>
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="" rel="permalink"></a>
+        <a href="/ai-security/practical-ai-red-teaming-techniques/" rel="permalink">Practical AI Red Teaming: Hands-On Attack Techniques and Tooling
+</a>
       
     </h2>
     
 
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-06T00:00:00+00:00">January 6, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
 
     
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          25 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This is where abstract vulnerabilities become concrete exploits.
+</p>
   </article>
 </div>
 
-    </div>
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
+      <div class="archive__item-teaser">
+        <img src="/assets/images/tools-scripts.svg" alt="">
+      </div>
     
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/tools/red-team/ad-enumeration-toolkit/" rel="permalink">AD Enumeration Toolkit: Scripts I Actually Use
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-06T00:00:00+00:00">January 6, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PowerShell and Python scripts for Active Directory enumeration. LDAP queries, BloodHound collection, and quick-win one-liners.
+</p>
+  </article>
+</div>
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/tools-scripts.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/tools/red-team/recon-automation-scripts/" rel="permalink">External Recon Automation: Scripts That Save Hours
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-05T00:00:00+00:00">January 5, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          11 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Automated recon workflow - subdomain enumeration, port scanning, screenshots, tech fingerprinting, and cloud asset discovery.
+</p>
+  </article>
+</div>
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/tools-scripts.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/tools/red-team/post-exploitation-scripts/" rel="permalink">Post-Exploitation Scripts: Persistence, Pivoting &amp; Data Collection
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-04T00:00:00+00:00">January 4, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Scripts for maintaining access - credential harvesting, persistence mechanisms, lateral movement, and data exfiltration techniques.
+</p>
+  </article>
+</div>
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/ai-red-team-intro.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/ai-security/red-team/introduction-to-ai-red-teaming/" rel="permalink">Introduction to AI Red Teaming: Breaking Machine Learning Systems
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-12-12T00:00:00+00:00">December 12, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          13 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This post establishes the foundational concepts of AI red teaming, dissects the threat landscape, and provides a technical framework for understanding how mo...</p>
+  </article>
+</div>
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/Homelab.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/it/homelab-upgrade-r730xd/" rel="permalink">HomeLab Part-02: The Upgrade to Dell R730xd
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-09-21T00:00:00+00:00">September 21, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Upgrading from HP DL380 G7 to Dell R730xd - more cores, better efficiency, and ready to host AD labs.
+</p>
+  </article>
+</div>
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/Underpass/underpass.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/hackthebox/Underpass/" rel="permalink">HackTheBox UnderPass
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2025-01-10T00:00:00+00:00">January 10, 2025</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">UnderPass is a HTB easy linux machine, Created by dakkmaddy. The Box is mainly based on Enumerations and basic priv escalations.
+</p>
+  </article>
+</div>
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/malleablec2.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/Malleable-c2-pro/" rel="permalink">Cobalt Strike Malleable C2 Profiles
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2024-12-25T00:00:00+00:00">December 25, 2024</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Hide from blue team like a pro by using malleable c2 profiles.
+</p>
+  </article>
+</div>
+
+</div>
+
+
   
     
 <nav class="pagination">
@@ -649,6 +934,13 @@ document.documentElement.className = document.documentElement.className.replace(
         <li><a href="/page3/">3</a></li>
       
     
+      
+        
+        
+        
+        <li><a href="/page4/">4</a></li>
+      
+    
 
     
     
@@ -656,7 +948,7 @@ document.documentElement.className = document.documentElement.className.replace(
     
 
     
-      <li><a href="/page8/">8</a></li>
+      <li><a href="/page5/">5</a></li>
     
 
     
@@ -670,12 +962,24 @@ document.documentElement.className = document.documentElement.className.replace(
   
 
 
+
   </div>
 </div>
 
       
     </div>
 
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
     
  
   
@@ -761,7 +1065,7 @@ document.documentElement.className = document.documentElement.className.replace(
 </div>
 
 
-<div class="page__footer-copyright">&copy; 2026 <a href="https://dcodezero.github.io/">Dcodezero</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div> 
+<div class="page__footer-copyright">&copy; 2026 <a href="https://dcodezero.github.io/">dcodezero</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div> 
 
       </footer>
     </div>
@@ -772,7 +1076,30 @@ document.documentElement.className = document.documentElement.className.replace(
 
 
 
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
 
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://0.0.0.0:4000/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = ""; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://dcode_zero.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
 
 
 
