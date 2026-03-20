@@ -1,0 +1,1095 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<!-- begin _includes/seo.html --><title>AI Red Teaming &amp; Malware ML: GitHub Resources You Should Know - Dcodezero</title>
+<meta name="description" content="A curated breakdown of the most important GitHub repositories for AI/LLM red teaming, jailbreak datasets, malware ML datasets, and offensive machine learning tools — with risk ratings and use-case notes.">
+
+
+  <meta name="author" content="DcodeZer0">
+  
+  <meta property="article:author" content="DcodeZer0">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Dcodezero">
+<meta property="og:title" content="AI Red Teaming &amp; Malware ML: GitHub Resources You Should Know">
+<meta property="og:url" content="https://dcodezero.github.io//ai-security/red-team/ai-redteam-resources/">
+
+
+  <meta property="og:description" content="A curated breakdown of the most important GitHub repositories for AI/LLM red teaming, jailbreak datasets, malware ML datasets, and offensive machine learning tools — with risk ratings and use-case notes.">
+
+
+
+
+
+  <meta name="twitter:site" content="@Dcodezer0">
+  <meta name="twitter:title" content="AI Red Teaming &amp; Malware ML: GitHub Resources You Should Know">
+  <meta name="twitter:description" content="A curated breakdown of the most important GitHub repositories for AI/LLM red teaming, jailbreak datasets, malware ML datasets, and offensive machine learning tools — with risk ratings and use-case notes.">
+  <meta name="twitter:url" content="https://dcodezero.github.io//ai-security/red-team/ai-redteam-resources/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2026-03-20T00:00:00+00:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://dcodezero.github.io//ai-security/red-team/ai-redteam-resources/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
+
+
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
+
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ window.enable_copy_code_button = true;
+</script>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+    <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/a236ffe3231543dfa1a53e2a4/b8e03e16b2df243b196811790.js");</script>
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/brew.webp" alt="Dcodezero"></a>
+        
+        <a class="site-title" href="/">
+          Dcodezero
+          <span class="site-subtitle">Hack>>Sleep>>Repeat</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tags"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/it-posts/"
+                
+                
+              >I.T</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tools/"
+                
+                
+              >Tools</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          AI Red Teaming &amp; Malware ML: GitHub Resources You Should Know
+
+        
+      </h1>
+      
+        <p class="page__lead">A curated breakdown of the most important GitHub repositories for AI/LLM red teaming, jailbreak datasets, malware ML datasets, and offensive machine learning tools — with risk ratings and use-case notes.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-03-20T00:00:00+00:00">March 20, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#ai-security" itemprop="item"><span itemprop="name">Ai security</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#red-team" itemprop="item"><span itemprop="name">Red team</span></a>
+          <meta itemprop="position" content="3" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">AI Red Teaming & Malware ML: GitHub Resources You Should Know</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>┌──[root@dcodezero]
+└──╼ # Hacker | RedTeam | PenTester | CTFPlayer | HackTheBox</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Somewhere</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:dcodezero@proton.me" rel="me" class="u-email">
+            <meta itemprop="email" content="dcodezero@proton.me" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="AI Red Teaming &amp; Malware ML: GitHub Resources You Should Know">
+    <meta itemprop="description" content="A curated breakdown of the most important GitHub repositories for AI/LLM red teaming, jailbreak datasets, malware ML datasets, and offensive machine learning tools — with risk ratings and use-case notes.">
+    <meta itemprop="datePublished" content="2026-03-20T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#-high-risk--potential-malware--offensive-tools">🔴 High Risk — Potential Malware / Offensive Tools</a><ul><li><a href="#llm-attacksllm-attacks">llm-attacks/llm-attacks</a></li><li><a href="#tml-epflllm-adaptive-attacks">tml-epfl/llm-adaptive-attacks</a></li><li><a href="#jiepoffensive-ai-compilation">jiep/offensive-ai-compilation</a></li><li><a href="#cyber-researchaptmalware">cyber-research/APTMalware</a></li><li><a href="#iosifachedikedataset">iosifache/DikeDataset</a></li></ul></li><li><a href="#-research--ai-red-teaming-datasets">🟠 Research — AI Red Teaming Datasets</a><ul><li><a href="#navirockerllm-red-teaming-dataset">navirocker/llm-red-teaming-dataset</a></li><li><a href="#verazuojailbreak_llms">verazuo/jailbreak_llms</a></li><li><a href="#jailbreakbenchjailbreakbench">JailbreakBench/jailbreakbench</a></li><li><a href="#damo-nlp-sgmultilingual-safety-for-llms">DAMO-NLP-SG/multilingual-safety-for-LLMs</a></li><li><a href="#allenaiwildjailbreak">allenai/wildjailbreak</a></li></ul></li><li><a href="#-tools--red-teaming-frameworks">🟡 Tools — Red Teaming Frameworks</a><ul><li><a href="#azurepyrit">Azure/PyRIT</a></li><li><a href="#leondzgarak">leondz/garak</a></li><li><a href="#sherdencoopergptfuzz">sherdencooper/GPTFuzz</a></li><li><a href="#confident-aideepteam">confident-ai/deepteam</a></li><li><a href="#promptfoopromptfoo">promptfoo/promptfoo</a></li><li><a href="#kurogai100-redteam-projects">kurogai/100-redteam-projects</a></li></ul></li><li><a href="#-curated-lists--start-here-for-research">🔵 Curated Lists — Start Here for Research</a></li><li><a href="#summary">Summary</a></li></ul>
+            </nav>
+          </aside>
+        
+        <p>As AI systems get embedded into critical infrastructure, the attack surface grows — and so does the tooling available to security researchers. This post documents the most relevant GitHub repositories for AI red teaming, LLM jailbreaking, and malware ML research, organized by risk level and use case.</p>
+
+<blockquote>
+  <p>⚠️ <strong>Warning:</strong> Some repositories listed here contain actual malware samples or tools capable of bypassing AI safety systems. Use only in isolated, sandboxed environments.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="-high-risk--potential-malware--offensive-tools">🔴 High Risk — Potential Malware / Offensive Tools</h2>
+
+<p>These repos contain either real malware samples or tools that can actively bypass AI safety mechanisms.</p>
+
+<h3 id="llm-attacksllm-attacks"><a href="https://github.com/llm-attacks/llm-attacks">llm-attacks/llm-attacks</a></h3>
+
+<p>Implements the <strong>GCG (Greedy Coordinate Gradient)</strong> attack — universal adversarial suffixes that can bypass safety filters on virtually any LLM. Published alongside a peer-reviewed research paper, this is one of the most cited offensive LLM tools in existence.</p>
+
+<p><strong>Risk:</strong> Direct safety bypass capability on production LLMs.</p>
+
+<hr />
+
+<h3 id="tml-epflllm-adaptive-attacks"><a href="https://github.com/tml-epfl/llm-adaptive-attacks">tml-epfl/llm-adaptive-attacks</a></h3>
+
+<p>ICLR 2025 paper — <em>“Jailbreaking Leading Safety-Aligned LLMs with Simple Adaptive Attacks.”</em> Contains jailbreak artifacts and scripts targeting GPT-4, Claude, Gemini, and other frontier models.</p>
+
+<p><strong>Risk:</strong> Ready-to-run jailbreak artifacts for major LLMs.</p>
+
+<hr />
+
+<h3 id="jiepoffensive-ai-compilation"><a href="https://github.com/jiep/offensive-ai-compilation">jiep/offensive-ai-compilation</a></h3>
+
+<p>Compilation of offensive AI/ML techniques covering:</p>
+<ul>
+  <li>Model stealing via prediction APIs</li>
+  <li>Hyperparameter theft</li>
+  <li>Web-scale training data poisoning</li>
+  <li>Adversarial example generation</li>
+</ul>
+
+<p><strong>Risk:</strong> Comprehensive offensive ML playbook.</p>
+
+<hr />
+
+<h3 id="cyber-researchaptmalware"><a href="https://github.com/cyber-research/APTMalware">cyber-research/APTMalware</a></h3>
+
+<p><strong>3,500+ real malware samples</strong> linked to 12 Advanced Persistent Threat (APT) groups. Used for benchmarking ML-based malware authorship attribution. Contains actual executables.</p>
+
+<p><strong>Risk:</strong> Real malware — sandbox only, never execute directly.</p>
+
+<hr />
+
+<h3 id="iosifachedikedataset"><a href="https://github.com/iosifache/DikeDataset">iosifache/DikeDataset</a></h3>
+
+<p>Labeled collection of benign and malicious <strong>PE and OLE files</strong> for training AI malware classifiers. Contains actual malicious binaries alongside benign samples.</p>
+
+<p><strong>Risk:</strong> Real malware binaries — handle with care.</p>
+
+<hr />
+
+<h2 id="-research--ai-red-teaming-datasets">🟠 Research — AI Red Teaming Datasets</h2>
+
+<p>Prompt and behavior datasets for evaluating LLM safety mechanisms. Generally safer to work with than the above, but still potentially sensitive.</p>
+
+<h3 id="navirockerllm-red-teaming-dataset"><a href="https://github.com/navirocker/llm-red-teaming-dataset">navirocker/llm-red-teaming-dataset</a></h3>
+
+<p>Comprehensive red teaming prompt dataset across <strong>8 AI safety risk categories</strong>:</p>
+<ul>
+  <li>Jailbreaking (system prompt injection, roleplay, hypothetical scenarios)</li>
+  <li>Harmful content generation</li>
+  <li>Privacy violations</li>
+  <li>Bias and fairness</li>
+  <li>Cybersecurity threats</li>
+  <li>Misinformation</li>
+  <li>Illegal activities</li>
+  <li>Psychological manipulation</li>
+</ul>
+
+<p>Cited in 2025 research. Good baseline for safety evaluations.</p>
+
+<hr />
+
+<h3 id="verazuojailbreak_llms"><a href="https://github.com/verazuo/jailbreak_llms">verazuo/jailbreak_llms</a></h3>
+
+<p>Official repo for <strong>ACM CCS 2024</strong>. Contains <strong>15,140 real ChatGPT prompts</strong> collected Dec 2022 to Dec 2023, including 1,405 confirmed jailbreak prompts — the largest in-the-wild jailbreak dataset publicly available.</p>
+
+<hr />
+
+<h3 id="jailbreakbenchjailbreakbench"><a href="https://github.com/JailbreakBench/jailbreakbench">JailbreakBench/jailbreakbench</a></h3>
+
+<p><strong>NeurIPS 2024</strong> Datasets and Benchmarks Track. The <strong>JBB-Behaviors</strong> dataset provides 200 distinct benign and misuse behaviors for tracking progress in jailbreak generation and defense over time.</p>
+
+<hr />
+
+<h3 id="damo-nlp-sgmultilingual-safety-for-llms"><a href="https://github.com/DAMO-NLP-SG/multilingual-safety-for-LLMs">DAMO-NLP-SG/multilingual-safety-for-LLMs</a></h3>
+
+<p><strong>ICLR 2024</strong> — The <strong>MultiJail</strong> dataset. Studies how multilingual inputs can bypass safety mechanisms that were primarily trained on English. A significant gap in most current LLM safety training.</p>
+
+<hr />
+
+<h3 id="allenaiwildjailbreak"><a href="https://huggingface.co/datasets/allenai/wildjailbreak">allenai/wildjailbreak</a></h3>
+
+<p><strong>262,000 vanilla and adversarial prompt-response pairs</strong> from the WildTeaming framework (Allen AI). Mines human-devised jailbreak tactics to programmatically generate diverse adversarial inputs. Primarily used for safety training rather than attacking.</p>
+
+<hr />
+
+<h2 id="-tools--red-teaming-frameworks">🟡 Tools — Red Teaming Frameworks</h2>
+
+<h3 id="azurepyrit"><a href="https://github.com/Azure/PyRIT">Azure/PyRIT</a></h3>
+
+<p>Microsoft’s <strong>Python Risk Identification Tool</strong> for generative AI. Provides a systematic, repeatable framework for red teaming LLMs. Widely adopted in enterprise AI security assessments.</p>
+
+<hr />
+
+<h3 id="leondzgarak"><a href="https://github.com/leondz/garak">leondz/garak</a></h3>
+
+<p>Think of it as <strong>nmap for LLMs</strong>. Probes for hallucination, data leakage, prompt injection, jailbreaks, and a growing list of vulnerability classes. Actively developed and one of the most production-ready scanners available.</p>
+
+<hr />
+
+<h3 id="sherdencoopergptfuzz"><a href="https://github.com/sherdencooper/GPTFuzz">sherdencooper/GPTFuzz</a></h3>
+
+<p><strong>Fuzzing-based jailbreak generation.</strong> Mutates seed prompts automatically to produce novel jailbreaks at scale. Useful for generating large test suites without manual effort.</p>
+
+<hr />
+
+<h3 id="confident-aideepteam"><a href="https://github.com/confident-ai/deepteam">confident-ai/deepteam</a></h3>
+
+<p>Open-source LLM red teaming framework released <strong>November 2025</strong>. Implements vulnerability classes including:</p>
+<ul>
+  <li>Prompt injection</li>
+  <li>PII leakage</li>
+  <li>Hallucinations</li>
+  <li>Encoding obfuscations</li>
+  <li>Multi-turn jailbreaks</li>
+</ul>
+
+<hr />
+
+<h3 id="promptfoopromptfoo"><a href="https://github.com/promptfoo/promptfoo">promptfoo/promptfoo</a></h3>
+
+<p>Open-source LLM testing and red teaming tool with CI/CD integration. Supports automated vulnerability scanning and regression testing — good for catching regressions after model updates.</p>
+
+<hr />
+
+<h3 id="kurogai100-redteam-projects"><a href="https://github.com/kurogai/100-redteam-projects">kurogai/100-redteam-projects</a></h3>
+
+<p>100 red team project ideas ranging from beginner to advanced. Useful for building out lab environments and developing systematic offensive skills.</p>
+
+<hr />
+
+<h2 id="-curated-lists--start-here-for-research">🔵 Curated Lists — Start Here for Research</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Repository</th>
+      <th>Focus</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="https://github.com/user1342/Awesome-LLM-Red-Teaming">user1342/Awesome-LLM-Red-Teaming</a></td>
+      <td>Best overall — frameworks, playgrounds, attack toolkits</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/corca-ai/awesome-llm-security">corca-ai/awesome-llm-security</a></td>
+      <td>LLM security focus, actively maintained</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/yueliu1999/Awesome-Jailbreak-on-LLMs">yueliu1999/Awesome-Jailbreak-on-LLMs</a></td>
+      <td>SOTA jailbreak methods, papers, code</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/wearetyomsmnv/Awesome-LLMSecOps">wearetyomsmnv/Awesome-LLMSecOps</a></td>
+      <td>LLM SecOps, updated Dec 2025</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/cybersecurity-dev/awesome-malware-datasets">cybersecurity-dev/awesome-malware-datasets</a></td>
+      <td>Malware ML datasets collection</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/shramos/Awesome-Cybersecurity-Datasets">shramos/Awesome-Cybersecurity-Datasets</a></td>
+      <td>Broad cybersecurity dataset list</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/jivoi/awesome-ml-for-cybersecurity">jivoi/awesome-ml-for-cybersecurity</a></td>
+      <td>ML applied to security research</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="summary">Summary</h2>
+
+<p>The AI red teaming ecosystem has matured significantly. The tooling now rivals traditional offensive security in sophistication — with automated jailbreak generation, systematic probing frameworks, and large-scale benchmark datasets all publicly available.</p>
+
+<p>If you’re building a red team practice around AI systems, start with <strong>garak</strong> for scanning, <strong>PyRIT</strong> for structured assessments, and the <strong>JailbreakBench</strong> dataset for benchmarking your defenses.</p>
+
+<hr />
+
+<p><em>All tools and datasets listed here are intended for security research and defensive purposes. Use responsibly.</em></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#ai-red-teaming" class="page__taxonomy-item p-category" rel="tag">ai-red-teaming</a><span class="sep">, </span>
+    
+      <a href="/tags/#datasets" class="page__taxonomy-item p-category" rel="tag">datasets</a><span class="sep">, </span>
+    
+      <a href="/tags/#jailbreak" class="page__taxonomy-item p-category" rel="tag">jailbreak</a><span class="sep">, </span>
+    
+      <a href="/tags/#llm-security" class="page__taxonomy-item p-category" rel="tag">llm-security</a><span class="sep">, </span>
+    
+      <a href="/tags/#machine-learning" class="page__taxonomy-item p-category" rel="tag">machine-learning</a><span class="sep">, </span>
+    
+      <a href="/tags/#malware" class="page__taxonomy-item p-category" rel="tag">malware</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#ai-security" class="page__taxonomy-item p-category" rel="tag">AI-Security</a><span class="sep">, </span>
+    
+      <a href="/categories/#red-team" class="page__taxonomy-item p-category" rel="tag">Red-team</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2026-03-20T00:00:00+00:00">March 20, 2026</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  <h4 class="page__share-title">Share on</h4>
+
+  <a href="https://twitter.com/intent/tweet?via=Dcodezer0&text=AI+Red+Teaming+%26+Malware+ML%3A+GitHub+Resources+You+Should+Know%20%2Fai-security%2Fred-team%2Fai-redteam-resources%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdcodezero.github.io%2F%2Fai-security%2Fred-team%2Fai-redteam-resources%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://dcodezero.github.io//ai-security/red-team/ai-redteam-resources/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/ai-security/practical-ai-red-teaming-techniques/" class="pagination--pager" title="Practical AI Red Teaming: Hands-On Attack Techniques and Tooling">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You may also enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/ai-red-team-practical.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/ai-security/practical-ai-red-teaming-techniques/" rel="permalink">Practical AI Red Teaming: Hands-On Attack Techniques and Tooling
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-06T00:00:00+00:00">January 6, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          25 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">This is where abstract vulnerabilities become concrete exploits.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/tools-scripts.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/tools/red-team/ad-enumeration-toolkit/" rel="permalink">AD Enumeration Toolkit: Scripts I Actually Use
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-06T00:00:00+00:00">January 6, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">PowerShell and Python scripts for Active Directory enumeration. LDAP queries, BloodHound collection, and quick-win one-liners.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/tools-scripts.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/tools/red-team/recon-automation-scripts/" rel="permalink">External Recon Automation: Scripts That Save Hours
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-05T00:00:00+00:00">January 5, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          11 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Automated recon workflow - subdomain enumeration, port scanning, screenshots, tech fingerprinting, and cloud asset discovery.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/tools-scripts.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/tools/red-team/post-exploitation-scripts/" rel="permalink">Post-Exploitation Scripts: Persistence, Pivoting &amp; Data Collection
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-01-04T00:00:00+00:00">January 4, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Scripts for maintaining access - credential harvesting, persistence mechanisms, lateral movement, and data exfiltration techniques.
+</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+ 
+  
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+           <!-- Add this CSS to your custom stylesheet (_sass or assets/css/main.scss) -->
+   <style>
+    .subscribe-button {
+      display: inline-block;
+      padding: 12px 24px;
+      background: transparent;
+      border: 2px solid #39ff14;
+      color: #39ff14;
+      text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: bold;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .subscribe-button:hover {
+      background: #39ff14;
+      color: #000;
+      box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
+    }
+    
+    .subscribe-button::before {
+      content: '>';
+      margin-right: 8px;
+      display: inline-block;
+    }
+    
+    /* Optional: Add animation */
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(57, 255, 20, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
+    }
+    
+    .subscribe-button {
+      animation: pulse 2s infinite;
+    }
+    </style>
+    
+    <!-- Add this HTML where you want the button to appear -->
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="/helpedyou/" class="subscribe-button">Join The Network</a>
+    </div>
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+
+<div class="page__footer-copyright">&copy; 2026 <a href="https://dcodezero.github.io/">dcodezero</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div> 
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://dcodezero.github.io//ai-security/red-team/ai-redteam-resources/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/ai-security/red-team/ai-redteam-resources"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://dcode_zero.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+    
+  </body>
+</html>

