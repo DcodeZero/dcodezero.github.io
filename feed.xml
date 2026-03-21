@@ -1,4 +1,161 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://dcodezero.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://dcodezero.github.io//" rel="alternate" type="text/html" /><updated>2026-03-20T20:21:07+00:00</updated><id>https://dcodezero.github.io//feed.xml</id><title type="html">Dcodezero</title><subtitle> </subtitle><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><entry><title type="html">Autonomous AI Red Teamers Are Here — And Your SOC Isn’t Ready</title><link href="https://dcodezero.github.io//red-team/ai-agents-red-team-2026/" rel="alternate" type="text/html" title="Autonomous AI Red Teamers Are Here — And Your SOC Isn’t Ready" /><published>2026-03-20T00:00:00+00:00</published><updated>2026-03-20T00:00:00+00:00</updated><id>https://dcodezero.github.io//red-team/ai-agents-red-team-2026</id><content type="html" xml:base="https://dcodezero.github.io//red-team/ai-agents-red-team-2026/"><![CDATA[<p>Let me be blunt: the 2026 red team landscape is already unrecognisable from three years ago, and most security teams are cosplaying like it’s still 2022. Autonomous AI agents are now running full kill chains — recon to exfil — without a human operator touching a keyboard. The attackers knew this before the defenders did. That’s the problem.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://dcodezero.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://dcodezero.github.io//" rel="alternate" type="text/html" /><updated>2026-03-21T02:13:31+00:00</updated><id>https://dcodezero.github.io//feed.xml</id><title type="html">Dcodezero</title><subtitle> </subtitle><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><entry><title type="html">HomeLab Part-03 [PVE2 Networking — The NIC That Wasn’t There]</title><link href="https://dcodezero.github.io//it/pve2-networking/" rel="alternate" type="text/html" title="HomeLab Part-03 [PVE2 Networking — The NIC That Wasn’t There]" /><published>2026-03-21T00:00:00+00:00</published><updated>2026-03-21T00:00:00+00:00</updated><id>https://dcodezero.github.io//it/pve2-networking</id><content type="html" xml:base="https://dcodezero.github.io//it/pve2-networking/"><![CDATA[<h1 id="pve2-networking--the-nic-that-wasnt-there">PVE2 Networking — The NIC That Wasn’t There</h1>
+
+<p>Some homelab problems announce themselves loudly. A RAID array degrading, a VM that won’t boot, a dashboard screaming red. This one didn’t. It just quietly sat there — a NIC that existed in <code class="language-plaintext highlighter-rouge">lspci</code> but nowhere else, and a cluster that had no idea anything was wrong.</p>
+
+<p>This is the story of that NIC, the rabbit hole it sent us down, and the somewhat embarrassing simplicity of the fix.</p>
+
+<hr />
+
+<h2 id="the-lab-setup">The Lab Setup</h2>
+
+<p>The cluster is two repurposed desktop machines:</p>
+
+<ul>
+  <li><strong>Node 1 (PVE)</strong> — workstation-class hardware, Xeon CPU, Intel NIC. Boring, reliable, exactly what you want.</li>
+  <li><strong>Node 2 (PVE2)</strong> — compact i5 desktop, onboard Realtek RTL8168evl PCIe NIC. Less boring. Much less reliable, as it turned out.</li>
+  <li><strong>Raspberry Pi</strong> — acting as Qdevice to keep quorum honest when one node goes dark.</li>
+</ul>
+
+<p>Nothing exotic. The kind of setup you build from whatever hardware is lying around, which is both the joy and the curse of homelabbing.</p>
+
+<hr />
+
+<h2 id="act-1--something-is-very-wrong-with-this-nic">Act 1 — Something Is Very Wrong With This NIC</h2>
+
+<p>The first sign wasn’t an alert. It was an <code class="language-plaintext highlighter-rouge">iperf3</code> test.</p>
+
+<p>Node 1 was hitting expected gigabit throughput. Node 2 was producing numbers that looked like a throttled broadband connection from 2009. Tens of megabits. On the same switch, same cable, same VLAN.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># On Node 2</span>
+iperf3 <span class="nt">-c</span> 192.168.200.200
+
+Connecting to host 192.168.200.200, port 5201
+<span class="o">[</span> ID] Interval           Transfer     Bitrate
+<span class="o">[</span>  5]   0.00-10.00  sec  28.4 MBytes  23.8 Mbits/sec     <span class="c"># something is deeply wrong</span>
+</code></pre></div></div>
+
+<p>Time to look at the interface itself:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lspci | <span class="nb">grep</span> <span class="nt">-i</span> ethernet
+<span class="c"># 02:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111/8168/8411 PCIe Gigabit Ethernet Controller (rev 15)</span>
+
+lspci <span class="nt">-k</span> <span class="nt">-s</span> 02:00.0
+<span class="c"># 02:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111/8168/8411 PCIe Gigabit Ethernet Controller (rev 15)</span>
+<span class="c">#         Subsystem: ...</span>
+<span class="c">#         Kernel driver in use: (none)</span>
+<span class="c">#         Kernel modules: r8168, r8169</span>
+</code></pre></div></div>
+
+<p>There it was. <strong>Kernel driver in use: (none).</strong></p>
+
+<p>The hardware exists. The kernel knows about two candidate modules. But nothing is loaded. The interface simply does not exist to the OS. No <code class="language-plaintext highlighter-rouge">eth0</code>, no <code class="language-plaintext highlighter-rouge">enp2s0</code>, nothing.</p>
+
+<hr />
+
+<h2 id="root-cause--the-r8168-dkms-trap">Root Cause — The r8168-dkms Trap</h2>
+
+<p>A quick check of <code class="language-plaintext highlighter-rouge">/etc/modprobe.d/</code> told the whole story:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /etc/modprobe.d/r8168-dkms.conf
+<span class="c"># Realtek r8168-dkms</span>
+<span class="nb">alias </span>pci:v000010ECd00008168sv<span class="k">*</span>sd<span class="k">*</span>bc<span class="k">*</span>sc<span class="k">*</span>i<span class="k">*</span> r8168
+</code></pre></div></div>
+
+<p>At some point — likely during the initial OS setup — <code class="language-plaintext highlighter-rouge">r8168-dkms</code> had been installed. Realtek ships an out-of-tree kernel module called <code class="language-plaintext highlighter-rouge">r8168</code> as an alternative to the in-kernel <code class="language-plaintext highlighter-rouge">r8169</code> driver. The DKMS package drops an alias into modprobe configuration that says: <em>when you see this PCI ID, load <code class="language-plaintext highlighter-rouge">r8168</code>, not <code class="language-plaintext highlighter-rouge">r8169</code>.</em></p>
+
+<p>The problem: the DKMS build was broken. <code class="language-plaintext highlighter-rouge">r8168</code> never actually compiled. So when the kernel tried to honour that alias and load <code class="language-plaintext highlighter-rouge">r8168</code>, it found nothing. And because the alias explicitly redirected the PCI ID away from <code class="language-plaintext highlighter-rouge">r8169</code>, the in-kernel driver — which handles RTL8168 chipsets perfectly well — was silently blocked.</p>
+
+<p>The NIC had been there the whole time. The driver had been deliberately told to stay away.</p>
+
+<p>Node 1 never had this problem. Its Intel NIC loads <code class="language-plaintext highlighter-rouge">e1000e</code> cleanly, no DKMS involvement, no drama.</p>
+
+<hr />
+
+<h2 id="act-2--life-on-a-usb-nic">Act 2 — Life on a USB NIC</h2>
+
+<p>While the root cause was being tracked down, the node still needed to function. The short-term fix: plug in a USB 3.0 Realtek adapter and bridge it into <code class="language-plaintext highlighter-rouge">vmbr0</code> as the primary network port.</p>
+
+<p>This kept Node 2 alive. It did not keep it healthy.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># What vmbr0 looked like during the USB era</span>
+auto vmbr0
+iface vmbr0 inet static
+    address 192.168.200.201/24
+    gateway 192.168.200.1
+    bridge-ports usb0        <span class="c"># 👈 this is the problem</span>
+    bridge-stp off
+    bridge-fd 0
+</code></pre></div></div>
+
+<p>Throughput through the USB adapter was capped at 18–30 Mbps under load. For basic VM operation that’s survivable. For a Proxmox cluster, it’s a liability. HA decisions, live migration, Corosync heartbeats — all of that rides on reliable inter-node connectivity. A USB NIC with inconsistent throughput is not the foundation you want quorum riding on.</p>
+
+<p>There was also a moment of being completely locked out of Node 2 remotely — no IPMI, no out-of-band management, no mesh VPN installed at the time. Any change that dropped the interface even briefly would mean a drive to the hardware. A hard lesson about the importance of having an escape hatch before touching network config on a remote machine.</p>
+
+<hr />
+
+<h2 id="act-3--the-fix-embarrassingly-simple">Act 3 — The Fix (Embarrassingly Simple)</h2>
+
+<p>Once the root cause was clear, the fix was three commands:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. Disable the broken alias — comment it out rather than delete</span>
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s/^alias/#alias/'</span> /etc/modprobe.d/r8168-dkms.conf
+
+<span class="c"># 2. Load the correct in-kernel driver immediately</span>
+modprobe r8169
+
+<span class="c"># 3. Persist across reboots</span>
+<span class="nb">echo</span> <span class="s2">"r8169"</span> <span class="o">&gt;&gt;</span> /etc/modules-load.d/r8169.conf
+update-initramfs <span class="nt">-u</span>
+</code></pre></div></div>
+
+<p>After <code class="language-plaintext highlighter-rouge">modprobe r8169</code>, the onboard NIC came up with carrier almost instantly. The interface appeared, got its address, and iperf3 immediately started reporting gigabit numbers.</p>
+
+<p>The final step — switching <code class="language-plaintext highlighter-rouge">vmbr0</code>’s bridge port from the USB adapter to the onboard NIC — was done carefully over a Tailscale mesh tunnel to avoid losing remote access mid-change:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Edit /etc/network/interfaces</span>
+auto vmbr0
+iface vmbr0 inet static
+    address 192.168.200.201/24
+    gateway 192.168.200.1
+    bridge-ports enp2s0      <span class="c"># 👈 back to the real NIC</span>
+    bridge-stp off
+    bridge-fd 0
+
+<span class="c"># Apply without full reboot</span>
+ifdown vmbr0 <span class="o">&amp;&amp;</span> ifup vmbr0
+</code></pre></div></div>
+
+<p>Post-switch iperf3:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iperf3 <span class="nt">-c</span> 192.168.200.200
+
+<span class="o">[</span> ID] Interval           Transfer     Bitrate
+<span class="o">[</span>  5]   0.00-10.00  sec  1.09 GBytes   936 Mbits/sec     <span class="c"># that's more like it</span>
+</code></pre></div></div>
+
+<p>936 Mbits/sec. From 23 Mbits/sec. Same hardware. Same cable. Same switch port. The only change was unblocking the driver that should have been there from day one.</p>
+
+<hr />
+
+<h2 id="what-we-learned">What We Learned</h2>
+
+<p><strong>r8168-dkms is a silent trap.</strong> The <code class="language-plaintext highlighter-rouge">r8169</code> in-kernel driver handles RTL8168 chipsets just fine on modern kernels. There’s rarely a reason to install the out-of-tree <code class="language-plaintext highlighter-rouge">r8168</code> module, and if the DKMS build fails (which it can, especially after kernel updates), you end up with exactly this scenario — a NIC that exists in hardware but nowhere in the OS.</p>
+
+<p>If you ever run <code class="language-plaintext highlighter-rouge">lspci -k</code> and see <em>Kernel driver in use: (none)</em> on a NIC, check <code class="language-plaintext highlighter-rouge">/etc/modprobe.d/</code> immediately. A ghost alias is a likely culprit.</p>
+
+<p><strong>Always have an out-of-band access path.</strong> Before touching NIC configuration on any remote or semi-remote node, have a way in that doesn’t depend on the interface you’re about to reconfigure. Tailscale, WireGuard on a second interface, a serial console, IPMI — anything. The moment you don’t have this is the moment you need it.</p>
+
+<p><strong>A USB NIC on vmbr0 is a liability.</strong> It works as a short-term fallback while you diagnose. It is not a permanent solution for a cluster node. USB has overhead, USB adapters have driver quirks, and USB connections are physically fragile compared to a PCIe NIC. If you find yourself running a production cluster bridge over USB, that’s a sign something else needs fixing.</p>
+
+<p><strong>Measure before and after.</strong> iperf3 is free and takes thirty seconds. Run it before any NIC change, run it after. Don’t assume gigabit just because the link light is green.</p>
+
+<hr />
+
+<h2 id="the-current-state">The Current State</h2>
+
+<p>Both nodes are now running on their respective onboard NICs — Intel <code class="language-plaintext highlighter-rouge">e1000e</code> on PVE1, Realtek <code class="language-plaintext highlighter-rouge">r8169</code> on PVE2. The USB adapter is in a drawer. The cluster is stable. Corosync is happy. The Raspberry Pi Qdevice continues its quiet existence arbitrating quorum for machines far more powerful than itself.</p>
+
+<p>Would’ve been faster if we’d checked modprobe aliases first. But then there’d be nothing to write about.</p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="IT" /><category term="HomeLab" /><category term="IT" /><category term="Infra" /><category term="Infrastructure" /><category term="Proxmox" /><category term="Networking" /><summary type="html"><![CDATA[How a broken DKMS package silently killed a Realtek NIC, forced a USB adapter onto the cluster bridge, and nearly took down quorum — and what we did to fix it cleanly.]]></summary></entry><entry><title type="html">Autonomous AI Red Teamers Are Here — And Your SOC Isn’t Ready</title><link href="https://dcodezero.github.io//red-team/ai-agents-red-team-2026/" rel="alternate" type="text/html" title="Autonomous AI Red Teamers Are Here — And Your SOC Isn’t Ready" /><published>2026-03-20T00:00:00+00:00</published><updated>2026-03-20T00:00:00+00:00</updated><id>https://dcodezero.github.io//red-team/ai-agents-red-team-2026</id><content type="html" xml:base="https://dcodezero.github.io//red-team/ai-agents-red-team-2026/"><![CDATA[<p>Let me be blunt: the 2026 red team landscape is already unrecognisable from three years ago, and most security teams are cosplaying like it’s still 2022. Autonomous AI agents are now running full kill chains — recon to exfil — without a human operator touching a keyboard. The attackers knew this before the defenders did. That’s the problem.</p>
 
 <p>This isn’t science fiction. In March 2026, The Register documented rogue AI agents collaborating <em>with each other</em> to escalate privileges and bypass endpoint controls. TrojAI shipped production-grade “Agent-Led AI Red Teaming” that coordinates hundreds of autonomous bots, each hunting a different attack vector in parallel. Meanwhile, only <strong>32% of enterprise attack surfaces</strong> are being tested by anyone — human or machine. Do the math on that gap.</p>
 
@@ -3821,299 +3978,4 @@ previous conversation context.]"
 
 <hr />
 
-<p><em>Stay tuned for Part 2: Practical AI Red Teaming Techniques, where we’ll build and deploy actual attacks against ML systems.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="AI-Security" /><category term="Red-team" /><category term="ai-red-teaming" /><category term="-" /><category term="machine-learning" /><category term="-" /><category term="adversarial-attacks" /><category term="-" /><category term="llm-security" /><category term="-" /><category term="prompt-injection" /><summary type="html"><![CDATA[This post establishes the foundational concepts of AI red teaming, dissects the threat landscape, and provides a technical framework for understanding how modern AI systems can be compromised, manipulated, and exploited.]]></summary></entry><entry><title type="html">HomeLab Part-02: The Upgrade to Dell R730xd</title><link href="https://dcodezero.github.io//it/homelab-upgrade-r730xd/" rel="alternate" type="text/html" title="HomeLab Part-02: The Upgrade to Dell R730xd" /><published>2025-09-21T00:00:00+00:00</published><updated>2025-09-21T00:00:00+00:00</updated><id>https://dcodezero.github.io//it/homelab-upgrade-r730xd</id><content type="html" xml:base="https://dcodezero.github.io//it/homelab-upgrade-r730xd/"><![CDATA[<h1 id="the-upgrade-from-hp-dl380-g7-to-dell-r730xd">The Upgrade: From HP DL380 G7 to Dell R730xd</h1>
-
-<p>In my <a href="/it/Homelab/">previous homelab post</a>, I talked about running my infrastructure on an HP Proliant DL380 G7 with dual Xeon X5650 processors. That server served me well, but it was time for an upgrade.</p>
-
-<h2 id="why-upgrade">Why Upgrade?</h2>
-
-<p>The DL380 G7 was solid, but showing its age:</p>
-
-<ul>
-  <li><strong>Power hungry</strong>: Westmere-EP chips from 2010 aren’t efficient</li>
-  <li><strong>Limited single-thread performance</strong>: Newer workloads need faster cores</li>
-  <li><strong>DDR3 memory</strong>: Slower and harder to find in large capacities</li>
-  <li><strong>Running AD labs</strong>: Needed more headroom for hosting GOAD environments</li>
-</ul>
-
-<p>The main driver? I’m now hosting <a href="/selfhosted-labs/">Budget Hacking Labs</a> - affordable AD lab environments for red team practice. The old server could handle it, but not with the headroom I wanted for multiple concurrent users.</p>
-
-<h2 id="the-new-hardware">The New Hardware</h2>
-
-<h3 id="dell-r730xd-2u-rack-server">Dell R730xd (2U Rack Server)</h3>
-
-<p><img src="/assets/images/sample/homelab/r730xd/r730xd-front.jpg" alt="Dell R730xd Front View" /></p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Component</th>
-      <th>Specification</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>CPU</strong></td>
-      <td>Intel Xeon E5-2680 v4</td>
-    </tr>
-    <tr>
-      <td><strong>Cores/Threads</strong></td>
-      <td>14 Cores / 28 Threads</td>
-    </tr>
-    <tr>
-      <td><strong>Base Clock</strong></td>
-      <td>2.4 GHz</td>
-    </tr>
-    <tr>
-      <td><strong>Turbo Clock</strong></td>
-      <td>3.3 GHz</td>
-    </tr>
-    <tr>
-      <td><strong>RAM</strong></td>
-      <td>128 GB DDR4 ECC</td>
-    </tr>
-    <tr>
-      <td><strong>Form Factor</strong></td>
-      <td>2U Rack</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>The R730xd is the extended storage variant - it supports up to 26 x 2.5” drives in the front bays plus 2 in the rear. Overkill for most homelabs, but perfect for running multiple lab environments with dedicated storage.</p>
-
-<p><img src="/assets/images/sample/homelab/r730xd/r730xd-drives.jpg" alt="R730xd Drive Bays" /></p>
-
-<h3 id="cpu-comparison-x5650-vs-e5-2680-v4">CPU Comparison: X5650 vs E5-2680 v4</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Spec</th>
-      <th>Xeon X5650 (Old)</th>
-      <th>Xeon E5-2680 v4 (New)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Architecture</td>
-      <td>Westmere-EP (2010)</td>
-      <td>Broadwell-EP (2016)</td>
-    </tr>
-    <tr>
-      <td>Cores</td>
-      <td>6 (x2 = 12 total)</td>
-      <td>14</td>
-    </tr>
-    <tr>
-      <td>Threads</td>
-      <td>12 (x2 = 24 total)</td>
-      <td>28</td>
-    </tr>
-    <tr>
-      <td>Base Clock</td>
-      <td>2.67 GHz</td>
-      <td>2.4 GHz</td>
-    </tr>
-    <tr>
-      <td>Turbo</td>
-      <td>3.06 GHz</td>
-      <td>3.3 GHz</td>
-    </tr>
-    <tr>
-      <td>TDP</td>
-      <td>95W x2 = 190W</td>
-      <td>120W</td>
-    </tr>
-    <tr>
-      <td>Memory</td>
-      <td>DDR3-1333</td>
-      <td>DDR4-2400</td>
-    </tr>
-    <tr>
-      <td>Process</td>
-      <td>32nm</td>
-      <td>14nm</td>
-    </tr>
-  </tbody>
-</table>
-
-<p><strong>Key wins:</strong></p>
-<ul>
-  <li>More cores/threads from a single CPU (28 vs 24)</li>
-  <li>Much better power efficiency (14nm vs 32nm)</li>
-  <li>DDR4 memory - faster and more available</li>
-  <li>Better IPC (instructions per clock) - Broadwell is significantly faster clock-for-clock</li>
-</ul>
-
-<h3 id="storage-configuration">Storage Configuration</h3>
-
-<p>Running a RAID setup with mixed SSD and HDD:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Drive Type</th>
-      <th>Purpose</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>SSDs</strong></td>
-      <td>VM storage - fast disk I/O for running labs</td>
-    </tr>
-    <tr>
-      <td><strong>HDDs</strong></td>
-      <td>ISO storage, backups, cold data</td>
-    </tr>
-    <tr>
-      <td><strong>RAID</strong></td>
-      <td>Hardware RAID via PERC controller</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>The R730xd’s PERC H730 Mini gives me hardware RAID with battery backup. No more worrying about data loss from sudden power issues.</p>
-
-<h2 id="cost-breakdown">Cost Breakdown</h2>
-
-<p>Total investment: <strong>~$800+</strong></p>
-
-<p>Not cheap, but considering what you get:</p>
-<ul>
-  <li>Enterprise-grade hardware with iDRAC remote management</li>
-  <li>DDR4 platform with upgrade path to 768GB+ RAM</li>
-  <li>14nm efficiency vs 32nm power hog</li>
-  <li>Enough storage bays to never worry about space</li>
-</ul>
-
-<p>Compare that to cloud hosting costs for running multiple Windows VMs 24/7 - this pays for itself quickly.</p>
-
-<h2 id="still-running-proxmox-ve">Still Running Proxmox VE</h2>
-
-<p>No reason to change what works. Proxmox VE handles the virtualization:</p>
-
-<ul>
-  <li>KVM for full Windows/Linux VMs</li>
-  <li>LXC containers for lightweight services</li>
-  <li>Web UI for management</li>
-  <li>Built-in backup to my NAS</li>
-</ul>
-
-<p><img src="/assets/images/sample/homelab/r730xd/proxmox-dashboard.png" alt="Proxmox Dashboard" /></p>
-
-<p>The migration from the old server was straightforward - export VMs, import on new host, update network configs.</p>
-
-<h2 id="current-lab-setup">Current Lab Setup</h2>
-
-<p>With the upgraded hardware, I’m now running:</p>
-
-<p><strong>For Budget Hacking Labs:</strong></p>
-<ul>
-  <li>GOAD Mini environments (2-3 VMs each)</li>
-  <li>Shared attack boxes (Kali LXC containers)</li>
-  <li>WireGuard VPN endpoint</li>
-  <li>Lab management services</li>
-</ul>
-
-<p><strong>Personal homelab:</strong></p>
-<ul>
-  <li>Domain controller for home network</li>
-  <li>Docker host for self-hosted services</li>
-  <li>Dev/test VMs</li>
-  <li>Network monitoring</li>
-</ul>
-
-<p>The E5-2680 v4 handles all of this with room to spare. CPU utilization rarely goes above 30% under normal lab load.</p>
-
-<p><img src="/assets/images/sample/homelab/r730xd/resource-usage.png" alt="Resource Utilization" /></p>
-
-<h2 id="power-consumption">Power Consumption</h2>
-
-<p>One concern with homelab servers is electricity cost. Quick comparison:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Server</th>
-      <th>Idle Power</th>
-      <th>Load Power</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>HP DL380 G7 (dual X5650)</td>
-      <td>~180W</td>
-      <td>~350W</td>
-    </tr>
-    <tr>
-      <td>Dell R730xd (E5-2680 v4)</td>
-      <td>~90W</td>
-      <td>~200W</td>
-    </tr>
-  </tbody>
-</table>
-
-<p><strong>Roughly half the power consumption</strong> for more compute. The 14nm process and DDR4 make a huge difference.</p>
-
-<h2 id="whats-next">What’s Next?</h2>
-
-<p>The R730xd has room to grow:</p>
-
-<ul>
-  <li><strong>RAM upgrade</strong>: Can go to 256GB or more when needed</li>
-  <li><strong>Second CPU</strong>: The R730xd supports dual processors</li>
-  <li><strong>More storage</strong>: Plenty of empty drive bays</li>
-  <li><strong>GPU passthrough</strong>: For future AI/ML experiments</li>
-</ul>
-
-<p>For now, 128GB and a single 14-core CPU is more than enough for my needs.</p>
-
-<h2 id="tldr">TL;DR</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th> </th>
-      <th>Old Setup</th>
-      <th>New Setup</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Server</td>
-      <td>HP DL380 G7</td>
-      <td>Dell R730xd</td>
-    </tr>
-    <tr>
-      <td>CPU</td>
-      <td>2x Xeon X5650</td>
-      <td>1x Xeon E5-2680 v4</td>
-    </tr>
-    <tr>
-      <td>Cores/Threads</td>
-      <td>12C/24T</td>
-      <td>14C/28T</td>
-    </tr>
-    <tr>
-      <td>RAM</td>
-      <td>128GB DDR3</td>
-      <td>128GB DDR4</td>
-    </tr>
-    <tr>
-      <td>Power</td>
-      <td>~180-350W</td>
-      <td>~90-200W</td>
-    </tr>
-    <tr>
-      <td>Cost</td>
-      <td>~$570</td>
-      <td>~$800+</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>The upgrade was worth it. More efficient, more capable, and ready to scale the <a href="/selfhosted-labs/">Budget Hacking Labs</a> service.</p>
-
-<hr />
-
-<p><em>In the next post, I’ll cover the network architecture and how I isolate lab environments from my home network.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="IT" /><category term="HomeLab" /><category term="IT" /><category term="Infra" /><category term="Infrastructure" /><category term="Dell" /><category term="Proxmox" /><summary type="html"><![CDATA[Upgrading from HP DL380 G7 to Dell R730xd - more cores, better efficiency, and ready to host AD labs.]]></summary></entry></feed>
+<p><em>Stay tuned for Part 2: Practical AI Red Teaming Techniques, where we’ll build and deploy actual attacks against ML systems.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="AI-Security" /><category term="Red-team" /><category term="ai-red-teaming" /><category term="-" /><category term="machine-learning" /><category term="-" /><category term="adversarial-attacks" /><category term="-" /><category term="llm-security" /><category term="-" /><category term="prompt-injection" /><summary type="html"><![CDATA[This post establishes the foundational concepts of AI red teaming, dissects the threat landscape, and provides a technical framework for understanding how modern AI systems can be compromised, manipulated, and exploited.]]></summary></entry></feed>

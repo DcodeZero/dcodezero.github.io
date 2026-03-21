@@ -1,0 +1,1040 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<!-- begin _includes/seo.html --><title>HomeLab Part-03 [PVE2 Networking — The NIC That Wasn’t There] - Dcodezero</title>
+<meta name="description" content="How a broken DKMS package silently killed a Realtek NIC, forced a USB adapter onto the cluster bridge, and nearly took down quorum — and what we did to fix it cleanly.">
+
+
+  <meta name="author" content="DcodeZer0">
+  
+  <meta property="article:author" content="DcodeZer0">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Dcodezero">
+<meta property="og:title" content="HomeLab Part-03 [PVE2 Networking — The NIC That Wasn’t There]">
+<meta property="og:url" content="https://dcodezero.github.io//it/pve2-networking/">
+
+
+  <meta property="og:description" content="How a broken DKMS package silently killed a Realtek NIC, forced a USB adapter onto the cluster bridge, and nearly took down quorum — and what we did to fix it cleanly.">
+
+
+
+  <meta property="og:image" content="https://dcodezero.github.io//assets/images/sample/homelab/pve2-nic.svg">
+
+
+
+  <meta name="twitter:site" content="@Dcodezer0">
+  <meta name="twitter:title" content="HomeLab Part-03 [PVE2 Networking — The NIC That Wasn’t There]">
+  <meta name="twitter:description" content="How a broken DKMS package silently killed a Realtek NIC, forced a USB adapter onto the cluster bridge, and nearly took down quorum — and what we did to fix it cleanly.">
+  <meta name="twitter:url" content="https://dcodezero.github.io//it/pve2-networking/">
+
+  
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://dcodezero.github.io//assets/images/sample/homelab/pve2-nic.svg">
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2026-03-21T00:00:00+00:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://dcodezero.github.io//it/pve2-networking/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
+
+
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
+
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ window.enable_copy_code_button = true;
+</script>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+    <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/a236ffe3231543dfa1a53e2a4/b8e03e16b2df243b196811790.js");</script>
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/brew.webp" alt="Dcodezero"></a>
+        
+        <a class="site-title" href="/">
+          Dcodezero
+          <span class="site-subtitle">Hack>>Sleep>>Repeat</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tags"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/it-posts/"
+                
+                
+              >I.T</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tools/"
+                
+                
+              >Tools</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/images/sample/homelab/pve2-nic.svg');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          HomeLab Part-03 [PVE2 Networking — The NIC That Wasn’t There]
+
+        
+      </h1>
+      
+        <p class="page__lead">How a broken DKMS package silently killed a Realtek NIC, forced a USB adapter onto the cluster bridge, and nearly took down quorum — and what we did to fix it cleanly.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-03-21T00:00:00+00:00">March 21, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#it" itemprop="item"><span itemprop="name">It</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">HomeLab Part-03 [PVE2 Networking — The NIC That Wasn't There]</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>┌──[root@dcodezero]
+└──╼ # Hacker | RedTeam | PenTester | CTFPlayer | HackTheBox</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Somewhere</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:dcodezero@proton.me" rel="me" class="u-email">
+            <meta itemprop="email" content="dcodezero@proton.me" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="HomeLab Part-03 [PVE2 Networking — The NIC That Wasn’t There]">
+    <meta itemprop="description" content="How a broken DKMS package silently killed a Realtek NIC, forced a USB adapter onto the cluster bridge, and nearly took down quorum — and what we did to fix it cleanly.">
+    <meta itemprop="datePublished" content="2026-03-21T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#pve2-networking--the-nic-that-wasnt-there">PVE2 Networking — The NIC That Wasn’t There</a><ul><li><a href="#the-lab-setup">The Lab Setup</a></li><li><a href="#act-1--something-is-very-wrong-with-this-nic">Act 1 — Something Is Very Wrong With This NIC</a></li><li><a href="#root-cause--the-r8168-dkms-trap">Root Cause — The r8168-dkms Trap</a></li><li><a href="#act-2--life-on-a-usb-nic">Act 2 — Life on a USB NIC</a></li><li><a href="#act-3--the-fix-embarrassingly-simple">Act 3 — The Fix (Embarrassingly Simple)</a></li><li><a href="#what-we-learned">What We Learned</a></li><li><a href="#the-current-state">The Current State</a></li></ul></li></ul>
+            </nav>
+          </aside>
+        
+        <h1 id="pve2-networking--the-nic-that-wasnt-there">PVE2 Networking — The NIC That Wasn’t There</h1>
+
+<p>Some homelab problems announce themselves loudly. A RAID array degrading, a VM that won’t boot, a dashboard screaming red. This one didn’t. It just quietly sat there — a NIC that existed in <code class="language-plaintext highlighter-rouge">lspci</code> but nowhere else, and a cluster that had no idea anything was wrong.</p>
+
+<p>This is the story of that NIC, the rabbit hole it sent us down, and the somewhat embarrassing simplicity of the fix.</p>
+
+<hr />
+
+<h2 id="the-lab-setup">The Lab Setup</h2>
+
+<p>The cluster is two repurposed desktop machines:</p>
+
+<ul>
+  <li><strong>Node 1 (PVE)</strong> — workstation-class hardware, Xeon CPU, Intel NIC. Boring, reliable, exactly what you want.</li>
+  <li><strong>Node 2 (PVE2)</strong> — compact i5 desktop, onboard Realtek RTL8168evl PCIe NIC. Less boring. Much less reliable, as it turned out.</li>
+  <li><strong>Raspberry Pi</strong> — acting as Qdevice to keep quorum honest when one node goes dark.</li>
+</ul>
+
+<p>Nothing exotic. The kind of setup you build from whatever hardware is lying around, which is both the joy and the curse of homelabbing.</p>
+
+<hr />
+
+<h2 id="act-1--something-is-very-wrong-with-this-nic">Act 1 — Something Is Very Wrong With This NIC</h2>
+
+<p>The first sign wasn’t an alert. It was an <code class="language-plaintext highlighter-rouge">iperf3</code> test.</p>
+
+<p>Node 1 was hitting expected gigabit throughput. Node 2 was producing numbers that looked like a throttled broadband connection from 2009. Tens of megabits. On the same switch, same cable, same VLAN.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># On Node 2</span>
+iperf3 <span class="nt">-c</span> 192.168.200.200
+
+Connecting to host 192.168.200.200, port 5201
+<span class="o">[</span> ID] Interval           Transfer     Bitrate
+<span class="o">[</span>  5]   0.00-10.00  sec  28.4 MBytes  23.8 Mbits/sec     <span class="c"># something is deeply wrong</span>
+</code></pre></div></div>
+
+<p>Time to look at the interface itself:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lspci | <span class="nb">grep</span> <span class="nt">-i</span> ethernet
+<span class="c"># 02:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111/8168/8411 PCIe Gigabit Ethernet Controller (rev 15)</span>
+
+lspci <span class="nt">-k</span> <span class="nt">-s</span> 02:00.0
+<span class="c"># 02:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111/8168/8411 PCIe Gigabit Ethernet Controller (rev 15)</span>
+<span class="c">#         Subsystem: ...</span>
+<span class="c">#         Kernel driver in use: (none)</span>
+<span class="c">#         Kernel modules: r8168, r8169</span>
+</code></pre></div></div>
+
+<p>There it was. <strong>Kernel driver in use: (none).</strong></p>
+
+<p>The hardware exists. The kernel knows about two candidate modules. But nothing is loaded. The interface simply does not exist to the OS. No <code class="language-plaintext highlighter-rouge">eth0</code>, no <code class="language-plaintext highlighter-rouge">enp2s0</code>, nothing.</p>
+
+<hr />
+
+<h2 id="root-cause--the-r8168-dkms-trap">Root Cause — The r8168-dkms Trap</h2>
+
+<p>A quick check of <code class="language-plaintext highlighter-rouge">/etc/modprobe.d/</code> told the whole story:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /etc/modprobe.d/r8168-dkms.conf
+<span class="c"># Realtek r8168-dkms</span>
+<span class="nb">alias </span>pci:v000010ECd00008168sv<span class="k">*</span>sd<span class="k">*</span>bc<span class="k">*</span>sc<span class="k">*</span>i<span class="k">*</span> r8168
+</code></pre></div></div>
+
+<p>At some point — likely during the initial OS setup — <code class="language-plaintext highlighter-rouge">r8168-dkms</code> had been installed. Realtek ships an out-of-tree kernel module called <code class="language-plaintext highlighter-rouge">r8168</code> as an alternative to the in-kernel <code class="language-plaintext highlighter-rouge">r8169</code> driver. The DKMS package drops an alias into modprobe configuration that says: <em>when you see this PCI ID, load <code class="language-plaintext highlighter-rouge">r8168</code>, not <code class="language-plaintext highlighter-rouge">r8169</code>.</em></p>
+
+<p>The problem: the DKMS build was broken. <code class="language-plaintext highlighter-rouge">r8168</code> never actually compiled. So when the kernel tried to honour that alias and load <code class="language-plaintext highlighter-rouge">r8168</code>, it found nothing. And because the alias explicitly redirected the PCI ID away from <code class="language-plaintext highlighter-rouge">r8169</code>, the in-kernel driver — which handles RTL8168 chipsets perfectly well — was silently blocked.</p>
+
+<p>The NIC had been there the whole time. The driver had been deliberately told to stay away.</p>
+
+<p>Node 1 never had this problem. Its Intel NIC loads <code class="language-plaintext highlighter-rouge">e1000e</code> cleanly, no DKMS involvement, no drama.</p>
+
+<hr />
+
+<h2 id="act-2--life-on-a-usb-nic">Act 2 — Life on a USB NIC</h2>
+
+<p>While the root cause was being tracked down, the node still needed to function. The short-term fix: plug in a USB 3.0 Realtek adapter and bridge it into <code class="language-plaintext highlighter-rouge">vmbr0</code> as the primary network port.</p>
+
+<p>This kept Node 2 alive. It did not keep it healthy.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># What vmbr0 looked like during the USB era</span>
+auto vmbr0
+iface vmbr0 inet static
+    address 192.168.200.201/24
+    gateway 192.168.200.1
+    bridge-ports usb0        <span class="c"># 👈 this is the problem</span>
+    bridge-stp off
+    bridge-fd 0
+</code></pre></div></div>
+
+<p>Throughput through the USB adapter was capped at 18–30 Mbps under load. For basic VM operation that’s survivable. For a Proxmox cluster, it’s a liability. HA decisions, live migration, Corosync heartbeats — all of that rides on reliable inter-node connectivity. A USB NIC with inconsistent throughput is not the foundation you want quorum riding on.</p>
+
+<p>There was also a moment of being completely locked out of Node 2 remotely — no IPMI, no out-of-band management, no mesh VPN installed at the time. Any change that dropped the interface even briefly would mean a drive to the hardware. A hard lesson about the importance of having an escape hatch before touching network config on a remote machine.</p>
+
+<hr />
+
+<h2 id="act-3--the-fix-embarrassingly-simple">Act 3 — The Fix (Embarrassingly Simple)</h2>
+
+<p>Once the root cause was clear, the fix was three commands:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. Disable the broken alias — comment it out rather than delete</span>
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s/^alias/#alias/'</span> /etc/modprobe.d/r8168-dkms.conf
+
+<span class="c"># 2. Load the correct in-kernel driver immediately</span>
+modprobe r8169
+
+<span class="c"># 3. Persist across reboots</span>
+<span class="nb">echo</span> <span class="s2">"r8169"</span> <span class="o">&gt;&gt;</span> /etc/modules-load.d/r8169.conf
+update-initramfs <span class="nt">-u</span>
+</code></pre></div></div>
+
+<p>After <code class="language-plaintext highlighter-rouge">modprobe r8169</code>, the onboard NIC came up with carrier almost instantly. The interface appeared, got its address, and iperf3 immediately started reporting gigabit numbers.</p>
+
+<p>The final step — switching <code class="language-plaintext highlighter-rouge">vmbr0</code>’s bridge port from the USB adapter to the onboard NIC — was done carefully over a Tailscale mesh tunnel to avoid losing remote access mid-change:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Edit /etc/network/interfaces</span>
+auto vmbr0
+iface vmbr0 inet static
+    address 192.168.200.201/24
+    gateway 192.168.200.1
+    bridge-ports enp2s0      <span class="c"># 👈 back to the real NIC</span>
+    bridge-stp off
+    bridge-fd 0
+
+<span class="c"># Apply without full reboot</span>
+ifdown vmbr0 <span class="o">&amp;&amp;</span> ifup vmbr0
+</code></pre></div></div>
+
+<p>Post-switch iperf3:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iperf3 <span class="nt">-c</span> 192.168.200.200
+
+<span class="o">[</span> ID] Interval           Transfer     Bitrate
+<span class="o">[</span>  5]   0.00-10.00  sec  1.09 GBytes   936 Mbits/sec     <span class="c"># that's more like it</span>
+</code></pre></div></div>
+
+<p>936 Mbits/sec. From 23 Mbits/sec. Same hardware. Same cable. Same switch port. The only change was unblocking the driver that should have been there from day one.</p>
+
+<hr />
+
+<h2 id="what-we-learned">What We Learned</h2>
+
+<p><strong>r8168-dkms is a silent trap.</strong> The <code class="language-plaintext highlighter-rouge">r8169</code> in-kernel driver handles RTL8168 chipsets just fine on modern kernels. There’s rarely a reason to install the out-of-tree <code class="language-plaintext highlighter-rouge">r8168</code> module, and if the DKMS build fails (which it can, especially after kernel updates), you end up with exactly this scenario — a NIC that exists in hardware but nowhere in the OS.</p>
+
+<p>If you ever run <code class="language-plaintext highlighter-rouge">lspci -k</code> and see <em>Kernel driver in use: (none)</em> on a NIC, check <code class="language-plaintext highlighter-rouge">/etc/modprobe.d/</code> immediately. A ghost alias is a likely culprit.</p>
+
+<p><strong>Always have an out-of-band access path.</strong> Before touching NIC configuration on any remote or semi-remote node, have a way in that doesn’t depend on the interface you’re about to reconfigure. Tailscale, WireGuard on a second interface, a serial console, IPMI — anything. The moment you don’t have this is the moment you need it.</p>
+
+<p><strong>A USB NIC on vmbr0 is a liability.</strong> It works as a short-term fallback while you diagnose. It is not a permanent solution for a cluster node. USB has overhead, USB adapters have driver quirks, and USB connections are physically fragile compared to a PCIe NIC. If you find yourself running a production cluster bridge over USB, that’s a sign something else needs fixing.</p>
+
+<p><strong>Measure before and after.</strong> iperf3 is free and takes thirty seconds. Run it before any NIC change, run it after. Don’t assume gigabit just because the link light is green.</p>
+
+<hr />
+
+<h2 id="the-current-state">The Current State</h2>
+
+<p>Both nodes are now running on their respective onboard NICs — Intel <code class="language-plaintext highlighter-rouge">e1000e</code> on PVE1, Realtek <code class="language-plaintext highlighter-rouge">r8169</code> on PVE2. The USB adapter is in a drawer. The cluster is stable. Corosync is happy. The Raspberry Pi Qdevice continues its quiet existence arbitrating quorum for machines far more powerful than itself.</p>
+
+<p>Would’ve been faster if we’d checked modprobe aliases first. But then there’d be nothing to write about.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#homelab" class="page__taxonomy-item p-category" rel="tag">HomeLab</a><span class="sep">, </span>
+    
+      <a href="/tags/#infra" class="page__taxonomy-item p-category" rel="tag">Infra</a><span class="sep">, </span>
+    
+      <a href="/tags/#infrastructure" class="page__taxonomy-item p-category" rel="tag">Infrastructure</a><span class="sep">, </span>
+    
+      <a href="/tags/#it" class="page__taxonomy-item p-category" rel="tag">IT</a><span class="sep">, </span>
+    
+      <a href="/tags/#networking" class="page__taxonomy-item p-category" rel="tag">Networking</a><span class="sep">, </span>
+    
+      <a href="/tags/#proxmox" class="page__taxonomy-item p-category" rel="tag">Proxmox</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#it" class="page__taxonomy-item p-category" rel="tag">IT</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2026-03-21T00:00:00+00:00">March 21, 2026</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  <h4 class="page__share-title">Share on</h4>
+
+  <a href="https://twitter.com/intent/tweet?via=Dcodezer0&text=HomeLab+Part-03+%5BPVE2+Networking+%E2%80%94+The+NIC+That+Wasn%27t+There%5D%20%2Fit%2Fpve2-networking%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdcodezero.github.io%2F%2Fit%2Fpve2-networking%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://dcodezero.github.io//it/pve2-networking/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/red-team/new-c2-frameworks-2026/" class="pagination--pager" title="The C2 Frameworks of 2026 Are Breaking Every Rule You Thought You Knew">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You may also enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/new-c2-frameworks-2026.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/new-c2-frameworks-2026/" rel="permalink">The C2 Frameworks of 2026 Are Breaking Every Rule You Thought You Knew
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-03-20T00:00:00+00:00">March 20, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">VoidLink compiles rootkits server-side. Moonrise had zero VirusTotal detections. Karsto disguises C2 traffic as legitimate cloud calls. The new wave of comma...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/ai-redteam-resources.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/ai-security/red-team/ai-redteam-resources/" rel="permalink">AI Red Teaming &amp; Malware ML: GitHub Resources You Should Know
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-03-20T00:00:00+00:00">March 20, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A curated breakdown of the most important GitHub repositories for AI/LLM red teaming, jailbreak datasets, malware ML datasets, and offensive machine learning...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/ai-c2-frameworks-2026.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/ai-c2-frameworks-2026/" rel="permalink">Your EDR Is Already Dead: The Rise of AI-Powered C2 Frameworks in 2026
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-03-20T00:00:00+00:00">March 20, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">AI-native C2 frameworks are rewriting the rules of offensive ops — and most blue teams are still playing checkers.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/ai-agents-red-team-2026.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/ai-agents-red-team-2026/" rel="permalink">Autonomous AI Red Teamers Are Here — And Your SOC Isn’t Ready
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-03-20T00:00:00+00:00">March 20, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">AI agents are now discovering zero-days, chaining exploits, and exfiltrating data — without a human in the loop. The offense side figured this out first.
+</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+ 
+  
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+           <!-- Add this CSS to your custom stylesheet (_sass or assets/css/main.scss) -->
+   <style>
+    .subscribe-button {
+      display: inline-block;
+      padding: 12px 24px;
+      background: transparent;
+      border: 2px solid #39ff14;
+      color: #39ff14;
+      text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: bold;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .subscribe-button:hover {
+      background: #39ff14;
+      color: #000;
+      box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
+    }
+    
+    .subscribe-button::before {
+      content: '>';
+      margin-right: 8px;
+      display: inline-block;
+    }
+    
+    /* Optional: Add animation */
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(57, 255, 20, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
+    }
+    
+    .subscribe-button {
+      animation: pulse 2s infinite;
+    }
+    </style>
+    
+    <!-- Add this HTML where you want the button to appear -->
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="/helpedyou/" class="subscribe-button">Join The Network</a>
+    </div>
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+
+<div class="page__footer-copyright">&copy; 2026 <a href="https://dcodezero.github.io/">dcodezero</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div> 
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://dcodezero.github.io//it/pve2-networking/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/it/pve2-networking"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://dcode_zero.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+    
+  </body>
+</html>
