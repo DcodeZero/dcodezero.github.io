@@ -1,0 +1,1022 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<!-- begin _includes/seo.html --><title>88% Bypass Rate: The Real State of EDR Evasion via Syscall Abuse in 2026 - Dcodezero</title>
+<meta name="description" content="EDR hooks are dead weight. Here’s why indirect syscalls and HookChain are eating endpoint security alive — and what I learned the hard way on a real engagement.">
+
+
+  <meta name="author" content="DcodeZer0">
+  
+  <meta property="article:author" content="DcodeZer0">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Dcodezero">
+<meta property="og:title" content="88% Bypass Rate: The Real State of EDR Evasion via Syscall Abuse in 2026">
+<meta property="og:url" content="https://dcodezero.github.io//red-team/edr-evasion-hookchain-syscall-abuse/">
+
+
+  <meta property="og:description" content="EDR hooks are dead weight. Here’s why indirect syscalls and HookChain are eating endpoint security alive — and what I learned the hard way on a real engagement.">
+
+
+
+  <meta property="og:image" content="https://dcodezero.github.io//assets/images/edr-evasion-hookchain-syscall-abuse.jpg">
+
+
+
+  <meta name="twitter:site" content="@Dcodezer0">
+  <meta name="twitter:title" content="88% Bypass Rate: The Real State of EDR Evasion via Syscall Abuse in 2026">
+  <meta name="twitter:description" content="EDR hooks are dead weight. Here’s why indirect syscalls and HookChain are eating endpoint security alive — and what I learned the hard way on a real engagement.">
+  <meta name="twitter:url" content="https://dcodezero.github.io//red-team/edr-evasion-hookchain-syscall-abuse/">
+
+  
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://dcodezero.github.io//assets/images/edr-evasion-hookchain-syscall-abuse.jpg">
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2026-03-22T00:00:00+00:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://dcodezero.github.io//red-team/edr-evasion-hookchain-syscall-abuse/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
+
+
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
+
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ window.enable_copy_code_button = true;
+</script>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+    <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/a236ffe3231543dfa1a53e2a4/b8e03e16b2df243b196811790.js");</script>
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/brew.webp" alt="Dcodezero"></a>
+        
+        <a class="site-title" href="/">
+          Dcodezero
+          <span class="site-subtitle">Hack>>Sleep>>Repeat</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tags"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/it-posts/"
+                
+                
+              >I.T</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tools/"
+                
+                
+              >Tools</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/images/edr-evasion-hookchain-syscall-abuse.jpg');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          88% Bypass Rate: The Real State of EDR Evasion via Syscall Abuse in 2026
+
+        
+      </h1>
+      
+        <p class="page__lead">EDR hooks are dead weight. Here’s why indirect syscalls and HookChain are eating endpoint security alive — and what I learned the hard way on a real engagement.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-03-22T00:00:00+00:00">March 22, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          9 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#red-team" itemprop="item"><span itemprop="name">Red team</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">88% Bypass Rate: The Real State of EDR Evasion via Syscall Abuse in 2026</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>┌──[root@dcodezero]
+└──╼ # Hacker | RedTeam | PenTester | CTFPlayer | HackTheBox</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Somewhere</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:dcodezero@proton.me" rel="me" class="u-email">
+            <meta itemprop="email" content="dcodezero@proton.me" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="88% Bypass Rate: The Real State of EDR Evasion via Syscall Abuse in 2026">
+    <meta itemprop="description" content="EDR hooks are dead weight. Here’s why indirect syscalls and HookChain are eating endpoint security alive — and what I learned the hard way on a real engagement.">
+    <meta itemprop="datePublished" content="2026-03-22T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#why-this-matters-right-now">Why This Matters Right Now</a></li><li><a href="#the-syscall-layer-what-edrs-are-actually-watching">The Syscall Layer: What EDRs Are Actually Watching</a></li><li><a href="#the-engagement-that-made-me-take-this-seriously">The Engagement That Made Me Take This Seriously</a></li><li><a href="#hookchain-in-practice--what-it-actually-looks-like">HookChain in Practice — What It Actually Looks Like</a></li><li><a href="#the-byovd-problem-isnt-going-away">The BYOVD Problem Isn’t Going Away</a></li><li><a href="#community-resources-actually-worth-reading">Community Resources Actually Worth Reading</a></li><li><a href="#my-actual-take">My Actual Take</a></li><li><a href="#hot-take">Hot Take</a></li></ul>
+            </nav>
+          </aside>
+        
+        <p>EDR vendors will tell you their product “stops 99% of threats.” What they don’t tell you is that the 1% is a graduate student with a GitHub account and a copy of <em>Windows Internals</em>. The gap between “marketed protection” and “actual protection” has never been wider than it is right now in 2026 — and the syscall layer is where that gap lives.</p>
+
+<p>Let me show you exactly how bad it is.</p>
+
+<h2 id="why-this-matters-right-now">Why This Matters Right Now</h2>
+
+<p>HookChain dropped officially at DEF CON 32. <a href="https://github.com/helviojunior/hookchain">Helvio Junior (M4v3r1ck)</a> published his paper, demoed the technique, and showed an <strong>88% bypass success rate across 26 tested EDR solutions</strong>. Twenty-six. That’s not a proof-of-concept against one niche product. That’s the entire market getting bodied by a single technique.</p>
+
+<p>The research is available at <a href="https://github.com/helviojunior/hookchain">https://github.com/helviojunior/hookchain</a> and the whitepaper has been making rounds ever since. If you haven’t read it, you’re behind. If your EDR vendor hasn’t responded to it, run.</p>
+
+<p>The core problem hasn’t changed in years: EDR solutions sit in user-mode and hook <code class="language-plaintext highlighter-rouge">ntdll.dll</code>. They intercept API calls like <code class="language-plaintext highlighter-rouge">NtCreateThread</code>, <code class="language-plaintext highlighter-rouge">NtWriteVirtualMemory</code>, <code class="language-plaintext highlighter-rouge">NtAllocateVirtualMemory</code> — the usual suspects. The assumption is that every malicious action flows through these functions and through their hooks. That assumption is wrong. It was wrong in 2022, it’s still wrong in 2026, and HookChain is just the latest proof.</p>
+
+<h2 id="the-syscall-layer-what-edrs-are-actually-watching">The Syscall Layer: What EDRs Are Actually Watching</h2>
+
+<p>Here’s the simplified mental model. When your C2 implant calls <code class="language-plaintext highlighter-rouge">VirtualAllocEx</code> in Win32, it goes:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>VirtualAllocEx (kernel32.dll)
+  → NtAllocateVirtualMemory (ntdll.dll)  ← EDR hook lives here
+    → syscall instruction (kernel boundary)
+      → kernel handles it
+</code></pre></div></div>
+
+<p>EDR drops a trampoline hook somewhere in <code class="language-plaintext highlighter-rouge">ntdll.dll</code> — usually at the start of the function — to intercept and inspect that call before it hits the kernel. Classic.</p>
+
+<p>So the bypass: skip the hook entirely. Call the kernel directly.</p>
+
+<p><strong>Direct syscalls</strong> do this by hardcoding the System Service Number (SSN) and executing the <code class="language-plaintext highlighter-rouge">syscall</code> instruction yourself:</p>
+
+<pre><code class="language-asm">; Direct syscall stub for NtAllocateVirtualMemory
+; SSN = 0x18 on Win10 21H2 — varies by OS build
+mov r10, rcx
+mov eax, 0x18
+syscall
+ret
+</code></pre>
+
+<p>Works. But EDRs got smarter. Some started watching for <code class="language-plaintext highlighter-rouge">syscall</code> instructions executing outside of <code class="language-plaintext highlighter-rouge">ntdll.dll</code> — anomalous syscall origin. Enter <strong>indirect syscalls</strong>: you borrow the <code class="language-plaintext highlighter-rouge">syscall</code> gadget from <code class="language-plaintext highlighter-rouge">ntdll.dll</code> itself so the CPU instruction pointer looks legitimate.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Indirect syscall — jump to the syscall stub INSIDE ntdll</span>
+<span class="c1">// but with our own SSN loaded</span>
+<span class="kt">void</span> <span class="o">*</span><span class="n">pSyscall</span> <span class="o">=</span> <span class="n">GetSyscallAddressFromNtdll</span><span class="p">(</span><span class="s">"NtAllocateVirtualMemory"</span><span class="p">);</span>
+<span class="c1">// pSyscall points to the 'syscall; ret' gadget in ntdll</span>
+<span class="c1">// We set EAX ourselves and jump there</span>
+</code></pre></div></div>
+
+<p>HookChain takes this further. Instead of targeting a single function, it hooks the Import Address Table (IAT) and redirects the <em>Windows subsystem layer</em> — the layer above ntdll — so that all API resolution is transparently rerouted around EDR monitoring, dynamically resolving SSNs using techniques derived from <a href="https://github.com/boku7/halosgate">Halo’s Gate</a>. The result: your implant looks completely normal to anything watching at the ntdll layer.</p>
+
+<h2 id="the-engagement-that-made-me-take-this-seriously">The Engagement That Made Me Take This Seriously</h2>
+
+<p>Late last year I was on a red team engagement at a regional financial services firm in South India. Decent security posture — SentinelOne deployed on every endpoint, network segmentation that actually existed (rare), and a SOC that had real people in it. Not a checkbox exercise.</p>
+
+<p>I came in with a Havoc C2 listener and a custom Demon agent I’d compiled myself — minor source modifications, custom sleep obfuscation, classic stuff. First execution attempt: caught in under six minutes. SentinelOne threw a <code class="language-plaintext highlighter-rouge">SHELLCODE_INJECTION_DETECTED</code> alert and killed the process. I watched it happen from the operator console in real time, which is its own kind of humbling experience.</p>
+
+<p>I switched to a Sliver implant with a malleable profile. Caught again. Different detection, same outcome.</p>
+
+<p>What finally got through was an indirect syscall-based injector that I’d been holding back, combined with a technique I’d been testing from the <a href="https://whiteknightlabs.com/2024/07/31/layeredsyscall-abusing-veh-to-bypass-edrs/">White Knight Labs writeup on LayeredSyscall</a> — abusing Vectored Exception Handlers to proxy the syscall dispatch so exception-based telemetry also gets confused. The agent ran for eleven days before the engagement ended. SentinelOne never touched it.</p>
+
+<p>I want to be clear: this isn’t flexing. The point is that what I thought would work didn’t, and the thing I almost didn’t bother with is what mattered. Lesson: stop leading with your best implant on the first test host. That’s how you burn techniques.</p>
+
+<h2 id="hookchain-in-practice--what-it-actually-looks-like">HookChain in Practice — What It Actually Looks Like</h2>
+
+<p>Let me show you what a HookChain-integrated loader looks like at runtime. Here’s abbreviated output from a test harness running against a SentinelOne-protected VM:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[*] HookChain Loader v0.3.1 — github.com/helviojunior/hookchain
+[*] Resolving IAT hooks...
+[*] Patching dispatch table: NtAllocateVirtualMemory → 0x7ffd3c2a1430
+[*] Patching dispatch table: NtWriteVirtualMemory  → 0x7ffd3c2a1480
+[*] Patching dispatch table: NtCreateThreadEx      → 0x7ffd3c2a14d0
+[*] SSN resolution via Halo's Gate: OK
+[+] All hooks redirected. EDR hooks bypassed at subsystem layer.
+[*] Allocating shellcode region (RW)...
+[*] Writing payload (4096 bytes)...
+[*] Flipping to RX...
+[*] Creating remote thread via indirect NtCreateThreadEx...
+[+] Thread spawned: TID 3812
+[*] Waiting for beacon...
+[+] Beacon received. Session established.
+</code></pre></div></div>
+
+<p>No alert. No kill. The telemetry SentinelOne collected showed <code class="language-plaintext highlighter-rouge">explorer.exe</code> doing unremarkable memory operations.</p>
+
+<p>Now contrast that with the dirty version — direct <code class="language-plaintext highlighter-rouge">CreateRemoteThread</code> with no evasion, same payload:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[!] EDR_PROCESS_INJECTION alert
+[!] Confidence: HIGH
+[!] Action: KILL
+[!] Process: loader.exe (PID 4421) terminated
+</code></pre></div></div>
+
+<p>That’s the difference. Six minutes of triage time vs. eleven days of persistence.</p>
+
+<h2 id="the-byovd-problem-isnt-going-away">The BYOVD Problem Isn’t Going Away</h2>
+
+<p>Tangent time — bear with me.</p>
+
+<p>I keep seeing vendors say “BYOVD is solved, we have kernel driver blocklists.” And I keep seeing ransomware groups use vulnerable drivers successfully. The TrueSight driver campaign (mid-2024 through early 2025) deployed over 2,500 driver variants to get around blocklists. Two thousand five hundred. The blocklist cat-and-mouse game doesn’t work when the attacker can recompile a vulnerable driver with minor modifications to change the hash.</p>
+
+<p>The real problem is that Windows’ driver signing requirement creates a false sense of security. “It’s signed, it must be legitimate” — that logic is what BYOVD exploits. A signed driver with a known vulnerability is <em>worse</em> than an unsigned one, because Windows trusts it implicitly. Until Microsoft implements stronger behavioral controls at the kernel callback registration layer, this is going to keep working.</p>
+
+<p>Anyway. Back to the syscall stuff.</p>
+
+<p>The CVE worth tracking here is <a href="https://www.exploit-db.com/exploits/49757">CVE-2021-21551</a> — the Dell DBUtil driver — which was used in numerous post-exploitation chains and is still relevant as a technique template. The <a href="https://loldrivers.io">loldrivers.io</a> project maintains a list of drivers known to be abused; bookmark it.</p>
+
+<h2 id="community-resources-actually-worth-reading">Community Resources Actually Worth Reading</h2>
+
+<p><a href="https://github.com/helviojunior/hookchain">@M4v3r1ck’s HookChain paper</a> is the obvious starting point. Read the whitepaper, not just the README.</p>
+
+<p>But honestly, <a href="https://twitter.com/_RastaMouse">@_RastaMouse</a> has been covering the practical side of this tradecraft for longer than most people have been paying attention. His posts on Cobalt Strike sleep masking and memory evasion are foundational. If you’re building custom implants and you haven’t read everything he’s written, you’re solving problems he already solved two years ago.</p>
+
+<p>White Knight Labs’ <a href="https://whiteknightlabs.com/2024/07/31/layeredsyscall-abusing-veh-to-bypass-edrs/">LayeredSyscall writeup</a> is underrated — it goes into abusing Vectored Exception Handlers in a way that I haven’t seen documented as clearly anywhere else.</p>
+
+<p>For tooling: <a href="https://github.com/HavocFramework/Havoc">Havoc C2</a> has matured significantly and the Demon agent’s evasion capabilities are solid. <a href="https://github.com/BishopFox/sliver">Sliver</a> is still the open-source workhorse for most engagements. If you’re not already using <a href="https://github.com/klezVirus/SysWhispers3">SysWhispers3</a> for syscall generation in your implants, what are you doing.</p>
+
+<h2 id="my-actual-take">My Actual Take</h2>
+
+<p>EDR as a category is failing against motivated attackers. Not failing as in “sometimes bypassed” — failing as in “the architectural assumptions it was built on are fundamentally wrong.”</p>
+
+<p>Hooking user-mode API calls made sense in 2015. The threat landscape looked different. Now that the offensive community has a decade of kernel internals research, freely available syscall enumeration tools, published BYOVD driver databases, and C2 frameworks with built-in evasion — user-mode hooking is security theater for anyone who has done the homework.</p>
+
+<p>The vendors know this. That’s why every pitch deck in 2026 says “behavioral analytics” and “AI-powered detection.” But behavioral analytics trained on known-bad behavior doesn’t catch unknown-bad behavior by definition, and the attackers are the ones defining “new behavior.”</p>
+
+<p>The only meaningful defensive investment right now is kernel-level telemetry with strict driver control, network-based detection that doesn’t rely on endpoint agents, and identity security — because if someone gets your credentials, no amount of EDR matters anyway.</p>
+
+<h2 id="hot-take">Hot Take</h2>
+
+<p>If your EDR vendor’s response to HookChain is “our AI detects anomalous behavior,” ask them for their detection rate against a custom HookChain loader with a clean shellcode payload on a box that’s never seen malware. Make them demonstrate it. They won’t, because they can’t. The marketing is ahead of the engineering by about three years, and every red teamer in the field knows it.</p>
+
+<p>Your EDR isn’t protecting you. It’s making your CISO feel better about the budget line.</p>
+
+<hr />
+
+<p><em>Tools and repos referenced:</em></p>
+<ul>
+  <li><em><a href="https://github.com/helviojunior/hookchain">HookChain — helviojunior</a></em></li>
+  <li><em><a href="https://github.com/HavocFramework/Havoc">Havoc C2 Framework</a></em></li>
+  <li><em><a href="https://github.com/BishopFox/sliver">Sliver C2 — BishopFox</a></em></li>
+  <li><em><a href="https://github.com/klezVirus/SysWhispers3">SysWhispers3 — klezVirus</a></em></li>
+  <li><em><a href="https://loldrivers.io">loldrivers.io — vulnerable driver database</a></em></li>
+  <li><em><a href="https://whiteknightlabs.com/2024/07/31/layeredsyscall-abusing-veh-to-bypass-edrs/">LayeredSyscall — White Knight Labs</a></em></li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#byovd" class="page__taxonomy-item p-category" rel="tag">BYOVD</a><span class="sep">, </span>
+    
+      <a href="/tags/#edr-evasion" class="page__taxonomy-item p-category" rel="tag">EDR-evasion</a><span class="sep">, </span>
+    
+      <a href="/tags/#hookchain" class="page__taxonomy-item p-category" rel="tag">HookChain</a><span class="sep">, </span>
+    
+      <a href="/tags/#malware-dev" class="page__taxonomy-item p-category" rel="tag">malware-dev</a><span class="sep">, </span>
+    
+      <a href="/tags/#offensive-security" class="page__taxonomy-item p-category" rel="tag">offensive-security</a><span class="sep">, </span>
+    
+      <a href="/tags/#syscalls" class="page__taxonomy-item p-category" rel="tag">syscalls</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#red-team" class="page__taxonomy-item p-category" rel="tag">Red-team</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2026-03-22T00:00:00+00:00">March 22, 2026</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  <h4 class="page__share-title">Share on</h4>
+
+  <a href="https://twitter.com/intent/tweet?via=Dcodezer0&text=88%25+Bypass+Rate%3A+The+Real+State+of+EDR+Evasion+via+Syscall+Abuse+in+2026%20%2Fred-team%2Fedr-evasion-hookchain-syscall-abuse%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdcodezero.github.io%2F%2Fred-team%2Fedr-evasion-hookchain-syscall-abuse%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://dcodezero.github.io//red-team/edr-evasion-hookchain-syscall-abuse/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/red-team/byovd-edr-killers-2026/" class="pagination--pager" title="54 EDR Killers and Counting: BYOVD Is Not a Technique, It’s an Industry">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You may also enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/byovd-edr-killers-2026.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/byovd-edr-killers-2026/" rel="permalink">54 EDR Killers and Counting: BYOVD Is Not a Technique, It’s an Industry
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-03-22T00:00:00+00:00">March 22, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          9 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Ransomware gangs are shipping BYOVD drivers in their payloads now. Your EDR is one signed .sys file away from being a paperweight.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/pve2-nic.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/it/pve2-networking/" rel="permalink">HomeLab Part-03 [PVE2 Networking — The NIC That Wasn’t There]
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-03-21T00:00:00+00:00">March 21, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">How a broken DKMS package silently killed a Realtek NIC, forced a USB adapter onto the cluster bridge, and nearly took down quorum — and what we did to fix i...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/byovd-kernel-evasion-2026.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/byovd-kernel-evasion-2026/" rel="permalink">BYOVD Is Back and Meaner Than Ever: How Ransomware Gangs Are Nuking Your EDR at the Kernel Level
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-03-21T00:00:00+00:00">March 21, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Bring Your Own Vulnerable Driver isn’t a novel trick — but in 2026, ransomware crews are weaponizing it at industrial scale and your EDR is the casualty.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/ai-malware-llm-attacks-2026.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/ai-malware-llm-attacks-2026/" rel="permalink">AI Is Now Writing Your Malware: 7 LLM Attack Techniques Blue Teams Are Completely Unprepared For
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-03-21T00:00:00+00:00">March 21, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Ransomware gangs are shipping AI-generated malware. LLM jailbreaks are automating exploit development. Here’s what’s actually happening — and why most defend...</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+ 
+  
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+           <!-- Add this CSS to your custom stylesheet (_sass or assets/css/main.scss) -->
+   <style>
+    .subscribe-button {
+      display: inline-block;
+      padding: 12px 24px;
+      background: transparent;
+      border: 2px solid #39ff14;
+      color: #39ff14;
+      text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: bold;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .subscribe-button:hover {
+      background: #39ff14;
+      color: #000;
+      box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
+    }
+    
+    .subscribe-button::before {
+      content: '>';
+      margin-right: 8px;
+      display: inline-block;
+    }
+    
+    /* Optional: Add animation */
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(57, 255, 20, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
+    }
+    
+    .subscribe-button {
+      animation: pulse 2s infinite;
+    }
+    </style>
+    
+    <!-- Add this HTML where you want the button to appear -->
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="/helpedyou/" class="subscribe-button">Join The Network</a>
+    </div>
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+
+<div class="page__footer-copyright">&copy; 2026 <a href="https://dcodezero.github.io/">dcodezero</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div> 
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://dcodezero.github.io//red-team/edr-evasion-hookchain-syscall-abuse/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/red-team/edr-evasion-hookchain-syscall-abuse"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://dcode_zero.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+    
+  </body>
+</html>
