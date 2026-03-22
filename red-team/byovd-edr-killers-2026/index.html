@@ -1,0 +1,1011 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<!-- begin _includes/seo.html --><title>54 EDR Killers and Counting: BYOVD Is Not a Technique, It’s an Industry - Dcodezero</title>
+<meta name="description" content="Ransomware gangs are shipping BYOVD drivers in their payloads now. Your EDR is one signed .sys file away from being a paperweight.">
+
+
+  <meta name="author" content="DcodeZer0">
+  
+  <meta property="article:author" content="DcodeZer0">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Dcodezero">
+<meta property="og:title" content="54 EDR Killers and Counting: BYOVD Is Not a Technique, It’s an Industry">
+<meta property="og:url" content="https://dcodezero.github.io//red-team/byovd-edr-killers-2026/">
+
+
+  <meta property="og:description" content="Ransomware gangs are shipping BYOVD drivers in their payloads now. Your EDR is one signed .sys file away from being a paperweight.">
+
+
+
+  <meta property="og:image" content="https://dcodezero.github.io//assets/images/byovd-edr-killers-2026.jpg">
+
+
+
+  <meta name="twitter:site" content="@Dcodezer0">
+  <meta name="twitter:title" content="54 EDR Killers and Counting: BYOVD Is Not a Technique, It’s an Industry">
+  <meta name="twitter:description" content="Ransomware gangs are shipping BYOVD drivers in their payloads now. Your EDR is one signed .sys file away from being a paperweight.">
+  <meta name="twitter:url" content="https://dcodezero.github.io//red-team/byovd-edr-killers-2026/">
+
+  
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://dcodezero.github.io//assets/images/byovd-edr-killers-2026.jpg">
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2026-03-22T00:00:00+00:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://dcodezero.github.io//red-team/byovd-edr-killers-2026/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
+
+
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
+
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ window.enable_copy_code_button = true;
+</script>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+    <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/a236ffe3231543dfa1a53e2a4/b8e03e16b2df243b196811790.js");</script>
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/brew.webp" alt="Dcodezero"></a>
+        
+        <a class="site-title" href="/">
+          Dcodezero
+          <span class="site-subtitle">Hack>>Sleep>>Repeat</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tags"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/it-posts/"
+                
+                
+              >I.T</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tools/"
+                
+                
+              >Tools</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/images/byovd-edr-killers-2026.jpg');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          54 EDR Killers and Counting: BYOVD Is Not a Technique, It’s an Industry
+
+        
+      </h1>
+      
+        <p class="page__lead">Ransomware gangs are shipping BYOVD drivers in their payloads now. Your EDR is one signed <code class="language-plaintext highlighter-rouge">.sys</code> file away from being a paperweight.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-03-22T00:00:00+00:00">March 22, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          9 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#red-team" itemprop="item"><span itemprop="name">Red team</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">54 EDR Killers and Counting: BYOVD Is Not a Technique, It's an Industry</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>┌──[root@dcodezero]
+└──╼ # Hacker | RedTeam | PenTester | CTFPlayer | HackTheBox</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Somewhere</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:dcodezero@proton.me" rel="me" class="u-email">
+            <meta itemprop="email" content="dcodezero@proton.me" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="54 EDR Killers and Counting: BYOVD Is Not a Technique, It’s an Industry">
+    <meta itemprop="description" content="Ransomware gangs are shipping BYOVD drivers in their payloads now. Your EDR is one signed .sys file away from being a paperweight.">
+    <meta itemprop="datePublished" content="2026-03-22T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#what-bring-your-own-vulnerable-driver-actually-means-at-ring-0">What “Bring Your Own Vulnerable Driver” Actually Means at Ring 0</a></li><li><a href="#the-tools-that-are-doing-this-right-now">The Tools That Are Doing This Right Now</a></li><li><a href="#the-move-that-burns-me-every-time-driver-blocklist-complacency">The Move That Burns Me Every Time: Driver Blocklist Complacency</a></li><li><a href="#what-encase-taught-me-about-revocation-the-hard-way">What EnCase Taught Me About Revocation (The Hard Way)</a></li><li><a href="#my-take-the-vendors-are-playing-defense-on-the-wrong-field">My Take: The Vendors Are Playing Defense on the Wrong Field</a></li><li><a href="#what-you-should-do-right-now">What You Should Do Right Now</a></li><li><a href="#hot-take-the-edr-market-is-selling-you-confidence-not-coverage">Hot Take: The EDR Market Is Selling You Confidence, Not Coverage</a></li></ul>
+            </nav>
+          </aside>
+        
+        <p>Your EDR cost six figures. Your CFO signed off on it. Your CISO put it in the board presentation. And a threat actor just killed it with a <strong>25-year-old signed printer driver</strong> before anyone got out of bed.</p>
+
+<p>That’s BYOVD in 2026. Not a niche APT trick anymore — <a href="https://thehackernews.com/2026/03/54-edr-killers-use-byovd-to-exploit-34.html">54 distinct EDR killer tools</a> are actively weaponizing 35 different vulnerable drivers right now. The Reynolds ransomware gang <a href="https://thehackernews.com/2026/02/reynolds-ransomware-embeds-byovd-driver.html">literally ships a BYOVD driver inside their payload</a>. It’s not tradecraft anymore — it’s a product feature.</p>
+
+<p>Let me break down why this attack class keeps winning and what’s actually going on under the hood.</p>
+
+<hr />
+
+<h2 id="what-bring-your-own-vulnerable-driver-actually-means-at-ring-0">What “Bring Your Own Vulnerable Driver” Actually Means at Ring 0</h2>
+
+<p>Most people explain BYOVD at the altitude of a Wikipedia article. Here’s what’s actually happening:</p>
+
+<p>Windows enforces <strong>Driver Signature Enforcement (DSE)</strong> — you can’t load unsigned kernel code on a modern system. But signed ≠ safe. Vulnerable drivers from legitimate vendors (network tools, antivirus utilities, even forensic software) have accumulated CVEs for years. They’re still signed with valid certs. Windows will load them, no questions asked.</p>
+
+<p>Once your vulnerable driver is running at Ring 0, the game changes entirely. Kernel space means:</p>
+
+<ul>
+  <li>You can directly manipulate <code class="language-plaintext highlighter-rouge">PspCreateProcessNotifyRoutine</code> — the array of callbacks EDRs register to watch process creation</li>
+  <li>You can remove <code class="language-plaintext highlighter-rouge">ObRegisterCallbacks</code> object callbacks that protect EDR processes from termination</li>
+  <li>You can blind the ETW Microsoft-Windows-Threat-Intelligence provider that logs LSASS access, process injection, and other high-value events</li>
+  <li>You can just straight-up call <code class="language-plaintext highlighter-rouge">ZwTerminateProcess</code> from kernel context to kill the EDR process, and no userland hook will catch you</li>
+</ul>
+
+<p>Here’s a simplified view of what <code class="language-plaintext highlighter-rouge">wsftprm.sys</code> (CVE-2023-52271) exploitation looks like — this driver caught heat because it loads fine on <strong>fully patched Windows 11 with Secure Boot and HVCI enabled</strong>:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Load the vulnerable driver</span>
+<span class="n">sc</span> <span class="n">create</span> <span class="n">wsftprm</span> <span class="n">binPath</span><span class="o">=</span> <span class="s">"C:\Windows\System32\drivers\wsftprm.sys"</span> <span class="n">type</span><span class="o">=</span> <span class="n">kernel</span>
+<span class="n">sc</span> <span class="n">start</span> <span class="n">wsftprm</span>
+
+<span class="c1">// Send malicious IOCTL to trigger ZwTerminateProcess at kernel level</span>
+<span class="c1">// IOCTL code varies by driver — enumerate with IDA/Ghidra first</span>
+<span class="n">DeviceIoControl</span><span class="p">(</span><span class="n">hDevice</span><span class="p">,</span> <span class="n">IOCTL_KILL_PROCESS</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pid</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">DWORD</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">bytesRet</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>That’s it. EDR process dead. No alerts fired. Your beacon is now the loudest thing on the box.</p>
+
+<hr />
+
+<h2 id="the-tools-that-are-doing-this-right-now">The Tools That Are Doing This Right Now</h2>
+
+<p>I’ve been tracking this for a while and the public tooling has gotten genuinely impressive. Here’s what’s worth knowing:</p>
+
+<p><strong><a href="https://github.com/wavestone-cdt/EDRSandblast">EDRSandblast</a></strong> — The OG. Wavestone dropped this and it’s still one of the cleanest implementations. It handles kernel callback removal, ETW-TI disabling, and userland unhooking in one package. If you’re doing authorized red team work and want to understand the full chain, this is where I’d start.</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># EDRSandblast: kill callbacks + userland unhook in one shot</span><span class="w">
+</span><span class="n">EDRSandblast.exe</span><span class="w"> </span><span class="nt">--kernelmode</span><span class="w"> </span><span class="nt">--usermode</span><span class="w"> </span><span class="nt">--verbose</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong><a href="https://github.com/BlackSnufkin/BYOVD">BlackSnufkin/BYOVD</a></strong> — A collection of PoCs targeting drivers NOT on LOLDrivers blocklist. The ones on the blocklist are tourist traps at this point — defenders know to watch for them. This repo goes after the weird stuff.</p>
+
+<p><strong><a href="https://github.com/I3r1h0n/Sigurd">Sigurd</a></strong> — Written in Rust, supports multiple vulnerable drivers, built for operational use. The Rust angle is interesting — harder to reverse, smaller footprint, no CRT dependencies.</p>
+
+<p><strong><a href="https://github.com/0xJs/BYOVD_EDRKiller">0xJs/BYOVD_EDRKiller</a></strong> — Straightforward, documented, good for understanding the flow. Uses <code class="language-plaintext highlighter-rouge">wsftprm.sys</code> by default.</p>
+
+<p>And for the driverless angle — <strong><a href="https://github.com/netero1010/EDRSilencer">EDRSilencer</a></strong> — this doesn’t kill the EDR, it just cuts off its telemetry by blocking outbound connections with WFP (Windows Filtering Platform). The EDR is alive and “healthy” on the dashboard, but none of its events reach the SIEM. Sneakier. I actually prefer this on engagements where I want to maintain stealth rather than brute-force kill the sensor.</p>
+
+<hr />
+
+<h2 id="the-move-that-burns-me-every-time-driver-blocklist-complacency">The Move That Burns Me Every Time: Driver Blocklist Complacency</h2>
+
+<p>I’ve run internal red team reviews where the blue team was confident because they had “the Microsoft driver blocklist deployed.” That blocklist has somewhere around 200 entries. There are thousands of signed vulnerable drivers in the wild.</p>
+
+<p>The <a href="https://www.loldrivers.io/">loldrivers.io</a> project currently tracks hundreds of vulnerable/malicious drivers and that list is incomplete. Researchers find new exploitable drivers routinely — the attack surface isn’t shrinking.</p>
+
+<p>Here’s the OPSEC move that most red teamers miss: <strong>don’t use the famous drivers</strong>. The moment you try to load <code class="language-plaintext highlighter-rouge">RTCore64.sys</code> or <code class="language-plaintext highlighter-rouge">gdrv.sys</code>, you’re triggering alerts at every mature SOC. The smart play is enumeration:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Find signed drivers on a target with known CVEs not in blocklist</span>
+<span class="c"># Cross-reference output against loldrivers.io API</span>
+Get-WmiObject Win32_SystemDriver | Select-Object Name, PathName, State |
+  Where-Object <span class="o">{</span> <span class="nv">$_</span>.State <span class="nt">-eq</span> <span class="s2">"Running"</span> <span class="o">}</span> |
+  Export-Csv drivers.csv
+
+<span class="c"># Then check each against loldrivers.io</span>
+curl <span class="s2">"https://www.loldrivers.io/api/drivers.json"</span> | jq <span class="s1">'.[] | select(.Tags[] | contains("vulnerable"))'</span>
+</code></pre></div></div>
+
+<p>Or better — target drivers already present on the victim machine. If you can find a vulnerable driver they already have loaded for legitimate purposes, you don’t even need to drop a file. Zero new artifacts.</p>
+
+<hr />
+
+<h2 id="what-encase-taught-me-about-revocation-the-hard-way">What EnCase Taught Me About Revocation (The Hard Way)</h2>
+
+<p>Earlier this year, someone used an <strong>old EnCase forensic driver</strong> in a live BYOVD attack. A forensic tool. The kind blue teams literally use for incident response.</p>
+
+<p>The reason this works is subtle: Windows doesn’t always validate certificate revocation lists at kernel load time. DSE checks the signature chain but <strong>doesn’t necessarily phone home to check if the cert was revoked</strong>. So a driver signed with a cert that was revoked three years ago can still load in certain conditions.</p>
+
+<p>This is why certificate revocation as a defense is weaker than people think. HVCI helps — a lot — but the <code class="language-plaintext highlighter-rouge">wsftprm.sys</code> issue proved even that’s not a guarantee. The driver was able to load on HVCI-enabled systems because it carries a valid (non-revoked) signature, and HVCI’s WDAC policy didn’t cover it.</p>
+
+<p>The lesson: your kernel attack surface is defined by every signed <code class="language-plaintext highlighter-rouge">.sys</code> file that Windows will load, ever. That’s a big surface.</p>
+
+<hr />
+
+<h2 id="my-take-the-vendors-are-playing-defense-on-the-wrong-field">My Take: The Vendors Are Playing Defense on the Wrong Field</h2>
+
+<p>Every EDR vendor’s blog post about BYOVD ends with “we detect the known malicious drivers.” That’s true. They do. But the entire attack model assumes the attacker brings an <em>unknown</em> or <em>low-prevalence</em> driver.</p>
+
+<p>The correct defense isn’t blocklist expansion — it’s <strong>kernel telemetry attestation</strong>. If your EDR process gets killed, something in your monitoring stack needs to notice that and alert immediately, independent of the endpoint agent. Crowdstrike and SentinelOne have cloud-based heartbeat detection for this. Most customers don’t have it configured to alert aggressively enough. I’ve seen engagements where our beacon killed the EDR and the SOC noticed… four hours later. By then, we’d been through three domain controllers and had golden tickets.</p>
+
+<p>The other defense that actually works: <strong>Microsoft’s Vulnerable Driver Blocklist</strong> pushed via Windows Update + <strong>HVCI enforced</strong> + <strong>Audit logging for driver load events (Event ID 7045)</strong>. Stack all three and you make BYOVD significantly harder, though not impossible.</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check if HVCI is enabled</span><span class="w">
+</span><span class="n">Get-CimInstance</span><span class="w"> </span><span class="nt">-ClassName</span><span class="w"> </span><span class="nx">Win32_DeviceGuard</span><span class="w"> </span><span class="nt">-Namespace</span><span class="w"> </span><span class="nx">root\Microsoft\Windows\DeviceGuard</span><span class="w"> </span><span class="o">|</span><span class="w">
+  </span><span class="n">Select-Object</span><span class="w"> </span><span class="nx">VirtualizationBasedSecurityStatus</span><span class="p">,</span><span class="w"> </span><span class="nx">CodeIntegrityPolicyEnforcementStatus</span><span class="w">
+
+</span><span class="c"># Monitor new driver installs - Event ID 7045</span><span class="w">
+</span><span class="n">Get-WinEvent</span><span class="w"> </span><span class="nt">-FilterHashtable</span><span class="w"> </span><span class="p">@{</span><span class="nx">LogName</span><span class="o">=</span><span class="s1">'System'</span><span class="p">;</span><span class="w"> </span><span class="nx">Id</span><span class="o">=</span><span class="mi">7045</span><span class="p">}</span><span class="w"> </span><span class="o">|</span><span class="w">
+  </span><span class="n">Select-Object</span><span class="w"> </span><span class="nx">TimeCreated</span><span class="p">,</span><span class="w"> </span><span class="nx">Message</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Format-List</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h2 id="what-you-should-do-right-now">What You Should Do Right Now</h2>
+
+<p>If you’re red teaming: stop reaching for the obvious drivers. Spend two hours on loldrivers.io and find three drivers not in the blocklist. Test them in a lab. You’ll be surprised what still works.</p>
+
+<p>If you’re defending: check if your EDR has a “sensor health” alert configured for agent kill/disconnect. If it doesn’t, you’re flying blind when BYOVD hits. Set a 5-minute SLA on that alert. Five minutes. Not four hours.</p>
+
+<p>Either way — read <a href="https://github.com/wavestone-cdt/EDRSandblast">this Wavestone deep dive</a> and the <a href="https://www.welivesecurity.com/en/eset-research/edr-killers-explained-beyond-the-drivers/">ESET breakdown of EDR killers</a>. This is not theoretical. Reynolds ransomware embedded it in their <em>default payload</em>. The technique is commoditized.</p>
+
+<hr />
+
+<h2 id="hot-take-the-edr-market-is-selling-you-confidence-not-coverage">Hot Take: The EDR Market Is Selling You Confidence, Not Coverage</h2>
+
+<p>Here’s the thing nobody says out loud at vendor conferences: <strong>your EDR is a userland process</strong>. At the end of the day, it’s a <code class="language-plaintext highlighter-rouge">.exe</code> with a signed driver, and any code running at the same privilege level or higher can ruin its day. The whole “next-gen AI behavioral detection” pitch means nothing if I can kill the sensor before it phones home.</p>
+
+<p>The vendors know this. The mature ones are building kernel attestation, cloud-based corroboration, and HWID-locked sensor certificates to make tampering detectable. But most enterprise deployments are still on default configs, default heartbeat intervals, and default alerting thresholds — which is basically “trust the endpoint until proven otherwise.”</p>
+
+<p>If your threat model includes ransomware gangs (and it should, because they’re now shipping BYOVD in their off-the-shelf payloads), your EDR is not your last line of defense. It might not even be your third. Build your detection strategy assuming the endpoint agent is compromised and work backwards from there.</p>
+
+<p>That’s not a scary thought. That’s just realistic tradecraft in 2026.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#byovd" class="page__taxonomy-item p-category" rel="tag">BYOVD</a><span class="sep">, </span>
+    
+      <a href="/tags/#edr-evasion" class="page__taxonomy-item p-category" rel="tag">EDR-evasion</a><span class="sep">, </span>
+    
+      <a href="/tags/#kernel-exploitation" class="page__taxonomy-item p-category" rel="tag">kernel-exploitation</a><span class="sep">, </span>
+    
+      <a href="/tags/#malware" class="page__taxonomy-item p-category" rel="tag">malware</a><span class="sep">, </span>
+    
+      <a href="/tags/#red-team" class="page__taxonomy-item p-category" rel="tag">red-team</a><span class="sep">, </span>
+    
+      <a href="/tags/#windows" class="page__taxonomy-item p-category" rel="tag">windows</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#red-team" class="page__taxonomy-item p-category" rel="tag">Red-team</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2026-03-22T00:00:00+00:00">March 22, 2026</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  <h4 class="page__share-title">Share on</h4>
+
+  <a href="https://twitter.com/intent/tweet?via=Dcodezer0&text=54+EDR+Killers+and+Counting%3A+BYOVD+Is+Not+a+Technique%2C+It%27s+an+Industry%20%2Fred-team%2Fbyovd-edr-killers-2026%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdcodezero.github.io%2F%2Fred-team%2Fbyovd-edr-killers-2026%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://dcodezero.github.io//red-team/byovd-edr-killers-2026/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/it/pve2-networking/" class="pagination--pager" title="HomeLab Part-03 [PVE2 Networking — The NIC That Wasn’t There]">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You may also enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/pve2-nic.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/it/pve2-networking/" rel="permalink">HomeLab Part-03 [PVE2 Networking — The NIC That Wasn’t There]
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-03-21T00:00:00+00:00">March 21, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">How a broken DKMS package silently killed a Realtek NIC, forced a USB adapter onto the cluster bridge, and nearly took down quorum — and what we did to fix i...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/byovd-kernel-evasion-2026.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/byovd-kernel-evasion-2026/" rel="permalink">BYOVD Is Back and Meaner Than Ever: How Ransomware Gangs Are Nuking Your EDR at the Kernel Level
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-03-21T00:00:00+00:00">March 21, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Bring Your Own Vulnerable Driver isn’t a novel trick — but in 2026, ransomware crews are weaponizing it at industrial scale and your EDR is the casualty.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/ai-malware-llm-attacks-2026.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/ai-malware-llm-attacks-2026/" rel="permalink">AI Is Now Writing Your Malware: 7 LLM Attack Techniques Blue Teams Are Completely Unprepared For
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-03-21T00:00:00+00:00">March 21, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Ransomware gangs are shipping AI-generated malware. LLM jailbreaks are automating exploit development. Here’s what’s actually happening — and why most defend...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/new-c2-frameworks-2026.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/new-c2-frameworks-2026/" rel="permalink">The C2 Frameworks of 2026 Are Breaking Every Rule You Thought You Knew
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-03-20T00:00:00+00:00">March 20, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">VoidLink compiles rootkits server-side. Moonrise had zero VirusTotal detections. Karsto disguises C2 traffic as legitimate cloud calls. The new wave of comma...</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+ 
+  
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+           <!-- Add this CSS to your custom stylesheet (_sass or assets/css/main.scss) -->
+   <style>
+    .subscribe-button {
+      display: inline-block;
+      padding: 12px 24px;
+      background: transparent;
+      border: 2px solid #39ff14;
+      color: #39ff14;
+      text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: bold;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .subscribe-button:hover {
+      background: #39ff14;
+      color: #000;
+      box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
+    }
+    
+    .subscribe-button::before {
+      content: '>';
+      margin-right: 8px;
+      display: inline-block;
+    }
+    
+    /* Optional: Add animation */
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(57, 255, 20, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
+    }
+    
+    .subscribe-button {
+      animation: pulse 2s infinite;
+    }
+    </style>
+    
+    <!-- Add this HTML where you want the button to appear -->
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="/helpedyou/" class="subscribe-button">Join The Network</a>
+    </div>
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+
+<div class="page__footer-copyright">&copy; 2026 <a href="https://dcodezero.github.io/">dcodezero</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div> 
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://dcodezero.github.io//red-team/byovd-edr-killers-2026/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/red-team/byovd-edr-killers-2026"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://dcode_zero.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+    
+  </body>
+</html>

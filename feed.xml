@@ -1,4 +1,133 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://dcodezero.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://dcodezero.github.io//" rel="alternate" type="text/html" /><updated>2026-03-21T20:20:41+00:00</updated><id>https://dcodezero.github.io//feed.xml</id><title type="html">Dcodezero</title><subtitle> </subtitle><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><entry><title type="html">AI Is Now Writing Your Malware: 7 LLM Attack Techniques Blue Teams Are Completely Unprepared For</title><link href="https://dcodezero.github.io//red-team/ai-malware-llm-attacks-2026/" rel="alternate" type="text/html" title="AI Is Now Writing Your Malware: 7 LLM Attack Techniques Blue Teams Are Completely Unprepared For" /><published>2026-03-21T00:00:00+00:00</published><updated>2026-03-21T00:00:00+00:00</updated><id>https://dcodezero.github.io//red-team/ai-malware-llm-attacks-2026</id><content type="html" xml:base="https://dcodezero.github.io//red-team/ai-malware-llm-attacks-2026/"><![CDATA[<p>Let me be blunt: if your threat model doesn’t include AI-assisted malware development, you are already behind. Not theoretically behind — <strong>actually, operationally, right-now behind</strong>.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://dcodezero.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://dcodezero.github.io//" rel="alternate" type="text/html" /><updated>2026-03-22T01:02:50+00:00</updated><id>https://dcodezero.github.io//feed.xml</id><title type="html">Dcodezero</title><subtitle> </subtitle><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><entry><title type="html">54 EDR Killers and Counting: BYOVD Is Not a Technique, It’s an Industry</title><link href="https://dcodezero.github.io//red-team/byovd-edr-killers-2026/" rel="alternate" type="text/html" title="54 EDR Killers and Counting: BYOVD Is Not a Technique, It’s an Industry" /><published>2026-03-22T00:00:00+00:00</published><updated>2026-03-22T00:00:00+00:00</updated><id>https://dcodezero.github.io//red-team/byovd-edr-killers-2026</id><content type="html" xml:base="https://dcodezero.github.io//red-team/byovd-edr-killers-2026/"><![CDATA[<p>Your EDR cost six figures. Your CFO signed off on it. Your CISO put it in the board presentation. And a threat actor just killed it with a <strong>25-year-old signed printer driver</strong> before anyone got out of bed.</p>
+
+<p>That’s BYOVD in 2026. Not a niche APT trick anymore — <a href="https://thehackernews.com/2026/03/54-edr-killers-use-byovd-to-exploit-34.html">54 distinct EDR killer tools</a> are actively weaponizing 35 different vulnerable drivers right now. The Reynolds ransomware gang <a href="https://thehackernews.com/2026/02/reynolds-ransomware-embeds-byovd-driver.html">literally ships a BYOVD driver inside their payload</a>. It’s not tradecraft anymore — it’s a product feature.</p>
+
+<p>Let me break down why this attack class keeps winning and what’s actually going on under the hood.</p>
+
+<hr />
+
+<h2 id="what-bring-your-own-vulnerable-driver-actually-means-at-ring-0">What “Bring Your Own Vulnerable Driver” Actually Means at Ring 0</h2>
+
+<p>Most people explain BYOVD at the altitude of a Wikipedia article. Here’s what’s actually happening:</p>
+
+<p>Windows enforces <strong>Driver Signature Enforcement (DSE)</strong> — you can’t load unsigned kernel code on a modern system. But signed ≠ safe. Vulnerable drivers from legitimate vendors (network tools, antivirus utilities, even forensic software) have accumulated CVEs for years. They’re still signed with valid certs. Windows will load them, no questions asked.</p>
+
+<p>Once your vulnerable driver is running at Ring 0, the game changes entirely. Kernel space means:</p>
+
+<ul>
+  <li>You can directly manipulate <code class="language-plaintext highlighter-rouge">PspCreateProcessNotifyRoutine</code> — the array of callbacks EDRs register to watch process creation</li>
+  <li>You can remove <code class="language-plaintext highlighter-rouge">ObRegisterCallbacks</code> object callbacks that protect EDR processes from termination</li>
+  <li>You can blind the ETW Microsoft-Windows-Threat-Intelligence provider that logs LSASS access, process injection, and other high-value events</li>
+  <li>You can just straight-up call <code class="language-plaintext highlighter-rouge">ZwTerminateProcess</code> from kernel context to kill the EDR process, and no userland hook will catch you</li>
+</ul>
+
+<p>Here’s a simplified view of what <code class="language-plaintext highlighter-rouge">wsftprm.sys</code> (CVE-2023-52271) exploitation looks like — this driver caught heat because it loads fine on <strong>fully patched Windows 11 with Secure Boot and HVCI enabled</strong>:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Load the vulnerable driver</span>
+<span class="n">sc</span> <span class="n">create</span> <span class="n">wsftprm</span> <span class="n">binPath</span><span class="o">=</span> <span class="s">"C:\Windows\System32\drivers\wsftprm.sys"</span> <span class="n">type</span><span class="o">=</span> <span class="n">kernel</span>
+<span class="n">sc</span> <span class="n">start</span> <span class="n">wsftprm</span>
+
+<span class="c1">// Send malicious IOCTL to trigger ZwTerminateProcess at kernel level</span>
+<span class="c1">// IOCTL code varies by driver — enumerate with IDA/Ghidra first</span>
+<span class="n">DeviceIoControl</span><span class="p">(</span><span class="n">hDevice</span><span class="p">,</span> <span class="n">IOCTL_KILL_PROCESS</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pid</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">DWORD</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">bytesRet</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>That’s it. EDR process dead. No alerts fired. Your beacon is now the loudest thing on the box.</p>
+
+<hr />
+
+<h2 id="the-tools-that-are-doing-this-right-now">The Tools That Are Doing This Right Now</h2>
+
+<p>I’ve been tracking this for a while and the public tooling has gotten genuinely impressive. Here’s what’s worth knowing:</p>
+
+<p><strong><a href="https://github.com/wavestone-cdt/EDRSandblast">EDRSandblast</a></strong> — The OG. Wavestone dropped this and it’s still one of the cleanest implementations. It handles kernel callback removal, ETW-TI disabling, and userland unhooking in one package. If you’re doing authorized red team work and want to understand the full chain, this is where I’d start.</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># EDRSandblast: kill callbacks + userland unhook in one shot</span><span class="w">
+</span><span class="n">EDRSandblast.exe</span><span class="w"> </span><span class="nt">--kernelmode</span><span class="w"> </span><span class="nt">--usermode</span><span class="w"> </span><span class="nt">--verbose</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong><a href="https://github.com/BlackSnufkin/BYOVD">BlackSnufkin/BYOVD</a></strong> — A collection of PoCs targeting drivers NOT on LOLDrivers blocklist. The ones on the blocklist are tourist traps at this point — defenders know to watch for them. This repo goes after the weird stuff.</p>
+
+<p><strong><a href="https://github.com/I3r1h0n/Sigurd">Sigurd</a></strong> — Written in Rust, supports multiple vulnerable drivers, built for operational use. The Rust angle is interesting — harder to reverse, smaller footprint, no CRT dependencies.</p>
+
+<p><strong><a href="https://github.com/0xJs/BYOVD_EDRKiller">0xJs/BYOVD_EDRKiller</a></strong> — Straightforward, documented, good for understanding the flow. Uses <code class="language-plaintext highlighter-rouge">wsftprm.sys</code> by default.</p>
+
+<p>And for the driverless angle — <strong><a href="https://github.com/netero1010/EDRSilencer">EDRSilencer</a></strong> — this doesn’t kill the EDR, it just cuts off its telemetry by blocking outbound connections with WFP (Windows Filtering Platform). The EDR is alive and “healthy” on the dashboard, but none of its events reach the SIEM. Sneakier. I actually prefer this on engagements where I want to maintain stealth rather than brute-force kill the sensor.</p>
+
+<hr />
+
+<h2 id="the-move-that-burns-me-every-time-driver-blocklist-complacency">The Move That Burns Me Every Time: Driver Blocklist Complacency</h2>
+
+<p>I’ve run internal red team reviews where the blue team was confident because they had “the Microsoft driver blocklist deployed.” That blocklist has somewhere around 200 entries. There are thousands of signed vulnerable drivers in the wild.</p>
+
+<p>The <a href="https://www.loldrivers.io/">loldrivers.io</a> project currently tracks hundreds of vulnerable/malicious drivers and that list is incomplete. Researchers find new exploitable drivers routinely — the attack surface isn’t shrinking.</p>
+
+<p>Here’s the OPSEC move that most red teamers miss: <strong>don’t use the famous drivers</strong>. The moment you try to load <code class="language-plaintext highlighter-rouge">RTCore64.sys</code> or <code class="language-plaintext highlighter-rouge">gdrv.sys</code>, you’re triggering alerts at every mature SOC. The smart play is enumeration:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Find signed drivers on a target with known CVEs not in blocklist</span>
+<span class="c"># Cross-reference output against loldrivers.io API</span>
+Get-WmiObject Win32_SystemDriver | Select-Object Name, PathName, State |
+  Where-Object <span class="o">{</span> <span class="nv">$_</span>.State <span class="nt">-eq</span> <span class="s2">"Running"</span> <span class="o">}</span> |
+  Export-Csv drivers.csv
+
+<span class="c"># Then check each against loldrivers.io</span>
+curl <span class="s2">"https://www.loldrivers.io/api/drivers.json"</span> | jq <span class="s1">'.[] | select(.Tags[] | contains("vulnerable"))'</span>
+</code></pre></div></div>
+
+<p>Or better — target drivers already present on the victim machine. If you can find a vulnerable driver they already have loaded for legitimate purposes, you don’t even need to drop a file. Zero new artifacts.</p>
+
+<hr />
+
+<h2 id="what-encase-taught-me-about-revocation-the-hard-way">What EnCase Taught Me About Revocation (The Hard Way)</h2>
+
+<p>Earlier this year, someone used an <strong>old EnCase forensic driver</strong> in a live BYOVD attack. A forensic tool. The kind blue teams literally use for incident response.</p>
+
+<p>The reason this works is subtle: Windows doesn’t always validate certificate revocation lists at kernel load time. DSE checks the signature chain but <strong>doesn’t necessarily phone home to check if the cert was revoked</strong>. So a driver signed with a cert that was revoked three years ago can still load in certain conditions.</p>
+
+<p>This is why certificate revocation as a defense is weaker than people think. HVCI helps — a lot — but the <code class="language-plaintext highlighter-rouge">wsftprm.sys</code> issue proved even that’s not a guarantee. The driver was able to load on HVCI-enabled systems because it carries a valid (non-revoked) signature, and HVCI’s WDAC policy didn’t cover it.</p>
+
+<p>The lesson: your kernel attack surface is defined by every signed <code class="language-plaintext highlighter-rouge">.sys</code> file that Windows will load, ever. That’s a big surface.</p>
+
+<hr />
+
+<h2 id="my-take-the-vendors-are-playing-defense-on-the-wrong-field">My Take: The Vendors Are Playing Defense on the Wrong Field</h2>
+
+<p>Every EDR vendor’s blog post about BYOVD ends with “we detect the known malicious drivers.” That’s true. They do. But the entire attack model assumes the attacker brings an <em>unknown</em> or <em>low-prevalence</em> driver.</p>
+
+<p>The correct defense isn’t blocklist expansion — it’s <strong>kernel telemetry attestation</strong>. If your EDR process gets killed, something in your monitoring stack needs to notice that and alert immediately, independent of the endpoint agent. Crowdstrike and SentinelOne have cloud-based heartbeat detection for this. Most customers don’t have it configured to alert aggressively enough. I’ve seen engagements where our beacon killed the EDR and the SOC noticed… four hours later. By then, we’d been through three domain controllers and had golden tickets.</p>
+
+<p>The other defense that actually works: <strong>Microsoft’s Vulnerable Driver Blocklist</strong> pushed via Windows Update + <strong>HVCI enforced</strong> + <strong>Audit logging for driver load events (Event ID 7045)</strong>. Stack all three and you make BYOVD significantly harder, though not impossible.</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check if HVCI is enabled</span><span class="w">
+</span><span class="n">Get-CimInstance</span><span class="w"> </span><span class="nt">-ClassName</span><span class="w"> </span><span class="nx">Win32_DeviceGuard</span><span class="w"> </span><span class="nt">-Namespace</span><span class="w"> </span><span class="nx">root\Microsoft\Windows\DeviceGuard</span><span class="w"> </span><span class="o">|</span><span class="w">
+  </span><span class="n">Select-Object</span><span class="w"> </span><span class="nx">VirtualizationBasedSecurityStatus</span><span class="p">,</span><span class="w"> </span><span class="nx">CodeIntegrityPolicyEnforcementStatus</span><span class="w">
+
+</span><span class="c"># Monitor new driver installs - Event ID 7045</span><span class="w">
+</span><span class="n">Get-WinEvent</span><span class="w"> </span><span class="nt">-FilterHashtable</span><span class="w"> </span><span class="p">@{</span><span class="nx">LogName</span><span class="o">=</span><span class="s1">'System'</span><span class="p">;</span><span class="w"> </span><span class="nx">Id</span><span class="o">=</span><span class="mi">7045</span><span class="p">}</span><span class="w"> </span><span class="o">|</span><span class="w">
+  </span><span class="n">Select-Object</span><span class="w"> </span><span class="nx">TimeCreated</span><span class="p">,</span><span class="w"> </span><span class="nx">Message</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Format-List</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h2 id="what-you-should-do-right-now">What You Should Do Right Now</h2>
+
+<p>If you’re red teaming: stop reaching for the obvious drivers. Spend two hours on loldrivers.io and find three drivers not in the blocklist. Test them in a lab. You’ll be surprised what still works.</p>
+
+<p>If you’re defending: check if your EDR has a “sensor health” alert configured for agent kill/disconnect. If it doesn’t, you’re flying blind when BYOVD hits. Set a 5-minute SLA on that alert. Five minutes. Not four hours.</p>
+
+<p>Either way — read <a href="https://github.com/wavestone-cdt/EDRSandblast">this Wavestone deep dive</a> and the <a href="https://www.welivesecurity.com/en/eset-research/edr-killers-explained-beyond-the-drivers/">ESET breakdown of EDR killers</a>. This is not theoretical. Reynolds ransomware embedded it in their <em>default payload</em>. The technique is commoditized.</p>
+
+<hr />
+
+<h2 id="hot-take-the-edr-market-is-selling-you-confidence-not-coverage">Hot Take: The EDR Market Is Selling You Confidence, Not Coverage</h2>
+
+<p>Here’s the thing nobody says out loud at vendor conferences: <strong>your EDR is a userland process</strong>. At the end of the day, it’s a <code class="language-plaintext highlighter-rouge">.exe</code> with a signed driver, and any code running at the same privilege level or higher can ruin its day. The whole “next-gen AI behavioral detection” pitch means nothing if I can kill the sensor before it phones home.</p>
+
+<p>The vendors know this. The mature ones are building kernel attestation, cloud-based corroboration, and HWID-locked sensor certificates to make tampering detectable. But most enterprise deployments are still on default configs, default heartbeat intervals, and default alerting thresholds — which is basically “trust the endpoint until proven otherwise.”</p>
+
+<p>If your threat model includes ransomware gangs (and it should, because they’re now shipping BYOVD in their off-the-shelf payloads), your EDR is not your last line of defense. It might not even be your third. Build your detection strategy assuming the endpoint agent is compromised and work backwards from there.</p>
+
+<p>That’s not a scary thought. That’s just realistic tradecraft in 2026.</p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-team" /><category term="BYOVD" /><category term="EDR-evasion" /><category term="kernel-exploitation" /><category term="red-team" /><category term="malware" /><category term="windows" /><summary type="html"><![CDATA[Ransomware gangs are shipping BYOVD drivers in their payloads now. Your EDR is one signed `.sys` file away from being a paperweight.]]></summary></entry><entry><title type="html">AI Is Now Writing Your Malware: 7 LLM Attack Techniques Blue Teams Are Completely Unprepared For</title><link href="https://dcodezero.github.io//red-team/ai-malware-llm-attacks-2026/" rel="alternate" type="text/html" title="AI Is Now Writing Your Malware: 7 LLM Attack Techniques Blue Teams Are Completely Unprepared For" /><published>2026-03-21T00:00:00+00:00</published><updated>2026-03-21T00:00:00+00:00</updated><id>https://dcodezero.github.io//red-team/ai-malware-llm-attacks-2026</id><content type="html" xml:base="https://dcodezero.github.io//red-team/ai-malware-llm-attacks-2026/"><![CDATA[<p>Let me be blunt: if your threat model doesn’t include AI-assisted malware development, you are already behind. Not theoretically behind — <strong>actually, operationally, right-now behind</strong>.</p>
 
 <p>This week, IBM X-Force confirmed that Interlock ransomware operators deployed a new malware strain called <strong>Slopoly</strong> — and the evidence strongly suggests it was written with generative AI tooling. This isn’t a proof-of-concept demo from a Black Hat talk. This is ransomware-as-a-service crews using LLMs as co-developers. The barrier to sophisticated malware just dropped to whoever can string together a decent prompt chain.</p>
 
@@ -2546,646 +2675,4 @@ Risk Rating: {risk_rating}
 
 <hr />
 
-<p><em>This concludes our two-part series on AI Red Teaming. The code samples provided are for authorized security testing and research purposes. Always obtain proper authorization before testing systems you do not own.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="AI-Security" /><category term="ai-red-teaming" /><category term="adversarial-ml" /><category term="prompt-injection" /><category term="llm-hacking" /><category term="machine-learning-security" /><summary type="html"><![CDATA[This is where abstract vulnerabilities become concrete exploits.]]></summary></entry><entry><title type="html">External Recon Automation: Scripts That Save Hours</title><link href="https://dcodezero.github.io//tools/red-team/recon-automation-scripts/" rel="alternate" type="text/html" title="External Recon Automation: Scripts That Save Hours" /><published>2026-01-05T00:00:00+00:00</published><updated>2026-01-05T00:00:00+00:00</updated><id>https://dcodezero.github.io//tools/red-team/recon-automation-scripts</id><content type="html" xml:base="https://dcodezero.github.io//tools/red-team/recon-automation-scripts/"><![CDATA[<p>Reconnaissance is where engagements are won or lost. Miss a subdomain, overlook an exposed service, skip a forgotten dev environment - and you miss your way in. Manual recon doesn’t scale. These scripts automate the boring parts so you can focus on what matters.</p>
-
-<h2 id="the-recon-wrapper">The Recon Wrapper</h2>
-
-<p>This is my main script. It chains subdomain enumeration, port scanning, screenshot capture, and content discovery into one workflow.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c">#</span>
-<span class="c"># recon.sh - Automated external reconnaissance</span>
-<span class="c"># Usage: ./recon.sh target.com</span>
-<span class="c">#</span>
-
-<span class="nb">set</span> <span class="nt">-e</span>
-
-<span class="c"># Colors</span>
-<span class="nv">RED</span><span class="o">=</span><span class="s1">'\033[0;31m'</span>
-<span class="nv">GREEN</span><span class="o">=</span><span class="s1">'\033[0;32m'</span>
-<span class="nv">YELLOW</span><span class="o">=</span><span class="s1">'\033[0;33m'</span>
-<span class="nv">CYAN</span><span class="o">=</span><span class="s1">'\033[0;36m'</span>
-<span class="nv">NC</span><span class="o">=</span><span class="s1">'\033[0m'</span>
-
-<span class="nv">TARGET</span><span class="o">=</span><span class="nv">$1</span>
-<span class="nv">DATE</span><span class="o">=</span><span class="si">$(</span><span class="nb">date</span> +%Y%m%d<span class="si">)</span>
-<span class="nv">OUTDIR</span><span class="o">=</span><span class="s2">"./recon_</span><span class="k">${</span><span class="nv">TARGET</span><span class="k">}</span><span class="s2">_</span><span class="k">${</span><span class="nv">DATE</span><span class="k">}</span><span class="s2">"</span>
-<span class="nv">THREADS</span><span class="o">=</span>50
-
-banner<span class="o">()</span> <span class="o">{</span>
-    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">CYAN</span><span class="k">}</span><span class="s2">"</span>
-    <span class="nb">echo</span> <span class="s2">"================================================"</span>
-    <span class="nb">echo</span> <span class="s2">"  RECON AUTOMATION"</span>
-    <span class="nb">echo</span> <span class="s2">"  Target: </span><span class="nv">$TARGET</span><span class="s2">"</span>
-    <span class="nb">echo</span> <span class="s2">"  Output: </span><span class="nv">$OUTDIR</span><span class="s2">"</span>
-    <span class="nb">echo</span> <span class="s2">"================================================"</span>
-    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
-<span class="o">}</span>
-
-check_tools<span class="o">()</span> <span class="o">{</span>
-    <span class="nb">local </span><span class="nv">tools</span><span class="o">=(</span><span class="s2">"subfinder"</span> <span class="s2">"amass"</span> <span class="s2">"httpx"</span> <span class="s2">"nmap"</span> <span class="s2">"gowitness"</span> <span class="s2">"feroxbuster"</span> <span class="s2">"nuclei"</span><span class="o">)</span>
-    <span class="k">for </span>tool <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="nv">tools</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span><span class="p">;</span> <span class="k">do
-        if</span> <span class="o">!</span> <span class="nb">command</span> <span class="nt">-v</span> <span class="nv">$tool</span> &amp;&gt; /dev/null<span class="p">;</span> <span class="k">then
-            </span><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">RED</span><span class="k">}</span><span class="s2">[-] Missing: </span><span class="nv">$tool</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
-            <span class="nb">exit </span>1
-        <span class="k">fi
-    done
-    </span><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">[+] All tools present</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
-<span class="o">}</span>
-
-subdomain_enum<span class="o">()</span> <span class="o">{</span>
-    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n</span><span class="k">${</span><span class="nv">YELLOW</span><span class="k">}</span><span class="s2">[*] Phase 1: Subdomain Enumeration</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
-
-    <span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/subdomains"</span>
-
-    <span class="c"># Passive sources with subfinder</span>
-    <span class="nb">echo</span> <span class="s2">"[*] Running subfinder..."</span>
-    subfinder <span class="nt">-d</span> <span class="nv">$TARGET</span> <span class="nt">-silent</span> <span class="nt">-o</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/subdomains/subfinder.txt"</span>
-
-    <span class="c"># Amass passive</span>
-    <span class="nb">echo</span> <span class="s2">"[*] Running amass passive..."</span>
-    <span class="nb">timeout </span>600 amass enum <span class="nt">-passive</span> <span class="nt">-d</span> <span class="nv">$TARGET</span> <span class="nt">-o</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/subdomains/amass.txt"</span> 2&gt;/dev/null <span class="o">||</span> <span class="nb">true</span>
-
-    <span class="c"># Combine and dedupe</span>
-    <span class="nb">cat</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/subdomains/"</span><span class="k">*</span>.txt 2&gt;/dev/null | <span class="nb">sort</span> <span class="nt">-u</span> <span class="o">&gt;</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/subdomains/all_subs.txt"</span>
-
-    <span class="nb">local </span><span class="nv">count</span><span class="o">=</span><span class="si">$(</span><span class="nb">wc</span> <span class="nt">-l</span> &lt; <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/subdomains/all_subs.txt"</span><span class="si">)</span>
-    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">[+] Found </span><span class="nv">$count</span><span class="s2"> unique subdomains</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
-<span class="o">}</span>
-
-resolve_alive<span class="o">()</span> <span class="o">{</span>
-    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n</span><span class="k">${</span><span class="nv">YELLOW</span><span class="k">}</span><span class="s2">[*] Phase 2: Resolving &amp; Finding Live Hosts</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
-
-    <span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/alive"</span>
-
-    <span class="c"># Resolve and probe HTTP/HTTPS</span>
-    <span class="nb">echo</span> <span class="s2">"[*] Probing for live hosts..."</span>
-    <span class="nb">cat</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/subdomains/all_subs.txt"</span> | <span class="se">\</span>
-        httpx <span class="nt">-silent</span> <span class="nt">-threads</span> <span class="nv">$THREADS</span> <span class="se">\</span>
-        <span class="nt">-status-code</span> <span class="nt">-content-length</span> <span class="nt">-title</span> <span class="se">\</span>
-        <span class="nt">-o</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/alive/httpx_full.txt"</span>
-
-    <span class="c"># Extract just URLs</span>
-    <span class="nb">cat</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/alive/httpx_full.txt"</span> | <span class="nb">awk</span> <span class="s1">'{print $1}'</span> <span class="o">&gt;</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/alive/live_urls.txt"</span>
-
-    <span class="nb">local </span><span class="nv">count</span><span class="o">=</span><span class="si">$(</span><span class="nb">wc</span> <span class="nt">-l</span> &lt; <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/alive/live_urls.txt"</span><span class="si">)</span>
-    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">[+] Found </span><span class="nv">$count</span><span class="s2"> live URLs</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
-<span class="o">}</span>
-
-port_scan<span class="o">()</span> <span class="o">{</span>
-    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n</span><span class="k">${</span><span class="nv">YELLOW</span><span class="k">}</span><span class="s2">[*] Phase 3: Port Scanning</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
-
-    <span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/ports"</span>
-
-    <span class="c"># Extract unique IPs</span>
-    <span class="nb">cat</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/subdomains/all_subs.txt"</span> | <span class="se">\</span>
-        <span class="k">while </span><span class="nb">read </span>sub<span class="p">;</span> <span class="k">do
-            </span>dig +short <span class="nv">$sub</span> | <span class="nb">grep</span> <span class="nt">-E</span> <span class="s1">'^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$'</span>
-        <span class="k">done</span> | <span class="nb">sort</span> <span class="nt">-u</span> <span class="o">&gt;</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/ports/ips.txt"</span>
-
-    <span class="nb">local </span><span class="nv">ip_count</span><span class="o">=</span><span class="si">$(</span><span class="nb">wc</span> <span class="nt">-l</span> &lt; <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/ports/ips.txt"</span><span class="si">)</span>
-    <span class="nb">echo</span> <span class="s2">"[*] Scanning </span><span class="nv">$ip_count</span><span class="s2"> unique IPs..."</span>
-
-    <span class="c"># Fast scan top ports</span>
-    nmap <span class="nt">-iL</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/ports/ips.txt"</span> <span class="se">\</span>
-        <span class="nt">--top-ports</span> 1000 <span class="se">\</span>
-        <span class="nt">-T4</span> <span class="se">\</span>
-        <span class="nt">--open</span> <span class="se">\</span>
-        <span class="nt">-oA</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/ports/nmap_top1000"</span> <span class="se">\</span>
-        2&gt;/dev/null
-
-    <span class="c"># Extract open ports summary</span>
-    <span class="nb">grep</span> <span class="s2">"open"</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/ports/nmap_top1000.nmap"</span> | <span class="se">\</span>
-        <span class="nb">grep</span> <span class="nt">-v</span> <span class="s2">"filtered"</span> <span class="o">&gt;</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/ports/open_ports.txt"</span> 2&gt;/dev/null <span class="o">||</span> <span class="nb">true
-
-    echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">[+] Port scan complete</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
-<span class="o">}</span>
-
-screenshot<span class="o">()</span> <span class="o">{</span>
-    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n</span><span class="k">${</span><span class="nv">YELLOW</span><span class="k">}</span><span class="s2">[*] Phase 4: Screenshots</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
-
-    <span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/screenshots"</span>
-
-    <span class="nb">echo</span> <span class="s2">"[*] Taking screenshots..."</span>
-    gowitness file <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/alive/live_urls.txt"</span> <span class="se">\</span>
-        <span class="nt">--screenshot-path</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/screenshots"</span> <span class="se">\</span>
-        <span class="nt">--threads</span> 10 <span class="se">\</span>
-        2&gt;/dev/null
-
-    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">[+] Screenshots saved</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
-<span class="o">}</span>
-
-content_discovery<span class="o">()</span> <span class="o">{</span>
-    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n</span><span class="k">${</span><span class="nv">YELLOW</span><span class="k">}</span><span class="s2">[*] Phase 5: Content Discovery (Top 10 targets)</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
-
-    <span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/content"</span>
-
-    <span class="c"># Only hit top 10 to avoid noise</span>
-    <span class="nb">head</span> <span class="nt">-10</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/alive/live_urls.txt"</span> | <span class="k">while </span><span class="nb">read </span>url<span class="p">;</span> <span class="k">do
-        </span><span class="nv">domain</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="nv">$url</span> | <span class="nb">sed</span> <span class="s1">'s|https\?://||'</span> | <span class="nb">cut</span> <span class="nt">-d</span><span class="s1">'/'</span> <span class="nt">-f1</span><span class="si">)</span>
-        <span class="nb">echo</span> <span class="s2">"[*] Fuzzing: </span><span class="nv">$url</span><span class="s2">"</span>
-
-        feroxbuster <span class="nt">-u</span> <span class="s2">"</span><span class="nv">$url</span><span class="s2">"</span> <span class="se">\</span>
-            <span class="nt">-w</span> /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt <span class="se">\</span>
-            <span class="nt">-t</span> 20 <span class="se">\</span>
-            <span class="nt">-k</span> <span class="se">\</span>
-            <span class="nt">--silent</span> <span class="se">\</span>
-            <span class="nt">-o</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/content/</span><span class="k">${</span><span class="nv">domain</span><span class="k">}</span><span class="s2">_dirs.txt"</span> <span class="se">\</span>
-            2&gt;/dev/null <span class="o">||</span> <span class="nb">true
-    </span><span class="k">done
-
-    </span><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">[+] Content discovery complete</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
-<span class="o">}</span>
-
-vuln_scan<span class="o">()</span> <span class="o">{</span>
-    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n</span><span class="k">${</span><span class="nv">YELLOW</span><span class="k">}</span><span class="s2">[*] Phase 6: Nuclei Vulnerability Scan</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
-
-    <span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/vulns"</span>
-
-    <span class="nb">echo</span> <span class="s2">"[*] Running nuclei..."</span>
-    nuclei <span class="nt">-l</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/alive/live_urls.txt"</span> <span class="se">\</span>
-        <span class="nt">-severity</span> low,medium,high,critical <span class="se">\</span>
-        <span class="nt">-o</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/vulns/nuclei_results.txt"</span> <span class="se">\</span>
-        <span class="nt">-silent</span> <span class="se">\</span>
-        2&gt;/dev/null
-
-    <span class="k">if</span> <span class="o">[</span> <span class="nt">-s</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/vulns/nuclei_results.txt"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
-        </span><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">RED</span><span class="k">}</span><span class="s2">[!] Vulnerabilities found! Check </span><span class="nv">$OUTDIR</span><span class="s2">/vulns/nuclei_results.txt</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
-    <span class="k">else
-        </span><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">[+] No vulnerabilities detected</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
-    <span class="k">fi</span>
-<span class="o">}</span>
-
-generate_report<span class="o">()</span> <span class="o">{</span>
-    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n</span><span class="k">${</span><span class="nv">YELLOW</span><span class="k">}</span><span class="s2">[*] Generating Summary Report</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
-
-    <span class="nb">cat</span> <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh"> &gt; "</span><span class="nv">$OUTDIR</span><span class="sh">/REPORT.md"
-# Recon Report: </span><span class="nv">$TARGET</span><span class="sh">
-Generated: </span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span><span class="sh">
-
-## Summary
-- Subdomains found: </span><span class="si">$(</span><span class="nb">wc</span> <span class="nt">-l</span> &lt; <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/subdomains/all_subs.txt"</span><span class="si">)</span><span class="sh">
-- Live URLs: </span><span class="si">$(</span><span class="nb">wc</span> <span class="nt">-l</span> &lt; <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/alive/live_urls.txt"</span><span class="si">)</span><span class="sh">
-- Unique IPs: </span><span class="si">$(</span><span class="nb">wc</span> <span class="nt">-l</span> &lt; <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/ports/ips.txt"</span><span class="si">)</span><span class="sh">
-
-## Live Hosts
-</span><span class="se">\`\`\`</span><span class="sh">
-</span><span class="si">$(</span><span class="nb">cat</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/alive/httpx_full.txt"</span><span class="si">)</span><span class="sh">
-</span><span class="se">\`\`\`</span><span class="sh">
-
-## Open Ports
-</span><span class="se">\`\`\`</span><span class="sh">
-</span><span class="si">$(</span><span class="nb">cat</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/ports/open_ports.txt"</span> 2&gt;/dev/null <span class="o">||</span> <span class="nb">echo</span> <span class="s2">"See nmap output"</span><span class="si">)</span><span class="sh">
-</span><span class="se">\`\`\`</span><span class="sh">
-
-## Vulnerabilities
-</span><span class="se">\`\`\`</span><span class="sh">
-</span><span class="si">$(</span><span class="nb">cat</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/vulns/nuclei_results.txt"</span> 2&gt;/dev/null <span class="o">||</span> <span class="nb">echo</span> <span class="s2">"None detected"</span><span class="si">)</span><span class="sh">
-</span><span class="se">\`\`\`</span><span class="sh">
-
-## Files
-- Subdomains: subdomains/all_subs.txt
-- Live URLs: alive/live_urls.txt
-- Screenshots: screenshots/
-- Port Scans: ports/
-- Content Discovery: content/
-- Vulnerabilities: vulns/
-</span><span class="no">EOF
-
-</span>    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">[+] Report saved: </span><span class="nv">$OUTDIR</span><span class="s2">/REPORT.md</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
-<span class="o">}</span>
-
-<span class="c"># Main</span>
-<span class="k">if</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$TARGET</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
-    </span><span class="nb">echo</span> <span class="s2">"Usage: </span><span class="nv">$0</span><span class="s2"> &lt;target.com&gt;"</span>
-    <span class="nb">exit </span>1
-<span class="k">fi
-
-</span>banner
-check_tools
-
-<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span>
-
-subdomain_enum
-resolve_alive
-port_scan
-screenshot
-content_discovery
-vuln_scan
-generate_report
-
-<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">================================================</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
-<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">  RECON COMPLETE</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
-<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">  Results: </span><span class="nv">$OUTDIR</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
-<span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="k">${</span><span class="nv">GREEN</span><span class="k">}</span><span class="s2">================================================</span><span class="k">${</span><span class="nv">NC</span><span class="k">}</span><span class="s2">"</span>
-</code></pre></div></div>
-
-<h2 id="subdomain-takeover-checker">Subdomain Takeover Checker</h2>
-
-<p>Quick script to check for potential subdomain takeovers.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c"># takeover_check.sh - Check subdomains for takeover potential</span>
-
-<span class="nv">SUBS_FILE</span><span class="o">=</span><span class="nv">$1</span>
-
-<span class="k">if</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$SUBS_FILE</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
-    </span><span class="nb">echo</span> <span class="s2">"Usage: </span><span class="nv">$0</span><span class="s2"> &lt;subdomains.txt&gt;"</span>
-    <span class="nb">exit </span>1
-<span class="k">fi
-
-</span><span class="nb">echo</span> <span class="s2">"[*] Checking for potential takeovers..."</span>
-
-<span class="c"># Known fingerprints</span>
-<span class="nb">declare</span> <span class="nt">-A</span> <span class="nv">FINGERPRINTS</span><span class="o">=(</span>
-    <span class="o">[</span><span class="s2">"There isn't a GitHub Pages site here"</span><span class="o">]=</span><span class="s2">"GitHub Pages"</span>
-    <span class="o">[</span><span class="s2">"NoSuchBucket"</span><span class="o">]=</span><span class="s2">"AWS S3"</span>
-    <span class="o">[</span><span class="s2">"The specified bucket does not exist"</span><span class="o">]=</span><span class="s2">"AWS S3"</span>
-    <span class="o">[</span><span class="s2">"Fastly error: unknown domain"</span><span class="o">]=</span><span class="s2">"Fastly"</span>
-    <span class="o">[</span><span class="s2">"The request could not be satisfied"</span><span class="o">]=</span><span class="s2">"CloudFront"</span>
-    <span class="o">[</span><span class="s2">"Sorry, this shop is currently unavailable"</span><span class="o">]=</span><span class="s2">"Shopify"</span>
-    <span class="o">[</span><span class="s2">"There's nothing here"</span><span class="o">]=</span><span class="s2">"Tumblr"</span>
-    <span class="o">[</span><span class="s2">"Do you want to register"</span><span class="o">]=</span><span class="s2">"WordPress"</span>
-    <span class="o">[</span><span class="s2">"Help Center Closed"</span><span class="o">]=</span><span class="s2">"Zendesk"</span>
-    <span class="o">[</span><span class="s2">"This UserVoice subdomain is currently available"</span><span class="o">]=</span><span class="s2">"UserVoice"</span>
-<span class="o">)</span>
-
-<span class="k">while </span><span class="nb">read </span>subdomain<span class="p">;</span> <span class="k">do</span>
-    <span class="c"># Get CNAME</span>
-    <span class="nv">cname</span><span class="o">=</span><span class="si">$(</span>dig +short CNAME <span class="s2">"</span><span class="nv">$subdomain</span><span class="s2">"</span> | <span class="nb">head</span> <span class="nt">-1</span><span class="si">)</span>
-
-    <span class="k">if</span> <span class="o">[</span> <span class="nt">-n</span> <span class="s2">"</span><span class="nv">$cname</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-        <span class="c"># Check if CNAME points to known vulnerable services</span>
-        <span class="nv">response</span><span class="o">=</span><span class="si">$(</span>curl <span class="nt">-s</span> <span class="nt">-L</span> <span class="nt">-m</span> 10 <span class="s2">"http://</span><span class="nv">$subdomain</span><span class="s2">"</span> 2&gt;/dev/null<span class="si">)</span>
-
-        <span class="k">for </span>fingerprint <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="p">!FINGERPRINTS[@]</span><span class="k">}</span><span class="s2">"</span><span class="p">;</span> <span class="k">do
-            if </span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$response</span><span class="s2">"</span> | <span class="nb">grep</span> <span class="nt">-q</span> <span class="s2">"</span><span class="nv">$fingerprint</span><span class="s2">"</span><span class="p">;</span> <span class="k">then
-                </span><span class="nb">echo</span> <span class="s2">"[!] POTENTIAL TAKEOVER: </span><span class="nv">$subdomain</span><span class="s2">"</span>
-                <span class="nb">echo</span> <span class="s2">"    CNAME: </span><span class="nv">$cname</span><span class="s2">"</span>
-                <span class="nb">echo</span> <span class="s2">"    Service: </span><span class="k">${</span><span class="nv">FINGERPRINTS</span><span class="p">[</span><span class="nv">$fingerprint</span><span class="p">]</span><span class="k">}</span><span class="s2">"</span>
-                <span class="nb">echo</span> <span class="s2">""</span>
-            <span class="k">fi
-        done
-    fi
-done</span> &lt; <span class="s2">"</span><span class="nv">$SUBS_FILE</span><span class="s2">"</span>
-
-<span class="nb">echo</span> <span class="s2">"[*] Check complete"</span>
-</code></pre></div></div>
-
-<h2 id="tech-stack-fingerprinting">Tech Stack Fingerprinting</h2>
-
-<p>Identify technologies in use across discovered hosts.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
-</span><span class="s">"""
-tech_fingerprint.py - Identify web technologies
-"""</span>
-
-<span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span><span class="p">,</span> <span class="n">as_completed</span>
-
-<span class="c1"># Technology signatures
-</span><span class="n">SIGNATURES</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s">'WordPress'</span><span class="p">:</span> <span class="p">[</span>
-        <span class="sa">r</span><span class="s">'/wp-content/'</span><span class="p">,</span>
-        <span class="sa">r</span><span class="s">'/wp-includes/'</span><span class="p">,</span>
-        <span class="sa">r</span><span class="s">'&lt;meta name="generator" content="WordPress'</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s">'Drupal'</span><span class="p">:</span> <span class="p">[</span>
-        <span class="sa">r</span><span class="s">'Drupal.settings'</span><span class="p">,</span>
-        <span class="sa">r</span><span class="s">'/sites/default/files'</span><span class="p">,</span>
-        <span class="sa">r</span><span class="s">'&lt;meta name="Generator" content="Drupal'</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s">'Joomla'</span><span class="p">:</span> <span class="p">[</span>
-        <span class="sa">r</span><span class="s">'/media/jui/'</span><span class="p">,</span>
-        <span class="sa">r</span><span class="s">'&lt;meta name="generator" content="Joomla'</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s">'Laravel'</span><span class="p">:</span> <span class="p">[</span>
-        <span class="sa">r</span><span class="s">'laravel_session'</span><span class="p">,</span>
-        <span class="sa">r</span><span class="s">'XSRF-TOKEN'</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s">'ASP.NET'</span><span class="p">:</span> <span class="p">[</span>
-        <span class="sa">r</span><span class="s">'__VIEWSTATE'</span><span class="p">,</span>
-        <span class="sa">r</span><span class="s">'__EVENTVALIDATION'</span><span class="p">,</span>
-        <span class="sa">r</span><span class="s">'X-AspNet-Version'</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s">'React'</span><span class="p">:</span> <span class="p">[</span>
-        <span class="sa">r</span><span class="s">'_reactRootContainer'</span><span class="p">,</span>
-        <span class="sa">r</span><span class="s">'data-reactroot'</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s">'Vue.js'</span><span class="p">:</span> <span class="p">[</span>
-        <span class="sa">r</span><span class="s">'__vue__'</span><span class="p">,</span>
-        <span class="sa">r</span><span class="s">'v-cloak'</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s">'Angular'</span><span class="p">:</span> <span class="p">[</span>
-        <span class="sa">r</span><span class="s">'ng-version'</span><span class="p">,</span>
-        <span class="sa">r</span><span class="s">'ng-app'</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s">'jQuery'</span><span class="p">:</span> <span class="p">[</span>
-        <span class="sa">r</span><span class="s">'jquery[-.]?\d*\.?(min\.)?js'</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s">'Bootstrap'</span><span class="p">:</span> <span class="p">[</span>
-        <span class="sa">r</span><span class="s">'bootstrap[-.]?\d*\.?(min\.)?css'</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s">'Nginx'</span><span class="p">:</span> <span class="p">[</span>
-        <span class="sa">r</span><span class="s">'nginx'</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s">'Apache'</span><span class="p">:</span> <span class="p">[</span>
-        <span class="sa">r</span><span class="s">'Apache'</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s">'IIS'</span><span class="p">:</span> <span class="p">[</span>
-        <span class="sa">r</span><span class="s">'Microsoft-IIS'</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s">'Cloudflare'</span><span class="p">:</span> <span class="p">[</span>
-        <span class="sa">r</span><span class="s">'cloudflare'</span><span class="p">,</span>
-        <span class="sa">r</span><span class="s">'cf-ray'</span><span class="p">,</span>
-    <span class="p">],</span>
-<span class="p">}</span>
-
-
-<span class="k">def</span> <span class="nf">fingerprint_url</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
-    <span class="s">"""Check URL against known signatures"""</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">allow_redirects</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-        <span class="n">headers</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">resp</span><span class="p">.</span><span class="n">headers</span><span class="p">).</span><span class="n">lower</span><span class="p">()</span>
-        <span class="n">body</span> <span class="o">=</span> <span class="n">resp</span><span class="p">.</span><span class="n">text</span>
-
-        <span class="n">found</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">tech</span><span class="p">,</span> <span class="n">patterns</span> <span class="ow">in</span> <span class="n">SIGNATURES</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">patterns</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">re</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">re</span><span class="p">.</span><span class="n">IGNORECASE</span><span class="p">)</span> <span class="ow">or</span> \
-                   <span class="n">re</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">re</span><span class="p">.</span><span class="n">IGNORECASE</span><span class="p">):</span>
-                    <span class="n">found</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">tech</span><span class="p">)</span>
-                    <span class="k">break</span>
-
-        <span class="k">return</span> <span class="n">url</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">found</span><span class="p">))</span>
-
-    <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">url</span><span class="p">,</span> <span class="p">[]</span>
-
-
-<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">"Usage: python3 tech_fingerprint.py &lt;urls.txt&gt;"</span><span class="p">)</span>
-        <span class="n">sys</span><span class="p">.</span><span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-        <span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="p">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span> <span class="k">if</span> <span class="n">line</span><span class="p">.</span><span class="n">strip</span><span class="p">()]</span>
-
-    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"[*] Fingerprinting </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">urls</span><span class="p">)</span><span class="si">}</span><span class="s"> URLs...</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
-
-    <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
-        <span class="n">futures</span> <span class="o">=</span> <span class="p">{</span><span class="n">executor</span><span class="p">.</span><span class="n">submit</span><span class="p">(</span><span class="n">fingerprint_url</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span> <span class="n">url</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">urls</span><span class="p">}</span>
-
-        <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">as_completed</span><span class="p">(</span><span class="n">futures</span><span class="p">):</span>
-            <span class="n">url</span><span class="p">,</span> <span class="n">techs</span> <span class="o">=</span> <span class="n">future</span><span class="p">.</span><span class="n">result</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">techs</span><span class="p">:</span>
-                <span class="n">results</span><span class="p">[</span><span class="n">url</span><span class="p">]</span> <span class="o">=</span> <span class="n">techs</span>
-                <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
-                <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"  -&gt; </span><span class="si">{</span><span class="s">', '</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">techs</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
-
-    <span class="c1"># Summary
-</span>    <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="s">"="</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"TECHNOLOGY SUMMARY"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"="</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
-
-    <span class="n">tech_count</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">url</span><span class="p">,</span> <span class="n">techs</span> <span class="ow">in</span> <span class="n">results</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">for</span> <span class="n">tech</span> <span class="ow">in</span> <span class="n">techs</span><span class="p">:</span>
-            <span class="n">tech_count</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span> <span class="o">=</span> <span class="n">tech_count</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">tech</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-
-    <span class="k">for</span> <span class="n">tech</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">tech_count</span><span class="p">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">tech</span><span class="si">}</span><span class="s">: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
-
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">urllib3</span>
-    <span class="n">urllib3</span><span class="p">.</span><span class="n">disable_warnings</span><span class="p">()</span>
-    <span class="n">main</span><span class="p">()</span>
-</code></pre></div></div>
-
-<h2 id="cloud-asset-discovery">Cloud Asset Discovery</h2>
-
-<p>Find cloud resources associated with a target.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c"># cloud_enum.sh - Discover cloud assets</span>
-
-<span class="nv">TARGET</span><span class="o">=</span><span class="nv">$1</span>
-<span class="nv">OUTDIR</span><span class="o">=</span><span class="s2">"./cloud_</span><span class="nv">$TARGET</span><span class="s2">"</span>
-
-<span class="k">if</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$TARGET</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
-    </span><span class="nb">echo</span> <span class="s2">"Usage: </span><span class="nv">$0</span><span class="s2"> &lt;company-name&gt;"</span>
-    <span class="nb">exit </span>1
-<span class="k">fi
-
-</span><span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">"</span>
-
-<span class="nb">echo</span> <span class="s2">"[*] Cloud enumeration for: </span><span class="nv">$TARGET</span><span class="s2">"</span>
-
-<span class="c"># S3 bucket permutations</span>
-<span class="nb">echo</span> <span class="s2">"[*] Checking S3 buckets..."</span>
-<span class="nv">PERMS</span><span class="o">=(</span><span class="s2">"</span><span class="nv">$TARGET</span><span class="s2">"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET</span><span class="k">}</span><span class="s2">-dev"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET</span><span class="k">}</span><span class="s2">-prod"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET</span><span class="k">}</span><span class="s2">-staging"</span> <span class="se">\</span>
-       <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET</span><span class="k">}</span><span class="s2">-backup"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET</span><span class="k">}</span><span class="s2">-assets"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET</span><span class="k">}</span><span class="s2">-static"</span> <span class="se">\</span>
-       <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET</span><span class="k">}</span><span class="s2">-media"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET</span><span class="k">}</span><span class="s2">-data"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET</span><span class="k">}</span><span class="s2">-logs"</span><span class="o">)</span>
-
-<span class="k">for </span>bucket <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="nv">PERMS</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span><span class="p">;</span> <span class="k">do
-    </span><span class="nv">status</span><span class="o">=</span><span class="si">$(</span>curl <span class="nt">-s</span> <span class="nt">-o</span> /dev/null <span class="nt">-w</span> <span class="s2">"%{http_code}"</span> <span class="s2">"https://</span><span class="k">${</span><span class="nv">bucket</span><span class="k">}</span><span class="s2">.s3.amazonaws.com"</span><span class="si">)</span>
-    <span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$status</span><span class="s2">"</span> <span class="o">!=</span> <span class="s2">"404"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
-        </span><span class="nb">echo</span> <span class="s2">"[+] S3: </span><span class="nv">$bucket</span><span class="s2"> (Status: </span><span class="nv">$status</span><span class="s2">)"</span> | <span class="nb">tee</span> <span class="nt">-a</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/s3_buckets.txt"</span>
-    <span class="k">fi
-done</span>
-
-<span class="c"># Azure blob storage</span>
-<span class="nb">echo</span> <span class="s2">"[*] Checking Azure blobs..."</span>
-<span class="k">for </span>name <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="nv">PERMS</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span><span class="p">;</span> <span class="k">do
-    </span><span class="nv">status</span><span class="o">=</span><span class="si">$(</span>curl <span class="nt">-s</span> <span class="nt">-o</span> /dev/null <span class="nt">-w</span> <span class="s2">"%{http_code}"</span> <span class="s2">"https://</span><span class="k">${</span><span class="nv">name</span><span class="k">}</span><span class="s2">.blob.core.windows.net"</span><span class="si">)</span>
-    <span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$status</span><span class="s2">"</span> <span class="o">!=</span> <span class="s2">"400"</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$status</span><span class="s2">"</span> <span class="o">!=</span> <span class="s2">"000"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
-        </span><span class="nb">echo</span> <span class="s2">"[+] Azure: </span><span class="nv">$name</span><span class="s2"> (Status: </span><span class="nv">$status</span><span class="s2">)"</span> | <span class="nb">tee</span> <span class="nt">-a</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/azure_blobs.txt"</span>
-    <span class="k">fi
-done</span>
-
-<span class="c"># GCP storage</span>
-<span class="nb">echo</span> <span class="s2">"[*] Checking GCP buckets..."</span>
-<span class="k">for </span>name <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="nv">PERMS</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span><span class="p">;</span> <span class="k">do
-    </span><span class="nv">status</span><span class="o">=</span><span class="si">$(</span>curl <span class="nt">-s</span> <span class="nt">-o</span> /dev/null <span class="nt">-w</span> <span class="s2">"%{http_code}"</span> <span class="s2">"https://storage.googleapis.com/</span><span class="k">${</span><span class="nv">name</span><span class="k">}</span><span class="s2">"</span><span class="si">)</span>
-    <span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$status</span><span class="s2">"</span> <span class="o">!=</span> <span class="s2">"404"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
-        </span><span class="nb">echo</span> <span class="s2">"[+] GCP: </span><span class="nv">$name</span><span class="s2"> (Status: </span><span class="nv">$status</span><span class="s2">)"</span> | <span class="nb">tee</span> <span class="nt">-a</span> <span class="s2">"</span><span class="nv">$OUTDIR</span><span class="s2">/gcp_buckets.txt"</span>
-    <span class="k">fi
-done
-
-</span><span class="nb">echo</span> <span class="s2">"[*] Results saved in </span><span class="nv">$OUTDIR</span><span class="s2">/"</span>
-</code></pre></div></div>
-
-<h2 id="js-file-analysis">JS File Analysis</h2>
-
-<p>Extract endpoints and secrets from JavaScript files.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python3
-</span><span class="s">"""
-js_analyzer.py - Extract juicy info from JS files
-"""</span>
-
-<span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urljoin</span>
-
-<span class="c1"># Patterns to find
-</span><span class="n">PATTERNS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s">'api_endpoints'</span><span class="p">:</span> <span class="p">[</span>
-        <span class="sa">r</span><span class="s">'["\']/(api|v\d)/[^"\']+["\']'</span><span class="p">,</span>
-        <span class="sa">r</span><span class="s">'["\']https?://[^"\']*api[^"\']*["\']'</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s">'aws_keys'</span><span class="p">:</span> <span class="p">[</span>
-        <span class="sa">r</span><span class="s">'AKIA[0-9A-Z]{16}'</span><span class="p">,</span>
-        <span class="sa">r</span><span class="s">'["\']aws[_-]?(access|secret)[_-]?key["\']:\s*["\'][^"\']+["\']'</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s">'api_keys'</span><span class="p">:</span> <span class="p">[</span>
-        <span class="sa">r</span><span class="s">'api[_-]?key["\']?\s*[:=]\s*["\'][a-zA-Z0-9_\-]{20,}["\']'</span><span class="p">,</span>
-        <span class="sa">r</span><span class="s">'authorization["\']?\s*[:=]\s*["\']Bearer\s+[^"\']+["\']'</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s">'tokens'</span><span class="p">:</span> <span class="p">[</span>
-        <span class="sa">r</span><span class="s">'token["\']?\s*[:=]\s*["\'][a-zA-Z0-9_\-\.]{20,}["\']'</span><span class="p">,</span>
-        <span class="sa">r</span><span class="s">'jwt["\']?\s*[:=]\s*["\'][a-zA-Z0-9_\-\.]+["\']'</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s">'private_keys'</span><span class="p">:</span> <span class="p">[</span>
-        <span class="sa">r</span><span class="s">'-----BEGIN (RSA |EC )?PRIVATE KEY-----'</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s">'internal_urls'</span><span class="p">:</span> <span class="p">[</span>
-        <span class="sa">r</span><span class="s">'https?://(?:localhost|127\.0\.0\.1|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+)[^\s"\']*'</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="s">'emails'</span><span class="p">:</span> <span class="p">[</span>
-        <span class="sa">r</span><span class="s">'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'</span><span class="p">,</span>
-    <span class="p">],</span>
-<span class="p">}</span>
-
-
-<span class="k">def</span> <span class="nf">analyze_js</span><span class="p">(</span><span class="n">url_or_content</span><span class="p">):</span>
-    <span class="s">"""Analyze JavaScript for sensitive data"""</span>
-
-    <span class="k">if</span> <span class="n">url_or_content</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">'http'</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url_or_content</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-            <span class="n">content</span> <span class="o">=</span> <span class="n">resp</span><span class="p">.</span><span class="n">text</span>
-            <span class="n">source</span> <span class="o">=</span> <span class="n">url_or_content</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{}</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">content</span> <span class="o">=</span> <span class="n">url_or_content</span>
-        <span class="n">source</span> <span class="o">=</span> <span class="s">"inline"</span>
-
-    <span class="n">findings</span> <span class="o">=</span> <span class="p">{}</span>
-
-    <span class="k">for</span> <span class="n">category</span><span class="p">,</span> <span class="n">patterns</span> <span class="ow">in</span> <span class="n">PATTERNS</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">patterns</span><span class="p">:</span>
-            <span class="n">found</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="n">findall</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">re</span><span class="p">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
-            <span class="n">matches</span><span class="p">.</span><span class="n">extend</span><span class="p">(</span><span class="n">found</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">matches</span><span class="p">:</span>
-            <span class="n">findings</span><span class="p">[</span><span class="n">category</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">matches</span><span class="p">))</span>
-
-    <span class="k">return</span> <span class="n">source</span><span class="p">,</span> <span class="n">findings</span>
-
-
-<span class="k">def</span> <span class="nf">extract_js_urls</span><span class="p">(</span><span class="n">html_content</span><span class="p">,</span> <span class="n">base_url</span><span class="p">):</span>
-    <span class="s">"""Extract JS file URLs from HTML"""</span>
-    <span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s">'&lt;script[^&gt;]+src=["\']([^"\']+\.js[^"\']*)["\']'</span>
-    <span class="n">matches</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="n">findall</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">html_content</span><span class="p">,</span> <span class="n">re</span><span class="p">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
-
-    <span class="n">urls</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">match</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">'//'</span><span class="p">):</span>
-            <span class="n">urls</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">'https:'</span> <span class="o">+</span> <span class="n">match</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">match</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">'/'</span><span class="p">):</span>
-            <span class="n">urls</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">urljoin</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">match</span><span class="p">))</span>
-        <span class="k">elif</span> <span class="n">match</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">'http'</span><span class="p">):</span>
-            <span class="n">urls</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">match</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">urls</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">urljoin</span><span class="p">(</span><span class="n">base_url</span><span class="p">,</span> <span class="n">match</span><span class="p">))</span>
-
-    <span class="k">return</span> <span class="n">urls</span>
-
-
-<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">"Usage: python3 js_analyzer.py &lt;url|urls.txt&gt;"</span><span class="p">)</span>
-        <span class="n">sys</span><span class="p">.</span><span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-
-    <span class="n">target</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-
-    <span class="k">if</span> <span class="n">target</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">'http'</span><span class="p">):</span>
-        <span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="n">target</span><span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="p">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span> <span class="k">if</span> <span class="n">line</span><span class="p">.</span><span class="n">strip</span><span class="p">()]</span>
-
-    <span class="n">all_findings</span> <span class="o">=</span> <span class="p">{}</span>
-
-    <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">urls</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="se">\n</span><span class="s">[*] Analyzing: </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
-
-        <span class="c1"># Get main page and extract JS
-</span>        <span class="k">try</span><span class="p">:</span>
-            <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-            <span class="n">js_urls</span> <span class="o">=</span> <span class="n">extract_js_urls</span><span class="p">(</span><span class="n">resp</span><span class="p">.</span><span class="n">text</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
-            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"    Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">js_urls</span><span class="p">)</span><span class="si">}</span><span class="s"> JS files"</span><span class="p">)</span>
-
-            <span class="k">for</span> <span class="n">js_url</span> <span class="ow">in</span> <span class="n">js_urls</span><span class="p">:</span>
-                <span class="n">source</span><span class="p">,</span> <span class="n">findings</span> <span class="o">=</span> <span class="n">analyze_js</span><span class="p">(</span><span class="n">js_url</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">findings</span><span class="p">:</span>
-                    <span class="n">all_findings</span><span class="p">[</span><span class="n">source</span><span class="p">]</span> <span class="o">=</span> <span class="n">findings</span>
-                    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="se">\n</span><span class="s">    [!] </span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
-                    <span class="k">for</span> <span class="n">cat</span><span class="p">,</span> <span class="n">items</span> <span class="ow">in</span> <span class="n">findings</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
-                        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"        </span><span class="si">{</span><span class="n">cat</span><span class="si">}</span><span class="s">:"</span><span class="p">)</span>
-                        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>  <span class="c1"># First 5
-</span>                            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"          - </span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="si">:</span><span class="mi">80</span><span class="p">]</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
-
-        <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"    Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
-
-    <span class="c1"># Summary
-</span>    <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="s">"="</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"FINDINGS SUMMARY"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"="</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
-
-    <span class="n">categories</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">source</span><span class="p">,</span> <span class="n">findings</span> <span class="ow">in</span> <span class="n">all_findings</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">findings</span><span class="p">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">categories</span><span class="p">[</span><span class="n">cat</span><span class="p">]</span> <span class="o">=</span> <span class="n">categories</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">findings</span><span class="p">[</span><span class="n">cat</span><span class="p">])</span>
-
-    <span class="k">for</span> <span class="n">cat</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">categories</span><span class="p">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">cat</span><span class="si">}</span><span class="s">: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s"> findings"</span><span class="p">)</span>
-
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="putting-it-together">Putting It Together</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Full recon workflow</span>
-./recon.sh target.com
-
-<span class="c"># Check for takeovers</span>
-./takeover_check.sh ./recon_target.com_<span class="k">*</span>/subdomains/all_subs.txt
-
-<span class="c"># Tech stack</span>
-python3 tech_fingerprint.py ./recon_target.com_<span class="k">*</span>/alive/live_urls.txt
-
-<span class="c"># Cloud assets</span>
-./cloud_enum.sh targetcompany
-
-<span class="c"># JS analysis</span>
-python3 js_analyzer.py ./recon_target.com_<span class="k">*</span>/alive/live_urls.txt
-</code></pre></div></div>
-
-<p>These scripts have found me countless bugs and entry points. Customize the wordlists, adjust the thread counts for your setup, and add your own signature patterns as you discover new technologies.</p>
-
-<p>Recon isn’t glamorous, but it’s where engagements are won.</p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Tools" /><category term="Red-team" /><category term="reconnaissance" /><category term="automation" /><category term="bash" /><category term="osint" /><category term="bug-bounty" /><summary type="html"><![CDATA[Automated recon workflow - subdomain enumeration, port scanning, screenshots, tech fingerprinting, and cloud asset discovery.]]></summary></entry></feed>
+<p><em>This concludes our two-part series on AI Red Teaming. The code samples provided are for authorized security testing and research purposes. Always obtain proper authorization before testing systems you do not own.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="AI-Security" /><category term="ai-red-teaming" /><category term="adversarial-ml" /><category term="prompt-injection" /><category term="llm-hacking" /><category term="machine-learning-security" /><summary type="html"><![CDATA[This is where abstract vulnerabilities become concrete exploits.]]></summary></entry></feed>
