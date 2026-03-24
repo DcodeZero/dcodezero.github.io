@@ -1,0 +1,973 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<!-- begin _includes/seo.html --><title>Sleeping Through EDR: Havoc C2 Sleep Obfuscation and Why Your Beacon is Screaming - Dcodezero</title>
+<meta name="description" content="If your C2 implant isn’t doing something clever during sleep cycles, you’re already caught.">
+
+
+  <meta name="author" content="DcodeZer0">
+  
+  <meta property="article:author" content="DcodeZer0">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Dcodezero">
+<meta property="og:title" content="Sleeping Through EDR: Havoc C2 Sleep Obfuscation and Why Your Beacon is Screaming">
+<meta property="og:url" content="https://dcodezero.github.io//red-team/havoc-c2-sleep-obfuscation-edr-evasion/">
+
+
+  <meta property="og:description" content="If your C2 implant isn’t doing something clever during sleep cycles, you’re already caught.">
+
+
+
+  <meta property="og:image" content="https://dcodezero.github.io//assets/images/havoc-c2-sleep-obfuscation-edr-evasion.jpg">
+
+
+
+  <meta name="twitter:site" content="@Dcodezer0">
+  <meta name="twitter:title" content="Sleeping Through EDR: Havoc C2 Sleep Obfuscation and Why Your Beacon is Screaming">
+  <meta name="twitter:description" content="If your C2 implant isn’t doing something clever during sleep cycles, you’re already caught.">
+  <meta name="twitter:url" content="https://dcodezero.github.io//red-team/havoc-c2-sleep-obfuscation-edr-evasion/">
+
+  
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://dcodezero.github.io//assets/images/havoc-c2-sleep-obfuscation-edr-evasion.jpg">
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2026-03-24T00:00:00+00:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://dcodezero.github.io//red-team/havoc-c2-sleep-obfuscation-edr-evasion/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Dcodezero Feed">
+
+
+<!-- Add Mermaid with Debug -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    mermaid.initialize({
+        startOnLoad: true,
+        securityLevel: 'loose',
+        logLevel: 'debug',
+        mindmap: {
+            padding: 20,
+            nodeSpacing: 60,
+            rankSpacing: 80
+        }
+    });
+
+    // Add error handling
+    mermaid.parseError = function(err, hash) {
+        console.error('Mermaid error:', err);
+        // Add visible error message
+        document.querySelectorAll('.mermaid').forEach(function(elem) {
+            elem.innerHTML += '<div style="color: red; background: #ffebee; padding: 10px; margin-top: 10px; border: 1px solid #ffcdd2;">Diagram Error: ' + err + '</div>';
+        });
+    };
+});
+</script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+ window.enable_copy_code_button = true;
+</script>
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+    <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/a236ffe3231543dfa1a53e2a4/b8e03e16b2df243b196811790.js");</script>
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/brew.webp" alt="Dcodezero"></a>
+        
+        <a class="site-title" href="/">
+          Dcodezero
+          <span class="site-subtitle">Hack>>Sleep>>Repeat</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/categories/"
+                
+                
+              >Categories</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tags"
+                
+                
+              >Tags</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/it-posts/"
+                
+                
+              >I.T</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/tools/"
+                
+                
+              >Tools</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('/assets/images/havoc-c2-sleep-obfuscation-edr-evasion.jpg');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Sleeping Through EDR: Havoc C2 Sleep Obfuscation and Why Your Beacon is Screaming
+
+        
+      </h1>
+      
+        <p class="page__lead">If your C2 implant isn’t doing something clever during sleep cycles, you’re already caught.
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-03-24T00:00:00+00:00">March 24, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          9 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/" itemprop="item"><span itemprop="name">Home</span></a>
+
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#red-team" itemprop="item"><span itemprop="name">Red team</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Sleeping Through EDR: Havoc C2 Sleep Obfuscation and Why Your Beacon is Screaming</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="/">
+        <img src="/assets/images/brew.webp" alt="DcodeZer0" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">DcodeZer0</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>┌──[root@dcodezero]
+└──╼ # Hacker | RedTeam | PenTester | CTFPlayer | HackTheBox</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Somewhere</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://twitter.com/Dcodezer0" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/DcodeZero" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://app.hackthebox.com/profile/291968" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fa-solid fa-cube" aria-hidden="true"></i><span class="label">Hackthebox</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:dcodezero@proton.me" rel="me" class="u-email">
+            <meta itemprop="email" content="dcodezero@proton.me" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Sleeping Through EDR: Havoc C2 Sleep Obfuscation and Why Your Beacon is Screaming">
+    <meta itemprop="description" content="If your C2 implant isn’t doing something clever during sleep cycles, you’re already caught.">
+    <meta itemprop="datePublished" content="2026-03-24T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#why-cobalt-strike-is-a-liability-now">Why Cobalt Strike is a Liability Now</a></li><li><a href="#the-memory-scan-problem">The Memory Scan Problem</a></li><li><a href="#indirect-syscalls-and-hells-gate">Indirect Syscalls and Hell’s Gate</a></li><li><a href="#what-didnt-work-a-specific-story">What Didn’t Work: A Specific Story</a></li><li><a href="#read-this-before-you-touch-any-of-this">Read This Before You Touch Any of This</a></li><li><a href="#my-take">My Take</a></li><li><a href="#hot-take-closer">Hot Take Closer</a></li></ul>
+            </nav>
+          </aside>
+        
+        <p>Your implant is sitting in memory right now doing absolutely nothing — waiting for the next callback interval. And that’s exactly when it gets caught.</p>
+
+<p>Modern EDRs don’t just scan on execution anymore. They scan memory periodically, they walk thread stacks, they look for RWX regions with suspicious entropy, and they do it while your beacon is sleeping. If you think “I’ll just obfuscate the shellcode at rest” is still a complete answer in 2026, you’re about two product releases behind the threat detection teams.</p>
+
+<p>Sleep obfuscation isn’t a new concept, but the gap between “I’ve heard of Ekko” and “I understand why stack spoofing matters here and when it falls apart” is where most red teamers are quietly getting burned. Let me break down where things actually stand.</p>
+
+<h2 id="why-cobalt-strike-is-a-liability-now">Why Cobalt Strike is a Liability Now</h2>
+
+<p>I know, I know. Everyone’s been saying this for three years. But it’s genuinely reached the point where deploying a default CS beacon in an enterprise environment is almost a courtesy to the blue team — you’re basically announcing yourself. The signature database for CS profiles across Defender, CrowdStrike, SentinelOne, and Carbon Black is enormous, and even heavily malleable profiles are getting flagged on behavioral detections now, not just static signatures.</p>
+
+<p>The shift in the community has been toward <a href="https://github.com/HavocFramework/Havoc">Havoc C2</a>, <a href="https://github.com/BishopFox/sliver">Sliver</a>, and <a href="https://bruteratel.com/">Brute Ratel C4</a>. Havoc in particular has become the go-to for people who want to dig into the internals — it’s open source, actively developed, and the Demon agent gives you granular control over evasion behavior without needing to pay for a commercial license or reverse-engineer a closed framework.</p>
+
+<p>The thing that makes Havoc actually interesting isn’t just the feature list. It’s the architecture — Demon agents are designed from the ground up to support indirect syscalls, custom sleep techniques, and in-memory execution patterns that don’t look like the canonical patterns EDRs were trained on. The <a href="https://havocframework.com/docs/welcome">Havoc documentation</a> is surprisingly good for an open-source offensive tool. Go read it.</p>
+
+<h2 id="the-memory-scan-problem">The Memory Scan Problem</h2>
+
+<p>Here’s the core issue. When your implant is sleeping between callbacks, it’s still sitting in memory. A naive implementation means your shellcode is sitting in a readable, executable heap region with high entropy — which is basically a neon sign. EDR memory scanners like <a href="https://github.com/3lp4tr0n/BeaconHunter">BeaconHunter</a> and internal scanners in CrowdStrike Falcon actively walk process memory looking for these patterns.</p>
+
+<p>The solution space breaks down into a few categories:</p>
+
+<p><strong>1. Encrypt and flip permissions on sleep.</strong> During a sleep cycle, encrypt your implant’s memory region, mark it as RW (not RWX), sleep, decrypt on wake. Simple concept, surprisingly effective against signature-based scans. The issue is the encryption/decryption routine itself exists in executable memory, which can be spotted.</p>
+
+<p><strong>2. Stack spoofing.</strong> When your thread is sleeping, its call stack is readable by EDR. If that stack has frames pointing into your implant, you’re done. Stack spoofing involves manipulating the thread stack before sleep to look like it originated from a legitimate Windows API call.</p>
+
+<p><strong>3. Timer-based sleep with ROP chains.</strong> Instead of calling <code class="language-plaintext highlighter-rouge">Sleep()</code> directly (which parks your thread in an obviously suspicious state), you queue a ROP chain via <code class="language-plaintext highlighter-rouge">RtlCreateTimer</code> or <code class="language-plaintext highlighter-rouge">NtApcQueueThread</code> that handles the encrypt-sleep-decrypt cycle. The thread state looks legitimate because you’re not blocked in a suspicious sleep — you’re just waiting on a timer callback.</p>
+
+<p>Havoc implements several of these via configurable sleep techniques. The relevant ones:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Havoc Demon config - sleep technique options</span>
+<span class="c1">// In your profile or via the interactive console</span>
+<span class="n">sleep_technique</span> <span class="o">=</span> <span class="s">"Foliage"</span><span class="p">;</span>   <span class="c1">// NtApcQueueThread ROP chain</span>
+<span class="c1">// sleep_technique = "Ekko";   // RtlCreateTimer approach</span>
+<span class="c1">// sleep_technique = "WaitForSingleObjectEx"; // baseline, not recommended</span>
+</code></pre></div></div>
+
+<p><a href="https://github.com/Cracked5pider/Ekko">Ekko</a> is the more documented one — it uses <code class="language-plaintext highlighter-rouge">RtlCreateTimer</code> to queue a ROP chain that XOR-encrypts the implant, calls <code class="language-plaintext highlighter-rouge">WaitForSingleObjectEx</code>, then decrypts on wake. <a href="https://github.com/SecIdiot/FOLIAGE">Foliage</a> does the same conceptually but goes through <code class="language-plaintext highlighter-rouge">NtApcQueueThread</code>, which has a slightly different stack footprint. In 2026, Foliage tends to be cleaner against certain EDR memory walk patterns, but honestly I’ve seen both get flagged depending on the environment.</p>
+
+<h2 id="indirect-syscalls-and-hells-gate">Indirect Syscalls and Hell’s Gate</h2>
+
+<p>Sleep obfuscation alone isn’t enough if your syscalls are being intercepted at the user-mode layer. Classic EDR hooking involves patching the prologue of <code class="language-plaintext highlighter-rouge">ntdll.dll</code> functions — if you call <code class="language-plaintext highlighter-rouge">NtWriteVirtualMemory</code> and the first bytes are a <code class="language-plaintext highlighter-rouge">jmp</code> to the EDR’s hook, it’s getting logged regardless of what your implant is doing during sleep.</p>
+
+<p>The answer is <a href="https://github.com/am0nsec/HellsGate">Hell’s Gate</a> and its descendants — enumerate the syscall numbers directly from ntdll, then execute the syscall instruction from within <code class="language-plaintext highlighter-rouge">ntdll.dll</code>’s own memory space (or a clean copy). This is what “indirect syscalls” means in practice: you’re not jumping to a hook-free gadget inside your implant; you’re jumping to the <code class="language-plaintext highlighter-rouge">syscall</code> instruction that actually lives inside ntdll.</p>
+
+<p>Havoc’s Demon agent supports this natively. To verify it’s working:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[DcodeZero] Demon » syscall_method
+
+[*] Current syscall method: Indirect
+[*] Syscall address resolution: Dynamic (Hell's Gate)
+[*] NtCreateThread: 0x7ffc8a2c1d40 (within ntdll range: TRUE)
+[*] NtWriteVirtualMemory: 0x7ffc8a2b9f80 (within ntdll range: TRUE)
+[*] NtAllocateVirtualMemory: 0x7ffc8a2ba220 (within ntdll range: TRUE)
+</code></pre></div></div>
+
+<p>If <code class="language-plaintext highlighter-rouge">within ntdll range</code> is FALSE, your syscall gadgets are in your own implant memory — which is detectable. Fix it.</p>
+
+<h2 id="what-didnt-work-a-specific-story">What Didn’t Work: A Specific Story</h2>
+
+<p>Last November I was running an engagement for a mid-size fintech company in Southeast Asia — the kind of shop that’s deployed CrowdStrike Falcon Prevent with prevent mode on and has an actual IR team looking at alerts, not just a SOC that sends emails. Initial access via a phishing macro (yeah, macros still work if you do it right), dropped a Havoc Demon with Ekko sleep and indirect syscalls. First 48 hours were clean.</p>
+
+<p>Then I tried to migrate the implant into a more stable process — <code class="language-plaintext highlighter-rouge">explorer.exe</code> via process injection. Within about 11 minutes, Falcon flagged it. Not the sleep obfuscation. The injection itself. I was using classic <code class="language-plaintext highlighter-rouge">VirtualAllocEx</code> + <code class="language-plaintext highlighter-rouge">WriteProcessMemory</code> + <code class="language-plaintext highlighter-rouge">CreateRemoteThread</code>, and apparently CrowdStrike’s behavioral detection on cross-process memory writes into <code class="language-plaintext highlighter-rouge">explorer.exe</code> specifically is extremely sensitive.</p>
+
+<p>Switched to <a href="https://www.ired.team/offensive-security/code-injection-process-injection/early-bird-apc-queue-code-injection">Early Bird APC injection</a> into a freshly spawned <code class="language-plaintext highlighter-rouge">RuntimeBroker.exe</code> with a spoofed parent process ID (PPID spoofing via <code class="language-plaintext highlighter-rouge">UpdateProcThreadAttribute</code>), and that stayed clean for the rest of the engagement. The lesson: your evasion chain for in-memory operation and your evasion chain for process migration are different problems. Don’t solve one and assume the other is covered.</p>
+
+<h2 id="read-this-before-you-touch-any-of-this">Read This Before You Touch Any of This</h2>
+
+<p>Seriously, if you’re getting into memory evasion and you haven’t read <a href="https://twitter.com/mariuszbit">@mariuszbit</a>’s work on PE-sieve and hunting injected implants, you’re doing this backwards. Understanding how defenders <em>detect</em> this stuff is the fastest path to understanding where the real gaps are. His <a href="https://github.com/hasherezade/pe-sieve">PE-sieve</a> tool is what I use to validate my own implant’s footprint before dropping it on an engagement.</p>
+
+<p>Also worth reading: <a href="https://twitter.com/_boku7">@_boku7</a>’s research on ASLR bypass and custom loaders. The <a href="https://github.com/SecIdiot/TitanLdr">TitanLdr</a> project is a good practical reference for building your own position-independent shellcode loader that isn’t just copying the Havoc default. The more custom your loader, the less likely you’re hitting a known signature.</p>
+
+<h2 id="my-take">My Take</h2>
+
+<p>The people who are still hand-waving about “just use malleable C2 profiles” are consultants who haven’t been in a real CrowdStrike Prevent environment in the last 12 months. The ground has shifted. Memory scanning is the new signature detection, and sleep obfuscation is the new obfuscation layer — not optional, not advanced, just table stakes.</p>
+
+<p>Havoc is the right tool <em>right now</em> because it’s open enough to actually learn from. Using a black box commercial C2 framework and wondering why you’re getting caught is a dead end — you can’t fix what you can’t inspect.</p>
+
+<p>The gap in most red team programs isn’t tool selection. It’s that people treat evasion as a one-time setup step instead of a continuous tuning problem specific to the target environment. The same Havoc config that sailed through CrowdStrike Falcon on your last engagement will get caught by SentinelOne’s memory scanner if you never adjusted the sleep technique. Every environment is a calibration problem.</p>
+
+<h2 id="hot-take-closer">Hot Take Closer</h2>
+
+<p>If you’re still measuring a “successful” engagement by whether you got DA, you’re running a compliance exercise, not a red team. The real value is in the engagement where you got caught — specifically <em>how</em> you got caught, <em>how fast</em>, and whether the blue team knew what they were looking at. An uncaught DA in 2026 just means neither team learned anything.</p>
+
+<hr />
+
+<p><em>Resources:</em></p>
+<ul>
+  <li><a href="https://github.com/HavocFramework/Havoc">Havoc C2 Framework</a></li>
+  <li><a href="https://github.com/Cracked5pider/Ekko">Ekko Sleep Technique</a></li>
+  <li><a href="https://github.com/SecIdiot/FOLIAGE">Foliage APC Sleep</a></li>
+  <li><a href="https://github.com/am0nsec/HellsGate">Hell’s Gate Syscall Evasion</a></li>
+  <li><a href="https://github.com/hasherezade/pe-sieve">PE-sieve by hasherezade</a></li>
+  <li><a href="https://github.com/SecIdiot/TitanLdr">TitanLdr Custom Loader</a></li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#edr-evasion" class="page__taxonomy-item p-category" rel="tag">edr-evasion</a><span class="sep">, </span>
+    
+      <a href="/tags/#havoc-c2" class="page__taxonomy-item p-category" rel="tag">havoc-c2</a><span class="sep">, </span>
+    
+      <a href="/tags/#offensive-security" class="page__taxonomy-item p-category" rel="tag">offensive-security</a><span class="sep">, </span>
+    
+      <a href="/tags/#red-team" class="page__taxonomy-item p-category" rel="tag">red-team</a><span class="sep">, </span>
+    
+      <a href="/tags/#sleep-obfuscation" class="page__taxonomy-item p-category" rel="tag">sleep-obfuscation</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#red-team" class="page__taxonomy-item p-category" rel="tag">Red-team</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2026-03-24T00:00:00+00:00">March 24, 2026</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  <h4 class="page__share-title">Share on</h4>
+
+  <a href="https://twitter.com/intent/tweet?via=Dcodezer0&text=Sleeping+Through+EDR%3A+Havoc+C2+Sleep+Obfuscation+and+Why+Your+Beacon+is+Screaming%20%2Fred-team%2Fhavoc-c2-sleep-obfuscation-edr-evasion%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdcodezero.github.io%2F%2Fred-team%2Fhavoc-c2-sleep-obfuscation-edr-evasion%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://dcodezero.github.io//red-team/havoc-c2-sleep-obfuscation-edr-evasion/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/red-team/havoc-sleep-edr-evasion/" class="pagination--pager" title="Your Havoc Demon Is Sleeping Wrong: EDR Teams Already Know">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You may also enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/havoc-sleep-edr.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/havoc-sleep-edr-evasion/" rel="permalink">Your Havoc Demon Is Sleeping Wrong: EDR Teams Already Know
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-03-23T00:00:00+00:00">March 23, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          11 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Sleep obfuscation changed the game — but only if you stop using the defaults.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/edr-evasion-hookchain-syscall-abuse.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/edr-evasion-hookchain-syscall-abuse/" rel="permalink">88% Bypass Rate: The Real State of EDR Evasion via Syscall Abuse in 2026
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-03-22T00:00:00+00:00">March 22, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          9 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">EDR hooks are dead weight. Here’s why indirect syscalls and HookChain are eating endpoint security alive — and what I learned the hard way on a real engageme...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/byovd-edr-killers-2026.jpg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/red-team/byovd-edr-killers-2026/" rel="permalink">54 EDR Killers and Counting: BYOVD Is Not a Technique, It’s an Industry
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-03-22T00:00:00+00:00">March 22, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          9 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Ransomware gangs are shipping BYOVD drivers in their payloads now. Your EDR is one signed .sys file away from being a paperweight.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/sample/homelab/pve2-nic.svg" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/it/pve2-networking/" rel="permalink">HomeLab Part-03 [PVE2 Networking — The NIC That Wasn’t There]
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2026-03-21T00:00:00+00:00">March 21, 2026</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">How a broken DKMS package silently killed a Realtek NIC, forced a USB adapter onto the cluster bridge, and nearly took down quorum — and what we did to fix i...</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+ 
+  
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+           <!-- Add this CSS to your custom stylesheet (_sass or assets/css/main.scss) -->
+   <style>
+    .subscribe-button {
+      display: inline-block;
+      padding: 12px 24px;
+      background: transparent;
+      border: 2px solid #39ff14;
+      color: #39ff14;
+      text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: bold;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .subscribe-button:hover {
+      background: #39ff14;
+      color: #000;
+      box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
+    }
+    
+    .subscribe-button::before {
+      content: '>';
+      margin-right: 8px;
+      display: inline-block;
+    }
+    
+    /* Optional: Add animation */
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(57, 255, 20, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
+    }
+    
+    .subscribe-button {
+      animation: pulse 2s infinite;
+    }
+    </style>
+    
+    <!-- Add this HTML where you want the button to appear -->
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="/helpedyou/" class="subscribe-button">Join The Network</a>
+    </div>
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+
+<div class="page__footer-copyright">&copy; 2026 <a href="https://dcodezero.github.io/">dcodezero</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div> 
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://dcodezero.github.io//red-team/havoc-c2-sleep-obfuscation-edr-evasion/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/red-team/havoc-c2-sleep-obfuscation-edr-evasion"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://dcode_zero.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+    
+  </body>
+</html>

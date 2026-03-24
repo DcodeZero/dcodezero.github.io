@@ -1,4 +1,96 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://dcodezero.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://dcodezero.github.io//" rel="alternate" type="text/html" /><updated>2026-03-23T20:20:45+00:00</updated><id>https://dcodezero.github.io//feed.xml</id><title type="html">Dcodezero</title><subtitle> </subtitle><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><entry><title type="html">Your Havoc Demon Is Sleeping Wrong: EDR Teams Already Know</title><link href="https://dcodezero.github.io//red-team/havoc-sleep-edr-evasion/" rel="alternate" type="text/html" title="Your Havoc Demon Is Sleeping Wrong: EDR Teams Already Know" /><published>2026-03-23T00:00:00+00:00</published><updated>2026-03-23T00:00:00+00:00</updated><id>https://dcodezero.github.io//red-team/havoc-sleep-edr-evasion</id><content type="html" xml:base="https://dcodezero.github.io//red-team/havoc-sleep-edr-evasion/"><![CDATA[<p>BYOVD is not a magic trick anymore. Neither is slapping Ekko sleep obfuscation on a stock Havoc Demon and calling it stealthy. I’ve watched two separate engagements this quarter get lit up because someone pulled a C2 technique straight from a public blog post — including one of mine from 2024 — and assumed defenders haven’t been reading the same material.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="https://dcodezero.github.io//feed.xml" rel="self" type="application/atom+xml" /><link href="https://dcodezero.github.io//" rel="alternate" type="text/html" /><updated>2026-03-24T20:21:12+00:00</updated><id>https://dcodezero.github.io//feed.xml</id><title type="html">Dcodezero</title><subtitle> </subtitle><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><entry><title type="html">Sleeping Through EDR: Havoc C2 Sleep Obfuscation and Why Your Beacon is Screaming</title><link href="https://dcodezero.github.io//red-team/havoc-c2-sleep-obfuscation-edr-evasion/" rel="alternate" type="text/html" title="Sleeping Through EDR: Havoc C2 Sleep Obfuscation and Why Your Beacon is Screaming" /><published>2026-03-24T00:00:00+00:00</published><updated>2026-03-24T00:00:00+00:00</updated><id>https://dcodezero.github.io//red-team/havoc-c2-sleep-obfuscation-edr-evasion</id><content type="html" xml:base="https://dcodezero.github.io//red-team/havoc-c2-sleep-obfuscation-edr-evasion/"><![CDATA[<p>Your implant is sitting in memory right now doing absolutely nothing — waiting for the next callback interval. And that’s exactly when it gets caught.</p>
+
+<p>Modern EDRs don’t just scan on execution anymore. They scan memory periodically, they walk thread stacks, they look for RWX regions with suspicious entropy, and they do it while your beacon is sleeping. If you think “I’ll just obfuscate the shellcode at rest” is still a complete answer in 2026, you’re about two product releases behind the threat detection teams.</p>
+
+<p>Sleep obfuscation isn’t a new concept, but the gap between “I’ve heard of Ekko” and “I understand why stack spoofing matters here and when it falls apart” is where most red teamers are quietly getting burned. Let me break down where things actually stand.</p>
+
+<h2 id="why-cobalt-strike-is-a-liability-now">Why Cobalt Strike is a Liability Now</h2>
+
+<p>I know, I know. Everyone’s been saying this for three years. But it’s genuinely reached the point where deploying a default CS beacon in an enterprise environment is almost a courtesy to the blue team — you’re basically announcing yourself. The signature database for CS profiles across Defender, CrowdStrike, SentinelOne, and Carbon Black is enormous, and even heavily malleable profiles are getting flagged on behavioral detections now, not just static signatures.</p>
+
+<p>The shift in the community has been toward <a href="https://github.com/HavocFramework/Havoc">Havoc C2</a>, <a href="https://github.com/BishopFox/sliver">Sliver</a>, and <a href="https://bruteratel.com/">Brute Ratel C4</a>. Havoc in particular has become the go-to for people who want to dig into the internals — it’s open source, actively developed, and the Demon agent gives you granular control over evasion behavior without needing to pay for a commercial license or reverse-engineer a closed framework.</p>
+
+<p>The thing that makes Havoc actually interesting isn’t just the feature list. It’s the architecture — Demon agents are designed from the ground up to support indirect syscalls, custom sleep techniques, and in-memory execution patterns that don’t look like the canonical patterns EDRs were trained on. The <a href="https://havocframework.com/docs/welcome">Havoc documentation</a> is surprisingly good for an open-source offensive tool. Go read it.</p>
+
+<h2 id="the-memory-scan-problem">The Memory Scan Problem</h2>
+
+<p>Here’s the core issue. When your implant is sleeping between callbacks, it’s still sitting in memory. A naive implementation means your shellcode is sitting in a readable, executable heap region with high entropy — which is basically a neon sign. EDR memory scanners like <a href="https://github.com/3lp4tr0n/BeaconHunter">BeaconHunter</a> and internal scanners in CrowdStrike Falcon actively walk process memory looking for these patterns.</p>
+
+<p>The solution space breaks down into a few categories:</p>
+
+<p><strong>1. Encrypt and flip permissions on sleep.</strong> During a sleep cycle, encrypt your implant’s memory region, mark it as RW (not RWX), sleep, decrypt on wake. Simple concept, surprisingly effective against signature-based scans. The issue is the encryption/decryption routine itself exists in executable memory, which can be spotted.</p>
+
+<p><strong>2. Stack spoofing.</strong> When your thread is sleeping, its call stack is readable by EDR. If that stack has frames pointing into your implant, you’re done. Stack spoofing involves manipulating the thread stack before sleep to look like it originated from a legitimate Windows API call.</p>
+
+<p><strong>3. Timer-based sleep with ROP chains.</strong> Instead of calling <code class="language-plaintext highlighter-rouge">Sleep()</code> directly (which parks your thread in an obviously suspicious state), you queue a ROP chain via <code class="language-plaintext highlighter-rouge">RtlCreateTimer</code> or <code class="language-plaintext highlighter-rouge">NtApcQueueThread</code> that handles the encrypt-sleep-decrypt cycle. The thread state looks legitimate because you’re not blocked in a suspicious sleep — you’re just waiting on a timer callback.</p>
+
+<p>Havoc implements several of these via configurable sleep techniques. The relevant ones:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Havoc Demon config - sleep technique options</span>
+<span class="c1">// In your profile or via the interactive console</span>
+<span class="n">sleep_technique</span> <span class="o">=</span> <span class="s">"Foliage"</span><span class="p">;</span>   <span class="c1">// NtApcQueueThread ROP chain</span>
+<span class="c1">// sleep_technique = "Ekko";   // RtlCreateTimer approach</span>
+<span class="c1">// sleep_technique = "WaitForSingleObjectEx"; // baseline, not recommended</span>
+</code></pre></div></div>
+
+<p><a href="https://github.com/Cracked5pider/Ekko">Ekko</a> is the more documented one — it uses <code class="language-plaintext highlighter-rouge">RtlCreateTimer</code> to queue a ROP chain that XOR-encrypts the implant, calls <code class="language-plaintext highlighter-rouge">WaitForSingleObjectEx</code>, then decrypts on wake. <a href="https://github.com/SecIdiot/FOLIAGE">Foliage</a> does the same conceptually but goes through <code class="language-plaintext highlighter-rouge">NtApcQueueThread</code>, which has a slightly different stack footprint. In 2026, Foliage tends to be cleaner against certain EDR memory walk patterns, but honestly I’ve seen both get flagged depending on the environment.</p>
+
+<h2 id="indirect-syscalls-and-hells-gate">Indirect Syscalls and Hell’s Gate</h2>
+
+<p>Sleep obfuscation alone isn’t enough if your syscalls are being intercepted at the user-mode layer. Classic EDR hooking involves patching the prologue of <code class="language-plaintext highlighter-rouge">ntdll.dll</code> functions — if you call <code class="language-plaintext highlighter-rouge">NtWriteVirtualMemory</code> and the first bytes are a <code class="language-plaintext highlighter-rouge">jmp</code> to the EDR’s hook, it’s getting logged regardless of what your implant is doing during sleep.</p>
+
+<p>The answer is <a href="https://github.com/am0nsec/HellsGate">Hell’s Gate</a> and its descendants — enumerate the syscall numbers directly from ntdll, then execute the syscall instruction from within <code class="language-plaintext highlighter-rouge">ntdll.dll</code>’s own memory space (or a clean copy). This is what “indirect syscalls” means in practice: you’re not jumping to a hook-free gadget inside your implant; you’re jumping to the <code class="language-plaintext highlighter-rouge">syscall</code> instruction that actually lives inside ntdll.</p>
+
+<p>Havoc’s Demon agent supports this natively. To verify it’s working:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[DcodeZero] Demon » syscall_method
+
+[*] Current syscall method: Indirect
+[*] Syscall address resolution: Dynamic (Hell's Gate)
+[*] NtCreateThread: 0x7ffc8a2c1d40 (within ntdll range: TRUE)
+[*] NtWriteVirtualMemory: 0x7ffc8a2b9f80 (within ntdll range: TRUE)
+[*] NtAllocateVirtualMemory: 0x7ffc8a2ba220 (within ntdll range: TRUE)
+</code></pre></div></div>
+
+<p>If <code class="language-plaintext highlighter-rouge">within ntdll range</code> is FALSE, your syscall gadgets are in your own implant memory — which is detectable. Fix it.</p>
+
+<h2 id="what-didnt-work-a-specific-story">What Didn’t Work: A Specific Story</h2>
+
+<p>Last November I was running an engagement for a mid-size fintech company in Southeast Asia — the kind of shop that’s deployed CrowdStrike Falcon Prevent with prevent mode on and has an actual IR team looking at alerts, not just a SOC that sends emails. Initial access via a phishing macro (yeah, macros still work if you do it right), dropped a Havoc Demon with Ekko sleep and indirect syscalls. First 48 hours were clean.</p>
+
+<p>Then I tried to migrate the implant into a more stable process — <code class="language-plaintext highlighter-rouge">explorer.exe</code> via process injection. Within about 11 minutes, Falcon flagged it. Not the sleep obfuscation. The injection itself. I was using classic <code class="language-plaintext highlighter-rouge">VirtualAllocEx</code> + <code class="language-plaintext highlighter-rouge">WriteProcessMemory</code> + <code class="language-plaintext highlighter-rouge">CreateRemoteThread</code>, and apparently CrowdStrike’s behavioral detection on cross-process memory writes into <code class="language-plaintext highlighter-rouge">explorer.exe</code> specifically is extremely sensitive.</p>
+
+<p>Switched to <a href="https://www.ired.team/offensive-security/code-injection-process-injection/early-bird-apc-queue-code-injection">Early Bird APC injection</a> into a freshly spawned <code class="language-plaintext highlighter-rouge">RuntimeBroker.exe</code> with a spoofed parent process ID (PPID spoofing via <code class="language-plaintext highlighter-rouge">UpdateProcThreadAttribute</code>), and that stayed clean for the rest of the engagement. The lesson: your evasion chain for in-memory operation and your evasion chain for process migration are different problems. Don’t solve one and assume the other is covered.</p>
+
+<h2 id="read-this-before-you-touch-any-of-this">Read This Before You Touch Any of This</h2>
+
+<p>Seriously, if you’re getting into memory evasion and you haven’t read <a href="https://twitter.com/mariuszbit">@mariuszbit</a>’s work on PE-sieve and hunting injected implants, you’re doing this backwards. Understanding how defenders <em>detect</em> this stuff is the fastest path to understanding where the real gaps are. His <a href="https://github.com/hasherezade/pe-sieve">PE-sieve</a> tool is what I use to validate my own implant’s footprint before dropping it on an engagement.</p>
+
+<p>Also worth reading: <a href="https://twitter.com/_boku7">@_boku7</a>’s research on ASLR bypass and custom loaders. The <a href="https://github.com/SecIdiot/TitanLdr">TitanLdr</a> project is a good practical reference for building your own position-independent shellcode loader that isn’t just copying the Havoc default. The more custom your loader, the less likely you’re hitting a known signature.</p>
+
+<h2 id="my-take">My Take</h2>
+
+<p>The people who are still hand-waving about “just use malleable C2 profiles” are consultants who haven’t been in a real CrowdStrike Prevent environment in the last 12 months. The ground has shifted. Memory scanning is the new signature detection, and sleep obfuscation is the new obfuscation layer — not optional, not advanced, just table stakes.</p>
+
+<p>Havoc is the right tool <em>right now</em> because it’s open enough to actually learn from. Using a black box commercial C2 framework and wondering why you’re getting caught is a dead end — you can’t fix what you can’t inspect.</p>
+
+<p>The gap in most red team programs isn’t tool selection. It’s that people treat evasion as a one-time setup step instead of a continuous tuning problem specific to the target environment. The same Havoc config that sailed through CrowdStrike Falcon on your last engagement will get caught by SentinelOne’s memory scanner if you never adjusted the sleep technique. Every environment is a calibration problem.</p>
+
+<h2 id="hot-take-closer">Hot Take Closer</h2>
+
+<p>If you’re still measuring a “successful” engagement by whether you got DA, you’re running a compliance exercise, not a red team. The real value is in the engagement where you got caught — specifically <em>how</em> you got caught, <em>how fast</em>, and whether the blue team knew what they were looking at. An uncaught DA in 2026 just means neither team learned anything.</p>
+
+<hr />
+
+<p><em>Resources:</em></p>
+<ul>
+  <li><a href="https://github.com/HavocFramework/Havoc">Havoc C2 Framework</a></li>
+  <li><a href="https://github.com/Cracked5pider/Ekko">Ekko Sleep Technique</a></li>
+  <li><a href="https://github.com/SecIdiot/FOLIAGE">Foliage APC Sleep</a></li>
+  <li><a href="https://github.com/am0nsec/HellsGate">Hell’s Gate Syscall Evasion</a></li>
+  <li><a href="https://github.com/hasherezade/pe-sieve">PE-sieve by hasherezade</a></li>
+  <li><a href="https://github.com/SecIdiot/TitanLdr">TitanLdr Custom Loader</a></li>
+</ul>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-team" /><category term="havoc-c2" /><category term="edr-evasion" /><category term="sleep-obfuscation" /><category term="offensive-security" /><category term="red-team" /><summary type="html"><![CDATA[If your C2 implant isn't doing something clever during sleep cycles, you're already caught.]]></summary></entry><entry><title type="html">Your Havoc Demon Is Sleeping Wrong: EDR Teams Already Know</title><link href="https://dcodezero.github.io//red-team/havoc-sleep-edr-evasion/" rel="alternate" type="text/html" title="Your Havoc Demon Is Sleeping Wrong: EDR Teams Already Know" /><published>2026-03-23T00:00:00+00:00</published><updated>2026-03-23T00:00:00+00:00</updated><id>https://dcodezero.github.io//red-team/havoc-sleep-edr-evasion</id><content type="html" xml:base="https://dcodezero.github.io//red-team/havoc-sleep-edr-evasion/"><![CDATA[<p>BYOVD is not a magic trick anymore. Neither is slapping Ekko sleep obfuscation on a stock Havoc Demon and calling it stealthy. I’ve watched two separate engagements this quarter get lit up because someone pulled a C2 technique straight from a public blog post — including one of mine from 2024 — and assumed defenders haven’t been reading the same material.</p>
 
 <p>They have. Some of them faster than us.</p>
 
@@ -1214,125 +1306,4 @@ ifdown vmbr0 <span class="o">&amp;&amp;</span> ifup vmbr0
 
 <hr />
 
-<p><em>All tools and datasets listed here are intended for security research and defensive purposes. Use responsibly.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="AI-Security" /><category term="Red-team" /><category term="ai-red-teaming" /><category term="machine-learning" /><category term="llm-security" /><category term="jailbreak" /><category term="malware" /><category term="datasets" /><summary type="html"><![CDATA[A curated breakdown of the most important GitHub repositories for AI/LLM red teaming, jailbreak datasets, malware ML datasets, and offensive machine learning tools — with risk ratings and use-case notes.]]></summary></entry><entry><title type="html">The C2 Frameworks of 2026 Are Breaking Every Rule You Thought You Knew</title><link href="https://dcodezero.github.io//red-team/new-c2-frameworks-2026/" rel="alternate" type="text/html" title="The C2 Frameworks of 2026 Are Breaking Every Rule You Thought You Knew" /><published>2026-03-20T00:00:00+00:00</published><updated>2026-03-20T00:00:00+00:00</updated><id>https://dcodezero.github.io//red-team/new-c2-frameworks-2026</id><content type="html" xml:base="https://dcodezero.github.io//red-team/new-c2-frameworks-2026/"><![CDATA[<p>Let me say something that’ll make your SOC team’s eye twitch: <strong>the C2 frameworks discovered in the first quarter of 2026 are not iterations of last year’s tools — they are paradigm shifts.</strong> If your detection strategy is still built around Cobalt Strike beacon profiles, YARA signatures, and “unusual outbound traffic,” you are not late to the party. You missed the party, the after-party, and the cleanup crew left two hours ago.</p>
-
-<p>This post is a technical breakdown and hot take on the C2 frameworks tearing through the threat landscape right now, why defenders are losing ground fast, and what red teamers need to understand about where this is all going.</p>
-
-<hr />
-
-<h2 id="1-voidlink-the-c2-that-compiles-rootkits-for-you--on-demand">1. VoidLink: The C2 That Compiles Rootkits For You — On-Demand</h2>
-
-<p>Let’s start with the one that should make every Linux sysadmin question their career choices.</p>
-
-<p><strong>VoidLink</strong> is a Chinese-developed C2 framework targeting cloud and container environments, first reported in January 2026 by Sysdig. It’s written in <strong>Zig</strong> — not Go, not Rust, <em>Zig</em> — which already tells you something about the sophistication of the authors. Zig compiles to tiny, fast, dependency-minimal binaries with deliberate memory control. It was not chosen by accident.</p>
-
-<p>But the technical crown jewel here is what Sysdig researchers dubbed <strong>“serverside rootkit compilation” (SRC)</strong>: the C2 <em>server</em> builds kernel modules tailored to the specific kernel version of each victim machine and delivers them on demand.</p>
-
-<p>Think about what that means for detection:</p>
-<ul>
-  <li>No static rootkit binary sitting on disk waiting to be scanned</li>
-  <li>Each kernel module is unique per target — no shared hash to signature-match</li>
-  <li>The malicious artifact is generated <em>after</em> initial compromise, making pre-infection scanning worthless</li>
-</ul>
-
-<p>VoidLink also shows signs of <strong>LLM-assisted code generation</strong>, making it potentially the first publicly documented C2 where AI contributed directly to writing the attack tooling. It minimizes on-disk footprint, evades container security tooling, and is specifically engineered for the modern cloud-native environment your organization ran toward without looking back.</p>
-
-<p><strong>Red team takeaway:</strong> SRC is coming to commodity tooling within 18 months. If you’re doing adversary simulation for cloud-heavy clients and you’re not thinking about kernel-level persistence that avoids static analysis, your engagements are already stale.</p>
-
-<hr />
-
-<h2 id="2-snappyclient-hijackloaders-gift-that-keeps-giving">2. SnappyClient: HijackLoader’s Gift That Keeps Giving</h2>
-
-<p>Delivered via <strong>HijackLoader</strong> (itself already a sophisticated multi-stage loader), <strong>SnappyClient</strong> is a C2 implant that reads like a wishlist for an APT operator. Discovered by Zscaler ThreatLabz in late 2025, it has remained relevant through early 2026 because the evasion stack is genuinely impressive:</p>
-
-<ul>
-  <li><strong>AMSI bypass</strong>: Antimalware Scan Interface? Neutralized.</li>
-  <li><strong>Heaven’s Gate</strong>: 32-bit shellcode transitioning to 64-bit kernel mode to dodge EDR hooks on WoW64</li>
-  <li><strong>Direct syscalls</strong>: Skips <code class="language-plaintext highlighter-rouge">ntdll.dll</code> userland hooks entirely — basically tells most EDRs to get lost</li>
-  <li><strong>Transactional NTFS hollowing</strong>: Process injection via NTFS transactions, leaving minimal trace in standard process memory forensics</li>
-  <li><strong>Sandbox detection</strong>: Checks for banned environments (security research infra, honeypots) before fully deploying</li>
-</ul>
-
-<p>SnappyClient’s capability set — keylogging, screenshots, remote terminal, browser data exfiltration — is nothing we haven’t seen before. <strong>The reason it matters is the delivery and evasion chain.</strong> It’s not what it does, it’s how it does it while nobody’s looking.</p>
-
-<p><strong>Controversial opinion:</strong> Most organizations paying for EDR solutions would not catch SnappyClient on initial delivery. Not because the EDR is bad — because Heaven’s Gate + direct syscalls + transactional hollowing in combination specifically targets the telemetry gaps that modern EDRs rely on. Vendors will catch up. They’re not caught up yet.</p>
-
-<hr />
-
-<h2 id="3-karsto-and-moonrise-zero-detections-is-the-new-normal">3. Karsto and Moonrise: Zero Detections Is the New Normal</h2>
-
-<p>Two RATs surfaced in March 2026 analysis that deserve attention precisely because they’re <em>not</em> from nation-state actors — they’re commodity threats showing nation-state evasion discipline.</p>
-
-<p><strong>Karsto RAT</strong> is modular with selective activation logic — it profiles the victim before deploying full capability, avoiding behavior that triggers behavioral detection engines prematurely. Its C2 traffic is disguised as legitimate cloud service calls, meaning it blends into the noise of every SaaS-heavy organization.</p>
-
-<p><strong>Moonrise RAT</strong> had <strong>zero detections on VirusTotal</strong> at time of analysis. Full stop. A tool capable of credential theft, screen capture, remote command execution, and long-term persistence with <em>zero</em> AV/EDR vendor hits.</p>
-
-<p>Before you dismiss this as a signature gap that’ll be patched next week: the fact that <em>commodity</em> threat actors are now shipping tools with zero initial detection coverage means the talent and tooling that used to distinguish APT-grade operations from criminal operations is dissolving. The floor is rising. Your detection baseline isn’t.</p>
-
-<p><strong>Practical implication for red teamers:</strong> If you’re using known frameworks and bragging about bypassing EDRs with minor modifications, you’re not even keeping pace with commodity malware authors anymore. The bar has moved.</p>
-
-<hr />
-
-<h2 id="4-havoc--microsoft-graph-api-the-living-off-trusted-services-era">4. Havoc + Microsoft Graph API: The “Living Off Trusted Services” Era</h2>
-
-<p><strong>Havoc</strong> C2 framework isn’t new, but the way threat actors are deploying it in 2026 is worth flagging. Modified versions of Havoc (specifically the Havoc Demon implant) are now routing C2 communications through the <strong>Microsoft Graph API</strong> — yes, the same API your Microsoft 365 tenant uses for legitimate operations.</p>
-
-<p>The traffic looks like: <code class="language-plaintext highlighter-rouge">graph.microsoft.com</code> → completely normal for enterprise environments.
-The actual payload: attacker command-and-control, tunneled through Microsoft infrastructure.</p>
-
-<p>This is the “living off trusted services” (LOTS) technique maturing at scale. Defenders can’t just block Graph API traffic without breaking half the enterprise. Network-based detection of C2 becomes nearly impossible when your C2 server <em>is</em> Microsoft.</p>
-
-<p>This isn’t just Havoc — threat actors are using OneDrive, Dropbox, Slack, and Teams as C2 channels. <strong>The era of “unusual outbound destination = suspicious” is over.</strong></p>
-
-<hr />
-
-<h2 id="5-what-this-all-means-and-why-your-current-strategy-is-already-behind">5. What This All Means (And Why Your Current Strategy Is Already Behind)</h2>
-
-<p>Here’s the uncomfortable synthesis:</p>
-
-<ol>
-  <li>
-    <p><strong>Signature-based detection is a historical artifact.</strong> With SRC (VoidLink), zero-detection RATs (Moonrise), and AMSI/EDR evasion chains (SnappyClient), static signatures catch what attackers <em>let</em> them catch.</p>
-  </li>
-  <li>
-    <p><strong>Behavioral detection is being actively engineered around.</strong> Selective activation (Karsto), syscall bypasses, and process injection techniques are specifically designed to operate within behavioral detection thresholds.</p>
-  </li>
-  <li>
-    <p><strong>Network detection is compromised by trusted service abuse.</strong> Graph API, Slack, OneDrive as C2 channels means blocking suspicious outbound destinations is no longer viable.</p>
-  </li>
-  <li>
-    <p><strong>AI is in the attacker’s corner.</strong> LLM-assisted code generation (VoidLink), polymorphic malware that rewrites itself, and AI-driven phishing campaigns mean the velocity of new malware variants is increasing faster than signature databases can absorb.</p>
-  </li>
-</ol>
-
-<p><strong>What actually works right now:</strong></p>
-<ul>
-  <li>Identity-first security: assume endpoint is compromised, watch for lateral movement via credentials</li>
-  <li>Deception technology: honeytokens, canary files — detect the <em>behavior</em> of post-compromise activity regardless of the tool</li>
-  <li>Kernel telemetry + eBPF: get below userland hooks — the same layer attackers are targeting</li>
-  <li>Threat hunting over threat detection: proactive hypothesis-driven hunting rather than waiting for alerts</li>
-  <li>Red teaming that actually emulates 2026 TTPs, not 2022 ones</li>
-</ul>
-
-<hr />
-
-<h2 id="takeaways">Takeaways</h2>
-
-<p>The C2 frameworks of Q1 2026 share a common DNA: <strong>designed from the ground up to make defenders’ existing tooling irrelevant.</strong> VoidLink targets the kernel. SnappyClient targets the EDR hook layer. Karsto targets behavioral analytics. Moonrise targets signature databases. Havoc targets network monitoring.</p>
-
-<p>This isn’t a case where defenders just need to update their rules. It’s a case where the entire detection philosophy needs reexamination.</p>
-
-<p>If your organization’s security posture assumes that endpoint security + network monitoring + SIEM correlation is sufficient, you are the target audience for every tool I just described.</p>
-
-<p>The good news: red teamers who understand this landscape have never been more valuable. The bad news: most organizations won’t know they need you until after the breach.</p>
-
-<hr />
-
-<table>
-  <tbody>
-    <tr>
-      <td>*Balayya-babu</td>
-      <td>DcodeZero — Covering offensive security, red team ops, and the stuff vendors won’t tell you.*</td>
-    </tr>
-  </tbody>
-</table>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="Red-team" /><category term="C2" /><category term="malware" /><category term="red-team" /><category term="VoidLink" /><category term="offensive-security" /><category term="threat-intel" /><summary type="html"><![CDATA[VoidLink compiles rootkits server-side. Moonrise had zero VirusTotal detections. Karsto disguises C2 traffic as legitimate cloud calls. The new wave of command-and-control frameworks isn't evolving — it's transcending.]]></summary></entry></feed>
+<p><em>All tools and datasets listed here are intended for security research and defensive purposes. Use responsibly.</em></p>]]></content><author><name>DcodeZer0</name><email>dcodezero@proton.me</email></author><category term="AI-Security" /><category term="Red-team" /><category term="ai-red-teaming" /><category term="machine-learning" /><category term="llm-security" /><category term="jailbreak" /><category term="malware" /><category term="datasets" /><summary type="html"><![CDATA[A curated breakdown of the most important GitHub repositories for AI/LLM red teaming, jailbreak datasets, malware ML datasets, and offensive machine learning tools — with risk ratings and use-case notes.]]></summary></entry></feed>
